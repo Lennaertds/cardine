@@ -27,25 +27,29 @@ Zie programma: [onderzoek-programma.md](onderzoek-programma.md). Status: `open` 
 | Zed of “terminal-only” vs full IDE | A4 | A4 | open |
 | DeepSeek HF-collectie + Fowler + V4 card + Transparency + V4.1 news + V3/V3.2 PDF | A3 officiële lineage | A3 | §89–§94 |
 | DeepSeek-V4 / V4.1-Flash tech report PDF lokaal | A3 diepte naast §56/§58 | A3 | open (optioneel download) |
+| Kimi/Moonshot papers + K2/K2.5/K3/K3.1 + MuonClip + KDA + Kimi Code + AA Cyber | A3 peer naast DeepSeek | A3 | §134–§142 |
+| Kimi K2 / K3 / Linear PDF lokaal (optioneel) | A3 diepte | A3 | open (optioneel download) |
 | AA provider Mistral + Medium 3 + docs + BenchLM + Large 4 + license + 7B | A3 EU/Mistral | A3 | §95–§101 |
-| Artificial Analysis (site breed) periodiek herladen | A3/A5 watch | A3/A5 | open (ritueel; §80/§95) |
+| Artificial Analysis (site breed) periodiek herladen | A3/A5 watch | A3/A5 | open (ritueel; §80/§95/§142) |
 | Mistral Large 4 weights + LICENSE zodra live | A3 procurement | A3 | open (na §100) |
 | Mistral Forge / applied AI / careers (stage) | Persoonlijk A3 | A3 | open (later) |
 | A6: §113–§117 (OpenAI/Anthropic/Böckeler/hooks) + §107 | Clarificatie structure | A6 | gedaan |
-| A6: herlees §20/§34 + kit `make check` als policy-in-code | Methode | A6 | open (tabel docs/code) |
-| A6: Pi/DSH/Cursor — waar zit policy (hooks vs AGENTS)? | Peers | A6 | open |
+| A6: docs/code-tabel + decision-candidate | Vorm | A6 | gedaan (ideeen) |
+| A6: Pi/DSH/Cursor policy-scan (hooks vs AGENTS) | Peers | A6 | open (optioneel) |
 | A6: mini-meting dikke vs dunne AGENTS + hook | Eigen experiment | A6 | later (na stack) |
-| A7: §118–§122 (gates/oracle/HAR/Claude/Emma) + §117 | Clarificatie gates | A7 | gedaan |
-| A7: kit ladder check / check-full / opt-in → lab v1-tabel | Methode | A7 | open (deliverable) |
-| A7: §47 Strix + verification in §105/§109 | Aanvullende ankers | A7 | open (optioneel) |
-| A7: meting “zonder check vs check+revert” (C4-achtig) | Eigen experiment | A7 | later (na stack) |
-| A8: §123–§127 (dual MD/JSON/FM/Skills/llms/MADR/Cursor) | Audience×formaat | A8 | gedaan |
-| A8: kit non-MD paden → lab v1-tabel | Methode | A8 | open (deliverable) |
-| A8: peers session/log format (Pi JSON, DSH log, Decode events) | Machine-first precedent | A8 | open (optioneel) |
-| A8: MD-log vs JSONL retrieval mini-meting | Experiment | A8 | later |
-| A9: §128–§132 (Claude/Pi/planning-with-files/Cursor-pad) + §117 | Scope/spine | A9 | gedaan |
-| A9: keuze-kandidaat + pad/gitignore-conventie | Deliverable | A9 | open |
-| A9: 3 eigen “history weg”-momenten opschrijven | Productpijn | A9 | open |
+| A7: §118–§122 + §117 | Clarificatie gates | A7 | gedaan |
+| A7: lab v1-ladder + revert-zin | Vorm | A7 | gedaan (ideeen) |
+| A7: §47 Strix e.d. | Aanvullend | A7 | open (optioneel) |
+| A7: meting zonder check vs check+revert | Experiment | A7 | later (na stack) |
+| A8: §123–§127 | Audience×formaat | A8 | gedaan |
+| A8: formaat-tabel + dual-regel | Vorm | A8 | gedaan (ideeen) |
+| A8: MD-log vs JSONL mini-meting | Experiment | A8 | later |
+| A9: §128–§132 + §117 | Scope/spine | A9 | gedaan |
+| A9: C′ + `.agent/` gitignore-conventie | Vorm | A9 | gedaan (ideeen) |
+| A9: 3 eigen “history weg”-momenten | Productpijn | A9 | open (optioneel) |
 | A9: mini-meting IDE-chat vs folder-spine | Experiment | A9 | later |
+| PKU Harness-Bench arXiv:2605.27922 (Fireship Table 2) | A5 H×M empirie | A5 | §133 |
+| A5: `vergelijking-harness-ide.md` matrix | Synthese | A5 | open |
+| A4: VS Code architecture / LSP | Anatomie | A4 | open |
 
 Tech-hits om te *beoordelen* (niet meteen Adopt): kort hier of Trial/Assess op [radar.md](radar.md).

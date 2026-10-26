@@ -5,16 +5,20 @@
 
 ## Programma (agents: start hier)
 
-Volledig: [onderzoek-programma.md](onderzoek-programma.md) — A1→A2→A5→A4→A3, daarna A6–A9, dan B. Ruwe lijst: [ideeen-en-vragen.md](ideeen-en-vragen.md).
+Volledig: [onderzoek-programma.md](onderzoek-programma.md) — A1→A2→A5→A4→A3, daarna A6–A9, dan B. Vorm + decision-candidates: [ideeen-en-vragen.md](ideeen-en-vragen.md).
+
+## Stand (2026-10-26)
+
+A6–A9 hebben **vorm** (dual structure, check-ladder, dual formats, folder-spine) — nog geen ADR. A1–A3/A5 deels met werkantwoorden (A3: DeepSeek §89–§94 + Kimi §134–§142 + Mistral §95–§101); A4 + A5-matrix open. B wacht op mens-ja.
 
 ## Onderzoeksvragen
 
-1. Welke minimale harness-oppervlakte volstaat om een agent de projectstandaard te respecteren (meetbaar)?
-2. Structure (A6): docs vs code/harness vs dual — tokens + naleving; ankers **§113–§117** + §107; zie [ideeen A6](ideeen-en-vragen.md#a6--verduidelijkt).
-3. Welke indexing-aanpak (na §69: exact/regex-first) zonder secrets/vreemde projectdata?
-4. (A1–A5) Leren van Cursor / Pi / DeepSeek Harness / peers — technisch + benchmarks — vóór stack/fork-ADR?
-5. (A7) Kwaliteitsladder: in-loop → check → check-full → opt-in; rood → revert; ankers **§118–§122** — zie [ideeen A7](ideeen-en-vragen.md#a7--verduidelijkt).
-6. (A8) Formaat per publiek — **§123–§127**; [ideeen A8](ideeen-en-vragen.md#a8--verduidelijkt). (A9) Session-scope/spine — **§128–§132**; [ideeen A9](ideeen-en-vragen.md#a9--verduidelijkt).
+1. Minimale harness-oppervlakte zodat de agent de standaard respecteert (meetbaar)? → hypothese: Pi-achtig + A6/A7/A9.
+2. Structure (A6): **dual** — zie [ideeen A6](ideeen-en-vragen.md#a6--verduidelijkt--vorm).
+3. Indexing: exact/regex-first (§69); semantic later meten.
+4. (A1–A5) Peers/benches vóór stack-ADR — [werkantwoorden](ideeen-en-vragen.md#werkantwoorden-a1a5-nog-geen-adr).
+5. (A7) Ladder + revert — [ideeen A7](ideeen-en-vragen.md#a7--verduidelijkt--vorm).
+6. (A8)/(A9) Formaat + spine — [A8](ideeen-en-vragen.md#a8--verduidelijkt--vorm) / [A9](ideeen-en-vragen.md#a9--verduidelijkt--vorm).
 
 ## Hoe we bronnen beoordelen
 

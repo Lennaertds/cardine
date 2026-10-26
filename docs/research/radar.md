@@ -37,9 +37,10 @@ Vervang voorbeeldrijen door projectkeuzes. Voorbeeldrijen zijn **illustratief**,
 | Adopt | frameworks | Postgres 17 | enige writer user-data → ADR |
 | Trial | deps | `<snellere JSON-lib>` | voorbeeld — meet vóór Adopt |
 | Assess | tooling | `<bundler X>` | voorbeeld — nog geen experiment |
-| Assess | benchmarks | Artificial Analysis (models + coding agents + providers) | Watch §80/§95; herladen vóór citatie; geen Adopt |
+| Assess | benchmarks | Artificial Analysis (models + coding agents + providers) | Watch §80/§95/§142; herladen vóór citatie; geen Adopt |
 | Assess | learning | Decode / Vercel Academy harness courses | §105/§109 — leerpad, geen product-Adopt |
 | Assess | models | Mistral Large 4 / Medium 3.5 / Small 4 | EU/stage-relevant §95–§101; weights/LICENSE open; lab-default blijft DeepSeek-hypothese |
+| Assess | models | Kimi K3 / K3.1 Pro (Moonshot) | Peer §134–§142; sterk cyber/coding; duurder dan DeepSeek; H×M later |
 | Hold | content | Vendor/agency “best IDE/vibe” listicles | §102–§104: namen ok, rankings niet; prefer AA/papers |
 | Hold | deps | `<verouderde ORM>` | voorbeeld — geen nieuw gebruik; migratie ADR |
 

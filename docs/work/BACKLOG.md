@@ -16,7 +16,7 @@ Nieuw item op **Nu** (of Geparkeerd met een plan): alleen via `make spec s=<slug
 
 | Item | Categorie | Waarom later |
 |------|-----------|--------------|
-| A4–A3 + A6–A9 (zie [ideeen-en-vragen](../research/ideeen-en-vragen.md)); na A2/A5 | research | Programma-volgorde; A6–A9 voeden B |
+| A4 + A5-matrix; A6–A9 al **vorm** in ideeen — experimenten na stack | research | A4/A5 open; B na ja |
 | B: ADR runtime/stack/fork + meetplan | decisions | Pas na A5 + expliciete ja — niet nu |
 | Runtime-keuze (Pi / TS / …) + `--starter` / generators | apps | Expliciete keuze + ADR vereist vóór code |
 | LLM-providerconfig (DeepSeek-default-richting + andere keys via `.env`) | harness | Na stack; keys nooit in git |
