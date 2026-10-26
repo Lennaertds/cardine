@@ -9,7 +9,7 @@ Nieuw item op **Nu** (of Geparkeerd met een plan): alleen via `make spec s=<slug
 
 | Item | Categorie | Status |
 |------|-----------|--------|
-| [onderzoek-a2-harnesses](specs/onderzoek-a2-harnesses.md) | research | open |
+| [onderzoek-a2-harnesses](specs/onderzoek-a2-harnesses.md) | research | gedaan (§76–§79); volgende A5 |
 | [bootstrap-geen-stack-tot-adr](specs/bootstrap-geen-stack-tot-adr.md) | bootstrap | open |
 
 ## Straks

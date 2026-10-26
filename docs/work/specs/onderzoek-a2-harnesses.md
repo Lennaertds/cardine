@@ -3,7 +3,7 @@
 > **Rol:** Plan voor één werkitem. Tijdelijk: na merge verwijderen; de code en de tests zijn dan de waarheid.
 
 - **Item:** [BACKLOG.md](../BACKLOG.md) · branch `docs/onderzoek-a2-harnesses`
-- **Status:** open
+- **Status:** gedaan (2026-10-26)
 
 ## Doel
 
@@ -29,6 +29,6 @@ A1 (§69) is gedaan; A2 levert vergelijkbare feiten over andere harnesses (Pi, D
 
 ## Acceptatie
 
-- [ ] Nieuwe of aangescherpte § in AE `bron/` + indexrij
-- [ ] Geen stack/ADR “op gevoel”
-- [ ] `make links` groen in dit project
+- [x] Nieuwe §76–§79 in AE `bron/` + index (+ §33 cross-ref)
+- [x] Geen stack/ADR “op gevoel”
+- [x] `make links` groen in dit project

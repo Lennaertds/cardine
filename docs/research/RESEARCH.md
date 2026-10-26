@@ -10,11 +10,11 @@ Volledig: [onderzoek-programma.md](onderzoek-programma.md) — A1→A2→A5→A4
 ## Onderzoeksvragen
 
 1. Welke minimale harness-oppervlakte volstaat om een agent de projectstandaard te respecteren (meetbaar)?
-2. Structure-integratie: in docs, in de app vastgezet (A6), of beide — wat kost minder overhead?
+2. Structure (A6): docs vs code/harness vs dual — tokens + naleving; ankers **§113–§117** + §107; zie [ideeen A6](ideeen-en-vragen.md#a6--verduidelijkt).
 3. Welke indexing-aanpak (na §69: exact/regex-first) zonder secrets/vreemde projectdata?
 4. (A1–A5) Leren van Cursor / Pi / DeepSeek Harness / peers — technisch + benchmarks — vóór stack/fork-ADR?
-5. (A7) Wat moet naast `make check` vóór push/prod (continu testen, revert)?
-6. (A8–A9) Agent-docformaat + session/spine over workspace-grenzen?
+5. (A7) Kwaliteitsladder: in-loop → check → check-full → opt-in; rood → revert; ankers **§118–§122** — zie [ideeen A7](ideeen-en-vragen.md#a7--verduidelijkt).
+6. (A8) Formaat per publiek — **§123–§127**; [ideeen A8](ideeen-en-vragen.md#a8--verduidelijkt). (A9) Session-scope/spine — **§128–§132**; [ideeen A9](ideeen-en-vragen.md#a9--verduidelijkt).
 
 ## Hoe we bronnen beoordelen
 
