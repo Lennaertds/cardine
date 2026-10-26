@@ -1,21 +1,24 @@
 # Backlog
 
-> **Rol:** Open werk: één regel per item, met een link naar de spec als die er is.
-> **Niet hier:** afgewerkt werk (git en `logs/`), besluiten (`decisions/`).
+> **Rol:** **Index** van open werk: één korte regel per item + link naar de spec. Geen plan, slices of essay hier.
+> **Niet hier:** het plan ([specs/](specs/)), afgewerkt werk (git en `logs/`), besluiten (`decisions/`).
 
-Nieuw item met spec: `make spec s=<slug>` zet de regel bovenaan bij **Nu**. De categorie is een kolom, geen map.
+Nieuw item op **Nu** (of Geparkeerd met een plan): alleen via `make spec s=<slug>` — die zet de indexregel én de spec. Handmatig een lange rij in deze tabel plakken is fout. **Straks** mag één korte regel zonder spec (tot je hem promoveert met `make spec`). Categorie is een kolom, geen map.
 
 ## Nu
 
 | Item | Categorie | Status |
 |------|-----------|--------|
-| BOOTSTRAP stap 2: context/grenzen (lab→mogelijk gratis product) — wacht op runtime-keuze (stap 3) | bootstrap | open |
+| [onderzoek-a2-harnesses](specs/onderzoek-a2-harnesses.md) | research | open |
+| [bootstrap-geen-stack-tot-adr](specs/bootstrap-geen-stack-tot-adr.md) | bootstrap | open |
 
 ## Straks
 
 | Item | Categorie | Waarom later |
 |------|-----------|--------------|
-| Runtime-keuze (Pi / TS / …) + stack-ADR + `--starter` / generators | apps | Expliciete keuze vereist vóór code |
+| A4 IDE-anatomie + A3 open models (§ in AE) | research | Na A5-matrix; A3 raakt modelkeuze niet IDE-vorm eerst |
+| B: ADR runtime/stack/fork + meetplan (`meten/` Cursor+kit vs lab) | decisions | Pas na genoeg § / vergelijkingsmatrix |
+| Runtime-keuze (Pi / TS / …) + `--starter` / generators | apps | Expliciete keuze + ADR vereist vóór code |
 | LLM-providerconfig (DeepSeek-default-richting + andere keys via `.env`) | harness | Na stack; keys nooit in git |
 | Domeinbestanden `product/harness.md`, `structure.md`, `indexing.md` | product | Gedrag nog niet concreet |
 | Seam-tests (harness↔structure/indexing, structure↔AE, harness↔LLM) | architecture | Pas na stack |

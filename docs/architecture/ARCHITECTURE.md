@@ -75,4 +75,4 @@ Niets afwijkends van de standaard tot er demo-/reference-datasets zijn. Geen sec
 
 - [polyglot.md](polyglot.md) — Wanneer native/extra taal mag; FFI vs sidecar; wat de agent mag.
 - [security.md](security.md) — Secrets, auth-principes, Strix; lab heeft nu minimale PII.
-- [observability.md](observability.md) · [performance.md](performance.md) · [dependencies.md](dependencies.md) — alleen bij die opdracht (zie AGENTS keyword-tabel). Budgets/tooling: BACKLOG tot er een app is.
+- [observability.md](observability.md) · [performance.md](performance.md) · [dependencies.md](dependencies.md) — alleen bij die opdracht (via INDEX). Budgets/tooling: BACKLOG tot er een app is.

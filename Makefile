@@ -229,7 +229,7 @@ experiment: ## verslag van een experiment: make experiment s=sleep-baseline
 	echo "$$file"
 
 docs-health: links ## onderhoud: dode links, lengte van de AGENTS.md-bestanden, oudste docs
-	@echo "AGENTS.md (richtlijn: root ≤ 100 regels, per app ≤ 40):"
+	@echo "AGENTS.md (richtlijn: root ≤ 70 regels, streef ~50; per app ≤ 40):"
 	@find . -name AGENTS.md -not -path '*/node_modules/*' -exec wc -l {} + | sort -n
 	@echo
 	@echo "Docs die het langst niet gewijzigd zijn:"

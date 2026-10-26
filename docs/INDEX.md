@@ -20,7 +20,7 @@
 
 - [ARCHITECTURE.md](architecture/ARCHITECTURE.md) — Containers, stack, dataflow, invarianten, seams, hosting. Start hier voor "waar zit X". Niet: PWA/auth-catalogus → subsystemen.
 - [security.md](architecture/security.md) — Persoonsgegevens, secrets, auth-principes, Strix. Uitbreidingen: `## Bewust later`.
-- [observability.md](architecture/observability.md) — Signalen, LGTM, `make obs-*` (opt-in; AGENTS keyword-tabel).
+- [observability.md](architecture/observability.md) — Signalen, LGTM, `make obs-*` (opt-in; alleen als de opdracht het noemt).
 - [performance.md](architecture/performance.md) — Budgets, anti-patronen, `make bench` / `perf-check` (opt-in).
 - [dependencies.md](architecture/dependencies.md) — CVE-audits, ritueel, `make deps-audit` (opt-in).
 - [polyglot.md](architecture/polyglot.md) — Extra talen na meting + ADR; native-map alleen met die stack (opt-in).
@@ -49,8 +49,8 @@
   - [0001 — Runtime-stack uitgesteld tot Pi/TS-keuze](decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md)
 ## Werk — status (niet vooraf lezen)
 
-- [BACKLOG.md](work/BACKLOG.md) — Open werk. De opdracht noemt het item.
-- `work/specs/` — Eén plan per item; na merge weg.
+- [BACKLOG.md](work/BACKLOG.md) — Index van open werk (korte regel + link). Nieuw item: `make spec s=<slug>`.
+- `work/specs/` — Plan per item; na merge weg.
 - `work/logs/` — Dag-logs. Zoeken met `rg`, niet laden.
 
 ## Agent — alleen bij schrijven of meta-taken
