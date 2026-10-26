@@ -16,8 +16,8 @@ Nieuw item op **Nu** (of Geparkeerd met een plan): alleen via `make spec s=<slug
 
 | Item | Categorie | Waarom later |
 |------|-----------|--------------|
-| A4 IDE-anatomie + A3 open models (§ in AE) | research | Na A5-matrix; A3 raakt modelkeuze niet IDE-vorm eerst |
-| B: ADR runtime/stack/fork + meetplan (`meten/` Cursor+kit vs lab) | decisions | Pas na genoeg § / vergelijkingsmatrix |
+| A4–A3 + A6–A9 (zie [ideeen-en-vragen](../research/ideeen-en-vragen.md)); na A2/A5 | research | Programma-volgorde; A6–A9 voeden B |
+| B: ADR runtime/stack/fork + meetplan | decisions | Pas na A5 + expliciete ja — niet nu |
 | Runtime-keuze (Pi / TS / …) + `--starter` / generators | apps | Expliciete keuze + ADR vereist vóór code |
 | LLM-providerconfig (DeepSeek-default-richting + andere keys via `.env`) | harness | Na stack; keys nooit in git |
 | Domeinbestanden `product/harness.md`, `structure.md`, `indexing.md` | product | Gedrag nog niet concreet |

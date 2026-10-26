@@ -29,6 +29,8 @@
 ## Onderzoek — wat we weten over het domein
 
 - [RESEARCH.md](research/RESEARCH.md) — Onderzoeksvragen, hoe bronnen beoordeeld worden, kaart van `research/`. Niet laden bij codewerk.
+- [onderzoek-programma.md](research/onderzoek-programma.md) — Volgorde A1…B, bronsoorten, waar § vs ADR.
+- [ideeen-en-vragen.md](research/ideeen-en-vragen.md) — Ruwe vragen/hypothesen (niet kwijtraken).
 - [wantlist.md](research/wantlist.md) — Bronnen die we nog willen verwerven.
 - [radar.md](research/radar.md) — Tech-radar (Adopt/Trial/Assess/Hold); `make radar-reminder` / `radar-check`.
 - [digest/](research/digest/README.md) — Inbound digest; `digest-fetch` / `digest-propose` (geen auto-radar).
