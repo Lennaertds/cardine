@@ -29,6 +29,7 @@
 ## Onderzoek — wat we weten over het domein
 
 - [RESEARCH.md](research/RESEARCH.md) — Onderzoeksvragen, hoe bronnen beoordeeld worden, kaart van `research/`. Niet laden bij codewerk.
+- [Tour LLM→AE→lab](../../Agent_Engineering/bron/tour.md) — Doorlopend verhaal (spoor 2+3); niet voor codewerk.
 - [onderzoek-programma.md](research/onderzoek-programma.md) — Volgorde A1…B, bronsoorten, waar § vs ADR.
 - [ideeen-en-vragen.md](research/ideeen-en-vragen.md) — Ruwe vragen/hypothesen (niet kwijtraken).
 - [wantlist.md](research/wantlist.md) — Bronnen die we nog willen verwerven.

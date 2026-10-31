@@ -5,6 +5,7 @@
 
 ## Programma (agents: start hier)
 
+Samenhang LLM ↔ AE ↔ dit lab (mens, één keer): [tour in Agent_Engineering](../../../Agent_Engineering/bron/tour.md).  
 Volledig: [onderzoek-programma.md](onderzoek-programma.md) — A1→A2→A5→A4→A3, daarna A6–A9, dan B. Vorm + decision-candidates: [ideeen-en-vragen.md](ideeen-en-vragen.md).
 
 ## Stand (2026-10-26)
