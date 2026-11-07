@@ -1,50 +1,32 @@
 # Spec — onderdeel-ide-shell
 
-> **Rol:** Open keuzes voor de IDE-shell (host). Geen ADR tot A4-score + ja.
-> **Kaart:** [totaalproduct.md](../../product/totaalproduct.md) · shortlist-criteria ook in [cursor-vervang-lagen](cursor-vervang-lagen.md)
+> **Rol:** Open keuzes voor de IDE-shell (host). Geen ADR tot score + ja.
+> **Kaart:** [totaalproduct.md](../../product/totaalproduct.md)
 
-- **Item:** [BACKLOG.md](../BACKLOG.md)
-- **Status:** open
-- **Product (bijhouden):** [../../product/ide-shell.md](../../product/ide-shell.md)
-- **Hypothese:** Non-Electron fork of koppeling; basis om indexing + harness + UI aan te hangen — niet from-scratch.
+- **Item:** [BACKLOG.md](../BACKLOG.md) · volg **1**
+- **Status:** in uitvoering
+- **Product (bijhouden):** [ide-shell.md](../../product/ide-shell.md)
+- **Eisen (vast):** GUI · agent-pad-**kwaliteit** als #1 keuzecriterium · perf/size Lapce↔Zed ondergeschikt · extensies niet urgent · VS Code-referentie
+- **Hypothese:** **Zed als host + eigen harness via ACP** (beter agent-resultaat); Lapce = plan B / Apache-fork als shell-eigendom later nodig; Neovim/Helix af als primaire shell
 
-## Wat het is
+## Slices
 
-Editor + file tree + terminal + LSP/DAP-host. Dit is de **basis** van het totaalproduct: zonder shell geen “ik zie mijn code”. Geen agent-logica hier — wel hooks voor FS/events en UI.
-
-## Wat overhead bepaalt
-
-| Bron | Effect |
-|------|--------|
-| Electron/Chromium | RAM/CPU — **must vermijden** |
-| Extensie-marktplaats + idle extensions | Startup, geheugen |
-| GPU-compositor / animaties | Nice vs ballast op Hyprland |
-| Ingebouwde git/debug/AI | Handig of bloat — per feature kiezen |
-| Grootte van de fork-boom | Onderhoudslast |
-
-## Functies die wél belangrijk zijn (v1)
-
-- Snelle buffer-edit; split panes; terminal in of naast editor
-- LSP-host (diagnostics, go-to-def via language servers — niet zelf bouwen)
-- Workspace-root + multi-folder later
-- Haak voor Agent-UI (paneel of externe TUI)
-- Haak voor FS-events / indexing refresh
-- Wayland/Arch: stabiel op Hyprland
-
-**Niet v1:** extensie-store, remote-SSH-IDE, cloud sync, theme-ecosysteem-pariteit.
+1. ~~Diepte kandidaten~~ → ~~herijk Lapce vs Zed op agent-pad~~ **gedaan**
+2. Smoke Hyprland: **Zed** (incl. agent/ACP-oppervlak) + Lapce ter vergelijking
+3. I1/I2 voorstel + ACP↔harness-schets; ADR alleen na ja
 
 ## Open beslissingen
 
-| # | Vraag | Opties / notitie | Blokkeert |
-|---|-------|------------------|-----------|
-| I1 | Fork vs koppelen? | Plugin/RPC genoeg → koppel; anders fork lichtste kandidaat | bijna alles |
-| I2 | Welke shortlist-winnaar? | Zed / Lapce / Helix / Neovim / Kate | I1 |
-| I3 | TUI-first vs native GUI? | Helix/nvim lichter; Zed/Lapce “IDE-er” | Agent-UI |
-| I4 | LSP: bundled vs system servers? | Arch packages vs vendor | overhead |
-| I5 | Terminal: embedded vs extern (`foot`/`kitty`)? | | workflow |
-| I6 | Arch AUR/repo-friction per kandidaat? | Meet bij A4 | hosts |
+| # | Vraag | Notitie |
+|---|-------|---------|
+| I1 | Fork vs koppelen? | **Koppelen** — fork niet nodig voor totaalproduct; zie ide-shell |
+| I2 | Winnaar? | Neiging **Zed** als host (niet-fork) |
+| I3 | TUI vs GUI? | **GUI** (beslist) |
+| I4–I6 | LSP / terminal / smoke | Open tot slice 2 |
 
-## Acceptatie (later)
+## Acceptatie
 
-- [ ] A4-scorematrix + §-bronnen
-- [ ] Expliciete keuze + ADR vóór code
+- [x] Diepte Lapce/Zed/Kate/Helix + nvim afgewezen in [ide-shell.md](../../product/ide-shell.md)
+- [ ] Smoke-cijfers
+- [ ] I1/I2 voorstel
+- [ ] ADR vóór code

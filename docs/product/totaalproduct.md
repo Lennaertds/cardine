@@ -64,10 +64,6 @@ Parent-plan: [totaalproduct-onderdelen](../work/specs/totaalproduct-onderdelen.m
 
 ## Volgorde van beslissen (geen code tot ADR)
 
-1. Use-case hier + in [indexing.md](indexing.md) scherp houden.  
-2. [ide-shell.md](ide-shell.md) A4-score.  
-3. [indexing.md](indexing.md) compose + [fs-events.md](fs-events.md) contract.  
-4. [harness.md](harness.md) (DSH-neiging) + [tools.md](tools.md).  
-5. [llm.md](llm.md) default ADR.  
-6. [structure.md](structure.md) + [session-spine.md](session-spine.md) (A6–A9 → ADR).  
-7. [agent-ui.md](agent-ui.md) minimaal.
+Canonieke stappenlijst + status: [BACKLOG.md § Volgorde](../work/BACKLOG.md#volgorde-totaalproduct).
+
+0. Kader ([totaalproduct-onderdelen](../work/specs/totaalproduct-onderdelen.md)) → 1. [ide-shell](ide-shell.md) → 2. [indexing](indexing.md) → 3. [fs-events](fs-events.md) → 4. [harness](harness.md) → 5. [tools](tools.md) → 6. [llm](llm.md) → 7. [structure](structure.md) → 8. [session-spine](session-spine.md) → 9. [agent-ui](agent-ui.md).

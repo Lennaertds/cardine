@@ -1,79 +1,144 @@
 # Indexing / Project-Understanding
 
-> **Rol:** Bijhouden van domein **indexing** — snelle, gerichte projectcontext voor de agent (gedrag, kandidaten, stand).
-> **Niet hier:** werkplan/open keuzes X1–X7 ([onderdeel-indexing](../work/specs/onderdeel-indexing.md)); FS-bus ([fs-events.md](fs-events.md)); samenhang ([totaalproduct.md](totaalproduct.md)); ADRs.
+> **Rol:** Bijhouden van domein **indexing** — snelle, gerichte projectcontext voor de agent.
+> **Niet hier:** werkplan X1–X7 ([onderdeel-indexing](../work/specs/onderdeel-indexing.md)); FS-bus ([fs-events.md](fs-events.md)); samenhang ([totaalproduct.md](totaalproduct.md)); ADRs.
 
-**Stand:** vorm · **Spec:** [onderdeel-indexing](../work/specs/onderdeel-indexing.md)
+**Stand:** kandidaten + compose-hypothese · **Spec:** [onderdeel-indexing](../work/specs/onderdeel-indexing.md)
 
 ## Wat de gebruiker kan
 
-- Als solo-dev wil ik dat de agent **snel de juiste bestanden/symbolen** vindt in *mijn* repo’s, zonder Electron-bloat en zonder cloud-index — zodat ik lokaal productiever ben dan in Cursor op *deze* workflow.
+- Als solo-dev wil ik dat de agent **snel de juiste bestanden/symbolen** vindt in *mijn* repo’s (AE + lab), lokaal, lexical/symbol-first — beter *op mijn workflow* dan Cursor, niet feature-pariteit.
 
-## Jouw use-case (waar “beter dan Cursor” wél kan)
+## Jouw use-case (fit)
 
-Cursor optimaliseert voor miljoenen gebruikers en elke denkbare stack. Jij wint door **smalle fit**:
+| Dimensie | Situatie | Gevolg |
+|----------|----------|--------|
+| Schaal | Enkele repo’s | Kleine index; agressieve ignore |
+| Talen nu | Veel MD/docs + Make; code later | Docs-first + later SCIP per taal |
+| Workflow | AGENTS / `make check` / slices | Structure-paden prioriteren |
+| Host | Arch, lokaal; Zed als IDE-host | Index als **aparte** dienst (MCP/daemon) ↔ harness/ACP |
+| Model | DeepSeek BYOK | Tools > embeddings-lock-in |
 
-| Dimensie | Jouw situatie | Gevolg voor indexing |
-|----------|---------------|----------------------|
-| Schaal | Enkele actieve repo’s (AE + lab + later apps), geen enterprise-monorepo-farm | Kleinere index; agressieve ignore OK |
-| Talen nu | Zwaar Markdown/docs + Make; code later na runtime | Docs-first retrieval + later AST/SCIP |
-| Workflow | Standaard-gedreven (`AGENTS`, `make check`, slices) | Index moet **structure-paden** en specs/prioriteren |
-| Host | Arch/Hyprland, lokaal disk | Versheid > fancy embeddings; watch/git dirty |
-| Model | DeepSeek BYOK (hypothese) | Lexical/symbol tools > cloud semantic lock-in |
-| Mens | Wil code **zien** in IDE | Index voedt agent én navigatie, niet “alleen black box” |
+Hypothese (§69): **exact/lexical-first**; semantic later meten.
 
-Lab-hypothese (§69): **exact/lexical-first**; semantic/embeddings later *meten*, niet aannemen.
+## Lagen (wat “indexing” is)
 
-## Regels (intentie — tests later)
+```text
+1. Discovery   — paden + ignore + git
+2. Lexical     — tekst/regex (Zoekt / Instant-Grep-achtig)
+3. Structural  — defs/refs/symbols (SCIP / tree-sitter / LSP)
+4. Map         — compacte repo-kaart (§16 Aider)
+5. (Later) Semantic — embeddings alleen na baseline
+```
 
-| Regel | Waarom | Bewaakt door |
-|-------|--------|--------------|
-| Index/build blijft op de machine; geen codebase-upload voor search | Privacy + Cursor Instant Grep-les (§69) | later config + test |
-| Agent-search default = lexical/symbol; embeddings alleen met expliciete config | Geen stille “semantic” | later harness-tool contract |
-| Ignore respecteert `.gitignore` + project-ignore | Ruis/tokens | later |
-| Na edit: index ziet wijziging binnen afgesproken SLA (FS/events) | Geen stale goose chase | [fs-events.md](fs-events.md) |
+---
+
+## Open source — bouwstenen & producten
+
+### A. Engines (forken zelden nodig — als binary gebruiken)
+
+| Stuk | Licentie | Wat | URL / anker |
+|------|----------|-----|-------------|
+| **Zoekt** | Apache-2.0 | Trigram code-search (regex/substring, multi-repo) | [sourcegraph/zoekt](https://github.com/sourcegraph/zoekt) |
+| **SCIP** (+ `scip` CLI) | Apache-2.0 | Protocol + tool voor defs/refs/implementations | [sourcegraph/scip](https://github.com/sourcegraph/scip) · [scip-code.org](https://scip-code.org) |
+| **scip-typescript / -python / -java / …** | meestal Apache | Per-taal indexers → `.scip` | Sourcegraph indexer-docs |
+| **tree-sitter** | MIT | Incrementele AST; highlight + lichte outline | tree-sitter.github.io |
+| **ripgrep** | MIT/Unlicense | Baseline zonder index; altijd fallback | BurntSushi/ripgrep |
+
+**Niet gebruiken als OSS-basis:** Sourcegraph *product* code-search (enterprise-license sinds ~2023). Zoekt + SCIP blijven open.
+
+### B. Agent-facing lagen (MCP / CLI — compose-kandidaten)
+
+| Stuk | Licentie | Wat | Fork? |
+|------|----------|-----|-------|
+| **jarvis** | MIT (claim) | Lokale SCIP-nav + Zoekt-search als **MCP-tools**; tree-sitter baseline; indexes op disk | Eerst **gebruiken**; fork alleen als tool-API/fit faalt |
+| **Gortex** | Apache-2.0 | Zware code-graph + veel MCP-tools; single binary | Trial/Assess — breed; mogelijk overkill v1 |
+| **polyglot-indexer-mcp** | checken | tree-sitter + SQLite ± SCIP | Leer/kleinere compose |
+| **mcp-zoekt** | Apache | Dunne Zoekt↔MCP-brug | Goed als je Zoekt alleen wilt |
+| **Aider** (repo map) | Apache-2.0 (Aider) | tree-sitter + dependency-graaf → tokenbudget-kaart | **Concept** stelen (§16); niet hele Aider forken |
+| **DSH community** (code-intel / codegraph / rag) | wisselend | Indexing als harness-plugin | Observeren naast DSH-keuze |
+| **Serena** | (complement) | Refactor/rename-half — **niet** retrieval | Pair met jarvis-achtig; niet indexing-kern |
+
+### C. Leerbronnen (closed of deels open — mechanisme, geen code stelen)
+
+| Bron | Type | Wat leren | Lab-anker |
+|------|------|-----------|-----------|
+| Cursor Instant Grep blog + docs | closed product + engineering | Lokale lexical index, versheid, waarom embeddings voor search afgebouwd | **§69** |
+| Cursor semantic search / secure indexing | closed / historisch | Embeddings + Merkle — context, niet v1-pad | **§70–§71** |
+| Aider Repository Map docs | open docs | Graaf + ranking binnen tokenbudget | **§16** |
+| Zoekt README + query language | OSS docs | Indexeren, zoeken, ranking-signalen | wantlist |
+| SCIP schema + indexer docs | OSS docs | Wat een “symbol index” is | wantlist |
+| jarvis install/MCP docs | OSS docs | Tool-surface voor agents | wantlist |
+| PKU Harness-Bench e.d. | papers | H×M meten — indexing is deel van H | §133 e.a. |
+
+---
+
+## Wat past het best? (hypothese, nog geen ADR)
+
+Zelfde logica als Zed: **niet Instant Grep zelf bouwen**; **composeren** en personaliseren op AE/lab.
+
+| Optie | Fit voor jou | Oordeel |
+|-------|--------------|---------|
+| **jarvis (of gelijkwaardige MCP: Zoekt+SCIP)** als index-daemon | Agent-tools klaar; lokaal; past bij Zed/harness via MCP | **Primaire trial** |
+| Zoekt alleen + eigen dunne MCP | Meer controle, minder symbol-nav | Fallback / tussenstap |
+| Gortex | Krachtig, breed | Assess — pas als jarvis tekort + je graph wilt |
+| Alleen `rg` + file reads | Te zwak als einddoel; OK als dag-0 baseline | Meetbaseline |
+| Eigen engine van nul | Geen voorsprong vs Zoekt | **Nee** |
+| Cursor-pariteit embeddings | Cloud/lock-in; §69 zegt lexical eerst | **Nee v1** |
+
+### Personaliseren (jouw “beter dan Cursor”):
+
+1. Ignore + **docs/MD/structure-paden** zwaarder wegen (AE).  
+2. Multi-root AE + lab.  
+3. Versheid via [fs-events](fs-events.md) (git-anker + dirty).  
+4. Tool-namen/contract passend op DSH/Pi + DeepSeek.  
+5. Optioneel: dunne **repo-map** (§16) naast search-tools.
+
+### Is een fork nodig?
+
+| Laag | Fork? |
+|------|-------|
+| Zoekt / SCIP / tree-sitter | **Nee** — binaries/upstream |
+| jarvis / MCP-wrapper | **Eerst niet** — draaien + meten; fork/wrapper alleen als API of Arch-packaging structureel knelt |
+| Aider | **Nee** — idee overnemen in klein eigen stukje |
+| “Één app” | Index = **aparte dienst** naast Zed (zoals harness) — zelfde model als IDE-shell |
+
+```text
+Zed (host) ──ACP──► harness ──MCP/tools──► indexing (jarvis/Zoekt+…)
+                         │
+                         └── structure / spine / LLM
+```
+
+---
+
+## Regels (intentie)
+
+| Regel | Waarom |
+|-------|--------|
+| Index lokaal; geen codebase-upload voor search | §69 / privacy |
+| Default = lexical/symbol; embeddings expliciet | Geen stille semantic |
+| `.gitignore` + project-ignore | Tokens/ruis |
+| Dirty na edit binnen SLA | [fs-events](fs-events.md) |
 
 ## Stand van zaken
 
 | Onderwerp | Status | Notitie |
 |-----------|--------|---------|
-| Compose-set X1 (Zoekt/SCIP/jarvis/…) | open | zie tabel hieronder |
-| Process-model X2 | open | library / daemon / MCP |
-| Repo-map vs tools X3 | open | §16 |
-| Docs/MD-weging X4 | open | AE-fit |
-| Multi-root X5 | open | AE + lab |
-| Embeddings X6 | open | niet dag-0 |
-| Fork-punt X7 | open | |
-
-## Wat is het waard om te bekijken
-
-Strategie: **niet** Instant Grep van nul nabootsen; **wel** sterke OSS composeren/forken en personaliseren op bovenstaande use-case.
-
-| Prioriteit | Repo / stuk | Licentie-achtig | Rol | Actie |
-|------------|-------------|-----------------|-----|-------|
-| **1** | **Zoekt** | Apache | Lexical code-search engine | Analyseren; kandidaat-bouwsteen |
-| **1** | **SCIP + scip-*-indexers** | Apache-lijn | Symbol defs/refs | Analyseren; compose met Zoekt |
-| **1** | **jarvis** (SCIP+Zoekt → MCP) | MIT — verifiëren | Agent-facing index-product | Analyseren; fork/compose-kandidaat |
-| **2** | **Aider repo map** (§16) | open (Aider) | tree-sitter + graaf → tokenbudget | **Concept** meenemen; niet per se hele Aider forken |
-| **2** | **polyglot-indexer-mcp** | checken | tree-sitter + SQLite ± SCIP | Leerbaar kleiner vlak |
-| **2** | **tree-sitter** | MIT | AST-grondstof | Bouwsteen |
-| **3** | **Pi** (§76) | MIT | Minimale harness om indexing aan te hangen | Harness-seam, niet index-kern |
-| **3** | **DSH** (§77) + community index-plugins | MIT + plugins | Hoe indexing als plugin zit | Observeren; preview-volatiel |
-| Learn-only | Cursor §69–§71, Sourcegraph product | closed / deels | Mechanismes (lokaal lexical, versheid, Merkle) | Geen code overnemen |
-
-**Lager prioriteit:** zware monolieten (graph-DB + multi-tenant), Electron-IDE-indexers, embedding-RAG als dag-0.
-
-## Randgevallen
-
-- Repo zonder git; enorme `node_modules` ondanks ignore-fout; binary files; symlink-loops; workspace met meerdere roots (AE + lab tegelijk).
+| X1 Compose-set | **neiging** | Trial **jarvis** (Zoekt+SCIP via MCP); fallback Zoekt+eigen dunne laag |
+| X2 Process-model | **neiging** | MCP/daemon naast harness — niet in Zed forken |
+| X3 Repo-map | open | later klein eigen (§16) |
+| X4 Docs-weging | open | AE-fit |
+| X5 Multi-root | open | AE + lab |
+| X6 Embeddings | **nee v1** | |
+| X7 Fork | **nee default** | glue/personaliseer; fork alleen bij harde blocker |
+| Smoke jarvis op Arch | open | volgende slice |
 
 ## Raakvlakken
 
-- In: [fs-events.md](fs-events.md), [ide-shell.md](ide-shell.md)
-- Uit: [harness.md](harness.md) / [tools.md](tools.md); optioneel navigatie in IDE
+- [ide-shell.md](ide-shell.md) (Zed-host) · [harness.md](harness.md) · [fs-events.md](fs-events.md) · [tools.md](tools.md)
 
 ## Bewust niet
 
-- Eigen inference-/embedding-farm.
-- Feature-pariteit met Cursor Cloud codebase index.
-- Thesis-outline hier (andere chat).
+- Eigen search-engine / embedding-farm.
+- Sourcegraph enterprise als dependency.
+- Thesis-outline hier.

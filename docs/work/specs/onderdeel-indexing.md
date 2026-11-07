@@ -3,42 +3,39 @@
 > **Rol:** Open keuzes voor Project-Understanding. Meeste tijd/aandacht.
 > **Product:** [indexing.md](../../product/indexing.md) · **Kaart:** [totaalproduct.md](../../product/totaalproduct.md)
 
-- **Item:** [BACKLOG.md](../BACKLOG.md)
-- **Status:** open
-- **Product (bijhouden):** [../../product/indexing.md](../../product/indexing.md)
-- **Hypothese:** Compose/fork OSS (Zoekt + SCIP ± jarvis); lexical-first; personaliseren op solo Arch-use-case — niet Cursor-pariteit.
+- **Item:** [BACKLOG.md](../BACKLOG.md) · volg **2**
+- **Status:** in uitvoering
+- **Product (bijhouden):** [indexing.md](../../product/indexing.md)
+- **Hypothese:** **Compose** (niet Instant Grep bouwen): trial **jarvis** = Zoekt+SCIP via MCP; personaliseren (ignore, docs/AE, versheid); **fork niet default**. Fallback: Zoekt + dunne eigen MCP. Embeddings niet v1.
 
-## Hoe zit dit in elkaar? (lagen)
+## Lagen
 
 ```text
-1. Discovery   — welke paden bestaan (ignore, git)
-2. Lexical     — snelle tekst/regex search (Zoekt / Instant-Grep-achtig)
-3. Structural  — symbols, defs/refs (SCIP / tree-sitter / LSP)
-4. Map         — compacte repo-kaart voor prompt (Aider-les §16)
-5. (Later) Semantic — embeddings alleen na meting
+Discovery → Lexical (Zoekt) → Structural (SCIP/tree-sitter) → Map (§16) → (later) Semantic
 ```
 
-Agent praat hiertegen via **tools** (search, outline, refs) — harness roept aan; IDE mag dezelfde index voor navigatie gebruiken.
+## Slices
 
-## Fork / verbeteren
-
-Zie tabel **“Wat is het waard om te bekijken”** in [indexing.md](../../product/indexing.md).
-
-Verbeterhoek vs “grote bedrijven”: niet betere embeddings, wel **betere fit** — ignore, docs/MD-prioriteit, AE-structuur, DeepSeek-tool-vorm, lokale versheid, geen cloud.
+1. ~~OSS-catalogus + leerbronnen + compose/fork-advies~~ **gedaan** → [indexing.md](../../product/indexing.md)
+2. Smoke: jarvis (of Zoekt-only) op AE/lab — search + refs latency; Arch-install-pad
+3. X1/X2 vastleggen + tool-contract schets t.o.v. harness; ADR na ja
+4. Baseline-meting vs `rg`-only
 
 ## Open beslissingen
 
-| # | Vraag | Opties | Blokkeert |
-|---|-------|--------|-----------|
-| X1 | Compose-set v1? | Zoekt only / Zoekt+SCIP / jarvis-as-host / eigen dunne map | bouw |
-| X2 | Process-model? | library-in-process / lokale daemon / MCP-server | IDE+harness |
-| X3 | Repo-map in prompt vs pure tools? | Aider-stijl inject / alleen on-demand tools | tokens |
-| X4 | Docs/MD weging t.o.v. code? | use-case AE | kwaliteit |
-| X5 | Multi-root (AE + lab)? | één index / twee / workspace-graph | F1 |
-| X6 | Wanneer embeddings? | nooit v1 / experiment na baseline | scope |
-| X7 | Fork-punt? | upstream contribute vs eigen fork-repo | onderhoud |
+| # | Vraag | Neiging |
+|---|-------|---------|
+| X1 | Compose-set? | jarvis-trial → Zoekt+SCIP MCP |
+| X2 | Process-model? | MCP/daemon naast harness/Zed |
+| X3 | Repo-map? | later klein eigen |
+| X4 | Docs-weging? | AE hoger |
+| X5 | Multi-root? | open |
+| X6 | Embeddings? | nee v1 |
+| X7 | Fork? | **nee** tenzij blocker |
 
-## Acceptatie (later)
+## Acceptatie
 
-- [ ] X1–X2 gekozen + ADR
-- [ ] Baseline-meting vs “alleen rg” op jouw repo’s
+- [x] OSS + leerbronnen + fork/compose-advies in productdoc
+- [ ] Smoke / Arch-pad
+- [ ] X1–X2 + ADR na ja
+- [ ] Baseline vs rg

@@ -24,7 +24,7 @@
 | Onderwerp | Status | Notitie |
 |-----------|--------|---------|
 | Basis H1 (DSH/Pi/…) | open | neiging DSH |
-| Embed vs apart process H2 | open | hangt van IDE |
+| Embed vs apart process H2 | open | neiging: apart + **ACP in Zed** (zie [ide-shell](ide-shell.md)) |
 | Profile H3 | open | |
 | Indexing als plugin vs MCP H4 | open | |
 | Upstream vs fork H5 | open | observeren tot stabieler? |

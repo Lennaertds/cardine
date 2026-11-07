@@ -22,8 +22,8 @@ Zie programma: [onderzoek-programma.md](onderzoek-programma.md). Status: `open` 
 | Overige publieke benches naast AA/§83 | A5 aanvulling | A5 | open |
 | Meta-Harness outer-loop experiment | Later lab, niet dag-0 | A5/B | later |
 | Vibe/agentic-IDE listicles (Zite / DataCamp / ItsOnMedia) | A4/A5 namen+taxonomie | A4 | §102–§104 (lage authority) |
-| Zoekt / SCIP / jarvis / polyglot-indexer-mcp — license + arch | Indexing compose ([indexing.md](../product/indexing.md)) | indexing | open |
-| Zed / Lapce / Helix / Neovim / Kate — architecture, license, plugin/RPC, Wayland | A4 shortlist non-Electron ([onderdeel-ide-shell](../work/specs/onderdeel-ide-shell.md)) | A4 | open |
+| Zoekt / SCIP / jarvis / Gortex / polyglot-indexer-mcp | Indexing compose ([indexing.md](../product/indexing.md)) | indexing | deels (catalogus); smoke jarvis Arch open |
+| Zed / Lapce / Helix / Neovim / Kate — architecture, license, plugin/RPC, Wayland | A4 shortlist non-Electron ([ide-shell.md](../product/ide-shell.md)) | A4 | deels (tabel 2026-11-07); smoke + § nog |
 | LSP/DAP host-oppervlak (generiek, niet VS Code-only) | A4 indexing-hooks | A4 | open |
 | Windsurf / Kiro / Antigravity / Trae / PearAI / Aider / Roo / Copilot Workspaces | A4 peers uit §103 (Electron/peers = contrast, niet fork-doel) | A4 | open (Assess; Electron = Hold voor shell) |
 | VS Code architecture / extension API | A4 alleen als contrast (Electron afgewezen als lab-shell) | A4 | open (laag prioriteit) |
