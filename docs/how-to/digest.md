@@ -39,9 +39,38 @@ Schrijft `docs/research/digest/proposals/<datum>-draft.md`. Kopieer geaccepteerd
 
 Team-CI: `.github/workflows/digest.yml` (dispatch/cron) → draft-PR met alleen `proposals/`.
 
+## Wekelijks + cron (papers → AE)
+
+arXiv-RSS vernieuwt **dagelijks** (geen weekend). Daarom:
+
+| Wanneer | Commando | Effect |
+|---------|----------|--------|
+| Ma–vr ~07:00 | `make digest-fetch` | Dumps in `data/external/digest/` |
+| Ma ~07:30 | `make digest-week` | Fetch + propose + weekbrief in sibling `Agent_Engineering/bron/weken/YYYY-Www.md` |
+
+Handmatig:
+
+```bash
+make digest-week                         # vandaag: huidige week (op ma: vorige week)
+DIGEST_WEEK=2026-W44 make digest-week    # specifieke ISO-week
+DIGEST_WEEK_SKIP_FETCH=1 make digest-week
+```
+
+Scheduling: **systemd user-timers** (geen `cronie` op deze machine). Eenmalig:
+
+```bash
+bash scripts/install-digest-timers.sh
+systemctl --user list-timers 'digest-*'
+```
+
+Units staan in `scripts/systemd/`; log: `data/external/digest/cron.log`.  
+Timers draaien als je user-sessie actief is (`Persistent=true` haalt gemiste runs in). Zonder login: `loginctl enable-linger "$USER"`.
+
+Weekbrief is **geen** auto-§. Cureren blijft hieronder.
+
 ## Cureren
 
-1. Review voorstel of raw `items.md`.
-2. Relevant → Trial/Assess op `radar.md` of ADR.
-3. Nog te lezen → `wantlist.md`.
-4. Agent Engineering-repo: eerst `bron/bronnen.md` (§), dan brug.
+1. Review voorstel (`proposals/`) of weekbrief (`../Agent_Engineering/bron/weken/`).
+2. Relevant lab → Trial/Assess op `radar.md` of ADR / `wantlist.md`.
+3. Agent Engineering: gekozen hits → `bron/bronnen.md` (§) + index; status in weekbrief bijwerken.
+4. YouTube e.d.: inbox of meteen § + kort in de weekbrief.

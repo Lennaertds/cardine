@@ -34,7 +34,7 @@ PORTS :=
 	    data seed db-reset adr spec log meeting experiment docs-health clean \
 	    security-scan security-scan-quick obs-up obs-down obs-status \
 	    bench perf-check deps-audit polyglot-check radar-check radar-reminder \
-	    digest-check digest-reminder digest-fetch digest-propose native-bindings-strict
+	    digest-check digest-reminder digest-fetch digest-propose digest-week native-bindings-strict
 
 ##@ Starten
 help: ## dit overzicht
@@ -152,6 +152,9 @@ digest-fetch: ## RSS/Atom → data/external/digest/; DIGEST_DRY_RUN=1 / DIGEST_F
 
 digest-propose: ## voorstel in digest/proposals/ (geen auto-radar); DIGEST_DRY_RUN=1
 	@bash scripts/digest-propose.sh
+
+digest-week: ## fetch + propose + AE bron/weken/YYYY-Www.md; DIGEST_WEEK= / DIGEST_WEEK_SKIP_FETCH=1
+	@bash scripts/digest-week.sh
 
 ##@ Observability (module observability)
 obs-up: ## LGTM-stack starten (Grafana/Prometheus/Loki/Tempo/Alloy)

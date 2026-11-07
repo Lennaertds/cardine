@@ -43,7 +43,10 @@ Opt-in (`security-scan*`, `obs-*`, `perf-*`, `deps-audit`, `polyglot-check`, `ra
 
 ## Afronden
 
-1. `make check` is groen. Toon de output.
+**Zonder te vragen.** Na elke beurt met repo-wijziging (code, docs, specs, config) — of na een afgeronde slice — voer je dit uit. Wacht niet op “log”, “rond af” of “ADR”. Pure Q&A zonder schrijven: overslaan.
+
+1. `make check` is groen (of leg kort uit waarom niet). Toon de output.
 2. Docs die deze wijziging raakt, bijgewerkt (alleen die). Kaart: [docs/INDEX.md](docs/INDEX.md).
-3. Keuze met waarom: `make adr t="<besluit als zin>"`.
-4. Dag-log (`make log`) + item in [BACKLOG.md](docs/work/BACKLOG.md) afvinken.
+3. Dag-log: `make log`, daarna **bovenaan** onder `## Gedaan` een entry: aanleiding · bestanden · test · wat misging/bleef liggen · welk BACKLOG/spec-item. Lege template laten staan = niet afgerond.
+4. Keuze met waarom (voortaan X, niet meer Y, stack/seam/productregel): `make adr t="<besluit als zin>"` + geraakte doc. Geen keuze → geen ADR en niet vragen.
+5. Item in [BACKLOG.md](docs/work/BACKLOG.md) / spec afvinken als de slice echt klaar is.

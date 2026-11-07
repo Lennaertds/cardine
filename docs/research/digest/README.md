@@ -7,11 +7,11 @@ Ruwe dumps: `data/external/digest/` (gitignored behalve README/`.gitkeep`). Voor
 
 ## Ritueel
 
-1. `SOURCES.example.md` → `SOURCES.md` en vul echte feed-URL’s in.
-2. `make digest-fetch` — RSS/Atom → `data/external/digest/<YYYY-MM-DD>-<slug>/` (`raw.xml` + `items.md`).
-3. `make digest-propose` — kandidaat-rijen in `proposals/<datum>-draft.md` (wijzigt **niet** `radar.md`).
-4. Review → geaccepteerde rijen handmatig naar [radar.md](../radar.md) / wantlist / (Agent Engineering) `bron/bronnen.md` §.
-5. Team: workflow `.github/workflows/digest.yml` opent een **draft-PR** met alleen het voorstel.
+1. Live feeds: [SOURCES.md](SOURCES.md) (arXiv cs.AI+LG+CL, cs.SE, cs.MA). Voorbeeld: [SOURCES.example.md](SOURCES.example.md).
+2. Weekdays: `make digest-fetch` — RSS/Atom → `data/external/digest/<YYYY-MM-DD>-<slug>/`.
+3. Maandag: `make digest-week` — fetch + propose + weekbrief in Agent Engineering `bron/weken/YYYY-Www.md` (wijzigt **niet** `radar.md` / `bronnen.md`).
+4. Review → geaccepteerde hits handmatig naar [radar.md](../radar.md) / wantlist / AE `bron/bronnen.md` §.
+5. Cron: zie [how-to/digest.md](../../how-to/digest.md). Team-CI draft-PR: kit `digest.yml` (niet in dit solo-lab).
 6. `make digest-check` na structurele edits.
 
 Offline/test: `DIGEST_FIXTURE=docs/research/digest/fixtures/example.rss make digest-fetch`.
@@ -27,6 +27,7 @@ make digest-check       # scaffold-structuur; module research
 make digest-reminder    # tip
 make digest-fetch       # live of DIGEST_FIXTURE=…; DIGEST_DRY_RUN=1
 make digest-propose     # proposals/*-draft.md; DIGEST_DRY_RUN=1
+make digest-week        # fetch + propose + AE bron/weken/; DIGEST_WEEK= / SKIP_FETCH=1
 ```
 
 How-to: [../../how-to/digest.md](../../how-to/digest.md).
@@ -42,3 +43,4 @@ Vaste kop (P28): vraag ernaar of BACKLOG als dit nodig wordt.
 | Digest in **kern** (elk project) | Opt-in via `research` | Project zonder research wil toch digest |
 | Always-on in AGENTS | Harness tax (P25) | Elke taak moet feeds zien (meestal niet) |
 | HTML-scraping (niet RSS/Atom) | Fragiel, ToS, supply-chain | Bron heeft geen feed |
+| Auto-§ in AE `bronnen.md` | P5 — weekbrief ≠ feit | Zero-touch promote vanuit cron |

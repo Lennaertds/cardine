@@ -25,7 +25,8 @@ extract_urls() {
 slug_from_url() {
   local u="$1" host path slug
   host="$(printf '%s' "$u" | sed -E 's|https?://||; s|/.*||; s|[^a-zA-Z0-9._-]|-|g')"
-  path="$(printf '%s' "$u" | sed -E 's|https?://[^/]+||; s|[/?#].*||; s|[^a-zA-Z0-9]+|-|g; s|^-||; s|-$||')"
+  # pad behouden (niet bij eerste / afknippen) — anders botsen alle rss.arxiv.org-feeds
+  path="$(printf '%s' "$u" | sed -E 's|https?://[^/]+/||; s|[?#].*||; s|[^a-zA-Z0-9]+|-|g; s|^-||; s|-$||')"
   slug="${host}${path:+-$path}"
   printf '%s' "${slug:0:60}"
 }

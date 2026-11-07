@@ -24,9 +24,10 @@ pick_dumps() {
     printf '%s\n' "$DIGEST_PROPOSE_FROM"
     return
   fi
-  # Nieuwste dump-mappen (datum-prefix), max 5
+  # Nieuwste dump-mappen (datum-prefix); DIGEST_PROPOSE_MAX_DUMPS (default 5)
+  local max="${DIGEST_PROPOSE_MAX_DUMPS:-5}"
   find "$DUMP_ROOT" -mindepth 1 -maxdepth 1 -type d ! -name '.*' \
-    | sort -r | head -n 5
+    | sort -r | head -n "$max"
 }
 
 mapfile -t DUMPS < <(pick_dumps)

@@ -36,5 +36,5 @@ A6–A9 hebben **vorm** (dual structure, check-ladder, dual formats, folder-spin
 - [wantlist.md](wantlist.md) — Bronnen die we nog willen verwerven.
 - (A5) `vergelijking-harness-ide.md` — nog te maken; cellen met §-links.
 - [radar.md](radar.md) — Tech-radar (Adopt/Trial/Assess/Hold); maandelijks `make radar-reminder`.
-- [digest/](digest/README.md) — Inbound feeds; `digest-fetch` / `digest-propose` (cureren vóór radar).
+- [digest/](digest/README.md) — Inbound feeds; `digest-fetch` / `digest-propose` / `digest-week` → AE `bron/weken/` (cureren vóór radar/§).
 - `experiments/` — Eén verslag per experiment: `make experiment s=<slug>`.

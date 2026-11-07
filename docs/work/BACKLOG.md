@@ -25,7 +25,7 @@ Nieuw item op **Nu** (of Geparkeerd met een plan): alleen via `make spec s=<slug
 | OTel in apps + `make obs-*` zinvol vullen | observability | Geen app; kit-docs beloven LGTM |
 | Performance-budgets + `bench.sh` per app | performance | Geen meetpad zonder runtime |
 | Strix-install + key voor `security-scan*` | security | Geen netwerk-facing app nog |
-| Digest-feeds invullen (`SOURCES`) | research | Optioneel tot inbound nieuws nodig is |
+| Digest-feeds + week-cron (arXiv → AE `bron/weken/`) | research | gedaan (SOURCES + `digest-week` + crontab) |
 
 ## Geparkeerd
 

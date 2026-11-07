@@ -1,0 +1,11 @@
+[Unit]
+Description=IDE_Agentic digest-fetch (arXiv RSS)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/ventje/Student_Zelfstandige/IDE_Agentic
+ExecStart=/usr/bin/make digest-fetch
+StandardOutput=append:/home/ventje/Student_Zelfstandige/IDE_Agentic/data/external/digest/cron.log
+StandardError=append:/home/ventje/Student_Zelfstandige/IDE_Agentic/data/external/digest/cron.log
