@@ -9,6 +9,17 @@ Nieuw item op **Nu** (of Geparkeerd met een plan): alleen via `make spec s=<slug
 
 | Item | Categorie | Status |
 |------|-----------|--------|
+| [totaalproduct-onderdelen](specs/totaalproduct-onderdelen.md) | product | open — kaart + 9 onderdeel-specs; slice 1 |
+| [onderdeel-ide-shell](specs/onderdeel-ide-shell.md) | product | open — keuzes I1–I6 |
+| [onderdeel-fs-events](specs/onderdeel-fs-events.md) | product | open — keuzes F1–F5 |
+| [onderdeel-indexing](specs/onderdeel-indexing.md) | product | open — keuzes X1–X7; zie `product/indexing.md` |
+| [onderdeel-tools](specs/onderdeel-tools.md) | product | open — keuzes T1–T5 |
+| [onderdeel-harness](specs/onderdeel-harness.md) | product | open — keuzes H1–H5; DSH-neiging |
+| [onderdeel-llm](specs/onderdeel-llm.md) | product | open — keuzes L1–L5; DeepSeek-hypothese |
+| [onderdeel-structure](specs/onderdeel-structure.md) | product | open — keuzes S1–S4 |
+| [onderdeel-agent-ui](specs/onderdeel-agent-ui.md) | product | open — keuzes U1–U4 |
+| [onderdeel-session-spine](specs/onderdeel-session-spine.md) | product | open — keuzes P1–P4 |
+| [cursor-vervang-lagen](specs/cursor-vervang-lagen.md) | research | gedaan (kaart → totaalproduct); A4-shortlist blijft |
 | [onderzoek-a2-harnesses](specs/onderzoek-a2-harnesses.md) | research | gedaan (§76–§79); volgende A5 |
 | [bootstrap-geen-stack-tot-adr](specs/bootstrap-geen-stack-tot-adr.md) | bootstrap | open |
 
@@ -16,16 +27,16 @@ Nieuw item op **Nu** (of Geparkeerd met een plan): alleen via `make spec s=<slug
 
 | Item | Categorie | Waarom later |
 |------|-----------|--------------|
-| A4 + A5-matrix; A6–A9 al **vorm** in ideeen — experimenten na stack | research | A4/A5 open; B na ja |
-| B: ADR runtime/stack/fork + meetplan | decisions | Pas na A5 + expliciete ja — niet nu |
-| Runtime-keuze (Pi / TS / …) + `--starter` / generators | apps | Expliciete keuze + ADR vereist vóór code |
-| LLM-providerconfig (DeepSeek-default-richting + andere keys via `.env`) | harness | Na stack; keys nooit in git |
-| Domeinbestanden `product/harness.md`, `structure.md`, `indexing.md` | product | Gedrag nog niet concreet |
-| Seam-tests (harness↔structure/indexing, structure↔AE, harness↔LLM) | architecture | Pas na stack |
-| OTel in apps + `make obs-*` zinvol vullen | observability | Geen app; kit-docs beloven LGTM |
-| Performance-budgets + `bench.sh` per app | performance | Geen meetpad zonder runtime |
+| A4-scorematrix + A5 — start bij [onderdeel-ide-shell](specs/onderdeel-ide-shell.md) / indexing | research | B na ja |
+| B: ADR per onderdeel (IDE, indexing-compose, harness, LLM, …) | decisions | Pas na scores + expliciete ja |
+| Runtime-keuze + `--starter` / generators | apps | ADR vereist vóór code |
+| LLM-providerconfig keys via `.env` | harness | Na LLM-ADR; keys nooit in git |
+| Productdocs per onderdeel vullen na onderzoek/ADR | product | 9× `product/*.md` bestaan (vorm); verdiepen per slice |
+| Seam-tests (harness↔structure/indexing, …) | architecture | Pas na stack |
+| OTel / `make obs-*` | observability | Geen app |
+| Performance-budgets + `bench.sh` | performance | Geen meetpad zonder runtime |
 | Strix-install + key voor `security-scan*` | security | Geen netwerk-facing app nog |
-| Digest-feeds + week-cron (arXiv → AE `bron/weken/`) | research | gedaan (SOURCES + `digest-week` + crontab) |
+| Digest-feeds + week-cron | research | gedaan |
 
 ## Geparkeerd
 

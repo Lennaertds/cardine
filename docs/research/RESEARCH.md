@@ -10,7 +10,7 @@ Volledig: [onderzoek-programma.md](onderzoek-programma.md) — A1→A2→A5→A4
 
 ## Stand (2026-10-26)
 
-A6–A9 hebben **vorm** (dual structure, check-ladder, dual formats, folder-spine) — nog geen ADR. A1–A3/A5 deels met werkantwoorden (A3: DeepSeek §89–§94 + Kimi §134–§142 + Mistral §95–§101); A4 + A5-matrix open. B wacht op mens-ja.
+A6–A9 hebben **vorm** (dual structure, check-ladder, dual formats, folder-spine) — nog geen ADR. A1–A3/A5 deels met werkantwoorden (A3: DeepSeek §89–§94 + Kimi §134–§142 + Mistral §95–§101); A4 open met richting non-Electron shortlist + indexing-first ([cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md)); A5-matrix open. B wacht op mens-ja.
 
 ## Onderzoeksvragen
 

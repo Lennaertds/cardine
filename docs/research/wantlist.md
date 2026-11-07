@@ -22,9 +22,11 @@ Zie programma: [onderzoek-programma.md](onderzoek-programma.md). Status: `open` 
 | Overige publieke benches naast AA/§83 | A5 aanvulling | A5 | open |
 | Meta-Harness outer-loop experiment | Later lab, niet dag-0 | A5/B | later |
 | Vibe/agentic-IDE listicles (Zite / DataCamp / ItsOnMedia) | A4/A5 namen+taxonomie | A4 | §102–§104 (lage authority) |
-| VS Code architecture / extension API / LSP | A4 | A4 | open |
-| Windsurf / Kiro / Antigravity / Trae / PearAI / Zed / Aider / Roo / Copilot Workspaces | A4 peers uit §103 | A4 | open (Assess) |
-| Zed of “terminal-only” vs full IDE | A4 | A4 | open |
+| Zoekt / SCIP / jarvis / polyglot-indexer-mcp — license + arch | Indexing compose ([indexing.md](../product/indexing.md)) | indexing | open |
+| Zed / Lapce / Helix / Neovim / Kate — architecture, license, plugin/RPC, Wayland | A4 shortlist non-Electron ([onderdeel-ide-shell](../work/specs/onderdeel-ide-shell.md)) | A4 | open |
+| LSP/DAP host-oppervlak (generiek, niet VS Code-only) | A4 indexing-hooks | A4 | open |
+| Windsurf / Kiro / Antigravity / Trae / PearAI / Aider / Roo / Copilot Workspaces | A4 peers uit §103 (Electron/peers = contrast, niet fork-doel) | A4 | open (Assess; Electron = Hold voor shell) |
+| VS Code architecture / extension API | A4 alleen als contrast (Electron afgewezen als lab-shell) | A4 | open (laag prioriteit) |
 | DeepSeek HF-collectie + Fowler + V4 card + Transparency + V4.1 news + V3/V3.2 PDF | A3 officiële lineage | A3 | §89–§94 |
 | DeepSeek-V4 / V4.1-Flash tech report PDF lokaal | A3 diepte naast §56/§58 | A3 | open (optioneel download) |
 | Kimi/Moonshot papers + K2/K2.5/K3/K3.1 + MuonClip + KDA + Kimi Code + AA Cyber | A3 peer naast DeepSeek | A3 | §134–§142 |

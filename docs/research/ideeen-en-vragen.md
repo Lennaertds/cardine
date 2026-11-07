@@ -3,7 +3,7 @@
 > **Rol:** Jouw ruwe vragen/hypothesen voor spoor 3 — vastgelegd vóór ze in § of ADR landen.
 > **Niet hier:** feiten met URL (§ in Agent_Engineering `bron/`); harde keuzes (`docs/decisions/`); uitvoerplan (`specs/`).
 
-Stand: 2026-10-26 (vorm gegeven na A6–A9-bronnen). Bron van **volgorde**: [onderzoek-programma.md](onderzoek-programma.md). Status: `open` / `deels (§…)` / `vorm` (decision-candidate, nog geen ADR) / `later B`.
+Stand: 2026-11-07 (A4/B-richting: lichte non-Electron IDE + indexing-first; A6–A9 nog vorm). Bron van **volgorde**: [onderzoek-programma.md](onderzoek-programma.md). Status: `open` / `deels (§…)` / `vorm` (decision-candidate, nog geen ADR) / `later B`.
 
 ## A — Onderzoek (feiten → AE `bron/`)
 
@@ -12,7 +12,7 @@ Stand: 2026-10-26 (vorm gegeven na A6–A9-bronnen). Bron van **volgorde**: [ond
 | 1 | Wat heeft Cursor; hergebruik vs verbeteren vs niet sturen? | A1 | deels (§9, §13, **§69–§75**) | Werkantwoord ↓; Cloud/Router blogs optioneel |
 | 2 | Andere harnesses (DeepSeek Harness, Pi, peers); hergebruik/verbeteren? | A2 | deels (**§76–§79**, **§105–§112**, §33) | Werkantwoord ↓; enforcement > prompts (§107) |
 | 3 | Mistral + open-source modellen / efficiëntie? | A3 | deels (**§89–§101**, **§134–§142**) | Werkantwoord ↓; Large 4 LICENSE; Kimi peer |
-| 4 | Hoe zit een IDE in elkaar: talen, fork, integraties? | A4 | open (namen §102–§104) | Nog VS Code/LSP-diepte; listicles = taxonomie |
+| 4 | Hoe zit een IDE in elkaar: talen, fork, integraties? | A4 | open (namen §102–§104) | Richting: non-Electron shortlist — [cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md) |
 | 5 | IDEs/harnesses tot op het bot vergelijken | A5 | deels (**§80–§86**, **§133**) | Werkantwoord ↓; PKU Harness-Bench Table 2; matrix nog |
 | 6 | Standaard in **docs** vs in **code/harness**? | A6 | **vorm** (§113–§117 + §107) | Decision-candidate + docs/code-tabel ↓ |
 | 7 | Welke **kwaliteitsgates** wanneer + rood? | A7 | **vorm** (§118–§122 + §117) | Lab-ladder + revert-zin ↓ |
@@ -48,8 +48,9 @@ Synthese uit bestaande § — genoeg om B te *richten*, niet om te forken.
 
 ### A4 — IDE-anatomie
 
-- Nog dun. Werkhypothese: **editor ≠ harness** — lab optimaliseert harness/structure/indexing; editor kan Cursor/VS Code/terminal blijven.  
-- Listicles (§102–§104) = namenkaart, lage authority. Echte diepte = VS Code extension API / LSP (wantlist).
+- **editor ≠ harness ≠ indexing.** Lab-primair = **indexing / Project-Understanding**; harness hergebruiken; IDE-shell = **lichte non-Electron fork of koppeling** (niet from-scratch, geen Electron).  
+- Componentkaart: [totaalproduct.md](../product/totaalproduct.md) (9 onderdelen). Shortlist-criteria: [cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md) / [onderdeel-ide-shell](../work/specs/onderdeel-ide-shell.md). Indexing: [indexing.md](../product/indexing.md).  
+- Listicles (§102–§104) = namenkaart, lage authority. Diepte = native/TUI architecture + plugin/RPC-surface (wantlist), niet VS Code-first.
 
 ### A5 — Vergelijking
 
@@ -182,11 +183,11 @@ Niet nu uitvoeren. Pas na A1–A2–A5 (minimaal) + expliciete ja. A6–A9 **voe
 
 | B-vraag | Nu gerichte hypothese (nog geen ADR) |
 |---------|--------------------------------------|
-| Stack | Lean TS-harness (Pi-achtige oppervlakte), niet full IDE-fork |
-| Basis | Terminal/SDK of dunne editor-koppeling; Cursor mag host blijven |
-| Verbeteren t.o.v. Cursor | structure-enforcement (A6) + check-ladder (A7) + folder-spine (A9) + dual formats (A8); indexing exact-first (§69) |
-| Meetplan | Vaste H, wissel M; C4 zonder check vs check+revert; tokens×naleving (A6) |
-| Default LLM | DeepSeek API (cost); Kimi peer (§142); frontier optioneel |
+| Stack | Eigen **indexing** + hergebruikte harness (Pi-/DSH-achtig) + lichte **non-Electron** IDE-shell |
+| Basis | Fork of koppeling na A4-score (Zed/Lapce/Helix/Neovim/Kate); geen Electron; geen IDE from-scratch; Cursor mag tijdelijk host blijven tot ADR |
+| Verbeteren t.o.v. Cursor | **Indexing** exact-first (§69) als kern; + structure (A6) + check-ladder (A7) + folder-spine (A9) + dual formats (A8); geen Cloud/Composer-pariteit |
+| Meetplan | Vaste H, wissel M; C4 zonder check vs check+revert; tokens×naleving (A6); indexing-kwaliteit apart meten |
+| Default LLM | DeepSeek API (cost); Kimi peer (§142); frontier optioneel; **geen** eigen inference-serving |
 
 Vastleggen als ADR’s in `docs/decisions/` — zie programma § B.
 

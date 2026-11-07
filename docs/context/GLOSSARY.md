@@ -18,12 +18,15 @@ Dezelfde naam in `docs/product/`, en later in app-mappen zodra er een stack is (
 | Term | Betekenis | In de code | Niet verwarren met |
 |------|-----------|------------|--------------------|
 | Spoor | Eén van de drie lagen: omgeving (kit), kennis (bron), lab (deze repo) | — (docs) | module (kit-module agent/research/product) |
-| Harness | De minimale runtime die de agent-loop en metingen draagt | `harness` | Cursor zelf (externe IDE) |
+| Harness | De minimale runtime die de agent-loop en metingen draagt | `harness` | Cursor zelf (externe IDE); indexing |
 | Structure | Integratie met de projectstandaard (lezen/afdwingen) | `structure` | de standaard-repo Agent_Engineering |
-| Indexing | Opbouw en gebruik van een code-/context-index | `indexing` | digest (inbound research-feeds) |
-| Runtime-keuze | Expliciet besluit voor stack (bv. Pi of TS) vóór generators | ADR 0001 (uitstel); opvolger bij keuze | kit-modules zonder stack |
+| Indexing | Opbouw en gebruik van een code-/context-index (Project-Understanding) | `indexing` | digest; IDE-shell; harness |
+| IDE-shell | Lichte editor-host (non-Electron) waaraan rest hangt | later | Cursor/VS Code-fork |
+| FS/events | Seam: file-wijzigingen doorgeven aan indexing/harness | later | “een app forken” |
+| Totaalproduct | Persoonlijke stack van 9 onderdelen — [totaalproduct.md](../product/totaalproduct.md) | — (docs) | SaaS-productisatie |
+| Runtime-keuze | Expliciet besluit voor stack (bv. Pi, DSH of IDE-fork) vóór generators | ADR 0001 (uitstel); opvolger bij keuze | kit-modules zonder stack |
 | Productisatie | Expliciet besluit lab → gratis release (portfolio; OS of closed) | BACKLOG Geparkeerd | stille “maak het publiek” zonder ADR |
-| DeepSeek | Goedkope LLM-provider-richting via eigen API-key | env `DEEPSEEK_API_KEY` e.d. | harde vendor-lock zonder ADR |
+| DeepSeek | Goedkope LLM-provider-richting via eigen API-key | env `DEEPSEEK_API_KEY` e.d. | DeepSeek Harness (§77); DeepInfer |
 
 ## Afkortingen en projectcodes
 

@@ -11,14 +11,14 @@
 
 ## Probleem
 
-Bestaande IDE’s en agent-tools (bv. Cursor) koppelen slecht of niet-reproduceerbaar aan een strakke projectstandaard (spoor 1 kit + spoor 2 bron in Agent_Engineering). Er ontbreekt een *minimale*, lokaal meetbare harness om die koppeling wél te sturen en te experimenteren — en, als die werkt, eventueel breed beschikbaar te maken zonder dure lock-in.
+Bestaande IDE’s en agent-tools (bv. Cursor) koppelen slecht of niet-reproduceerbaar aan een strakke projectstandaard (spoor 1 kit + spoor 2 bron in Agent_Engineering). Cursor als VS Code-fork draagt bovendien Electron- en feature-overhead die jij niet nodig hebt. Er ontbreekt een *lichte*, lokaal meetbare stack (IDE-shell + indexing + harness + structure) die wél op *jouw* workflow past.
 
 ## Doel en wat succes is
 
-- **Lab (nu):** lokaal meetbaar lab dat de standaard respecteert (docs, rules, seams), met herhaalbare experimenten. LLM via eigen API-keys — voorkeur DeepSeek (goedkoop); andere providers (OpenAI e.d.) mogen als eigen key in `.env`.
-- **Thesis:** later toetsbaar doel op hetzelfde lab.
-- **Product (toekomst, voorwaardelijk):** als kwaliteit het waard is → portfolio én release als gratis app (OS of closed nader) — pas na expliciete productisatie-keuze, niet tijdens de labfase.
-- Pi-fork of andere runtime alleen na expliciete runtime-keuze — tot die tijd geen stack vastleggen.
+- **Lab / persoonlijk product (nu):** lokaal (op Arch/Hyprland) een stack die *voor jou* productiever is dan Cursor — lage overhead, BYOK-LLM (DeepSeek-richting), indexing op jouw use-case, standaard afgedwongen. Kaart: [totaalproduct.md](../product/totaalproduct.md).
+- **Thesis:** later toetsbaar doel op hetzelfde lab (diepte elders).
+- **Product (toekomst, voorwaardelijk):** als kwaliteit het waard is → portfolio én release als gratis app (OS of closed nader) — pas na expliciete productisatie-keuze; tot die tijd mag het **alleen voor jou** werken.
+- Geen stack/fork vastleggen tot expliciete ADR — tot die tijd docs + open keuzes in onderdeel-specs.
 
 ## Scope
 

@@ -14,7 +14,9 @@
 
 ## Product — wat het doet
 
-- [PRODUCT.md](product/PRODUCT.md) — Domeinen en wat bewust niet. Per domein één bestand: `product/<domein>.md`.
+- [PRODUCT.md](product/PRODUCT.md) — Overzicht + wat bewust niet.
+- [totaalproduct.md](product/totaalproduct.md) — Hoe de 9 onderdelen samenhangen.
+- Per onderdeel (bijhouden): [ide-shell](product/ide-shell.md) · [fs-events](product/fs-events.md) · [indexing](product/indexing.md) · [tools](product/tools.md) · [harness](product/harness.md) · [llm](product/llm.md) · [structure](product/structure.md) · [agent-ui](product/agent-ui.md) · [session-spine](product/session-spine.md).
 
 ## Architectuur — hoe het in elkaar zit
 

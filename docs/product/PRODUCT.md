@@ -1,6 +1,6 @@
 # Product
 
-> **Rol:** Wat het product doet, per domein, gezien vanuit de gebruiker.
+> **Rol:** Wat het product doet, per onderdeel/domein, gezien vanuit de gebruiker.
 > **Niet hier:** hoe het gebouwd is ([ARCHITECTURE.md](../architecture/ARCHITECTURE.md)), hoe het eruitziet (`design/`).
 
 ## Fasen
@@ -11,23 +11,31 @@
 | Thesis | Zelfde lab, leesbaar/toetsbaar voor beoordelaar | later |
 | Product | Portfolio + gratis app voor anderen (OS of closed nader) | alleen als kwaliteit het waard is |
 
-## Domeinen
+## Persoonlijk totaalproduct
 
-Eén bestand per domein: `product/<domein>.md`, met hetzelfde sjabloon ([_template.md](_template.md)). De namen komen uit [GLOSSARY.md](../context/GLOSSARY.md).
+**Samenhang:** [totaalproduct.md](totaalproduct.md) — hoe de 9 onderdelen samen één lokaal solo-product vormen.  
+**Per onderdeel bijhouden:** één bestand hieronder (niet alleen in specs).
 
-| Domein | Wat de gebruiker kan | Status | Spec |
-|--------|----------------------|--------|------|
-| harness | Agent-loop lokaal starten, experimenten draaien en metingen zien; LLM via eigen API-key | gepland | — |
-| structure | Standaard (docs/rules/seams) laten meewegen in die loop | gepland | — |
-| indexing | Code-/context-index gebruiken zodat de agent gerichte context krijgt | gepland | — |
+| # | Onderdeel | Productdoc | Spec |
+|---|-----------|------------|------|
+| 1 | IDE-shell | [ide-shell.md](ide-shell.md) | [onderdeel-ide-shell](../work/specs/onderdeel-ide-shell.md) |
+| 2 | FS/events | [fs-events.md](fs-events.md) | [onderdeel-fs-events](../work/specs/onderdeel-fs-events.md) |
+| 3 | Indexing | [indexing.md](indexing.md) | [onderdeel-indexing](../work/specs/onderdeel-indexing.md) |
+| 4 | Tools | [tools.md](tools.md) | [onderdeel-tools](../work/specs/onderdeel-tools.md) |
+| 5 | Harness | [harness.md](harness.md) | [onderdeel-harness](../work/specs/onderdeel-harness.md) |
+| 6 | LLM | [llm.md](llm.md) | [onderdeel-llm](../work/specs/onderdeel-llm.md) |
+| 7 | Structure | [structure.md](structure.md) | [onderdeel-structure](../work/specs/onderdeel-structure.md) |
+| 8 | Agent-UI | [agent-ui.md](agent-ui.md) | [onderdeel-agent-ui](../work/specs/onderdeel-agent-ui.md) |
+| 9 | Session/spine | [session-spine.md](session-spine.md) | [onderdeel-session-spine](../work/specs/onderdeel-session-spine.md) |
 
-Domeinbestanden (`product/harness.md` e.d.) volgen wanneer gedrag concreet wordt (na runtime-keuze of eerste slice).
+Kern-domeinen (GLOSSARY-waarde): `harness`, `structure`, `indexing`. Overige = host/seams.
 
 ## Bewust niet
 
 - Geen productrelease of prod-hosting in de labfase (wel later mogelijk, gratis, OS of closed).
 - Geen betalende SaaS als uitgangspunt; gebruiker brengt eigen API-keys mee.
-- Geen feature-bloat buiten harness / structure / indexing tot het lab bewezen is.
-- Geen Pi-fork of andere runtime tot expliciete keuze.
+- Geen feature-bloat “voor anderen”; IDE-shell is dunne host.
+- Geen Pi-/DSH-/IDE-fork als vastgelegde stack tot expliciete ADR.
 - Geen overname of duplicatie van data, secrets of broninhoud uit andere projecten / Agent_Engineering.
-- Geen keuze “open vs closed” vastleggen tot productisatie — tot die tijd geen licentie-ADR forceren.
+- Geen keuze “open vs closed” vastleggen tot productisatie.
+- Geen eigen inference-serving.

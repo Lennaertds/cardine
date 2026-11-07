@@ -21,7 +21,7 @@ Parallel mag een dunne wantlist/hypothese; geen “we forken X”-ADR op gevoel.
 | A1 | Cursor | Wat heeft Cursor; hergebruik vs verbeteren vs *niet* sturen? | §9, §13, **§69–§75** (Instant Grep, semantic, indexing, dynamic context, Composer, harness, Codex). |
 | A2 | Andere harnesses | Pi, DeepSeek Harness, peers. Hergebruik/verbeteren? | **§76–§79** (+ §33). Bouw/thesis: **§105–§112**. DeepSeek Harness ≠ model-§. |
 | A5 | Vergelijking | Harnesses/IDE’s tot op het bot: technisch + benchmarks | Matrix `vergelijking-harness-ide.md` met §-links. Ankers: **§80–§86** + **§133** (PKU Harness-Bench / Fireship Table 2). |
-| A4 | IDE-anatomie | Talen, fork-opties, integraties; editor vs harness | Bronnen: architecture docs, extension API, LSP — niet alleen YouTube. |
+| A4 | IDE-anatomie | Talen, fork-opties, integraties; editor vs harness vs indexing | Shortlist + criteria: [cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md). Bronnen: native/TUI architecture, plugin/RPC, LSP — niet Electron-first. |
 | A3 | Open models / Mistral | Efficiëntie, lokale runtime; EU/stage | DeepSeek **§56–§58, §89–§94**; Kimi/Moonshot **§134–§142**; Mistral **§95–§101** (AA watch + Large 4). |
 | A6 | Structure: docs vs code | Waar leeft de standaard — alleen markdown (prompt) of ook afgedwongen in de harness/app? | Zie [ideeen § A6](ideeen-en-vragen.md#a6--verduidelijkt); **§113–§117** + §107; kit `make check`. |
 | A7 | Feedback-/kwaliteitslussen | Welke gates wanneer (in-loop → pre-commit → check → check-full → pre-prod) en wat bij rood (revert)? | Zie [ideeen § A7](ideeen-en-vragen.md#a7--verduidelijkt); **§118–§122** + §117; kit P13. |
@@ -77,8 +77,8 @@ Volgend vrij §-nummer: zie AE `bron/INDEX.md` (nu: na **§142**). Clusters: A5 
 
 Zie detail + tabellen in [ideeen-en-vragen.md](ideeen-en-vragen.md). Kort:
 
-- **v1:** minimale TS-harness (Pi-achtig) of dunne editor-koppeling — **geen** full IDE-fork.  
-- **Verbeterhoek vs Cursor:** structure-enforcement + check-ladder + folder-spine + dual formats; indexing exact-first (§69) — niet feature-pariteit.  
+- **v1:** eigen **indexing** (exact-first) + hergebruikte harness (Pi-/DSH-achtig) + lichte **non-Electron** IDE-shell (fork of koppeling na A4) — geen IDE from-scratch, geen Electron, geen inference-serving. Zie [cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md).  
+- **Verbeterhoek vs Cursor:** indexing als kern (§69); + structure-enforcement + check-ladder + folder-spine + dual formats — niet feature-pariteit.  
 - **Default LLM:** DeepSeek API (cost); Kimi peer voor kwaliteit/cyber (§142); frontier optioneel.  
 - **H×M:** ranking-transfer ≈0 (§83); meet altijd harness mee (§81).  
 - **A6 vorm:** dual — AGENTS ≤ ~100 regels TOC; harde regels in check/hooks.  

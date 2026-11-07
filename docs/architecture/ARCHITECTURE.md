@@ -5,7 +5,7 @@
 
 ## Systeemcontext
 
-Lab-eerst: de ontwikkelaar stuurt een minimale AI-harness die de projectstandaard respecteert. Externe systemen: Agent_Engineering (kit + bron, alleen lezen/verwijzen), en LLM-providers via **eigen** API-keys (richting DeepSeek om kosten; andere keys toegestaan). Geen prod-hosting in de labfase; latere gratis release (portfolio / OS of closed) alleen na expliciete productisatie.
+Lab-eerst / persoonlijk totaalproduct: lichte IDE-shell + indexing + harness + structure (kaart: [totaalproduct.md](../product/totaalproduct.md)). Externe systemen: Agent_Engineering (kit + bron, alleen lezen/verwijzen), en LLM-providers via **eigen** API-keys (richting DeepSeek om kosten; andere keys toegestaan). Geen prod-hosting in de labfase; tot productisatie mag het **alleen voor de solo-gebruiker** werken.
 
 ## Containers
 
