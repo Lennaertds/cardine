@@ -57,11 +57,20 @@ PY
 
 WEEK="$(iso_week)"
 OUT="$AE_BRON_WEKEN/${WEEK}.md"
+TODAY="$(date +%F)"
 tip "ISO-week=$WEEK → $OUT"
+
+mapfile -t DATES < <(week_dates "$WEEK")
+[[ ${#DATES[@]} -eq 7 ]] || die "kon datums voor $WEEK niet bepalen"
 
 if [[ "${DIGEST_WEEK_SKIP_FETCH:-}" != "1" ]]; then
   log "fetch start"
-  DIGEST_ITEM_LIMIT="${DIGEST_ITEM_LIMIT:-40}" bash "$SCRIPTS/digest-fetch.sh"
+  # HF Daily Papers heeft week-API (geen RSS) — forceer de ISO-week dump naast SOURCES.
+  # Topic-search: ~90d (niet alleen ISO-week — anders mist bv. token-consumption).
+  DIGEST_EXTRA_URLS="https://huggingface.co/api/daily_papers?week=${WEEK}&limit=50" \
+  DIGEST_ITEM_LIMIT="${DIGEST_ITEM_LIMIT:-40}" \
+  DIGEST_JSON_DAYS="${DIGEST_JSON_DAYS:-90}" \
+    bash "$SCRIPTS/digest-fetch.sh"
   log "fetch klaar"
 else
   tip "SKIP_FETCH=1"
@@ -77,9 +86,6 @@ else
   log "propose soft-fail"
 fi
 
-mapfile -t DATES < <(week_dates "$WEEK")
-[[ ${#DATES[@]} -eq 7 ]] || die "kon datums voor $WEEK niet bepalen"
-
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 rows="$tmpdir/rows.md"
@@ -94,15 +100,19 @@ for d in data/external/digest/*/; do
   # mapnaam = YYYY-MM-DD-<slug> — niet %%-* (dat knipt bij eerste streep → alleen YYYY)
   [[ "$base" =~ ^([0-9]{4}-[0-9]{2}-[0-9]{2})- ]] || continue
   day="${BASH_REMATCH[1]}"
-  keep=0
-  for want in "${DATES[@]}"; do
-    [[ "$day" == "$want" ]] && keep=1 && break
-  done
-  [[ "$keep" -eq 1 ]] || continue
   items="$d/items.md"
   [[ -f "$items" ]] || continue
   src=""
   [[ -f "$d/source.txt" ]] && src="$(tr -d '\r' <"$d/source.txt" | head -n1)"
+  keep=0
+  for want in "${DATES[@]}"; do
+    [[ "$day" == "$want" ]] && keep=1 && break
+  done
+  # Maandag-fetch: HF week-API + topic-search vallen vaak buiten ma–zo (dump-datum = vandaag).
+  # Geen HF daily?limit= hier — die dekt “vandaag”, niet de vorige ISO-week.
+  [[ "$src" == *"week=${WEEK}"* ]] && keep=1
+  [[ "$day" == "$TODAY" && "$src" == *huggingface.co/api/papers/search* ]] && keep=1
+  [[ "$keep" -eq 1 ]] || continue
   while IFS= read -r line; do
     [[ "$line" == \|* ]] || continue
     [[ "$line" =~ Tit[e]?l ]] && continue
@@ -120,12 +130,17 @@ for d in data/external/digest/*/; do
     [[ "$src" == *rss.arxiv.org*cs.MA* ]] && label="rss cs.MA"
     [[ "$src" == *cs.AI* || "$src" == *cs.LG* ]] && label="rss AI+LG+CL"
     [[ "$src" == *export.arxiv.org* ]] && label="api recent"
+    [[ "$src" == *huggingface.co/api/daily_papers*week=* ]] && label="HF week"
+    [[ "$src" == *huggingface.co/api/daily_papers* && "$label" == "$base" ]] && label="HF daily"
+    [[ "$src" == *huggingface.co/api/papers/search*token* ]] && label="HF q:token"
+    [[ "$src" == *huggingface.co/api/papers/search*agent*harness* ]] && label="HF q:harness"
+    [[ "$src" == *huggingface.co/api/papers/search*context*engineering* ]] && label="HF q:context"
+    [[ "$src" == *huggingface.co/api/papers/search*agentic*coding* ]] && label="HF q:agentic"
     printf '| %s | %s | %s | open |\n' "$title" "${link:-—}" "$label" >>"$rows"
     count=$((count + 1))
   done <"$items"
 done
 
-TODAY="$(date +%F)"
 {
   echo "# Weekbrief — $WEEK"
   echo

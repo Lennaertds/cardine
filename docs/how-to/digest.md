@@ -1,6 +1,8 @@
 # How-to — digest (inbound)
 
-> **Rol:** Feeds ophalen, voorstel maken, cureren naar radar — zonder dump als SSOT.
+> **Verhuisd:** live digest + systemd zit in sibling [`Agent_Engineering`](../../../Agent_Engineering/) (`make digest-day`, `bron/digest/`, `bron/weken/`). Zie [MOVED.md](../research/digest/MOVED.md).
+>
+> **Rol (legacy lab):** Feeds ophalen, voorstel maken, cureren naar radar — zonder dump als SSOT.
 > **Niet hier:** ring-keuzes ([radar.md](../research/radar.md)); inhoud van feeds.
 
 ## Vereiste
@@ -26,7 +28,7 @@ DIGEST_DRY_RUN=1 make digest-fetch         # alleen URL’s tonen
 DIGEST_FIXTURE=docs/research/digest/fixtures/example.rss make digest-fetch   # offline
 ```
 
-Output: `data/external/digest/<datum>-<slug>/{source.txt,raw.xml,items.md}`.
+Output: `data/external/digest/<datum>-<slug>/{source.txt,raw.xml|raw.json,items.md}`.
 
 ## Voorstel (geen auto-radar)
 
@@ -39,9 +41,9 @@ Schrijft `docs/research/digest/proposals/<datum>-draft.md`. Kopieer geaccepteerd
 
 Team-CI: `.github/workflows/digest.yml` (dispatch/cron) → draft-PR met alleen `proposals/`.
 
-## Wekelijks + cron (papers → AE)
+## Wekelijks + systemd (papers → AE)
 
-arXiv-RSS vernieuwt **dagelijks** (geen weekend). Daarom:
+arXiv-RSS vernieuwt **dagelijks** (geen weekend). HF Daily Papers via JSON-API (`/api/daily_papers`, topic `/api/papers/search`). Daarom:
 
 | Wanneer | Commando | Effect |
 |---------|----------|--------|

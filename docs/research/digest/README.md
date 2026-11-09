@@ -1,5 +1,7 @@
 # Digest — inbound feeds
 
+> **Verhuisd naar Agent_Engineering** — zie [MOVED.md](MOVED.md). Dit lab-scaffold blijft als kit-voorbeeld.
+>
 > **Rol:** Periodieke *inbound* hits (changelogs, advisories, papers) ophalen en voorstellen — vóór ze op de radar of in § belanden.
 > **Niet hier:** de tech-radar zelf ([radar.md](../radar.md)); wantlist ([wantlist.md](../wantlist.md)); feed-dumps als waarheid (P5).
 
@@ -7,9 +9,9 @@ Ruwe dumps: `data/external/digest/` (gitignored behalve README/`.gitkeep`). Voor
 
 ## Ritueel
 
-1. Live feeds: [SOURCES.md](SOURCES.md) (arXiv cs.AI+LG+CL, cs.SE, cs.MA). Voorbeeld: [SOURCES.example.md](SOURCES.example.md).
-2. Weekdays: `make digest-fetch` — RSS/Atom → `data/external/digest/<YYYY-MM-DD>-<slug>/`.
-3. Maandag: `make digest-week` — fetch + propose + weekbrief in Agent Engineering `bron/weken/YYYY-Www.md` (wijzigt **niet** `radar.md` / `bronnen.md`).
+1. Live feeds: [SOURCES.md](SOURCES.md) (arXiv + Hugging Face Daily Papers / topic-search JSON). Voorbeeld: [SOURCES.example.md](SOURCES.example.md).
+2. Weekdays: `make digest-fetch` — RSS/Atom/JSON → `data/external/digest/<YYYY-MM-DD>-<slug>/`.
+3. Maandag: `make digest-week` — fetch (+ HF `daily_papers?week=`) + propose + weekbrief in Agent Engineering `bron/weken/YYYY-Www.md` (wijzigt **niet** `radar.md` / `bronnen.md`).
 4. Review → geaccepteerde hits handmatig naar [radar.md](../radar.md) / wantlist / AE `bron/bronnen.md` §.
 5. Cron: zie [how-to/digest.md](../../how-to/digest.md). Team-CI draft-PR: kit `digest.yml` (niet in dit solo-lab).
 6. `make digest-check` na structurele edits.
