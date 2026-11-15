@@ -36,6 +36,22 @@ save / tool-write / git-checkout
 
 **Fork?** Nee als apart product. Keuze = library + waar de bus leeft (IDE-process vs indexing-daemon vs harness-plugin).
 
+## Stappenplan
+
+Wacht op het X2-voorstel uit [onderdeel-indexing](onderdeel-indexing.md). Eén stap per sessie. Uitkomst in [fs-events.md](../../product/fs-events.md). Geen watcher-code en geen eigen framework.
+
+### Stap A — Contract vanuit X2
+
+1. F1: de bus hoort bij het indexing-proces uit X2. Wijkt de smoke af (alleen Zed ziet de saves), dan wordt dát het voorstel.
+2. Schrijf één blad: een event is pad + soort (`create`, `modify`, `delete`, `rename`) + bron (`os`, `ide`, `tool`, `git`). Consumers: indexing markeert dirty; de UI mag later “stale” tonen.
+3. F3: v1 leest de schijf. Ongeslagen buffers blijven een latere Zed-vraag.
+4. F4: een git-commit is het anker, unstaged wijzigingen zijn de overlay. Doet jarvis of Zoekt dat al, dan neemt het voorstel die werking over.
+5. F2 (library) en F5 (debounce) krijgen een naam pas als het proces vaststaat. Verzin geen milliseconden.
+
+### Stap B — Vastleggen
+
+Wordt de bus een eigen process naast de index-daemon, dan vraagt deze stap een ADR. Blijft de bus in die daemon, dan sluit de productdoc het voorstel en gaat deze spec weg zonder aparte ADR.
+
 ## Open beslissingen
 
 | # | Vraag | Opties | Blokkeert |
