@@ -18,7 +18,7 @@
 
 | # | Onderdeel | Productdoc | Spec |
 |---|-----------|------------|------|
-| 1 | IDE-shell | [ide-shell.md](ide-shell.md) | [onderdeel-ide-shell](../work/specs/onderdeel-ide-shell.md) |
+| 1 | IDE-shell | [ide-shell.md](ide-shell.md) | afgerond — [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
 | 2 | FS/events | [fs-events.md](fs-events.md) | [onderdeel-fs-events](../work/specs/onderdeel-fs-events.md) |
 | 3 | Indexing | [indexing.md](indexing.md) | [onderdeel-indexing](../work/specs/onderdeel-indexing.md) |
 | 4 | Tools | [tools.md](tools.md) | [onderdeel-tools](../work/specs/onderdeel-tools.md) |
@@ -35,7 +35,7 @@ Kern-domeinen (GLOSSARY-waarde): `harness`, `structure`, `indexing`. Overige = h
 - Geen productrelease of prod-hosting in de labfase (wel later mogelijk, gratis, OS of closed).
 - Geen betalende SaaS als uitgangspunt; gebruiker brengt eigen API-keys mee.
 - Geen feature-bloat “voor anderen”; IDE-shell is dunne host.
-- Geen Pi-/DSH-/IDE-fork als vastgelegde stack tot expliciete ADR.
+- Geen IDE-fork: Zed blijft upstream ([ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)). Geen Pi-/DSH-fork als vastgelegde stack tot een eigen ADR.
 - Geen overname of duplicatie van data, secrets of broninhoud uit andere projecten / Agent_Engineering.
 - Geen keuze “open vs closed” vastleggen tot productisatie.
 - Geen eigen inference-serving.

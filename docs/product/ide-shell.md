@@ -1,9 +1,9 @@
 # IDE-shell
 
-> **Rol:** Bijhouden wat de IDE-shell is — voor iemand die **VS Code/Cursor** kent en een **GUI** wil (geen terminal-edit), met performance als #1.
-> **Niet hier:** werkplan ([onderdeel-ide-shell](../work/specs/onderdeel-ide-shell.md)); criteria ([cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Rol:** Bijhouden wat de IDE-shell is — GUI-host voor iemand die VS Code/Cursor kent. Besliscriterium is de kwaliteit van het agent-pad.
+> **Niet hier:** besluit ([ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)); criteria ([cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** diepte GUI-kandidaten · **Spec:** [onderdeel-ide-shell](../work/specs/onderdeel-ide-shell.md)
+**Stand:** beslist · **ADR:** [0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)
 
 ## Wat jij wilt (vastgelegd)
 
@@ -209,11 +209,11 @@ Jouw vraag: *niet* “waar heb ik het snelst een fork”, maar “waar wordt het
 | Wat je opgeeft | GPL-core niet herschrijven; upstream Zed-UI volgen | Apache-vrijheid in de shell; agent-UX is jouw schuld |
 | Wat je níet wint door Lapce-fork | Betere Instant Grep — dat is indexing, niet de editor | — |
 
-**Conclusie (hypothese, nog geen ADR):** op *jouw* criterium wint **Zed als shell + eigen harness via ACP (of vergelijkbare bridge)** van “Lapce forken en het agent-pad zelf uit de grond stampen”. Lapce blijft relevant als je later **core editor** moet patchen onder Apache — niet als shortcut naar een beter agent-product.
+**Conclusie:** [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md). Zed is de GUI-host; de eigen harness koppelt via ACP. Lapce blijft plan B voor het geval de editor-core later onder Apache eigendom moet zijn.
 
 ### Moet ik Zed forken voor “één grote app”?
 
-**Nee — voor jouw situatie is forken niet nodig** (en door GPL + monoliet ook niet aantrekkelijk).
+**Nee.** We halen een pinned upstream-release op. Reden en grens: [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md).
 
 “Eén werkende applicatie” = **één workflow voor jou**, niet per se één git-repo of één binary:
 
@@ -250,14 +250,11 @@ Eigen werk zit in harness/indexing/structure — dat hoort **niet** in een Zed-f
 
 Lapce↔Zed blijft klein t.o.v. Cursor/VS Code; **RAM in gebruik** wordt vaak door **LSP** gedomineerd (Zed-community: editor &lt;350 MB met veel tabs, LSPs &gt;1 GB). Size Lapce vs Zed negeren we voor de shell-keuze.
 
-### Richting (nog geen ADR)
+### Besluit
 
-1. **Zed** — primaire **GUI-host** voor agent-pad (koppelen; ACP ↔ DSH/Pi). Niet forken tenzij must-have core-gat.  
-2. **Lapce** — plan B / leer-fork als Zed-ACP of Wayland tegenvalt, of als je shell-core wilt eigendom houden.  
-3. **Kate** — backup zonder agent-story.  
-4. Helix/nvim — niet als primaire shell.
+Zed is de GUI-host. De meta-package haalt een pinned upstream-release op. Eigen werk (harness, indexing, structure, LLM) blijft buiten Zed en koppelt via ACP. Lapce is plan B. Kate is backup zonder agent-verhaal. Helix en Neovim zijn geen primaire shell.
 
-Smoke (slice 2): vooral **Zed** + Lapce op Hyprland (start, agent panel openen, idle RAM ter info).
+Het besluit staat in [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md). De Hyprland-smoke (start, agentpaneel, idle RAM) is niet gemeten.
 
 ## Stand van zaken
 
@@ -265,9 +262,9 @@ Smoke (slice 2): vooral **Zed** + Lapce op Hyprland (start, agent panel openen, 
 |-----------|--------|
 | Neovim afgewezen (geen GUI) | gedaan |
 | Diepte Lapce / Zed / Kate / Helix | gedaan |
-| Besliscriterium = agent-pad-kwaliteit | gedaan — neiging **Zed-host** |
-| Lokaal smoke Wayland/Zed ACP | open |
-| I1/I2 ADR | open — neiging Zed koppelen (niet Lapce-fork-first) |
+| Besliscriterium = agent-pad-kwaliteit | gedaan |
+| Zed als pinned upstream-release, geen fork | gedaan — [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
+| Hyprland-smoke | niet gemeten; item toch gesloten |
 
 ## Raakvlakken
 

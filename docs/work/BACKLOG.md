@@ -12,7 +12,7 @@ Werk **één stap tegelijk** (of parallel alleen waar “//” staat). Samenhang
 | Stap | Spec | Waarom deze plek |
 |------|------|------------------|
 | 0 | [totaalproduct-onderdelen](specs/totaalproduct-onderdelen.md) | Kader/docs — grotendeels gedaan; alleen bijsturen |
-| 1 | [onderdeel-ide-shell](specs/onderdeel-ide-shell.md) | Hangpunt voor UI, events, harness-embed; A4 non-Electron eerst |
+| 1 | [ide-shell](../product/ide-shell.md) | gedaan — upstream Zed, pinned release, geen fork ([ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)) |
 | 2 | [onderdeel-indexing](specs/onderdeel-indexing.md) | Primaire waarde; compose Zoekt/SCIP/… (meeste tijd hier) |
 | 3 | [onderdeel-fs-events](specs/onderdeel-fs-events.md) | Contract pas zinvol als indexing process-model (X2) richting heeft |
 | 4 | [onderdeel-harness](specs/onderdeel-harness.md) | Loop die indexing/tools aansluit; DSH-neiging vs Pi |
@@ -23,14 +23,14 @@ Werk **één stap tegelijk** (of parallel alleen waar “//” staat). Samenhang
 | 9 | [onderdeel-agent-ui](specs/onderdeel-agent-ui.md) | Laatst: hangt van IDE-shell + harness-surface |
 | — | [bootstrap-geen-stack-tot-adr](specs/bootstrap-geen-stack-tot-adr.md) | Doorlopend: geen `apps`/generators tot ADR |
 
-Geen code/`--starter` tot de relevante ADR’s (na stap 1–6 minimaal). Research-ankers (gedaan): A2; A4 zit in stap 1; A5 voedt stap 4/6.
+Geen code/`--starter` tot de relevante ADR’s (na stap 2–6 minimaal). Research-ankers (gedaan): A2; A4-shell is [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md); A5 voedt stap 4/6.
 
 ## Nu
 
 | Volg | Item | Categorie | Status |
 |------|------|-----------|--------|
 | 0 | [totaalproduct-onderdelen](specs/totaalproduct-onderdelen.md) | product | gedaan (kader); bijsturen indien nodig |
-| 1 | [onderdeel-ide-shell](specs/onderdeel-ide-shell.md) | product | neiging Zed-host+ACP (fork nee); smoke nog open |
+| ✓ | IDE-shell ([ide-shell](../product/ide-shell.md)) | product | gedaan — [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md); spec weg |
 | **2** | [onderdeel-indexing](specs/onderdeel-indexing.md) | product | **nu** — compose jarvis/Zoekt+SCIP; fork nee; volgende: smoke |
 | 3 | [onderdeel-fs-events](specs/onderdeel-fs-events.md) | product | na 2 (X2) — F1–F5 |
 | 4 | [onderdeel-harness](specs/onderdeel-harness.md) | product | na 2–3 — H1–H5; DSH-neiging |
@@ -40,7 +40,7 @@ Geen code/`--starter` tot de relevante ADR’s (na stap 1–6 minimaal). Researc
 | 8 | [onderdeel-session-spine](specs/onderdeel-session-spine.md) | product | na 7 / // 7 — P1–P4 |
 | 9 | [onderdeel-agent-ui](specs/onderdeel-agent-ui.md) | product | na 1+4 — U1–U4 |
 | — | [bootstrap-geen-stack-tot-adr](specs/bootstrap-geen-stack-tot-adr.md) | bootstrap | open (guardrail) |
-| ✓ | [cursor-vervang-lagen](specs/cursor-vervang-lagen.md) | research | gedaan — A4-shortlist blijft bruikbaar voor stap 1 |
+| ✓ | [cursor-vervang-lagen](specs/cursor-vervang-lagen.md) | research | gedaan — A4-shortlist; shell-keuze in [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
 | ✓ | [onderzoek-a2-harnesses](specs/onderzoek-a2-harnesses.md) | research | gedaan (§76–§79); voedt stap 4 |
 
 ## Straks
