@@ -1,11 +1,11 @@
 [Unit]
-Description=IDE_Agentic digest-week (propose + AE bron/weken)
+Description=Cardine digest-week (propose + AE bron/weken)
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=oneshot
-WorkingDirectory=/home/ventje/Student_Zelfstandige/IDE_Agentic
+WorkingDirectory=/home/ventje/Student_Zelfstandige/cardine
 ExecStart=/usr/bin/make digest-week
-StandardOutput=append:/home/ventje/Student_Zelfstandige/IDE_Agentic/data/external/digest/cron.log
-StandardError=append:/home/ventje/Student_Zelfstandige/IDE_Agentic/data/external/digest/cron.log
+StandardOutput=append:/home/ventje/Student_Zelfstandige/cardine/data/external/digest/cron.log
+StandardError=append:/home/ventje/Student_Zelfstandige/cardine/data/external/digest/cron.log

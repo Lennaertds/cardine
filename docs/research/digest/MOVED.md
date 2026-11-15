@@ -6,4 +6,4 @@ De live digest (feeds, systemd, weekbrieven) staat nu in sibling **`Agent_Engine
 - Dagelijks: `make digest-day` + `digest-day.timer`
 - Weekbrieven: `Agent_Engineering/bron/weken/`
 
-IDE_Agentic `digest-*` timers zijn uitgeschakeld. Scripts hier zijn legacy; niet meer schedulen.
+Cardine `digest-*` timers zijn uitgeschakeld. Scripts hier zijn legacy; niet meer schedulen.

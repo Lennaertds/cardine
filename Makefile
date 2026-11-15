@@ -1,4 +1,4 @@
-# IDE_Agentic — alle commando's. `make` toont ze.
+# Cardine — alle commando's. `make` toont ze.
 #
 # Elke app voegt zijn targets toe via apps/<app>/app.mk; die worden hieronder automatisch
 # opgenomen. Persoonlijke targets zet je in local.mk (staat niet in git).
