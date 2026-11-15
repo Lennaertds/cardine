@@ -14,7 +14,7 @@ Werk **één stap tegelijk** (of parallel alleen waar “//” staat). Samenhang
 | 0 | [totaalproduct-onderdelen](specs/totaalproduct-onderdelen.md) | Kader/docs — grotendeels gedaan; alleen bijsturen |
 | 1 | [ide-shell](../product/ide-shell.md) | gedaan — upstream Zed, pinned release, geen fork ([ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)) |
 | 2 | [onderdeel-indexing](specs/onderdeel-indexing.md) | Primaire waarde; compose Zoekt/SCIP/… (meeste tijd hier) |
-| 3 | [onderdeel-fs-events](specs/onderdeel-fs-events.md) | Contract pas zinvol als indexing process-model (X2) richting heeft |
+| 3 | [onderdeel-fs-events](specs/onderdeel-fs-events.md) | Richting gekozen: Zed-boom, geen eigen watcher |
 | 4 | [onderdeel-harness](specs/onderdeel-harness.md) | Loop die indexing/tools aansluit; DSH-neiging vs Pi |
 | 5 | [onderdeel-tools](specs/onderdeel-tools.md) | // met/na harness — permissions hangen aan H1 |
 | 6 | [onderdeel-llm](specs/onderdeel-llm.md) | Default provider nadat harness providers kan hosten |
@@ -32,7 +32,7 @@ Geen code/`--starter` tot de relevante ADR’s (na stap 2–6 minimaal). Researc
 | 0 | [totaalproduct-onderdelen](specs/totaalproduct-onderdelen.md) | product | gedaan (kader); bijsturen indien nodig |
 | ✓ | IDE-shell ([ide-shell](../product/ide-shell.md)) | product | gedaan — [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md); spec weg |
 | **2** | [onderdeel-indexing](specs/onderdeel-indexing.md) | product | **nu** — compose jarvis/Zoekt+SCIP; fork nee; volgende: smoke |
-| 3 | [onderdeel-fs-events](specs/onderdeel-fs-events.md) | product | na 2 (X2) — F1–F5 |
+| 3 | [onderdeel-fs-events](specs/onderdeel-fs-events.md) | product | richting gekozen — Zed-boom, geen eigen watcher |
 | 4 | [onderdeel-harness](specs/onderdeel-harness.md) | product | na 2–3 — H1–H5; DSH-neiging |
 | 5 | [onderdeel-tools](specs/onderdeel-tools.md) | product | // 4 — T1–T5 |
 | 6 | [onderdeel-llm](specs/onderdeel-llm.md) | product | na 4 — L1–L5; DeepSeek-hypothese |

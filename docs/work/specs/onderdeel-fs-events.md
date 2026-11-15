@@ -1,68 +1,23 @@
 # Spec — onderdeel-fs-events
 
-> **Rol:** Open keuzes voor de FS/events-seam (geen apart “product” om te forken).
+> **Rol:** FS/events-seam. Richting gekozen; geen watcher-code.
 > **Kaart:** [totaalproduct.md](../../product/totaalproduct.md)
 
 - **Item:** [BACKLOG.md](../BACKLOG.md)
-- **Status:** open
+- **Status:** richting gekozen (2026-11-15)
 - **Product (bijhouden):** [../../product/fs-events.md](../../product/fs-events.md)
 
-## Wat is dit?
+## Richting
 
-**FS/events** = hoe het systeem merkt dat bestanden veranderd zijn, zodat indexing (en soms de harness) niet op een *stale* wereld werkt.
+Zed houdt de enige OS-watch. Geen eigen bus, geen Chokidar, geen tweede inotify-boom, geen ADR.
 
-Geen fancy app. Wel een contract tussen:
+De index wordt vers op het zoekmoment: git-commit als anker, vuile paden als overlay. Ongeslagen tekst blijft in Zed en gaat via ACP-read. Detail en de tabel: [fs-events.md](../../product/fs-events.md).
 
-| Bron van events | Voorbeeld |
-|-----------------|-----------|
-| OS watch | inotify (Linux), via bv. `notify` / Chokidar |
-| IDE | buffer save, unsaved dirty, open files |
-| Tools/harness | na `write`/`edit`/`apply_patch` |
-| Git | commit hash als index-anker; unstaged als overlay (§69-les) |
+## Wat nog open is
 
-Zonder dit: agent zoekt in oude index → “wild goose chase” + tokenverspilling (Cursor-argument voor lokale/verse search).
+Niets in F1–F5. De indexing-smoke ([onderdeel-indexing](onderdeel-indexing.md) stap 2) laat zien of een net gewijzigd bestand stale blijft. Wijkt `git status` daar af, dan heropent [fs-events.md](../../product/fs-events.md) alleen die laag.
 
-## Hoe ziet het eruit? (schets)
+## Acceptatie
 
-```text
-save / tool-write / git-checkout
-        │
-        ▼
-   FS event bus (pad + kind: create|modify|delete|rename)
-        │
-        ├─► indexing: mark dirty / incremental rebuild
-        └─► optional: Agent-UI “index stale”
-```
-
-**Fork?** Nee als apart product. Keuze = library + waar de bus leeft (IDE-process vs indexing-daemon vs harness-plugin).
-
-## Stappenplan
-
-Wacht op het X2-voorstel uit [onderdeel-indexing](onderdeel-indexing.md). Eén stap per sessie. Uitkomst in [fs-events.md](../../product/fs-events.md). Geen watcher-code en geen eigen framework.
-
-### Stap A — Contract vanuit X2
-
-1. F1: de bus hoort bij het indexing-proces uit X2. Wijkt de smoke af (alleen Zed ziet de saves), dan wordt dát het voorstel.
-2. Schrijf één blad: een event is pad + soort (`create`, `modify`, `delete`, `rename`) + bron (`os`, `ide`, `tool`, `git`). Consumers: indexing markeert dirty; de UI mag later “stale” tonen.
-3. F3: v1 leest de schijf. Ongeslagen buffers blijven een latere Zed-vraag.
-4. F4: een git-commit is het anker, unstaged wijzigingen zijn de overlay. Doet jarvis of Zoekt dat al, dan neemt het voorstel die werking over.
-5. F2 (library) en F5 (debounce) krijgen een naam pas als het proces vaststaat. Verzin geen milliseconden.
-
-### Stap B — Vastleggen
-
-Wordt de bus een eigen process naast de index-daemon, dan vraagt deze stap een ADR. Blijft de bus in die daemon, dan sluit de productdoc het voorstel en gaat deze spec weg zonder aparte ADR.
-
-## Open beslissingen
-
-| # | Vraag | Opties | Blokkeert |
-|---|-------|--------|-----------|
-| F1 | Eigenaar van de bus? | IDE / indexing-service / harness | architecture |
-| F2 | Watch-library? | native inotify-wrapper vs Chokidar vs IDE-native | stack |
-| F3 | Unsaved buffers indexeren? | ja (IDE push) / nee (alleen disk) | agent-kwaliteit |
-| F4 | Git-anker + overlay zoals Instant Grep-model? | ja/nee | indexing v1 |
-| F5 | Debounce / batch? | ms-waarden | CPU op grote trees |
-
-## Acceptatie (later)
-
-- [ ] Contract 1-pager in architecture of indexing
-- [ ] Geen aparte ADR tenzij bus een eigen process wordt
+- [x] Richting in de productdoc; geen eigen process, dus geen ADR
+- [x] Geen watcher-code

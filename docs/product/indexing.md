@@ -118,7 +118,7 @@ Zed (host) ──ACP──► harness ──MCP/tools──► indexing (jarvis/
 | Index lokaal; geen codebase-upload voor search | §69 / privacy |
 | Default = lexical/symbol; embeddings expliciet | Geen stille semantic |
 | `.gitignore` + project-ignore | Tokens/ruis |
-| Dirty na edit binnen SLA | [fs-events](fs-events.md) |
+| Vers op het zoekmoment | [fs-events](fs-events.md) — git-anker + vuile paden; geen eigen watcher |
 
 ## Stand van zaken
 
