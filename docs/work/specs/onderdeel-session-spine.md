@@ -12,6 +12,21 @@
 
 Waar “wat probeerden we / wat werkte” leeft als de IDE-chat of cwd wisselt. Harness-sessions (Pi/DSH) blijven bestaan; lab vertrouwt ze niet als enige SoR over workspace-grenzen.
 
+## Stappenplan
+
+Start naast of direct na structure. Eén stap per sessie. Uitkomst in [session-spine.md](../../product/session-spine.md). Deze stappen maken nog geen `.agent/` in een repo aan.
+
+### Stap A — Conventie
+
+1. P1: de spine staat in `<cwd>/.agent/` en dat pad staat in `.gitignore`.
+2. P2: `status.md` is voor de mens, `ledger.jsonl` voor het verloop. Geen van beide bevat secrets.
+3. P3: een harness session-id mag als verwijzing mee. Over een padwissel blijft de spine de bron.
+4. P4: promoten naar `make log` blijft handmatig, aan het eind van een slice, in dezelfde afronding als nu.
+
+### Stap B — Vastleggen
+
+Schrijf de conventie in de productdoc. Wordt het pad een regel in RULES, dan vraagt die stap een ADR. De papier-test: na een cwd-wissel wijst de spine nog naar het pad waar het werk gebeurde.
+
 ## Open beslissingen
 
 | # | Vraag | Opties | Blokkeert |
