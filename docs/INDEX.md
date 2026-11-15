@@ -52,6 +52,7 @@
 - `decisions/` — Eén ADR per besluit. Nieuw: `make adr t="<besluit als zin>"`. Geldend:
   - [0000 — Voorbeeld native module](decisions/0000-voorbeeld-native-module-na-budget-breuk.md) — sjabloonvorm (status *voorbeeld*); kopieer via `make adr`, niet als feit gebruiken.
   - [0001 — Runtime-stack uitgesteld tot Pi/TS-keuze](decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md)
+  - [0002 — IDE-shell is upstream Zed, geen fork](decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)
 ## Werk — status (niet vooraf lezen)
 
 - [BACKLOG.md](work/BACKLOG.md) — Index van open werk (korte regel + link). Nieuw item: `make spec s=<slug>`.

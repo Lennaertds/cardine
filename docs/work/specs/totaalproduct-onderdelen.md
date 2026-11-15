@@ -25,7 +25,7 @@ Alle onderdelen van het persoonlijke totaalproduct (IDE → LLM) vastleggen in d
 
 | # | Spec |
 |---|------|
-| 1 | [onderdeel-ide-shell](onderdeel-ide-shell.md) |
+| 1 | afgerond — [ide-shell](../../product/ide-shell.md), [ADR 0002](../../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
 | 2 | [onderdeel-fs-events](onderdeel-fs-events.md) |
 | 3 | [onderdeel-indexing](onderdeel-indexing.md) |
 | 4 | [onderdeel-tools](onderdeel-tools.md) |
