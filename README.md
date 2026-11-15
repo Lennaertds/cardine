@@ -1,7 +1,12 @@
-# Cardine — spoor 3
+# Cardine
 
-> **Rol:** Lab-eerst: minimale, native AI-coderingsomgeving (Zed + eigen `cardine-core`) met sterke projectstructuur-integratie zonder Electron-bloat (thesis later). Als het lab goed is: portfolio + gratis app voor hobbyisten via een open meta-package met een closed-source core-binary. LLM via eigen keys (BYOK — DeepSeek/Claude).
+> **Rol:** Lab-eerst: minimale, native AI-coderingsomgeving (**Zed** + eigen `cardine-core`) met sterke projectstructuur-integratie zonder Electron-bloat (thesis later). Als het lab goed is: portfolio + gratis app voor hobbyisten via een open meta-package met een closed-source core-binary. LLM via eigen keys (BYOK — DeepSeek/Claude).
 > **Niet hier:** de projectstandaard of de kennissamenvattingen. Die leven in de sibling-repo **Agent_Engineering**.
+
+## Naam & Filosofie
+
+- **Waarom *Cardine*:** *Cardine* is de Latijnse ablatief van *cardo* (de spil, het scharnier, de hoofdas waar een stad of constructie omheen is gebouwd). De ablatief drukt het middel en uitgangspunt uit: *"waarmee en vanuit waar alles scharniert"*.
+- **Filosofie:** Cardine bouwt geen zware alles-in-één editor vanaf nul, maar vormt het snelle, centrale scharnierpunt tussen een bestaande native editor (**Zed**), lokale project-indexing, strikte structuurregels (*Agent Engineering*) en externe LLM's (BYOK) — met minimale overhead en maximale lokale controle.
 
 ## Drie sporen
 
