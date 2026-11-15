@@ -1,4 +1,4 @@
-# IDE_Agentic — docs-kaart
+# Cardine — docs-kaart
 
 > Eén ingang voor alle documentatie. Kies het bestand bij je vraag en open alleen dat.
 > Werkwijze en commando's: [AGENTS.md](../AGENTS.md).

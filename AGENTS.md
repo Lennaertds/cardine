@@ -1,4 +1,4 @@
-# IDE_Agentic — agent-instructies
+# Cardine — agent-instructies
 
 Lab-eerst (spoor 3): minimale AI-harness + standaard; later mogelijk gratis product (portfolio/OS of closed). Voor mensen: [README.md](README.md).
 

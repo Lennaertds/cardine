@@ -56,8 +56,8 @@ flowchart LR
 
 **Distributie, Packaging & Isolatie:**
 - **Overkoepelende meta-package (Open Source):** Publieke repo met installer en versie-manifest (`lockfile`). Knoopt getest samenwerkende versies aan elkaar en haalt externe software (zoals Zed) rechtstreeks van de officiële bron op (geen forks, transparante licenties).
-- **Eigen core-executable (Closed Source binary):** Onderdelen 2 t/m 7 en 9 worden ontwikkeld als losse interne modules/packages, maar voor distributie gecompileerd tot **één enkele native binary** (`agentic-core`) zonder externe runtime-dependencies.
-- **Native host vs. Sandboxed exec:** Zed en `agentic-core` draaien **native** op de host voor minimale RAM/CPU-overhead. Alleen untrusted agent-acties (zoals `shell`-commando's en het installeren van publieke packages als `npm`/`pip` binnen een project) worden via `4_tools` geïsoleerd in een lichte sandbox (`bwrap` op Arch) met enkel toegang tot de workspace.
+- **Eigen core-executable (Closed Source binary):** Onderdelen 2 t/m 7 en 9 worden ontwikkeld als losse interne modules/packages, maar voor distributie gecompileerd tot **één enkele native binary** (`cardine-core`) zonder externe runtime-dependencies.
+- **Native host vs. Sandboxed exec:** Zed en `cardine-core` draaien **native** op de host voor minimale RAM/CPU-overhead. Alleen untrusted agent-acties (zoals `shell`-commando's en het installeren van publieke packages als `npm`/`pip` binnen een project) worden via `4_tools` geïsoleerd in een lichte sandbox (`bwrap` op Arch) met enkel toegang tot de workspace.
 
 **Dataflow (één zin):** jij werkt in Zed (IDE-shell) → FS/events houdt indexing fris → harness (in de core-executable) vraagt indexing + tools (sandboxed waar nodig), praat met LLM, dwingt structure af, schrijft spine → Agent-UI toont diffs/chat.
 

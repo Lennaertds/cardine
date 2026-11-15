@@ -11,7 +11,7 @@
 
 ## Hypothese
 
-Tool-runtime komt mee met de gekozen harness (gebundeld in `agentic-core`); v1 is basic. Complexiteit = permissions + sandbox-isolatie + logging, niet een nieuw framework. Indexing-zoeken liever via [indexing.md](indexing.md)-tools dan alleen ruwe `rg`.
+Tool-runtime komt mee met de gekozen harness (gebundeld in `cardine-core`); v1 is basic. Complexiteit = permissions + sandbox-isolatie + logging, niet een nieuw framework. Indexing-zoeken liever via [indexing.md](indexing.md)-tools dan alleen ruwe `rg`.
 
 ## Stand van zaken
 
@@ -19,7 +19,7 @@ Tool-runtime komt mee met de gekozen harness (gebundeld in `agentic-core`); v1 i
 |-----------|--------|---------|
 | Whitelist / eigendom (T1) | open | |
 | Approval-model (T2) | open | |
-| Sandbox (T3) | open | Host (`agentic-core`/Zed) draait native; agent-shell & package-installs (`npm`/`pip`/etc.) in lichte isolatie (Arch: `bwrap`/bubblewrap, optioneel rootless Podman) met alleen workspace-mount. |
+| Sandbox (T3) | open | Host (`cardine-core`/Zed) draait native; agent-shell & package-installs (`npm`/`pip`/etc.) in lichte isolatie (Arch: `bwrap`/bubblewrap, optioneel rootless Podman) met alleen workspace-mount. |
 | MCP v1 (T4) | open | neiging: uit tot nodig |
 | Indexing vs generic search (T5) | open | |
 
@@ -33,4 +33,4 @@ Tool-runtime komt mee met de gekozen harness (gebundeld in `agentic-core`); v1 i
 
 - Eigen MCP-marktplaats.
 - Onbeperkte shell zonder pad-beleid.
-- Docker/container-vereiste om de IDE of `agentic-core` zelf te draaien (alleen voor untrusted agent-exec).
+- Docker/container-vereiste om de IDE of `cardine-core` zelf te draaien (alleen voor untrusted agent-exec).
