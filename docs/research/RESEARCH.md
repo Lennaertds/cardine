@@ -8,9 +8,9 @@
 Samenhang LLM ↔ AE ↔ dit lab (mens, één keer): [tour in Agent_Engineering](../../../Agent_Engineering/bron/tour.md).  
 Volledig: [onderzoek-programma.md](onderzoek-programma.md) — A1→A2→A5→A4→A3, daarna A6–A9, dan B. Vorm + decision-candidates: [ideeen-en-vragen.md](ideeen-en-vragen.md).
 
-## Stand (2026-10-26)
+## Stand (2026-10-26, shell bijgewerkt 2026-11-15)
 
-A6–A9 hebben **vorm** (dual structure, check-ladder, dual formats, folder-spine) — nog geen ADR. A1–A3/A5 deels met werkantwoorden (A3: DeepSeek §89–§94 + Kimi §134–§142 + Mistral §95–§101); A4 open met richting non-Electron shortlist + indexing-first ([cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md)); A5-matrix open. B wacht op mens-ja.
+A6–A9 hebben **vorm** (dual structure, check-ladder, dual formats, folder-spine) — nog geen ADR. A1–A3/A5 deels met werkantwoorden (A3: DeepSeek §89–§94 + Kimi §134–§142 + Mistral §95–§101). De IDE-shell is gekozen: upstream Zed, geen fork ([ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)). Indexing-first blijft de lab-prioriteit ([cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md)). A5-matrix open. B wacht op mens-ja.
 
 ## Onderzoeksvragen
 

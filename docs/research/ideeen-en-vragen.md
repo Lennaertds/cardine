@@ -48,8 +48,8 @@ Synthese uit bestaande § — genoeg om B te *richten*, niet om te forken.
 
 ### A4 — IDE-anatomie
 
-- **editor ≠ harness ≠ indexing.** Lab-primair = **indexing / Project-Understanding**; harness hergebruiken; IDE-shell = **lichte non-Electron fork of koppeling** (niet from-scratch, geen Electron).  
-- Componentkaart: [totaalproduct.md](../product/totaalproduct.md) (9 onderdelen). Shortlist-criteria: [cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md) / [onderdeel-ide-shell](../work/specs/onderdeel-ide-shell.md). Indexing: [indexing.md](../product/indexing.md).  
+- **editor ≠ harness ≠ indexing.** Lab-primair = **indexing / Project-Understanding**; harness hergebruiken; IDE-shell = upstream Zed, pinned release, geen fork ([ide-shell](../product/ide-shell.md), [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)).
+- Componentkaart: [totaalproduct.md](../product/totaalproduct.md) (9 onderdelen). Shortlist-criteria: [cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md). Indexing: [indexing.md](../product/indexing.md).  
 - Listicles (§102–§104) = namenkaart, lage authority. Diepte = native/TUI architecture + plugin/RPC-surface (wantlist), niet VS Code-first.
 
 ### A5 — Vergelijking

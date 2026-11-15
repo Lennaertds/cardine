@@ -44,7 +44,7 @@ flowchart LR
 
 | # | Onderdeel | Product (bijhouden) | Spec (open keuzes) | Rol & Distributie in het geheel |
 |---|-----------|---------------------|--------------------|---------------------------------|
-| 1 | IDE-shell | [ide-shell.md](ide-shell.md) | [onderdeel-ide-shell](../work/specs/onderdeel-ide-shell.md) | **Gekozen: Zed** (pinned release). Geen fork; native op host; rechtstreeks opgehaald van Zed via meta-package. |
+| 1 | IDE-shell | [ide-shell.md](ide-shell.md) | afgerond — [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) | **Gekozen: Zed** (pinned release). Geen fork; native op host; rechtstreeks opgehaald van Zed via meta-package. |
 | 2 | FS/events | [fs-events.md](fs-events.md) | [onderdeel-fs-events](../work/specs/onderdeel-fs-events.md) | *Open keuze.* Seam: verse files → indexing (onderdeel van core-executable). |
 | 3 | Indexing | [indexing.md](indexing.md) | [onderdeel-indexing](../work/specs/onderdeel-indexing.md) | *Open keuze.* Project-Understanding → agent-tools (eigen module in core-executable). |
 | 4 | Tools | [tools.md](tools.md) | [onderdeel-tools](../work/specs/onderdeel-tools.md) | *Open keuze.* Exec: read/edit/shell onder policy & lichte sandbox (`bwrap`/rootless container voor untrusted packages/scripts). |

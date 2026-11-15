@@ -77,7 +77,7 @@ Volgend vrij §-nummer: zie AE `bron/INDEX.md` (nu: na **§142**). Clusters: A5 
 
 Zie detail + tabellen in [ideeen-en-vragen.md](ideeen-en-vragen.md). Kort:
 
-- **v1:** eigen **indexing** (exact-first) + hergebruikte harness (Pi-/DSH-achtig) + lichte **non-Electron** IDE-shell (fork of koppeling na A4) — geen IDE from-scratch, geen Electron, geen inference-serving. Zie [cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md).  
+- **v1:** eigen **indexing** (exact-first) + hergebruikte harness (Pi-/DSH-achtig) + **upstream Zed** als IDE-shell ([ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)) — geen IDE-fork, geen IDE from-scratch, geen Electron, geen inference-serving. Shortlist: [cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md).  
 - **Verbeterhoek vs Cursor:** indexing als kern (§69); + structure-enforcement + check-ladder + folder-spine + dual formats — niet feature-pariteit.  
 - **Default LLM:** DeepSeek API (cost); Kimi peer voor kwaliteit/cyber (§142); frontier optioneel.  
 - **H×M:** ranking-transfer ≈0 (§83); meet altijd harness mee (§81).  
