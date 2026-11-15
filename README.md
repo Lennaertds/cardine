@@ -24,11 +24,11 @@
 
 ## Werken met agents + bronnen
 
-Open de multi-root workspace (beide roots tegelijk):
+Open de multi-root workspace (alle roots tegelijk):
 
-`../Agent+IDE.code-workspace`
+`../Agent+Cardine.code-workspace`
 
-Dan ziet de agent `cardine` én `Agent_Engineering/bron`. Nieuwe lessen uit dit lab → eerst een § in Agent_Engineering `bron/bronnen.md`, pas daarna eventueel brug naar de kit (nooit rechtstreeks).
+Dan ziet de agent `cardine`, `Agent_Engineering/bron` én `Studeren` (voor planning en overkoepelende project-todos). Nieuwe lessen uit dit lab → eerst een § in Agent_Engineering `bron/bronnen.md`, pas daarna eventueel brug naar de kit (nooit rechtstreeks).
 
 ## Start
 
