@@ -56,6 +56,9 @@
   - [0003 — Agent-loop is upstream DeepSeek Harness, geen fork](decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)
   - [0004 — Projectstandaard is dual: dunne AGENTS.md en harde make check](decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md)
   - [0005 — Gesprek blijft de Zed- en DSH-sessie, zonder repo-spine](decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md)
+  - [0006 — Agent zoekt via jarvis; Zed-zoeken en LSP blijven](decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md)
+  - [0007 — Workspace-allowlist, shell onder bwrap](decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)
+  - [0008 — Coding-model is deepseek-flash, Claude is de tweede](decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md)
 ## Werk — status (niet vooraf lezen)
 
 - [BACKLOG.md](work/BACKLOG.md) — Index van open werk (korte regel + link). Nieuw item: `make spec s=<slug>`.

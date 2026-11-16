@@ -3,7 +3,7 @@
 > **Rol:** Gedrag, regels, opties en randgevallen voor het porten en geautomatiseerd distribueren van de persoonlijke stack (`Cardine`) naar andere Linux-distro's, macOS en Windows na Arch Linux v1.
 > **Niet hier:** de Arch-basisarchitectuur ([totaalproduct.md](totaalproduct.md)); tool-details ([tools.md](tools.md)); specifieke platform-specs (`docs/work/specs/`).
 
-De stack die je porteert is upstream Zed + upstream DSH + jouw index-proces. Een eigen `cardine-core` die de loop bevat, is geen huidig besluit meer — zie [totaalproduct](totaalproduct.md). De tabellen hieronder die nog `cardine-core` zeggen, zijn daardoor achterhaald tot een aparte port-slice.
+De stack die je porteert is upstream Zed + upstream DSH + jouw index-proces. Een eigen `cardine-core` die de loop bevat, is geen huidig besluit meer — zie [totaalproduct](totaalproduct.md). De tabellen hieronder die nog `cardine-core` zeggen, zijn daardoor achterhaald tot een aparte port-slice. De agent-shell op Linux zit onder `bwrap` ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)), niet in de sandbox van DSH.
 
 ## Wat de gebruiker kan
 

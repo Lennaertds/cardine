@@ -3,7 +3,7 @@
 > **Rol:** Bijhouden van BYOK-modelproviders — default, fallbacks, wat wél de machine verlaat.
 > **Niet hier:** werkplan ([onderdeel-llm](../work/specs/onderdeel-llm.md)); harness-routing ([harness.md](harness.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** default beslist in [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md); L2 en L3 open · **Spec:** [onderdeel-llm](../work/specs/onderdeel-llm.md)
+**Stand:** beslist · **ADR:** [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) (default) en [0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) (`deepseek-flash` + Claude) · **Spec:** [onderdeel-llm](../work/specs/onderdeel-llm.md)
 
 ## Wat de gebruiker kan
 
@@ -13,9 +13,9 @@
 
 Model, route en keys horen bij DeepSeek Harness ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)), niet bij Zed. Zed’s modelkiezer geldt voor Zed Agent; dat pad staat uit ([totaalproduct](totaalproduct.md)). DSH kiest het model via ACP (`session/set_config_option`).
 
-## Hypothese
+## Besluit
 
-DeepSeek als default, via de harness-config. Enige niet-lokale pad = provider HTTPS. Geen eigen inference. Keys alleen in `.env` (nooit git). Kimi als peer later (§142); frontier optioneel.
+DeepSeek als default, model-id `deepseek-flash`, via de harness-config ([ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md)). Claude is de tweede provider. Enige niet-lokale pad = provider HTTPS. Geen eigen inference. Keys alleen in `.env` (nooit git). Kimi blijft een onderzoekspeer (§142), geen product-fallback. Een nieuwer id komt via de radar.
 
 ## Stand van zaken
 
@@ -23,11 +23,11 @@ DeepSeek als default, via de harness-config. Enige niet-lokale pad = provider HT
 |-----------|--------|---------|
 | Eigenaar | beslist | DSH, niet Zed Agent — [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
 | Default provider L1 | beslist | DeepSeek; key in `.env` |
-| Fallbacks L2 | open | Kimi is de peer, niet dichtgezet |
-| Model-id coding L3 | open | periodiek via radar/AA; id komt uit upstream-docs van de harness |
+| Fallbacks L2 | beslist | Claude, eigen key — [ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) |
+| Model-id coding L3 | beslist | `deepseek-flash`; nieuwer id via radar |
 | Local/Ollama L4 | beslist | niet in v1 |
 | Prompt-redaction L5 | verplicht later | RULES |
-| `.env.example` | open | na harness-ADR |
+| `.env.example` | later | pas met een applicatie (ADR 0001) |
 
 ## Raakvlakken
 

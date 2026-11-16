@@ -22,9 +22,9 @@
 | 2 | FS/events | [fs-events.md](fs-events.md) | afgerond — Zed-boom, geen eigen watcher (geen ADR) |
 | 8 | Agent-UI | [agent-ui.md](agent-ui.md) | afgerond — Zed Agent Panel via ACP (geen ADR) |
 | 5 | Harness | [harness.md](harness.md) | beslist — [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
-| 4 | Tools | [tools.md](tools.md) | deels — whitelist in [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md); T2/T3 open |
-| 6 | LLM | [llm.md](llm.md) | deels — default in [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md); L2/L3 open |
-| 3 | Indexing | [indexing.md](indexing.md) | onderzoek — [onderdeel-indexing](../work/specs/onderdeel-indexing.md) |
+| 4 | Tools | [tools.md](tools.md) | beslist — [ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) |
+| 6 | LLM | [llm.md](llm.md) | beslist — [ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) |
+| 3 | Indexing | [indexing.md](indexing.md) | beslist, agent-pad — [ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md) |
 | 7 | Structure | [structure.md](structure.md) | beslist — [ADR 0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) |
 | 9 | Session/spine | [session-spine.md](session-spine.md) | overgeslagen — [ADR 0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md) |
 

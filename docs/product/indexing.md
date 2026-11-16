@@ -3,7 +3,7 @@
 > **Rol:** Bijhouden van domein **indexing** — snelle, gerichte projectcontext voor de agent.
 > **Niet hier:** werkplan X1–X7 ([onderdeel-indexing](../work/specs/onderdeel-indexing.md)); FS-bus ([fs-events.md](fs-events.md)); samenhang ([totaalproduct.md](totaalproduct.md)); ADRs.
 
-**Stand:** smoke Arch groen (jarvis) · **Spec:** [onderdeel-indexing](../work/specs/onderdeel-indexing.md)
+**Stand:** beslist, alleen agent-pad · **ADR:** [0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md) · **Spec:** [onderdeel-indexing](../work/specs/onderdeel-indexing.md)
 
 ## Wat de gebruiker kan
 
@@ -73,7 +73,11 @@ Hypothese (§69): **exact/lexical-first**; semantic later meten.
 
 ---
 
-## Wat past het best? (hypothese, nog geen ADR)
+## Besluit
+
+Alleen het agent-pad ([ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md)). jarvis (Zoekt + SCIP) is de MCP die DSH mount. Zed Agent blijft uit. Project-zoeken en de LSP in Zed blijven voor de mens.
+
+## Wat past het best? (keuze, gedragen door de smoke)
 
 Zelfde logica als Zed: **niet Instant Grep zelf bouwen**; **composeren** en personaliseren op AE/lab.
 
@@ -106,7 +110,7 @@ Zelfde logica als Zed: **niet Instant Grep zelf bouwen**; **composeren** en pers
 ```text
 Zed (host, Agent Panel) ──ACP──► DSH ──MCP──► indexing (jarvis/Zoekt+…)
                                   │
-                                  └── tools / LLM / (later) structure / spine
+                                  └── tools / LLM / structure
 Zed Agent + grep: in de binary, niet starten.
 ```
 
@@ -155,8 +159,8 @@ Fallback Zoekt-only: **niet nodig**. SCIP-refs werkten na scip-python. Semantic 
 
 | Onderwerp | Status | Notitie |
 |-----------|--------|---------|
-| X1 Compose-set | **neiging versterkt** | Smoke droeg **jarvis** (Zoekt+SCIP via MCP) |
-| X2 Process-model | **neiging** | MCP/daemon naast harness — niet in Zed forken |
+| X1 Compose-set | beslist | jarvis (Zoekt+SCIP via MCP) — [ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md) |
+| X2 Process-model | beslist | MCP die DSH mount. Alleen agent-pad. Zed Agent uit. Editor-zoeken en LSP blijven |
 | X3 Repo-map | open | later klein eigen (§16) |
 | X4 Docs-weging | open | AE-fit |
 | X5 Multi-root | **waarneming** | Twee `jarvis index`-aanroepen; cross-repo search werkt |

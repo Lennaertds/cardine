@@ -24,7 +24,7 @@ De projectstandaard is dual.
 - Vóór een schrijf-tool geldt de workspace-allowlist, op `tools/pre-execute`. Aan het eind van een slice draait `make check`. Een rode check sluit de slice niet: fix, of zet de slice terug.
 - Always-on zijn `AGENTS.md`, `RULES.md` en de productdoc van het onderdeel waar de slice over gaat. De rest wordt gelezen wanneer de slice dat bestand raakt.
 
-Of de agent binnen de workspace eerst vraagt, blijft T2. Deze ADR schrijft geen hook-code.
+Binnen de workspace vraagt de agent niet bij elke edit. Buiten de map stopt hij. Dat is [0007](0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md). Deze ADR schrijft geen hook-code.
 
 ## Alternatieven
 
@@ -39,4 +39,4 @@ Of de agent binnen de workspace eerst vraagt, blijft T2. Deze ADR schrijft geen 
 
 - **Makkelijker:** de slice heeft een stop die niet van het model afhangt. De kaart blijft dun.
 - **Moeilijker of risico:** de haken zijn nog papier. Tot er een applicatie is, blijft `make check` rood door [0001](0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md), niet door een falende slice.
-- **Te doen:** hook-code pas met de applicatie. T2 blijft bij [tools](../product/tools.md).
+- **Te doen:** hook-code pas met de applicatie. Goedkeuring en `bwrap` staan in [0007](0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md).

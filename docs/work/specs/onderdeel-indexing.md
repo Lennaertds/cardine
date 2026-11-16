@@ -4,7 +4,7 @@
 > **Product:** [indexing.md](../../product/indexing.md) · **Kaart:** [totaalproduct.md](../../product/totaalproduct.md)
 
 - **Item:** [BACKLOG.md](../BACKLOG.md) · volg **6**
-- **Status:** in uitvoering — stap 2 gedaan; volgende = stap 3
+- **Status:** X1/X2 beslist — [ADR 0006](../../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md). Alleen agent-pad. Baseline vs `rg` nog open.
 - **Product (bijhouden):** [indexing.md](../../product/indexing.md)
 - **Hypothese:** **Compose** (niet Instant Grep bouwen): trial **jarvis** = Zoekt+SCIP via MCP; personaliseren (ignore, docs/AE, versheid); **fork niet default**. Fallback: Zoekt + dunne eigen MCP. Embeddings niet v1. Smoke Arch (2026-11-16): jarvis droeg search + refs.
 
@@ -18,7 +18,7 @@ Discovery → Lexical (Zoekt) → Structural (SCIP/tree-sitter) → Map (§16) �
 
 1. ~~OSS-catalogus + leerbronnen + compose/fork-advies~~ **gedaan** → [indexing.md](../../product/indexing.md)
 2. ~~Smoke: jarvis (of Zoekt-only) op AE/lab — search + refs latency; Arch-install-pad~~ **gedaan** → [indexing.md](../../product/indexing.md) (Arch-install + smoke-tabel)
-3. X1/X2 vastleggen + tool-contract schets t.o.v. harness; ADR na ja
+3. ~~X1/X2 vastleggen + tool-contract~~ **gedaan** → [ADR 0006](../../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md)
 4. Baseline-meting vs `rg`-only
 
 ## Stappenplan
@@ -61,8 +61,8 @@ Doel: een voorstel dat de smoke draagt. Nog geen code.
 
 | # | Vraag | Neiging |
 |---|-------|---------|
-| X1 | Compose-set? | jarvis (smoke droeg) → Zoekt+SCIP MCP |
-| X2 | Process-model? | MCP die DSH mount; Zed Agent uit |
+| X1 | Compose-set? | beslist — jarvis, Zoekt+SCIP MCP |
+| X2 | Process-model? | beslist — MCP aan DSH; alleen agent-pad; editor-zoeken en LSP blijven |
 | X3 | Repo-map? | later klein eigen |
 | X4 | Docs-weging? | AE hoger |
 | X5 | Multi-root? | twee `jarvis index`-roots; cross-search werkt |
@@ -73,5 +73,5 @@ Doel: een voorstel dat de smoke draagt. Nog geen code.
 
 - [x] OSS + leerbronnen + fork/compose-advies in productdoc
 - [x] Smoke / Arch-pad
-- [ ] X1–X2 + ADR na ja
+- [x] X1–X2 + ADR — [0006](../../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md)
 - [ ] Baseline vs rg

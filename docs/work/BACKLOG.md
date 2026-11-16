@@ -16,8 +16,8 @@ Werk **één stap tegelijk**. Samenhang en groepen: [totaalproduct.md](../produc
 | 2 | [fs-events](../product/fs-events.md) | gedaan — Zed-watch, geen eigen watcher |
 | 3 | [onderdeel-agent-ui](specs/onderdeel-agent-ui.md) | gedaan — Zed Agent Panel via ACP; geen eigen UI |
 | 4 | [onderdeel-harness](specs/onderdeel-harness.md) | gedaan — upstream DSH, `acp`, geen fork ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)). Smoke pas bij een volledige applicatie |
-| 5 | [onderdeel-llm](specs/onderdeel-llm.md) + [onderdeel-tools](specs/onderdeel-tools.md) | Default en whitelist mee in 0003. Open: T2, T3, L2, L3 |
-| 6 | [onderdeel-indexing](specs/onderdeel-indexing.md) | Enige onderzoekswedge. MCP die DSH mount |
+| 5 | [onderdeel-llm](specs/onderdeel-llm.md) + [onderdeel-tools](specs/onderdeel-tools.md) | gedaan — tools [0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md), LLM [0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) |
+| 6 | [onderdeel-indexing](specs/onderdeel-indexing.md) | gedaan voor X1/X2 — jarvis op het agent-pad ([ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md)). Baseline vs `rg` open |
 | 7 | [onderdeel-structure](specs/onderdeel-structure.md) | gedaan — dual, rode `make check` sluit de slice niet ([ADR 0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md)). Hook-code pas met een applicatie |
 | 8 | [onderdeel-session-spine](specs/onderdeel-session-spine.md) | overgeslagen — gesprek = Zed-paneel + DSH-sessie ([ADR 0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md)) |
 | — | [bootstrap-geen-stack-tot-adr](specs/bootstrap-geen-stack-tot-adr.md) | Doorlopend: geen `apps`/generators tot ADR |
@@ -33,9 +33,9 @@ Geen code/`--starter` tot een runtime-ADR. [0001](../decisions/0001-runtime-stac
 | ✓ | FS/events ([fs-events](../product/fs-events.md)) | product | gedaan — Zed-watch |
 | ✓ | [onderdeel-agent-ui](specs/onderdeel-agent-ui.md) | product | gedaan — Zed-panel via ACP |
 | ✓ | [onderdeel-harness](specs/onderdeel-harness.md) | product | gedaan — [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
-| 5 | [onderdeel-tools](specs/onderdeel-tools.md) | product | whitelist in 0003; T2/T3 open |
-| 5 | [onderdeel-llm](specs/onderdeel-llm.md) | product | default in 0003; L2/L3 open |
-| 6 | [onderdeel-indexing](specs/onderdeel-indexing.md) | product | open — X1/X2; consument = DSH-MCP |
+| ✓ | [onderdeel-tools](specs/onderdeel-tools.md) | product | gedaan — [ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) |
+| ✓ | [onderdeel-llm](specs/onderdeel-llm.md) | product | gedaan — [ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) |
+| ✓ | [onderdeel-indexing](specs/onderdeel-indexing.md) | product | X1/X2 gedaan — [ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md); baseline vs `rg` open |
 | ✓ | [onderdeel-structure](specs/onderdeel-structure.md) | product | gedaan — [ADR 0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) |
 | ✓ | [onderdeel-session-spine](specs/onderdeel-session-spine.md) | product | overgeslagen — [ADR 0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md) |
 | — | [bootstrap-geen-stack-tot-adr](specs/bootstrap-geen-stack-tot-adr.md) | bootstrap | open (guardrail) |
@@ -49,7 +49,7 @@ Geen code/`--starter` tot een runtime-ADR. [0001](../decisions/0001-runtime-stac
 | Zed zelf proberen, als de gepinde upstream | product | Vóór indexing. Klachten staan in [ide-shell](../product/ide-shell.md) |
 | ACP-smoke: Zed start `dsh` en ziet één MCP-tool | harness | Pas als er een volledige applicatie is |
 | A5-matrix H×M (na genoeg harness/LLM-richting) | research | Voedt ADR stap 4/6 |
-| B: ADR indexing, na het onderzoek | decisions | Harness-import is [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
+| Baseline indexing vs `rg` | product | Stap 4 van [onderdeel-indexing](specs/onderdeel-indexing.md). X1/X2 is [0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md) |
 | Runtime + `--starter` / generators | apps | Na ADR’s; bootstrap bewaakt |
 | LLM keys via `.env` | harness | Na stap 6 ADR |
 | Productdocs verdiepen per afgeronde stap | product | `product/*.md` bestaan (vorm) |

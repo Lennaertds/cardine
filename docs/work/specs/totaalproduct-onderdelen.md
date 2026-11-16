@@ -31,9 +31,9 @@ Nummers blijven de laag-ids. Volgorde van beslissen: [totaalproduct.md](../../pr
 | 2 | af — host Zed | [fs-events](../../product/fs-events.md) (geen ADR) |
 | 8 | af — host Zed | [agent-ui](../../product/agent-ui.md), [onderdeel-agent-ui](onderdeel-agent-ui.md) (geen ADR) |
 | 5 | import — beslist | [onderdeel-harness](onderdeel-harness.md) — DSH `acp`, geen fork ([ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)) |
-| 4 | volgt import | [onderdeel-tools](onderdeel-tools.md) |
-| 6 | volgt import | [onderdeel-llm](onderdeel-llm.md) — eigenaar DSH, niet Zed |
-| 3 | onderzoek | [onderdeel-indexing](onderdeel-indexing.md) |
+| 4 | volgt import · beslist | [onderdeel-tools](onderdeel-tools.md) — [ADR 0007](../../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) |
+| 6 | volgt import · beslist | [onderdeel-llm](onderdeel-llm.md) — `deepseek-flash`, Claude ([ADR 0008](../../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md)) |
+| 3 | beslist, agent-pad | [onderdeel-indexing](onderdeel-indexing.md) — jarvis MCP ([ADR 0006](../../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md)) |
 | 7 | ontwerp op harness | [onderdeel-structure](onderdeel-structure.md) |
 | 9 | overgeslagen | [onderdeel-session-spine](onderdeel-session-spine.md) — geen repo-spine ([ADR 0005](../../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md)) |
 

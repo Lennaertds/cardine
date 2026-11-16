@@ -80,9 +80,9 @@ flowchart LR
 | 2 | FS/events | Host Zed · af | [fs-events.md](fs-events.md) | afgerond — geen ADR | Zed houdt de enige OS-watch. Index vers via git-anker + vuile paden. |
 | 8 | Agent-UI | Host Zed · af | [agent-ui.md](agent-ui.md) | afgerond — [onderdeel-agent-ui](../work/specs/onderdeel-agent-ui.md) | Zed Agent Panel via ACP. Geen eigen chat-UI. |
 | 5 | Harness | Import · beslist | [harness.md](harness.md) | [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) | DeepSeek Harness, `dsh --profile acp`, geen fork. |
-| 4 | Tools | Volgt import | [tools.md](tools.md) | [onderdeel-tools](../work/specs/onderdeel-tools.md) | Toolset van DSH + indexing-MCP, beslist in ADR 0003. Sandbox (T3) open. |
-| 6 | LLM | Volgt import | [llm.md](llm.md) | [onderdeel-llm](../work/specs/onderdeel-llm.md) | Model en keys horen bij DSH. Default DeepSeek (ADR 0003). |
-| 3 | Indexing | Onderzoek | [indexing.md](indexing.md) | [onderdeel-indexing](../work/specs/onderdeel-indexing.md) | Compose (Zoekt/SCIP). MCP die DSH mount. Vervangt zoeken op het agent-pad, niet de editor. |
+| 4 | Tools | Volgt import · beslist | [tools.md](tools.md) | [ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) | Workspace-allowlist. Shell en `npm`/`pip` onder `bwrap`. |
+| 6 | LLM | Volgt import · beslist | [llm.md](llm.md) | [ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) | `deepseek-flash`. Claude is de tweede provider. |
+| 3 | Indexing | beslist | [indexing.md](indexing.md) | [ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md) | jarvis via MCP. Alleen het agent-pad. Editor-zoeken en LSP blijven Zed. |
 | 7 | Structure | Ontwerp op harness · beslist | [structure.md](structure.md) | [ADR 0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) | Dunne `AGENTS.md` plus `make check` op DSH. Geen tweede prose-laag naast Zed Instructions. |
 | 9 | Session/spine | overgeslagen | [session-spine.md](session-spine.md) | [ADR 0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md) | Geen repo-spine. Gesprek = Zed-paneel + DSH-sessie. |
 
@@ -90,7 +90,7 @@ flowchart LR
 
 - **Meta-package:** installer + versie-manifest. Haalt Zed en DeepSeek Harness rechtstreeks van upstream (geen forks).
 - **Eigen werk:** de index als apart proces, plus later de structure-haak. Niet de IDE, niet de agent-loop, geen repo-spine.
-- **Isolatie:** Zed en `dsh` draaien als upstream-processen. Untrusted shell en package-install (`npm` / `pip`) lopen onder `bwrap` met alleen de workspace — afspraak staat in [tools.md](tools.md), nog niet als ADR.
+- **Isolatie:** Zed en `dsh` draaien als upstream-processen. Shell en package-install (`npm` / `pip`) lopen onder `bwrap` met alleen de workspace ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)).
 
 **Dataflow (één zin):** jij werkt in Zed → het Agent Panel praat ACP met DSH → DSH gebruikt zijn tools en LLM, bevraagt jouw index via MCP, en (later) structure → diffs zie je in Zed. Het gesprek blijft die DSH-sessie.
 
@@ -104,4 +104,4 @@ Parent-plan: [totaalproduct-onderdelen](../work/specs/totaalproduct-onderdelen.m
 
 Canonieke stappenlijst + status: [BACKLOG.md § Volgorde](../work/BACKLOG.md#volgorde-totaalproduct).
 
-0. Kader ([totaalproduct-onderdelen](../work/specs/totaalproduct-onderdelen.md)) → 1. [ide-shell](ide-shell.md) *(Zed)* → 2. [fs-events](fs-events.md) *(Zed)* → 3. [agent-ui](agent-ui.md) *(Zed-panel via ACP)* → 4. [harness](harness.md) *([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md))* → 5. [llm](llm.md) + [tools](tools.md) *(default en whitelist mee; T3 open)* → 6. [indexing](indexing.md) *(onderzoek; MCP naar DSH)* → 7. [structure](structure.md) *([ADR 0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md))* → 8. [session-spine](session-spine.md) *(overgeslagen, [ADR 0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md))*.
+0. Kader ([totaalproduct-onderdelen](../work/specs/totaalproduct-onderdelen.md)) → 1. [ide-shell](ide-shell.md) *(Zed)* → 2. [fs-events](fs-events.md) *(Zed)* → 3. [agent-ui](agent-ui.md) *(Zed-panel via ACP)* → 4. [harness](harness.md) *([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md))* → 5. [llm](llm.md) + [tools](tools.md) *(whitelist in 0003; allowlist en `bwrap` in [0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md); `deepseek-flash` en Claude in [0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md))* → 6. [indexing](indexing.md) *([ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md); alleen agent-pad)* → 7. [structure](structure.md) *([ADR 0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md))* → 8. [session-spine](session-spine.md) *(overgeslagen, [ADR 0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md))*.

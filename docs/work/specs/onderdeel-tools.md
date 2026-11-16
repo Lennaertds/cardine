@@ -4,9 +4,9 @@
 > **Kaart:** [totaalproduct.md](../../product/totaalproduct.md)
 
 - **Item:** [BACKLOG.md](../BACKLOG.md)
-- **Status:** deels beslist — whitelist, MCP en zoekpad in [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). T2 en T3 open.
+- **Status:** beslist — whitelist in [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). Allowlist en `bwrap` in [ADR 0007](../../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md).
 - **Product (bijhouden):** [../../product/tools.md](../../product/tools.md)
-- **Hypothese:** Geen eigen runtime. Toolset = DSH (read/edit/shell) + indexing-MCP. `bwrap` voor untrusted shell. Niet zelf een tool-runtime forken.
+- **Besluit:** Geen eigen runtime. Toolset = DSH (read/edit/shell) + indexing-MCP. Workspace-allowlist. Shell onder `bwrap`.
 
 ## Wat het is
 
@@ -36,12 +36,12 @@ Het voorstel gaat mee in de ADR van H1/H2, of in een korte aanvulling als die AD
 | # | Vraag | Opties | Blokkeert |
 |---|-------|--------|-----------|
 | T1 | Tool-set eigendom? | beslist — DSH read/edit/shell + indexing-MCP | — |
-| T2 | Approval-model? | always ask / allowlist paths / auto in lab | UX |
-| T3 | Sandbox? | geen / bubblewrap / harness-builtin | Arch |
+| T2 | Approval-model? | beslist — workspace-allowlist | — |
+| T3 | Sandbox? | beslist — `bwrap` om shell en package-install | — |
 | T4 | MCP: aan/uit v1? | beslist — aan, alleen indexing-daemon | — |
 | T5 | Indexing-tools vs generic `rg`? | beslist — via indexing; `rg` is meet-fallback | — |
 
 ## Acceptatie (later)
 
-- [x] Whitelist in [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md); approval (T2) nog open
+- [x] Whitelist in [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). Allowlist en `bwrap` in [ADR 0007](../../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)
 - [ ] Geen secrets in tool-logs (RULES)

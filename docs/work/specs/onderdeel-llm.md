@@ -4,9 +4,9 @@
 > **Kaart:** [totaalproduct.md](../../product/totaalproduct.md)
 
 - **Item:** [BACKLOG.md](../BACKLOG.md)
-- **Status:** deels beslist — default en geen lokale inference in [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). L2 en L3 open.
+- **Status:** beslist — default in [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). `deepseek-flash` en Claude in [ADR 0008](../../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md).
 - **Product (bijhouden):** [../../product/llm.md](../../product/llm.md)
-- **Hypothese (jij):** DeepSeek default — prijs/kwaliteit; keys in `.env`; geen eigen inference. Route leeft in DSH (ACP `model`), niet in Zed’s modelkiezer.
+- **Besluit:** DeepSeek default, id `deepseek-flash`. Claude is de tweede provider. Keys in `.env`. Geen eigen inference. Route leeft in DSH, niet in Zed’s modelkiezer.
 
 ## Wat het is
 
@@ -16,31 +16,19 @@ Zed Agent heeft een eigen provider-config. Die gebruik je niet op dit pad ([tota
 
 ## Stappenplan
 
-Start samen met het ja op H1 (DSH). Eén stap per sessie. Uitkomst in [llm.md](../../product/llm.md). Geen key in git, docs of de spec. Geen eigen LLM-ADR vóór die harness-ja.
-
-### Stap A — Default op papier
-
-1. L1: DeepSeek is de default in de DSH-config. De key hoort in `.env`. `.env.example` noemt de variabelenaam en laat de waarde leeg.
-2. L2: minstens één andere provider blijft configureerbaar in de harness. Kimi is de peer uit het onderzoek (§142).
-3. L3: het model-id blijft een notitie uit de upstream-docs van DSH, en wordt later via de radar herijkt. Deze stap vriest geen id vast.
-4. L4: v1 heeft geen lokale inference.
-5. L5: prompts in logs worden geredigeerd. Dat is de regel voor de latere implementatie.
-
-### Stap B — Meenemen in de harness-ADR
-
-L1 gaat mee in de ADR van H1/H2. De `.env.example` van een app komt pas na die ADR.
+Gedaan. Uitkomst in [llm.md](../../product/llm.md) en [ADR 0008](../../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md). Geen key in git, docs of de spec. `.env.example` pas met een applicatie. Prompt-redactie (L5) blijft een regel voor die implementatie.
 
 ## Open beslissingen
 
 | # | Vraag | Opties | Blokkeert |
 |---|-------|--------|-----------|
 | L1 | Default provider? | beslist — DeepSeek, key in `.env` | — |
-| L2 | Fallback-providers? | Kimi peer (§142) / Claude / geen | harness config |
-| L3 | Welk DeepSeek-model-id voor coding? | periodiek herijken via AA/radar | kwaliteit |
+| L2 | Fallback-providers? | beslist — Claude | — |
+| L3 | Welk DeepSeek-model-id voor coding? | beslist — `deepseek-flash`; nieuwer id via radar | — |
 | L4 | Local models later? | beslist — nee in v1 | — |
 | L5 | Logging: prompts redacteren? | verplicht (RULES) | security |
 
 ## Acceptatie (later)
 
-- [x] L1 meegenomen in [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). `.env.example` pas na een app (0001)
+- [x] L1 in [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). L2 en L3 in [ADR 0008](../../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md). `.env.example` pas na een app (0001)
 - [ ] Harness kan ≥1 non-DeepSeek provider (anti-lock smoke)
