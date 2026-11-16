@@ -3,6 +3,8 @@
 > **Rol:** Gedrag, regels, opties en randgevallen voor het porten en geautomatiseerd distribueren van de persoonlijke stack (`Cardine`) naar andere Linux-distro's, macOS en Windows na Arch Linux v1.
 > **Niet hier:** de Arch-basisarchitectuur ([totaalproduct.md](totaalproduct.md)); tool-details ([tools.md](tools.md)); specifieke platform-specs (`docs/work/specs/`).
 
+De stack die je porteert is upstream Zed + upstream DSH + jouw index-proces. Een eigen `cardine-core` die de loop bevat, is geen huidig besluit meer — zie [totaalproduct](totaalproduct.md). De tabellen hieronder die nog `cardine-core` zeggen, zijn daardoor achterhaald tot een aparte port-slice.
+
 ## Wat de gebruiker kan
 
 - Als gebruiker op een andere Linux-distro (Debian/Ubuntu, Fedora), macOS of Windows wil ik via één commando in een gangbare package manager of installer dezelfde geversioneerde stack (Zed + `cardine-core`) installeren en updaten als op Arch Linux, zodat ik zonder handmatig bouwen direct kan werken.

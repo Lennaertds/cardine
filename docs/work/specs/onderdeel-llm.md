@@ -1,32 +1,34 @@
 # Spec — onderdeel-llm
 
-> **Rol:** Open keuzes voor model-providers (BYOK).
+> **Rol:** Open keuzes voor model-providers (BYOK). Eigenaar is de harness, niet Zed.
 > **Kaart:** [totaalproduct.md](../../product/totaalproduct.md)
 
 - **Item:** [BACKLOG.md](../BACKLOG.md)
-- **Status:** open
+- **Status:** open — sluit mee met het ja op de harness; geen aparte “Zed-af”
 - **Product (bijhouden):** [../../product/llm.md](../../product/llm.md)
-- **Hypothese (jij):** DeepSeek default — prijs/kwaliteit; keys in `.env`; geen eigen inference.
+- **Hypothese (jij):** DeepSeek default — prijs/kwaliteit; keys in `.env`; geen eigen inference. Route leeft in DSH (ACP `model`), niet in Zed’s modelkiezer.
 
 ## Wat het is
 
-Adapters + credentials + model-picker (of vast default). Enige **niet-lokale** pad in het totaalproduct: HTTPS naar provider-API.
+Adapters + credentials + modelkeuze van de geïmporteerde harness. Enige **niet-lokale** pad in het totaalproduct: HTTPS naar provider-API.
+
+Zed Agent heeft een eigen provider-config. Die gebruik je niet op dit pad ([totaalproduct](../../product/totaalproduct.md)).
 
 ## Stappenplan
 
-Start als de harness een provider-configuratie kan dragen (na het H1-voorstel). Eén stap per sessie. Uitkomst in [llm.md](../../product/llm.md). Geen key in git, docs of de spec.
+Start samen met het ja op H1 (DSH). Eén stap per sessie. Uitkomst in [llm.md](../../product/llm.md). Geen key in git, docs of de spec. Geen eigen LLM-ADR vóór die harness-ja.
 
 ### Stap A — Default op papier
 
-1. L1: DeepSeek is de default. De key hoort in `.env`. `.env.example` noemt de variabelenaam en laat de waarde leeg.
-2. L2: minstens één andere provider blijft configureerbaar. Kimi is de peer uit het onderzoek (§142).
-3. L3: het model-id blijft een notitie uit de upstream-docs van de harness, en wordt later via de radar herijkt. Deze stap vriest geen id vast.
+1. L1: DeepSeek is de default in de DSH-config. De key hoort in `.env`. `.env.example` noemt de variabelenaam en laat de waarde leeg.
+2. L2: minstens één andere provider blijft configureerbaar in de harness. Kimi is de peer uit het onderzoek (§142).
+3. L3: het model-id blijft een notitie uit de upstream-docs van DSH, en wordt later via de radar herijkt. Deze stap vriest geen id vast.
 4. L4: v1 heeft geen lokale inference.
 5. L5: prompts in logs worden geredigeerd. Dat is de regel voor de latere implementatie.
 
-### Stap B — ADR
+### Stap B — Meenemen in de harness-ADR
 
-Vraag ja op L1. De `.env.example` van een app komt pas na die ADR én na de runtime-keuze uit de harness-ADR.
+L1 gaat mee in de ADR van H1/H2. De `.env.example` van een app komt pas na die ADR.
 
 ## Open beslissingen
 
@@ -40,5 +42,5 @@ Vraag ja op L1. De `.env.example` van een app komt pas na die ADR én na de runt
 
 ## Acceptatie (later)
 
-- [ ] L1 ADR + `.env.example` (geen secrets)
+- [ ] L1 meegenomen in harness-ADR + `.env.example` (geen secrets)
 - [ ] Harness kan ≥1 non-DeepSeek provider (anti-lock smoke)

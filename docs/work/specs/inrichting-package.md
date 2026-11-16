@@ -1,5 +1,7 @@
 ### Heeft een meta-package ook een README enzo zoals een Git-repo?
 
+Distributie (2026-11-16): de meta-package pint upstream Zed én upstream DeepSeek Harness. De loop zit niet in een eigen `cardine-core`. Zie [totaalproduct](../../product/totaalproduct.md). De alinea hieronder is de oudere vorm.
+
 Ja. Jouw meta-package is in de praktijk een publieke Git-repository (bijvoorbeeld lennaertds/cardine) die de installatie-bestanden bevat (PKGBUILD voor de Arch AUR, Formula/cardine.rb voor Homebrew, cardine.json voor Scoop, en de lockfile die de officiële Zed-versie koppelt aan jouw cardine-core binary).
 
 Wat er standaard in die repo thuishoort:

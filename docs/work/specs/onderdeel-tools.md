@@ -4,9 +4,9 @@
 > **Kaart:** [totaalproduct.md](../../product/totaalproduct.md)
 
 - **Item:** [BACKLOG.md](../BACKLOG.md)
-- **Status:** open
+- **Status:** open — volgt het DSH-voorstel; sluit mee met de harness-ADR
 - **Product (bijhouden):** [../../product/tools.md](../../product/tools.md)
-- **Hypothese:** Relatief basic; komt mee met de harness — niet zelf een tool-runtime forken tenzij DSH/Pi tekortschiet.
+- **Hypothese:** Geen eigen runtime. Toolset = DSH (read/edit/shell) + indexing-MCP. `bwrap` voor untrusted shell. Niet zelf een tool-runtime forken.
 
 ## Wat het is
 
@@ -16,7 +16,7 @@ Jij noemt dit terecht “niet al te complex” voor v1 — complexiteit zit in *
 
 ## Stappenplan
 
-Start zodra H1 een voorstel is; loopt naast de harness-ADR. Eén stap per sessie. Uitkomst in [tools.md](../../product/tools.md). Geen eigen tool-runtime.
+H1 is voorgesteld (DSH). Deze laag sluit mee in die ADR. Eén stap per sessie. Uitkomst in [tools.md](../../product/tools.md). Geen eigen tool-runtime.
 
 ### Stap A — Whitelist op papier
 
@@ -38,7 +38,7 @@ Het voorstel gaat mee in de ADR van H1/H2, of in een korte aanvulling als die AD
 | T1 | Tool-set eigendom? | harness-default / subset whitelist | security |
 | T2 | Approval-model? | always ask / allowlist paths / auto in lab | UX |
 | T3 | Sandbox? | geen / bubblewrap / harness-builtin | Arch |
-| T4 | MCP: aan/uit v1? | uit tot nodig | scope |
+| T4 | MCP: aan/uit v1? | voorstel: aan, alleen indexing-daemon | scope |
 | T5 | Indexing-tools vs generic `rg`? | verplicht via indexing-seam / beide | X1 |
 
 ## Acceptatie (later)

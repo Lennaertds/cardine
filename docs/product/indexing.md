@@ -3,7 +3,7 @@
 > **Rol:** Bijhouden van domein **indexing** — snelle, gerichte projectcontext voor de agent.
 > **Niet hier:** werkplan X1–X7 ([onderdeel-indexing](../work/specs/onderdeel-indexing.md)); FS-bus ([fs-events.md](fs-events.md)); samenhang ([totaalproduct.md](totaalproduct.md)); ADRs.
 
-**Stand:** kandidaten + compose-hypothese · **Spec:** [onderdeel-indexing](../work/specs/onderdeel-indexing.md)
+**Stand:** smoke Arch groen (jarvis) · **Spec:** [onderdeel-indexing](../work/specs/onderdeel-indexing.md)
 
 ## Wat de gebruiker kan
 
@@ -91,7 +91,7 @@ Zelfde logica als Zed: **niet Instant Grep zelf bouwen**; **composeren** en pers
 1. Ignore + **docs/MD/structure-paden** zwaarder wegen (AE).  
 2. Multi-root AE + lab.  
 3. Versheid via [fs-events](fs-events.md) (git-anker + dirty).  
-4. Tool-namen/contract passend op DSH/Pi + DeepSeek.  
+4. Tool-namen/contract als MCP die DSH mount (`dsh --profile acp`). Pi alleen als die smoke faalt.  
 5. Optioneel: dunne **repo-map** (§16) naast search-tools.
 
 ### Is een fork nodig?
@@ -104,9 +104,10 @@ Zelfde logica als Zed: **niet Instant Grep zelf bouwen**; **composeren** en pers
 | “Één app” | Index = **aparte dienst** naast Zed (zoals harness) — zelfde model als IDE-shell |
 
 ```text
-Zed (host) ──ACP──► harness ──MCP/tools──► indexing (jarvis/Zoekt+…)
-                         │
-                         └── structure / spine / LLM
+Zed (host, Agent Panel) ──ACP──► DSH ──MCP──► indexing (jarvis/Zoekt+…)
+                                  │
+                                  └── tools / LLM / (later) structure / spine
+Zed Agent + grep: in de binary, niet starten.
 ```
 
 ---
@@ -120,18 +121,48 @@ Zed (host) ──ACP──► harness ──MCP/tools──► indexing (jarvis/
 | `.gitignore` + project-ignore | Tokens/ruis |
 | Vers op het zoekmoment | [fs-events](fs-events.md) — git-anker + vuile paden; geen eigen watcher |
 
+## Arch-install (smoke 2026-11-16)
+
+Machine: Arch Linux x86_64 (`arch-desktop`). Geen inhoud uit AE/`data/raw/` naar deze repo gekopieerd.
+
+| Stuk | Pad / versie |
+|------|----------------|
+| CLI + MCP | `uv tool install --python 3.13 jarvis-mcp` → **jarvis-mcp 0.10.0** (`jarvis`, `jarvis-server` in `~/.local/bin`) |
+| Zoekt + scip | `setup.sh --only zoekt` / `--only scip` → `~/.jarvis/bin` (Zoekt-pin `33f1f18af292`; scip fork `v0.9.0-dev` / `56791658a873`) |
+| scip-python | `npm install -g --prefix ~/.jarvis @sourcegraph/scip-python` → **0.6.8** (globale npm faalde op EACCES) |
+| PATH | `~/.local/bin` + `~/.jarvis/bin` (setup.sh appendt aan `~/.zshrc`) |
+| Index roots | `jarvis index <lab>` en apart `jarvis index <AE>` — twee slugs, één MCP-server |
+
+Eerste `searchCode` na koude start ~2 s (Zoekt-webserver op :6070); daarna ~7–10 ms.
+
+## Smoke-resultaat (lab `cardine`)
+
+Vaste vragen via MCP (`jarvis-server`). Warm Zoekt.
+
+| # | Vraag | Tool | Eerste treffer | Klopt? |
+|---|-------|------|----------------|--------|
+| Q1 | Definitie `parse_items_xml` | `goToDefinition` | 3.2 ms → `scripts/digest-rss.py:38` (SCIP) | ja |
+| Q2 | Refs `parse_items_xml` | `findReferences` | 1.9 ms → 2 locaties in `digest-rss.py` | ja |
+| Q3 | MD-fragment `Project-Understanding` | `searchCode` | 7.6 ms → o.a. `docs/product/indexing.md` | ja |
+| Q4 | Token in `data/runtime/` (gitignore) | `searchCode` | 7.3 ms → 0 hits | ja (ontbreekt) |
+| Q5 | Net gewijzigd tracked bestand (niet geherindexeerd) | `searchCode` + `getIndexStatus` | 7.4 ms → 0 hits; `stale: false` / `freshness: fresh` | index mist dirty (verwacht); status liegt “fresh” — overlay blijft [fs-events](fs-events.md) |
+
+Fallback Zoekt-only: **niet nodig**. SCIP-refs werkten na scip-python. Semantic extra niet geïnstalleerd (bewust buiten smoke).
+
+**X5 (waarneming):** tweede root AE indexeert als aparte slug (`agent_engineering`); `searchCode` zonder `repo`-filter raakt beide (smoke: 140 hits / 2 repos). Geen AE-inhoud in deze repo.
+
 ## Stand van zaken
 
 | Onderwerp | Status | Notitie |
 |-----------|--------|---------|
-| X1 Compose-set | **neiging** | Trial **jarvis** (Zoekt+SCIP via MCP); fallback Zoekt+eigen dunne laag |
+| X1 Compose-set | **neiging versterkt** | Smoke droeg **jarvis** (Zoekt+SCIP via MCP) |
 | X2 Process-model | **neiging** | MCP/daemon naast harness — niet in Zed forken |
 | X3 Repo-map | open | later klein eigen (§16) |
 | X4 Docs-weging | open | AE-fit |
-| X5 Multi-root | open | AE + lab |
-| X6 Embeddings | **nee v1** | |
-| X7 Fork | **nee default** | glue/personaliseer; fork alleen bij harde blocker |
-| Smoke jarvis op Arch | open | volgende slice |
+| X5 Multi-root | **waarneming** | Twee `jarvis index`-aanroepen; cross-repo search werkt |
+| X6 Embeddings | **nee v1** | semantic extra niet in smoke |
+| X7 Fork | **nee default** | Arch-pad: uv + setup.sh + npm-prefix; geen fork-blocker |
+| Smoke jarvis op Arch | **gedaan** | zie tabel hierboven |
 
 ## Raakvlakken
 

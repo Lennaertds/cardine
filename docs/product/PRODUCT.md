@@ -19,16 +19,16 @@
 | # | Onderdeel | Productdoc | Spec |
 |---|-----------|------------|------|
 | 1 | IDE-shell | [ide-shell.md](ide-shell.md) | afgerond — [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
-| 2 | FS/events | [fs-events.md](fs-events.md) | [onderdeel-fs-events](../work/specs/onderdeel-fs-events.md) |
-| 3 | Indexing | [indexing.md](indexing.md) | [onderdeel-indexing](../work/specs/onderdeel-indexing.md) |
-| 4 | Tools | [tools.md](tools.md) | [onderdeel-tools](../work/specs/onderdeel-tools.md) |
-| 5 | Harness | [harness.md](harness.md) | [onderdeel-harness](../work/specs/onderdeel-harness.md) |
-| 6 | LLM | [llm.md](llm.md) | [onderdeel-llm](../work/specs/onderdeel-llm.md) |
+| 2 | FS/events | [fs-events.md](fs-events.md) | afgerond — Zed-boom, geen eigen watcher (geen ADR) |
+| 8 | Agent-UI | [agent-ui.md](agent-ui.md) | afgerond — Zed Agent Panel via ACP (geen ADR) |
+| 5 | Harness | [harness.md](harness.md) | voorstel DSH-import — [onderdeel-harness](../work/specs/onderdeel-harness.md) |
+| 4 | Tools | [tools.md](tools.md) | volgt harness — [onderdeel-tools](../work/specs/onderdeel-tools.md) |
+| 6 | LLM | [llm.md](llm.md) | volgt harness (niet Zed) — [onderdeel-llm](../work/specs/onderdeel-llm.md) |
+| 3 | Indexing | [indexing.md](indexing.md) | onderzoek — [onderdeel-indexing](../work/specs/onderdeel-indexing.md) |
 | 7 | Structure | [structure.md](structure.md) | [onderdeel-structure](../work/specs/onderdeel-structure.md) |
-| 8 | Agent-UI | [agent-ui.md](agent-ui.md) | [onderdeel-agent-ui](../work/specs/onderdeel-agent-ui.md) |
 | 9 | Session/spine | [session-spine.md](session-spine.md) | [onderdeel-session-spine](../work/specs/onderdeel-session-spine.md) |
 
-Kern-domeinen (GLOSSARY-waarde): `harness`, `structure`, `indexing`. Overige = host/seams.
+Kern-domeinen (GLOSSARY-waarde): `indexing`, `structure`. Harness = geïmporteerde DSH (voorstel, nog geen ADR). Shell, FS en Agent-UI = Zed-host. LLM hoort bij die harness, niet bij Zed Agent. Overige = seams.
 
 ## Bewust niet
 

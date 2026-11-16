@@ -3,10 +3,10 @@
 > **Rol:** Open keuzes voor Project-Understanding. Meeste tijd/aandacht.
 > **Product:** [indexing.md](../../product/indexing.md) · **Kaart:** [totaalproduct.md](../../product/totaalproduct.md)
 
-- **Item:** [BACKLOG.md](../BACKLOG.md) · volg **2**
-- **Status:** in uitvoering
+- **Item:** [BACKLOG.md](../BACKLOG.md) · volg **6**
+- **Status:** in uitvoering — stap 2 gedaan; volgende = stap 3
 - **Product (bijhouden):** [indexing.md](../../product/indexing.md)
-- **Hypothese:** **Compose** (niet Instant Grep bouwen): trial **jarvis** = Zoekt+SCIP via MCP; personaliseren (ignore, docs/AE, versheid); **fork niet default**. Fallback: Zoekt + dunne eigen MCP. Embeddings niet v1.
+- **Hypothese:** **Compose** (niet Instant Grep bouwen): trial **jarvis** = Zoekt+SCIP via MCP; personaliseren (ignore, docs/AE, versheid); **fork niet default**. Fallback: Zoekt + dunne eigen MCP. Embeddings niet v1. Smoke Arch (2026-11-16): jarvis droeg search + refs.
 
 ## Lagen
 
@@ -17,7 +17,7 @@ Discovery → Lexical (Zoekt) → Structural (SCIP/tree-sitter) → Map (§16) �
 ## Slices
 
 1. ~~OSS-catalogus + leerbronnen + compose/fork-advies~~ **gedaan** → [indexing.md](../../product/indexing.md)
-2. Smoke: jarvis (of Zoekt-only) op AE/lab — search + refs latency; Arch-install-pad
+2. ~~Smoke: jarvis (of Zoekt-only) op AE/lab — search + refs latency; Arch-install-pad~~ **gedaan** → [indexing.md](../../product/indexing.md) (Arch-install + smoke-tabel)
 3. X1/X2 vastleggen + tool-contract schets t.o.v. harness; ADR na ja
 4. Baseline-meting vs `rg`-only
 
@@ -45,7 +45,7 @@ Doel: weten of jarvis (Zoekt + SCIP via MCP) op deze machine search én refs lev
 Doel: een voorstel dat de smoke draagt. Nog geen code.
 
 1. X1 wordt de compose-set die stap 2 droeg: jarvis, of Zoekt plus wat er wél werkte.
-2. X2 wordt een MCP/daemon naast Zed en de latere harness.
+2. X2 wordt een MCP/daemon die DSH mount (`dsh --profile acp`). Zed Agent blijft uit; zijn grep is niet dit contract.
 3. Schets het contract op één blad: toolnaam, input (query, pad, root), output (pad, regel, symbool), en de fout als de index leeg of stale is.
 4. X3 (repo-map), X4 (docs-weging) en X5 (multi-root) blijven open. Noteer alleen wat de smoke liet zien.
 5. X6 blijft uit in v1. X7 blijft upstream, tenzij stap 2 een harde blocker noteerde.
@@ -61,17 +61,17 @@ Doel: een voorstel dat de smoke draagt. Nog geen code.
 
 | # | Vraag | Neiging |
 |---|-------|---------|
-| X1 | Compose-set? | jarvis-trial → Zoekt+SCIP MCP |
-| X2 | Process-model? | MCP/daemon naast harness/Zed |
+| X1 | Compose-set? | jarvis (smoke droeg) → Zoekt+SCIP MCP |
+| X2 | Process-model? | MCP die DSH mount; Zed Agent uit |
 | X3 | Repo-map? | later klein eigen |
 | X4 | Docs-weging? | AE hoger |
-| X5 | Multi-root? | open |
+| X5 | Multi-root? | twee `jarvis index`-roots; cross-search werkt |
 | X6 | Embeddings? | nee v1 |
-| X7 | Fork? | **nee** tenzij blocker |
+| X7 | Fork? | **nee** — geen Arch-blocker |
 
 ## Acceptatie
 
 - [x] OSS + leerbronnen + fork/compose-advies in productdoc
-- [ ] Smoke / Arch-pad
+- [x] Smoke / Arch-pad
 - [ ] X1–X2 + ADR na ja
 - [ ] Baseline vs rg

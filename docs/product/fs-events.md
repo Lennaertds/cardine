@@ -1,9 +1,9 @@
 # FS/events
 
 > **Rol:** Bijhouden van de filesystem-/change-seam — hoe indexing en harness verse file-state zien.
-> **Niet hier:** werkplan ([onderdeel-fs-events](../work/specs/onderdeel-fs-events.md)); index-algoritmes ([indexing.md](indexing.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Niet hier:** index-algoritmes ([indexing.md](indexing.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** richting gekozen (2026-11-15, geen ADR) · **Spec:** [onderdeel-fs-events](../work/specs/onderdeel-fs-events.md)
+**Stand:** gedaan (2026-11-15, geen ADR) — richting vast; spec weg
 
 ## Wat de gebruiker kan
 
@@ -33,6 +33,7 @@ Zed dicht of een headless harness: de git-laag blijft werken. De Zed-boom bestaa
 | Git-anker + overlay (F4) | gekozen | Commit + vuile paden bij de zoekactie |
 | Debounce (F5) | gekozen | Blijft in Zed. Geen milliseconden van ons |
 | Eigen process + ADR | niet nodig | De bus wordt geen eigen process |
+| Smoke vs jarvis-versheid (2026-11-16) | bevestigd | Vuile tracked edit: Zoekt mist token; `getIndexStatus` blijft `stale: false` — overlay blijft bij ons (`git status`), niet bij jarvis |
 
 ## Raakvlakken
 

@@ -1,34 +1,32 @@
 # Agent-UI
 
 > **Rol:** Bijhouden van de menselijke agent-oppervlakte — chat, diffs, apply/reject.
-> **Niet hier:** werkplan ([onderdeel-agent-ui](../work/specs/onderdeel-agent-ui.md)); IDE-fork ([ide-shell.md](ide-shell.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Niet hier:** werkplan ([onderdeel-agent-ui](../work/specs/onderdeel-agent-ui.md)); IDE-shell ([ide-shell.md](ide-shell.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** vorm · **Spec:** [onderdeel-agent-ui](../work/specs/onderdeel-agent-ui.md)
+**Stand:** beslist · geen aparte ADR (volgt [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md): ACP, geen fork)
 
 ## Wat de gebruiker kan
 
-- Met de agent praten, streaming zien, diffs reviewen en wijzigingen accept/reject — zonder blind op terminal-logs te vertrouwen.
+- Met de agent praten, streaming zien, diffs reviewen en wijzigingen accept/reject — in het Zed Agent Panel. De loop erachter is de External Agent, niet Zed Agent.
 
-## Hypothese
+## Besluit
 
-Dun houden: paneel in IDE-shell **of** harness TUI/web, eventueel beide later. Geen Composer/Cloud-pariteit. Multi-agent tabs niet v1.
-
-## Stand van zaken
-
-| Onderwerp | Status | Notitie |
-|-----------|--------|---------|
-| In-IDE vs TUI/web U1 | open | hangt van IDE + harness |
-| Diff-vorm U2 | open | |
-| Streaming U3 | open | |
-| Multi-agent U4 | open | neiging: nee v1 |
+| Onderwerp | Keuze |
+|-----------|--------|
+| U1 Oppervlak | Zed Agent Panel via ACP. Geen eigen chat-UI en geen extra TUI in v1. |
+| U2 Diffs | Review van Zed (multi-buffer diff, apply/reject). |
+| U3 Streaming | Wat Zed en de ACP-server al doen. |
+| U4 Multi-agent | Nee in v1. Eén gesprek. |
 
 ## Raakvlakken
 
-- Host: [ide-shell.md](ide-shell.md) en/of [harness.md](harness.md)
+- Host: [ide-shell.md](ide-shell.md)
+- Loop: [harness.md](harness.md) (`dsh --profile acp`)
 - Toont resultaten van: [tools.md](tools.md)
-- Mag “index stale” tonen via: [fs-events.md](fs-events.md)
 
 ## Bewust niet
 
+- Eigen Composer of chat-app.
 - Marketplace van chat-themes.
 - Parallel Cloud Agent dashboards.
+- Zed Agent aanzetten naast de External Agent (twee loops, twee zoekpaden — zie [totaalproduct](totaalproduct.md)).

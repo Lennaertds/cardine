@@ -3,7 +3,7 @@
 > **Rol:** Plan voor één werkitem. Tijdelijk: na merge verwijderen; de code en de tests zijn dan de waarheid.
 
 - **Item:** [BACKLOG.md](../BACKLOG.md) · branch `docs/totaalproduct-onderdelen`
-- **Status:** open (slice 1 = docs-kader)
+- **Status:** kader gedaan; herindeling 2026-11-16 (groepen + volgorde). Geen ADR.
 
 ## Doel
 
@@ -21,24 +21,27 @@ Alle onderdelen van het persoonlijke totaalproduct (IDE → LLM) vastleggen in d
 - Research: `ideeen-en-vragen.md` (B-hypothese blijft)
 - Voorbeeld: [cursor-vervang-lagen](cursor-vervang-lagen.md)
 
-## Onderdelen (9 — jij had 1–6; 7–9 aangevuld)
+## Onderdelen
 
-| # | Spec |
-|---|------|
-| 1 | afgerond — [ide-shell](../../product/ide-shell.md), [ADR 0002](../../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
-| 2 | [onderdeel-fs-events](onderdeel-fs-events.md) |
-| 3 | [onderdeel-indexing](onderdeel-indexing.md) |
-| 4 | [onderdeel-tools](onderdeel-tools.md) |
-| 5 | [onderdeel-harness](onderdeel-harness.md) |
-| 6 | [onderdeel-llm](onderdeel-llm.md) |
-| 7 | [onderdeel-structure](onderdeel-structure.md) |
-| 8 | [onderdeel-agent-ui](onderdeel-agent-ui.md) |
-| 9 | [onderdeel-session-spine](onderdeel-session-spine.md) |
+Nummers blijven de laag-ids. Volgorde van beslissen: [totaalproduct.md](../../product/totaalproduct.md). Soort werk: af (Zed consumeren), import (bestaande software, geen onderzoekstraject), volgt import, onderzoek, ontwerp op de harness.
+
+| # | Soort | Spec |
+|---|-------|------|
+| 1 | af — host Zed | [ide-shell](../../product/ide-shell.md), [ADR 0002](../../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
+| 2 | af — host Zed | [fs-events](../../product/fs-events.md) (geen ADR) |
+| 8 | af — host Zed | [agent-ui](../../product/agent-ui.md), [onderdeel-agent-ui](onderdeel-agent-ui.md) (geen ADR) |
+| 5 | import — voorstel, nog geen ADR | [onderdeel-harness](onderdeel-harness.md) — DSH `acp`, geen fork |
+| 4 | volgt import | [onderdeel-tools](onderdeel-tools.md) |
+| 6 | volgt import | [onderdeel-llm](onderdeel-llm.md) — eigenaar DSH, niet Zed |
+| 3 | onderzoek | [onderdeel-indexing](onderdeel-indexing.md) |
+| 7 | ontwerp op harness | [onderdeel-structure](onderdeel-structure.md) |
+| 9 | ontwerp op harness | [onderdeel-session-spine](onderdeel-session-spine.md) |
 
 ## Slices
 
-1. **Kader** — totaalproduct.md + indexing.md + negen onderdeel-specs met open keuzes + BACKLOG/INDEX/PRODUCT.
-2. Per onderdeel: onderzoek → §/score → ADR (één tegelijk; start IDE of indexing naar voorkeur).
+1. **Kader** — totaalproduct.md + indexing.md + onderdeel-specs + BACKLOG/INDEX/PRODUCT.
+2. **Herindeling** — groepen hierboven; segment + bloat in totaalproduct; Agent-UI af; LLM niet als Zed-laag; DSH als voorstel zonder ADR.
+3. Verder per laag volgens de beslisvolgorde: ja op de harness-import, daarna indexing-contract (MCP), daarna structure en spine. Geen onderzoekstraject voor een laag die je importeert.
 
 ## Acceptatie
 
