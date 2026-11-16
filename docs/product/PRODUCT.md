@@ -21,14 +21,14 @@
 | 1 | IDE-shell | [ide-shell.md](ide-shell.md) | afgerond — [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
 | 2 | FS/events | [fs-events.md](fs-events.md) | afgerond — Zed-boom, geen eigen watcher (geen ADR) |
 | 8 | Agent-UI | [agent-ui.md](agent-ui.md) | afgerond — Zed Agent Panel via ACP (geen ADR) |
-| 5 | Harness | [harness.md](harness.md) | voorstel DSH-import — [onderdeel-harness](../work/specs/onderdeel-harness.md) |
-| 4 | Tools | [tools.md](tools.md) | volgt harness — [onderdeel-tools](../work/specs/onderdeel-tools.md) |
-| 6 | LLM | [llm.md](llm.md) | volgt harness (niet Zed) — [onderdeel-llm](../work/specs/onderdeel-llm.md) |
+| 5 | Harness | [harness.md](harness.md) | beslist — [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
+| 4 | Tools | [tools.md](tools.md) | deels — whitelist in [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md); T2/T3 open |
+| 6 | LLM | [llm.md](llm.md) | deels — default in [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md); L2/L3 open |
 | 3 | Indexing | [indexing.md](indexing.md) | onderzoek — [onderdeel-indexing](../work/specs/onderdeel-indexing.md) |
 | 7 | Structure | [structure.md](structure.md) | [onderdeel-structure](../work/specs/onderdeel-structure.md) |
 | 9 | Session/spine | [session-spine.md](session-spine.md) | [onderdeel-session-spine](../work/specs/onderdeel-session-spine.md) |
 
-Kern-domeinen (GLOSSARY-waarde): `indexing`, `structure`. Harness = geïmporteerde DSH (voorstel, nog geen ADR). Shell, FS en Agent-UI = Zed-host. LLM hoort bij die harness, niet bij Zed Agent. Overige = seams.
+Kern-domeinen (GLOSSARY-waarde): `indexing`, `structure`. Harness = geïmporteerde DSH ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)). Shell, FS en Agent-UI = Zed-host. LLM hoort bij die harness, niet bij Zed Agent. Overige = seams.
 
 ## Bewust niet
 

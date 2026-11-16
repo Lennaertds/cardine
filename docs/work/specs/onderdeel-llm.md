@@ -4,7 +4,7 @@
 > **Kaart:** [totaalproduct.md](../../product/totaalproduct.md)
 
 - **Item:** [BACKLOG.md](../BACKLOG.md)
-- **Status:** open — sluit mee met het ja op de harness; geen aparte “Zed-af”
+- **Status:** deels beslist — default en geen lokale inference in [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). L2 en L3 open.
 - **Product (bijhouden):** [../../product/llm.md](../../product/llm.md)
 - **Hypothese (jij):** DeepSeek default — prijs/kwaliteit; keys in `.env`; geen eigen inference. Route leeft in DSH (ACP `model`), niet in Zed’s modelkiezer.
 
@@ -34,13 +34,13 @@ L1 gaat mee in de ADR van H1/H2. De `.env.example` van een app komt pas na die A
 
 | # | Vraag | Opties | Blokkeert |
 |---|-------|--------|-----------|
-| L1 | Default provider? | DeepSeek / … | cost |
+| L1 | Default provider? | beslist — DeepSeek, key in `.env` | — |
 | L2 | Fallback-providers? | Kimi peer (§142) / Claude / geen | harness config |
 | L3 | Welk DeepSeek-model-id voor coding? | periodiek herijken via AA/radar | kwaliteit |
-| L4 | Local models later? | nee v1 / Ollama later | scope |
+| L4 | Local models later? | beslist — nee in v1 | — |
 | L5 | Logging: prompts redacteren? | verplicht (RULES) | security |
 
 ## Acceptatie (later)
 
-- [ ] L1 meegenomen in harness-ADR + `.env.example` (geen secrets)
+- [x] L1 meegenomen in [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). `.env.example` pas na een app (0001)
 - [ ] Harness kan ≥1 non-DeepSeek provider (anti-lock smoke)

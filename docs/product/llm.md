@@ -3,7 +3,7 @@
 > **Rol:** Bijhouden van BYOK-modelproviders — default, fallbacks, wat wél de machine verlaat.
 > **Niet hier:** werkplan ([onderdeel-llm](../work/specs/onderdeel-llm.md)); harness-routing ([harness.md](harness.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** volgt harness-voorstel · **Spec:** [onderdeel-llm](../work/specs/onderdeel-llm.md)
+**Stand:** default beslist in [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md); L2 en L3 open · **Spec:** [onderdeel-llm](../work/specs/onderdeel-llm.md)
 
 ## Wat de gebruiker kan
 
@@ -11,7 +11,7 @@
 
 ## Eigenaar
 
-Model, route en keys horen bij de harness (voorstel: DeepSeek Harness), niet bij Zed. Zed’s modelkiezer geldt voor Zed Agent; dat pad staat uit ([totaalproduct](totaalproduct.md)). DSH kiest het model via ACP (`session/set_config_option`). De spec blijft open tot een ja op de harness — dit is geen “LLM = Zed, af”.
+Model, route en keys horen bij DeepSeek Harness ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)), niet bij Zed. Zed’s modelkiezer geldt voor Zed Agent; dat pad staat uit ([totaalproduct](totaalproduct.md)). DSH kiest het model via ACP (`session/set_config_option`).
 
 ## Hypothese
 
@@ -21,11 +21,11 @@ DeepSeek als default, via de harness-config. Enige niet-lokale pad = provider HT
 
 | Onderwerp | Status | Notitie |
 |-----------|--------|---------|
-| Eigenaar | voorstel | DSH, niet Zed Agent |
-| Default provider L1 | open | neiging DeepSeek; sluit mee met harness-ja |
-| Fallbacks L2 | open | |
+| Eigenaar | beslist | DSH, niet Zed Agent — [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
+| Default provider L1 | beslist | DeepSeek; key in `.env` |
+| Fallbacks L2 | open | Kimi is de peer, niet dichtgezet |
 | Model-id coding L3 | open | periodiek via radar/AA; id komt uit upstream-docs van de harness |
-| Local/Ollama L4 | open | neiging: niet v1 |
+| Local/Ollama L4 | beslist | niet in v1 |
 | Prompt-redaction L5 | verplicht later | RULES |
 | `.env.example` | open | na harness-ADR |
 

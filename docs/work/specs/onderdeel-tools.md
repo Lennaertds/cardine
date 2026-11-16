@@ -4,7 +4,7 @@
 > **Kaart:** [totaalproduct.md](../../product/totaalproduct.md)
 
 - **Item:** [BACKLOG.md](../BACKLOG.md)
-- **Status:** open — volgt het DSH-voorstel; sluit mee met de harness-ADR
+- **Status:** deels beslist — whitelist, MCP en zoekpad in [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). T2 en T3 open.
 - **Product (bijhouden):** [../../product/tools.md](../../product/tools.md)
 - **Hypothese:** Geen eigen runtime. Toolset = DSH (read/edit/shell) + indexing-MCP. `bwrap` voor untrusted shell. Niet zelf een tool-runtime forken.
 
@@ -35,13 +35,13 @@ Het voorstel gaat mee in de ADR van H1/H2, of in een korte aanvulling als die AD
 
 | # | Vraag | Opties | Blokkeert |
 |---|-------|--------|-----------|
-| T1 | Tool-set eigendom? | harness-default / subset whitelist | security |
+| T1 | Tool-set eigendom? | beslist — DSH read/edit/shell + indexing-MCP | — |
 | T2 | Approval-model? | always ask / allowlist paths / auto in lab | UX |
 | T3 | Sandbox? | geen / bubblewrap / harness-builtin | Arch |
-| T4 | MCP: aan/uit v1? | voorstel: aan, alleen indexing-daemon | scope |
-| T5 | Indexing-tools vs generic `rg`? | verplicht via indexing-seam / beide | X1 |
+| T4 | MCP: aan/uit v1? | beslist — aan, alleen indexing-daemon | — |
+| T5 | Indexing-tools vs generic `rg`? | beslist — via indexing; `rg` is meet-fallback | — |
 
 ## Acceptatie (later)
 
-- [ ] Whitelist + approval vast in harness-ADR
+- [x] Whitelist in [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md); approval (T2) nog open
 - [ ] Geen secrets in tool-logs (RULES)

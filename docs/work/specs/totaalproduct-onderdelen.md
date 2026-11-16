@@ -30,7 +30,7 @@ Nummers blijven de laag-ids. Volgorde van beslissen: [totaalproduct.md](../../pr
 | 1 | af — host Zed | [ide-shell](../../product/ide-shell.md), [ADR 0002](../../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
 | 2 | af — host Zed | [fs-events](../../product/fs-events.md) (geen ADR) |
 | 8 | af — host Zed | [agent-ui](../../product/agent-ui.md), [onderdeel-agent-ui](onderdeel-agent-ui.md) (geen ADR) |
-| 5 | import — voorstel, nog geen ADR | [onderdeel-harness](onderdeel-harness.md) — DSH `acp`, geen fork |
+| 5 | import — beslist | [onderdeel-harness](onderdeel-harness.md) — DSH `acp`, geen fork ([ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)) |
 | 4 | volgt import | [onderdeel-tools](onderdeel-tools.md) |
 | 6 | volgt import | [onderdeel-llm](onderdeel-llm.md) — eigenaar DSH, niet Zed |
 | 3 | onderzoek | [onderdeel-indexing](onderdeel-indexing.md) |

@@ -7,7 +7,7 @@
 
 - **Herkomst:** *Cardine* is de Latijnse ablatief van *cardo* (de spil, het scharnier, de hoofdas waar een stad of constructie omheen is gebouwd). De ablatief drukt het middel en uitgangspunt uit: *"waarmee en vanuit waar alles scharniert"*.
 - **Filosofie:** Cardine probeert geen nieuwe alles-in-één editor te zijn, maar vormt het lichte, centrale scharnierpunt tussen een bestaande native editor (**Zed**), lokale project-indexing, strikte structuurregels (*Agent Engineering*) en externe LLM's (BYOK).
-- **Ontwerpprincipe:** Minimale overhead, volledige lokale controle, geen eigen IDE- of harness-fork. De meta-package koppelt upstream **Zed** en (voorstel) upstream **DeepSeek Harness**. Eigen werk is indexing en later structure/spine — niet de editor en niet de loop. Samenhang: [totaalproduct.md](../product/totaalproduct.md).
+- **Ontwerpprincipe:** Minimale overhead, volledige lokale controle, geen eigen IDE- of harness-fork. De meta-package koppelt upstream **Zed** en upstream **DeepSeek Harness** ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)). Eigen werk is indexing en later structure/spine — niet de editor en niet de loop. Samenhang: [totaalproduct.md](../product/totaalproduct.md).
 
 ## Gebruiker of klant
 
