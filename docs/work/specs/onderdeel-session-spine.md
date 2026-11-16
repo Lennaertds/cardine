@@ -4,7 +4,7 @@
 > **Kaart:** [totaalproduct.md](../../product/totaalproduct.md) · vorm: [ideeen A9](../../research/ideeen-en-vragen.md)
 
 - **Item:** [BACKLOG.md](../BACKLOG.md)
-- **Status:** open
+- **Status:** overgeslagen — [ADR 0005](../../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md). Geen `.agent/`.
 - **Product (bijhouden):** [../../product/session-spine.md](../../product/session-spine.md)
 - **Hypothese:** C′ — spine in `<cwd>/.agent/` (gitignore) + korte `status.md`; chat mag leeg na padwissel. Dit miste in je 1–6-lijst; Cursor-pijn §132.
 
@@ -31,12 +31,12 @@ Schrijf de conventie in de productdoc. Wordt het pad een regel in RULES, dan vra
 
 | # | Vraag | Opties | Blokkeert |
 |---|-------|--------|-----------|
-| P1 | Pad `.agent/` vs `.planning/`? | A9-voorstel `.agent/` | conventie |
-| P2 | Wat in JSONL vs status.md? | A8 dual | formaat |
-| P3 | Sync met harness session-id? | optioneel complement | H1 |
-| P4 | Promoten naar `make log` wanneer? | handmatig / einde slice | ritueel |
+| P1 | Pad `.agent/` vs `.planning/`? | overgeslagen | — |
+| P2 | Wat in JSONL vs status.md? | overgeslagen | — |
+| P3 | Sync met harness session-id? | overgeslagen — de DSH-sessie ís het gesprek | — |
+| P4 | Promoten naar `make log` wanneer? | blijft het bestaande ritueel | — |
 
 ## Acceptatie (later)
 
-- [ ] P1–P2 ADR of conventie in RULES/AGENTS
-- [ ] Padwissel-test: spine blijft bruikbaar
+- [x] Besluit: geen repo-spine — [0005](../../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md)
+- [x] Geen padwissel-test; er is geen spine om te testen

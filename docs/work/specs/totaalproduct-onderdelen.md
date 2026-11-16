@@ -35,13 +35,13 @@ Nummers blijven de laag-ids. Volgorde van beslissen: [totaalproduct.md](../../pr
 | 6 | volgt import | [onderdeel-llm](onderdeel-llm.md) — eigenaar DSH, niet Zed |
 | 3 | onderzoek | [onderdeel-indexing](onderdeel-indexing.md) |
 | 7 | ontwerp op harness | [onderdeel-structure](onderdeel-structure.md) |
-| 9 | ontwerp op harness | [onderdeel-session-spine](onderdeel-session-spine.md) |
+| 9 | overgeslagen | [onderdeel-session-spine](onderdeel-session-spine.md) — geen repo-spine ([ADR 0005](../../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md)) |
 
 ## Slices
 
 1. **Kader** — totaalproduct.md + indexing.md + onderdeel-specs + BACKLOG/INDEX/PRODUCT.
 2. **Herindeling** — groepen hierboven; segment + bloat in totaalproduct; Agent-UI af; LLM niet als Zed-laag; DSH als voorstel zonder ADR.
-3. Verder per laag volgens de beslisvolgorde: ja op de harness-import, daarna indexing-contract (MCP), daarna structure en spine. Geen onderzoekstraject voor een laag die je importeert.
+3. Verder per laag volgens de beslisvolgorde: ja op de harness-import, daarna indexing-contract (MCP), daarna structure. Spine is overgeslagen. Geen onderzoekstraject voor een laag die je importeert.
 
 ## Acceptatie
 

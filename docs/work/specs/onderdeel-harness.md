@@ -40,9 +40,9 @@ Eén stap per sessie. Uitkomst in [harness.md](../../product/harness.md). [ADR 0
 
 Ja op H1–H5: [ADR 0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). LLM-default en tool-whitelist gaan mee. Die ADR is geen runtime-keuze voor eigen code en maakt geen generator vrij.
 
-### Stap C — Smoke (na ja, niet nu)
+### Stap C — Smoke (pas bij een volledige applicatie)
 
-Zed start `dsh --profile acp` en mount één MCP. Faalt dat, dan pas Pi opnieuw als voorstel.
+Niet de volgende slice. Zodra er een applicatie is die getest kan worden: Zed start `dsh --profile acp` en mount één MCP. Faalt dat, dan pas Pi opnieuw als voorstel.
 
 ## Open beslissingen
 
@@ -58,4 +58,4 @@ Zed start `dsh --profile acp` en mount één MCP. Faalt dat, dan pas Pi opnieuw 
 
 - [x] Ja op H1 + H2, daarna ADR — [0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)
 - [x] Geen generators/`apps` in deze ADR ([0001](../../decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) blijft)
-- [ ] ACP-smoke: Zed start DSH en ziet één MCP-tool
+- [ ] ACP-smoke, pas bij een volledige applicatie: Zed start DSH en ziet één MCP-tool

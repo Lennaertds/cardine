@@ -54,6 +54,8 @@
   - [0001 — Runtime-stack uitgesteld tot Pi/TS-keuze](decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md)
   - [0002 — IDE-shell is upstream Zed, geen fork](decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)
   - [0003 — Agent-loop is upstream DeepSeek Harness, geen fork](decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)
+  - [0004 — Projectstandaard is dual: dunne AGENTS.md en harde make check](decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md)
+  - [0005 — Gesprek blijft de Zed- en DSH-sessie, zonder repo-spine](decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md)
 ## Werk — status (niet vooraf lezen)
 
 - [BACKLOG.md](work/BACKLOG.md) — Index van open werk (korte regel + link). Nieuw item: `make spec s=<slug>`.

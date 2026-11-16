@@ -48,4 +48,4 @@ De sandbox van shell (`bwrap` tegenover de sandbox van DSH) blijft open. Dat is 
 
 - **Makkelijker:** loop, sessie, tools en BYOK komen van upstream. Eigen werk blijft indexing, structure en spine.
 - **Moeilijker of risico:** preview en breaking changes. Het ACP-vlak kan te smal zijn voor diffs en approvals in Zed. Een falende smoke heropent dit besluit.
-- **Te doen:** de smoke (Zed start `dsh --profile acp` en ziet één MCP-tool) is de volgende slice, niet deze ADR. [0001](0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) blijft van kracht.
+- **Te doen:** de smoke (Zed start `dsh --profile acp` en ziet één MCP-tool) wacht tot er een volledige applicatie is. [0001](0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) blijft van kracht.

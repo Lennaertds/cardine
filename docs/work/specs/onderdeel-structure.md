@@ -4,7 +4,7 @@
 > **Kaart:** [totaalproduct.md](../../product/totaalproduct.md) · vorm: [ideeen A6–A7](../../research/ideeen-en-vragen.md)
 
 - **Item:** [BACKLOG.md](../BACKLOG.md)
-- **Status:** open
+- **Status:** beslist — [ADR 0004](../../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md). Hook-code pas met een applicatie.
 - **Product (bijhouden):** [../../product/structure.md](../../product/structure.md)
 - **Hypothese:** Dual — dunne `AGENTS.md` + harde `make check`/hooks (A6); check-ladder (A7). Dit miste in je 1–6-lijst.
 
@@ -16,27 +16,27 @@ Zorgt dat de agent (en jij) de **projectstandaard** volgt: RULES, seams, afronde
 
 Start als de harness-kandidaat bekend is, zodat de haken een plek hebben. Eén stap per sessie. Uitkomst in [structure.md](../../product/structure.md). Vorm blijft [A6–A7](../../research/ideeen-en-vragen.md). Geen hook-code in deze stappen.
 
-### Stap A — Dual en de ladder als zin
+### Stap A — Dual en de ladder als zin (gedaan)
 
 1. S1: bevestig dual. `AGENTS.md` blijft de kaart. Harde grenzen blijven in `make check` en [RULES.md](../../rules/RULES.md).
 2. S2: teken twee haken op de gekozen harness. Vóór een schrijf-tool geldt de pad-allowlist uit tools. Aan het eind van een slice draait `make check`.
 3. S3: schrijven blijft binnen die workspace-allowlist.
 4. S4: always-on is `AGENTS.md`, `RULES.md` en de productdoc van het onderdeel waar de slice over gaat. De rest wordt gelezen wanneer de slice ze raakt.
 
-### Stap B — ADR
+### Stap B — ADR (gedaan)
 
-Vraag ja op S1. In de productdoc staat daarna: een rode `make check` sluit de slice niet.
+Ja op S1: [ADR 0004](../../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md). Een rode `make check` sluit de slice niet.
 
 ## Open beslissingen
 
 | # | Vraag | Opties | Blokkeert |
 |---|-------|--------|-----------|
-| S1 | A6 dual → ADR? | ja wanneer harness bestaat | enforcement |
-| S2 | PreToolUse / Stop-hooks op `make check`? | harness-afhankelijk | H1 |
-| S3 | Pad-allowlist write? | streng lab / ruimer | tools |
-| S4 | Welke docs always-on vs JIT? | A8-vorm | tokens |
+| S1 | A6 dual → ADR? | beslist — [0004](../../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) | — |
+| S2 | Haken op DSH? | uitgewerkt — `tools/pre-execute` + `make check` aan slice-einde | — |
+| S3 | Pad-allowlist write? | uitgewerkt — workspace; T2 blijft open | — |
+| S4 | Welke docs always-on vs JIT? | uitgewerkt — AGENTS, RULES, productdoc van de slice | — |
 
 ## Acceptatie (later)
 
-- [ ] S1 ADR
-- [ ] Rood check = niet “klaar” (A7) meetbaar in loop
+- [x] S1 ADR — [0004](../../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md)
+- [ ] Rood check = niet “klaar” (A7) meetbaar in de loop, pas met een applicatie

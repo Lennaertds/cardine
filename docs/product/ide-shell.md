@@ -270,6 +270,21 @@ Het besluit staat in [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-o
 
 - [fs-events.md](fs-events.md) · [agent-ui.md](agent-ui.md) · [indexing.md](indexing.md) · [harness.md](harness.md)
 
+## Gemelde pijn (Reddit, 2026-11-16)
+
+Forum, niveau C. Geen werklijst en geen reden om te forken. Vier threads: [hype vs VS Code](https://www.reddit.com/r/vscode/comments/1thib4i/i_still_dont_understand_the_hype_around_zed_over/), [point of Zed](https://www.reddit.com/r/ZedEditor/comments/1kj1ih5/what_is_the_point_of_zed/), [subscription](https://www.reddit.com/r/ZedEditor/comments/1szb0nq/benefits_of_zed_subscription/), [disappointing](https://www.reddit.com/r/ZedEditor/comments/1u38eu4/zed_is_good_but_its_also_dissapointing/).
+
+- Grote tekstbestanden (log van gigabytes) hangen heel Zed; in VS Code hangt alleen die tab.
+- UI bij complex werk: meer panelen en filters voor iets dat in VS Code één actie is.
+- Workspace-zoeken opent een tab en toont niets tot je Enter drukt.
+- Git-paneel zonder staged/unstaged.
+- Verwijderd bestand kun je niet undo’en (discussie sinds 2024, [9143](https://github.com/zed-industries/zed/discussions/9143)).
+- Geen multi-root: één project is één map, en de language server draait dan per map.
+- Keybindings aanpassen voelt omslachtig.
+- Geen ingebouwde TODO/FIXME-markering.
+- AI-features en releases gaan sneller dan basis-editor-PR’s; het abonnement voegt weinig toe boven een eigen Claude- of Codex-sub. Iemand noemt dat Zed’s eigen ACP minder QoL heeft dan hun harness.
+- Geheugen: meldingen van meerdere GB op een groter project. Antwoorden wijten dat vooral aan de language server (JS/TS), niet aan de editor-binary.
+
 ## Bewust niet
 
 - Electron / VS Code-fork.

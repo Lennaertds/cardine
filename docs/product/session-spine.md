@@ -1,34 +1,33 @@
 # Session / spine
 
-> **Rol:** Bijhouden waar agent-voortgang leeft als chat of cwd wisselt — folder-spine i.p.v. alleen IDE-history.
-> **Niet hier:** werkplan ([onderdeel-session-spine](../work/specs/onderdeel-session-spine.md)); harness session-files; samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Rol:** Bijhouden waar het agent-gesprek leeft.
+> **Niet hier:** werkplan ([onderdeel-session-spine](../work/specs/onderdeel-session-spine.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** vorm (A9 C′) · **Spec:** [onderdeel-session-spine](../work/specs/onderdeel-session-spine.md) · detailvorm: [ideeen A9](../research/ideeen-en-vragen.md)
+**Stand:** overgeslagen · **ADR:** [0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md) · **Spec:** [onderdeel-session-spine](../work/specs/onderdeel-session-spine.md)
 
 ## Wat de gebruiker kan
 
-- Na map-/workspace-wissel nog weten wat geprobeerd/werkte — zonder dat Cursor-achtige chat-history aan het verkeerde pad hangt (§132).
+- Het gesprek hervatten in het Zed Agent Panel, via de DeepSeek Harness-sessie van deze workspace.
 
-## Hypothese
+## Besluit
 
-**C′:** spine in `<cwd>/.agent/` (gitignore): korte `status.md` + `ledger.jsonl`; chat mag leeg na padwissel. Harness-sessions (Pi/DSH) zijn complement, niet enige SoR.
+Geen repo-spine. Geen `.agent/`, geen `ledger.jsonl` in de werkmap. Het gesprek is het paneel en de DSH-sessie. Wat een slice blijvend moet vastleggen, gaat via `make log`.
+
+Een hernoemde of verplaatste map laat het gesprek bij het oude pad. Dat is hetzelfde als bij Cursor en Claude. Een koppeling die dat wél oplost, heropent [ADR 0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md).
 
 ## Stand van zaken
 
 | Onderwerp | Status | Notitie |
 |-----------|--------|---------|
-| Pad `.agent/` vs `.planning/` P1 | open | voorstel `.agent/` |
-| JSONL vs status.md P2 | open | A8 dual |
-| Sync harness session-id P3 | open | |
-| Promoten naar `make log` P4 | open | |
-| ADR / RULES-conventie | open | |
+| Repo-spine P1–P4 | overgeslagen | geen beter koppelmechanisme dan de pad-gebonden sessie |
+| `make log` | blijft | duurzame notitie aan het eind van een slice |
 
 ## Raakvlakken
 
-- Geschreven/gelezen door: [harness.md](harness.md), jij via IDE
-- Formaat: A8 · ritueel: `docs/work/logs/`
+- Gesprek: [agent-ui.md](agent-ui.md), [harness.md](harness.md)
+- Duurzaam: `docs/work/logs/`
 
 ## Bewust niet
 
-- Alleen IDE-chat als bron van waarheid.
+- Een tweede geheugen naast de harness-sessie.
 - Spine met secrets committen.
