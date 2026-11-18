@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# Strakkere kooi dan de DSH-bwrap-profiel. DSH geeft --ro-bind / / mee;
+# die regel maakt ~/.ssh leesbaar. Dit script leest die argumenten en
+# mount alleen /usr, /etc en de workspace. ADR 0007.
+set -euo pipefail
+
+binds=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --)
+      shift
+      break
+      ;;
+    --bind)
+      binds+=("$2" "$3")
+      shift 3
+      ;;
+    --ro-bind)
+      shift 3
+      ;;
+    --dev|--proc|--tmpfs)
+      shift 2
+      ;;
+    --unshare-pid|--die-with-parent)
+      shift
+      ;;
+    *)
+      echo "bwrap: cardine-bwrap begrijpt '$1' niet" >&2
+      exit 1
+      ;;
+  esac
+done
+
+if [[ $# -eq 0 ]]; then
+  echo "bwrap: cardine-bwrap kreeg geen commando" >&2
+  exit 1
+fi
+
+args=(
+  --ro-bind /usr /usr
+  --symlink usr/bin /bin
+  --symlink usr/lib /lib
+  --symlink usr/lib /lib64
+  --ro-bind /etc /etc
+  --dev /dev
+  --proc /proc
+  --unshare-pid
+  --die-with-parent
+  --tmpfs /tmp
+  --setenv PATH /usr/bin:/bin
+)
+
+declare -A made=()
+add_dirs() {
+  local path="$1"
+  local part=""
+  local IFS=/
+  local -a bits=()
+  read -r -a bits <<< "${path#/}"
+  for bit in "${bits[@]}"; do
+    part+="/$bit"
+    if [[ -z "${made[$part]+x}" ]]; then
+      args+=(--dir "$part")
+      made[$part]=1
+    fi
+  done
+}
+
+if [[ ${#binds[@]} -gt 0 ]]; then
+  for ((i = 0; i < ${#binds[@]}; i += 2)); do
+    src="${binds[$i]}"
+    dest="${binds[$((i + 1))]}"
+    # Ouders aanmaken, het doel zelf niet: --bind vult die.
+    parent="${dest%/*}"
+    if [[ -n "$parent" && "$parent" != "$dest" ]]; then
+      add_dirs "$parent"
+    fi
+    args+=(--bind "$src" "$dest")
+  done
+fi
+
+exec bwrap "${args[@]}" -- "$@"

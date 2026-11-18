@@ -167,6 +167,7 @@ Fallback Zoekt-only: **niet nodig**. SCIP-refs werkten na scip-python. Semantic 
 | X6 Embeddings | **nee v1** | semantic extra niet in smoke |
 | X7 Fork | **nee default** | Arch-pad: uv + setup.sh + npm-prefix; geen fork-blocker |
 | Smoke jarvis op Arch | **gedaan** | zie tabel hierboven |
+| Mount op `dsh --profile acp` | staat | `mcp__jarvis__*`. Verse ACP-start ziet de tools. Een al open Zed-thread niet. How-to: [zed-dsh](../how-to/zed-dsh.md) |
 
 ## Raakvlakken
 

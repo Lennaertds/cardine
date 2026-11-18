@@ -7,7 +7,7 @@
 
 ## Wat de gebruiker kan
 
-- Coding-agent via **eigen API-key**; default richting DeepSeek (prijs/kwaliteit); andere providers mogelijk zonder product-lock.
+- Op het pad Zed + DeepSeek Harness: coding-agent via **eigen API-key**; default DeepSeek (prijs/kwaliteit). Claude-in-Zed en ChatGPT-in-Zed kiezen hun model zelf ([ADR 0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md)).
 
 ## Eigenaar
 
@@ -27,7 +27,7 @@ DeepSeek als default, model-id `deepseek-flash`, via de harness-config ([ADR 000
 | Model-id coding L3 | beslist | `deepseek-flash`; nieuwer id via radar |
 | Local/Ollama L4 | beslist | niet in v1 |
 | Prompt-redaction L5 | verplicht later | RULES |
-| `.env.example` | later | pas met een applicatie (ADR 0001) |
+| `.env.example` | naam vast | `DEEPSEEK_API_KEY` in de root-example. De waarde hoort in `~/.dsh/.env` ([zed-dsh](../how-to/zed-dsh.md)) |
 
 ## Raakvlakken
 

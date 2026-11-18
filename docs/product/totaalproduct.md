@@ -1,7 +1,7 @@
 # Totaalproduct — persoonlijke stack
 
-> **Rol:** Hoe alle onderdelen **samenkomen** tot één lokaal solo-product (gedistribueerd als geversioneerde meta-package) dat Cursor op *jouw* workflow moet verslaan — niet op feature-pariteit.
-> **Niet hier:** detail per onderdeel (`product/<onderdeel>.md`); open-keuze-werkplannen (`docs/work/specs/onderdeel-*.md`); ADRs.
+> **Rol:** Hoe de onderdelen van het **lab-pad** samenkomen: Zed + DeepSeek Harness met een API-key, plus indexing en de structure uit Agent_Engineering. Die stapel op Arch Linux Hyprland is de eerstvolgende voltooiing ([ADR 0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md)). Het is één package uit [ADR 0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md), niet het hele product.
+> **Niet hier:** wat iemand meeneemt ([PRODUCT.md](PRODUCT.md)); detail per onderdeel (`product/<onderdeel>.md`); ADRs.
 
 Per onderdeel bijhouden → het productbestand in de tabel. Werk/beslissen → de gekoppelde spec.
 
@@ -86,9 +86,9 @@ flowchart LR
 | 7 | Structure | Ontwerp op harness · beslist | [structure.md](structure.md) | [ADR 0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) | Dunne `AGENTS.md` plus `make check` op DSH. Geen tweede prose-laag naast Zed Instructions. |
 | 9 | Session/spine | overgeslagen | [session-spine.md](session-spine.md) | [ADR 0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md) | Geen repo-spine. Gesprek = Zed-paneel + DSH-sessie. |
 
-**Distributie:**
+**Distributie van dit pad:**
 
-- **Meta-package:** installer + versie-manifest. Haalt Zed en DeepSeek Harness rechtstreeks van upstream (geen forks).
+- **Package “Zed + DeepSeek Harness”:** installer + versie-manifest. Haalt Zed en DeepSeek Harness rechtstreeks van upstream (geen forks). De andere packages staan in [ADR 0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md).
 - **Eigen werk:** de index als apart proces, plus later de structure-haak. Niet de IDE, niet de agent-loop, geen repo-spine.
 - **Isolatie:** Zed en `dsh` draaien als upstream-processen. Shell en package-install (`npm` / `pip`) lopen onder `bwrap` met alleen de workspace ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)).
 

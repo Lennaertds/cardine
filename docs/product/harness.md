@@ -31,6 +31,7 @@ Pi komt alleen terug als een latere ACP-smoke faalt (Zed start DSH niet, of MCP 
 | Indexing als plugin vs MCP H4 | beslist | Externe MCP uit het indexing-contract |
 | Upstream vs fork H5 | beslist | Upstream volgen; fork vraagt een latere ja |
 | ADR / apps-code | import beslist | [0001](../decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) blijft: geen `apps/` |
+| Lab-install | staat | Pin `0.2.2-rc.1`, Zed-koppeling, key en jarvis-mount: [zed-dsh](../how-to/zed-dsh.md). Een al open Zed-thread ziet de tool nog niet |
 
 ## Raakvlakken
 

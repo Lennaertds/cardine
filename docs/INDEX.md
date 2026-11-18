@@ -46,6 +46,7 @@
 - [deps-audit.md](how-to/deps-audit.md) — `make deps-audit` en audit-tools.
 - [native-ci.md](how-to/native-ci.md) — Soft vs `NATIVE_STRICT` / `check-full` / `native.yml`.
 - [radar.md](how-to/radar.md) — Tech-radar herzien (`make radar-reminder` / `radar-check`).
+- [zed-dsh.md](how-to/zed-dsh.md) — Zed + DeepSeek Harness + API-key op het lab-pad.
 - [digest.md](how-to/digest.md) — Digest fetch/propose (`digest-check` / `digest-fetch` / `digest-propose`).
 ## Besluiten — waarom het zo is
 
@@ -58,7 +59,12 @@
   - [0005 — Gesprek blijft de Zed- en DSH-sessie, zonder repo-spine](decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md)
   - [0006 — Agent zoekt via jarvis; Zed-zoeken en LSP blijven](decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md)
   - [0007 — Workspace-allowlist, shell onder bwrap](decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)
-  - [0008 — Coding-model is deepseek-flash, Claude is de tweede](decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md)
+  - [0008 — Coding-model is deepseek-flash, Claude is de tweede](decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) — geldt voor het API-key-pad
+  - [0009 — Product is de gratis projectstructuur en een gids](decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md)
+  - [0010 — Meta-package wijst naar losse packages en drie Zed-paden](decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md)
+  - [0011 — Stack volgt op beslissingsdocs en een catalogus](decisions/0011-de-stack-volgt-op-beslissingsdocs-en-een-goedkeuring-tegen-een-catalogus.md)
+  - [0012 — Eerst de persoonlijke stack op Arch Linux Hyprland](decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md)
+  - [0013 — Cardine is het publieke uithangbord en pullt de structure](decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)
 ## Werk — status (niet vooraf lezen)
 
 - [BACKLOG.md](work/BACKLOG.md) — Index van open werk (korte regel + link). Nieuw item: `make spec s=<slug>`.

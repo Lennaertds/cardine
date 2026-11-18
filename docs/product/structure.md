@@ -25,8 +25,8 @@ De harness is DeepSeek Harness ([ADR 0003](../decisions/0003-de-agent-loop-is-up
 | Onderwerp | Status | Notitie |
 |-----------|--------|---------|
 | Dual → ADR S1 | beslist | [ADR 0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) |
-| Schrijfhaken + slice-einde S2 | beslist | `tools/pre-execute` en einde slice; geen code |
-| Write allowlist S3 | beslist | workspace-allowlist — [ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) |
+| Schrijfhaken + slice-einde S2 | staat | `agent/turn-stopping` draait `make check`. Lege CHECK stuurt niet. How-to: [zed-dsh](../how-to/zed-dsh.md) |
+| Write allowlist S3 | staat | workspace-allowlist — [ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) |
 | Always-on vs JIT docs S4 | beslist | drie always-on, rest JIT |
 | `product/structure` gedragstests | later | na een applicatie |
 
@@ -34,7 +34,7 @@ De harness is DeepSeek Harness ([ADR 0003](../decisions/0003-de-agent-loop-is-up
 
 - Afgedwongen in: [harness.md](harness.md), [tools.md](tools.md)
 - Geprioriteerd in retrieval: [indexing.md](indexing.md)
-- Bronstandaard: Agent_Engineering (read-only)
+- Bronstandaard: Agent_Engineering (read-only). Daar wordt de structure bijgewerkt. Cardine pullt die later en kopieert hem niet ([ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md))
 
 ## Bewust niet
 

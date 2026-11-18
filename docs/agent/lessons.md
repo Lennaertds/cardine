@@ -5,4 +5,4 @@
 
 | Datum | Wat misliep | Les |
 |-------|-------------|-----|
-| <YYYY-MM-DD> | <De agent herschreef een ADR in plaats van een nieuwe te maken> | <ADR's nooit wijzigen; staat nu in AGENTS.md § Nooit> |
+| 2026-11-17 | Uitgesproken keuzes bleven in de chat of in productproza (“geen ADR”) | Een uitgesproken keuze wordt in dezelfde beurt een ADR. Staat in [AGENTS.md](../../AGENTS.md) § Werken |

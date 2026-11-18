@@ -58,4 +58,4 @@ Niet de volgende slice. Zodra er een applicatie is die getest kan worden: Zed st
 
 - [x] Ja op H1 + H2, daarna ADR — [0003](../../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)
 - [x] Geen generators/`apps` in deze ADR ([0001](../../decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) blijft)
-- [ ] ACP-smoke, pas bij een volledige applicatie: Zed start DSH en ziet één MCP-tool
+- [ ] ACP-smoke in een nieuwe Zed-thread: die ziet `mcp__jarvis__searchCode`. De mount staat; threads van vóór de insert niet

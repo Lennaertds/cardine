@@ -5,7 +5,7 @@
 
 ## Systeemcontext
 
-Lab-eerst / persoonlijk totaalproduct: lichte IDE-shell + indexing + harness + structure (kaart: [totaalproduct.md](../product/totaalproduct.md)). Externe systemen: Agent_Engineering (kit + bron, alleen lezen/verwijzen), en LLM-providers via **eigen** API-keys (richting DeepSeek om kosten; andere keys toegestaan). Geen prod-hosting in de labfase; tot productisatie mag het **alleen voor de solo-gebruiker** werken.
+Het product is de projectstructuur plus een gids ([PRODUCT.md](../product/PRODUCT.md), [ADR 0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md)). Deze pagina beschrijft de containers van het lab-pad: Zed + DeepSeek Harness met een API-key ([totaalproduct.md](../product/totaalproduct.md)). Externe systemen: Agent_Engineering (kit + bron, alleen lezen en verwijzen) en, op dit pad, LLM-providers via eigen API-keys. Geen prod-hosting in de labfase.
 
 ## Containers
 
@@ -43,7 +43,7 @@ Extra taal / native hot path (Rust, C, …): niet in deze tabel zetten zonder AD
 
 - Geen overname van data/secrets uit andere projecten.
 - Lab-artefacten (experimentoutput, index-cache): onder `data/` volgens [data/README.md](../../data/README.md); raw/runtime nooit in git of antwoorden.
-- Agent_Engineering: alleen lezen/verwijzen; deze repo schrijft daar niet naartoe via de harness (mens commit §’s in bron).
+- Agent_Engineering: alleen lezen/verwijzen; deze repo schrijft daar niet naartoe via de harness (mens commit §’s in bron). De publieke structure-package pullt die bron en kopieert de standaard niet ([ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)).
 
 ## Hosting en poorten
 

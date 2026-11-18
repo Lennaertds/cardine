@@ -34,7 +34,8 @@ PORTS :=
 	    data seed db-reset adr spec log meeting experiment docs-health clean \
 	    security-scan security-scan-quick obs-up obs-down obs-status \
 	    bench perf-check deps-audit polyglot-check radar-check radar-reminder \
-	    digest-check digest-reminder digest-fetch digest-propose digest-week native-bindings-strict
+	    digest-check digest-reminder digest-fetch digest-propose digest-week native-bindings-strict \
+	    install-lab
 
 ##@ Starten
 help: ## dit overzicht
@@ -239,6 +240,26 @@ docs-health: links ## onderhoud: dode links, lengte van de AGENTS.md-bestanden, 
 	@git ls-files 'docs/*.md' 2>/dev/null | while read -r file; do \
 	  echo "$$(git log -1 --format=%cs -- "$$file")  $$file"; \
 	done | sort | head -n 15 || true
+
+context: ## startcontext in één keer tonen: make context [s=<slug>]
+	@echo "=== RULES ===" && cat docs/rules/RULES.md
+	@echo "\n=== BACKLOG ===" && cat docs/work/BACKLOG.md
+	@if [ -n "$(s)" ] && [ -f "docs/work/specs/$(s).md" ]; then \
+		echo "\n=== SPEC: $(s) ===" && cat "docs/work/specs/$(s).md"; \
+	fi
+
+finish: check ## afronden in één call: make finish m="aanleiding · bestanden · test · rest · item"
+	@test -n "$(m)" || { echo 'gebruik: make finish m="aanleiding · bestanden · test · rest · item"' >&2; exit 1; }
+	@file=$$($(MAKE) -s log); \
+	awk -v entry="- $(m)" ' \
+		/^## Gedaan/ { print; print ""; print entry; added=1; next } \
+		{ print } \
+		END { if (!added) print "\n## Gedaan\n\n" entry } \
+	' "$$file" > "$$file.tmp" && mv "$$file.tmp" "$$file"
+	@echo "Gelogd in $$file"
+
+install-lab: ## lab-omgeving opzetten op een verse Arch Linux Hyprland-machine (scripts/install-lab.sh)
+	@bash scripts/install-lab.sh
 
 ##@ Opruimen
 clean: $(CLEAN) ## build-output, tmp/ en data/interim/ leegmaken

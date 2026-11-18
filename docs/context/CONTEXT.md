@@ -6,30 +6,30 @@
 ## Naam & Filosofie (Cardine)
 
 - **Herkomst:** *Cardine* is de Latijnse ablatief van *cardo* (de spil, het scharnier, de hoofdas waar een stad of constructie omheen is gebouwd). De ablatief drukt het middel en uitgangspunt uit: *"waarmee en vanuit waar alles scharniert"*.
-- **Filosofie:** Cardine probeert geen nieuwe alles-in-één editor te zijn, maar vormt het lichte, centrale scharnierpunt tussen een bestaande native editor (**Zed**), lokale project-indexing, strikte structuurregels (*Agent Engineering*) en externe LLM's (BYOK).
-- **Ontwerpprincipe:** Minimale overhead, volledige lokale controle, geen eigen IDE- of harness-fork. De meta-package koppelt upstream **Zed** en upstream **DeepSeek Harness** ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)). Eigen werk is indexing en later structure/spine — niet de editor en niet de loop. Samenhang: [totaalproduct.md](../product/totaalproduct.md).
+- **Filosofie:** Cardine bouwt geen editor. Het scharnier is de projectstructuur, met een gids naar de editor en de agent die iemand al heeft. Vorm: [PRODUCT.md](../product/PRODUCT.md), [ADR 0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md).
+- **Ontwerpprincipe:** De structuur is gratis en apart te installeren. Zed en DeepSeek Harness blijven upstream op het lab-pad ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)). Dat pad staat in [totaalproduct.md](../product/totaalproduct.md).
 
 ## Gebruiker of klant
 
 **Nu:** solo-ontwikkelaar (Ventje) — lokaal lab, plus later een thesis-lezer die metingen en keuzes moet kunnen volgen.
 
-**Later (als het lab echt goed is):** dezelfde tool als portfolio-stuk en als gratis applicatie voor vrienden en hobbyisten — via de meta-package die upstream-stukken pint. Vorm van het eigen stuk (index) blijft een productisatie-keuze. Geen betalende SaaS of cloud-afhankelijkheid als uitgangspunt.
+**Later:** dezelfde structuur, gratis, voor wie een project start of een bestaand project herschikt. De gids wijst naar Claude in Zed, ChatGPT in Zed, of Zed met een API-key. Geen betalende SaaS. Publiceren wacht tot de labfase dat toelaat ([RULES.md](../rules/RULES.md)).
 
 ## Probleem
 
-Bestaande IDE’s en agent-tools (bv. Cursor) koppelen slecht of niet-reproduceerbaar aan een strakke projectstandaard (spoor 1 kit + spoor 2 bron in Agent_Engineering). Cursor als VS Code-fork draagt bovendien Electron- en feature-overhead die jij niet nodig hebt. Er ontbreekt een *lichte*, lokaal meetbare stack (IDE-shell + indexing + harness + structure) die wél op *jouw* workflow past.
+Een nieuw project begint leeg, en een bestaand project heeft zijn docs en mappen niet op een plek waar mens en agent ze allebei vinden. Mensen schrijven die tekst zelden zelf, en een model kiest dan de populairste stack. De ontbrekende laag is een structuur die al klaarstaat, plus een gids naar de editor en het abonnement die iemand al heeft.
 
 ## Doel en wat succes is
 
-- **Lab / persoonlijk product (nu):** lokaal (op Arch/Hyprland) een stack die *voor jou* productiever is dan Cursor — lage overhead, Zed als non-Electron host, BYOK-LLM (DeepSeek/Claude), indexing op jouw use-case, standaard afgedwongen. Kaart: [totaalproduct.md](../product/totaalproduct.md).
-- **Thesis:** later toetsbaar doel op hetzelfde lab (diepte elders).
-- **Product (toekomst, voorwaardelijk):** als kwaliteit het waard is → portfolio én gratis release via de meta-package — pas na expliciete productisatie-keuze; tot die tijd mag het **alleen voor jou** werken. Welk stuk eigen code is en of dat closed is: die keuze is nog niet gemaakt.
-- Geen stack/implementatie vastleggen tot expliciete ADR — tot die tijd docs + open keuzes in onderdeel-specs.
+- **Lab (nu):** de persoonlijke applicatie werkend op Arch Linux Hyprland: Zed + DeepSeek Harness + indexing + de structure uit Agent_Engineering ([ADR 0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md)). Kaart: [totaalproduct.md](../product/totaalproduct.md).
+- **Thesis:** later toetsbaar doel op hetzelfde lab.
+- **Product:** Cardine als publiek uithangbord — packages en guides — dat de structure uit Agent_Engineering pullt ([ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)). De vorm is [ADR 0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md). Publiceren pas nadat de persoonlijke stapel werkt.
+- Geen stack-generator tot de gebruiker een voorstel uit de catalogus goedkeurt ([ADR 0011](../decisions/0011-de-stack-volgt-op-beslissingsdocs-en-een-goedkeuring-tegen-een-catalogus.md)). [0001](../decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) blijft voor eigen app-code.
 
 ## Scope
 
 - Domeinen: `harness`, `structure`, `indexing` (en hun scharnierwerking met `ide-shell` Zed, `fs-events`, `tools`, `llm`, `agent-ui` en `session-spine` — zie [GLOSSARY.md](GLOSSARY.md) en [PRODUCT.md](../product/PRODUCT.md)).
-- Spoor 3 in het drie-sporenmodel: runtime/IDE/harness-experiment; kennis en standaard blijven in Agent_Engineering.
+- Spoor 3 in het drie-sporenmodel: nu de persoonlijke stapel op Arch Linux Hyprland; later het uithangbord dat packages en guides samenbrengt en de structure uit Agent_Engineering pullt ([ADR 0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md), [ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)). Kennis en standaard blijven in Agent_Engineering.
 - **Talen:** stack-talen staan in [ARCHITECTURE.md](../architecture/ARCHITECTURE.md) — daar nog open tot ADR-keuze (met sterke voorkeur voor native compilation naar één static binary zoals Rust/Go). Extra systemstalen voor hot paths: toegestaan na meting + ADR — zie [polyglot.md](../architecture/polyglot.md).
 
 ## Bewust niet
