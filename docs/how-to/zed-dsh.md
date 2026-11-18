@@ -13,14 +13,22 @@ make install-lab
 
 Het script in `scripts/install-lab.sh`:
 
-1. Checkt of `zeditor`, `bwrap`, `node` (≥ 24.9) en `jarvis-server` aanwezig zijn.
-2. Installeert `@deepseek-ai/dsh@0.2.2-rc.1` via npm als die versie nog niet staat.
-3. Genereert `~/.dsh/profiles/acp/cordis.patch.yml` met DeepInfra-provider, jarvis MCP, sandbox-beleid en slice-check.
-4. Voegt het agent-server-profiel "DeepSeek Harness" toe aan `~/.config/zed/settings.json`.
-5. Maakt `~/.dsh/.env` aan met `DEEPSEEK_API_KEY=` (chmod 600) — overschrijft nooit een bestaande key.
-6. Eindigt met een duidelijke melding dat je alleen nog je DeepInfra API-key hoeft in te vullen.
+1. **Arch-dependencies** via `sudo pacman -S --needed --noconfirm` (alleen als sudo beschikbaar is):
+   - `zed` of `zeditor` — als `zeditor` niet op PATH staat
+   - `bubblewrap` — als `bwrap` niet op PATH staat
+   - `nodejs` + `npm` — als node ontbreekt of < 24.9 is
+   - `uv` (Python package manager) — als uv ontbreekt
+   - `jq` — als jq ontbreekt
+   - `base-devel` + `go` — als build-tools ontbreken (nodig voor Zoekt/SCIP)
+2. **Node ≥ 24.9** — als pacman een te oude versie heeft, probeert het script via `fnm`, `nvm` of `n` als die geïnstalleerd zijn.
+3. **jarvis-server** — via `uv tool install --python 3.13 jarvis-mcp` en daarna `setup.sh --only zoekt --only scip` voor Zoekt/SCIP (bouwt Rust- en Go-binaries).
+4. **DeepSeek Harness** (`@deepseek-ai/dsh@0.2.2-rc.1`) via npm als die versie nog niet staat.
+5. **DSH ACP-profiel** in `~/.dsh/profiles/acp/cordis.patch.yml` met DeepInfra-provider, jarvis MCP, sandbox-beleid en slice-check.
+6. **Zed-configuratie** in `~/.config/zed/settings.json` (JSONC-veilig, behoudt bestaande instellingen).
+7. **Credentials** in `~/.dsh/.env` met `DEEPSEEK_API_KEY=` (chmod 600) — overschrijft nooit een bestaande key.
+8. Eindigt met een duidelijke melding dat je alleen nog je DeepInfra API-key hoeft in te vullen.
 
-**Let op:** `make install-lab` installeert geen systeempakketten (pacman/flatpak) voor ontbrekende tools. Het checkt alleen of ze op PATH staan. Installeer ontbrekende tools eerst handmatig en draai het script opnieuw.
+**Idempotent:** een tweede run slaat alles over wat al aanwezig en up-to-date is. Ontbrekende tools worden alleen geïnstalleerd als sudo beschikbaar is; in een sandbox/container zonder sudo krijg je duidelijke instructies voor handmatige installatie.
 
 ## Handmatige installatie
 
