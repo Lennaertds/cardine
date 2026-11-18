@@ -14,12 +14,10 @@ DSH_ENV_FILE="${HOME}/.dsh/.env"
 DSH_PROFILE_DIR="${HOME}/.dsh/profiles/acp"
 ZED_SETTINGS="${HOME}/.config/zed/settings.json"
 
-# Bepaal repo-root (waar deze script in scripts/ staat)
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
-# Helper: groen/rood/geel
-green() { tput setaf 2 2>/dev/null || true; echo "$*"; tput sgr0 2>/dev/null || true; }
-red()   { tput setaf 1 2>/dev/null || true; echo "$*" >&2; tput sgr0 2>/dev/null || true; }
+green()  { tput setaf 2 2>/dev/null || true; echo "$*"; tput sgr0 2>/dev/null || true; }
+red()    { tput setaf 1 2>/dev/null || true; echo "$*" >&2; tput sgr0 2>/dev/null || true; }
 yellow() { tput setaf 3 2>/dev/null || true; echo "$*"; tput sgr0 2>/dev/null || true; }
 
 ###############################################################################
@@ -41,14 +39,12 @@ check_tool() {
     fi
 }
 
-check_tool "zeditor" "zeditor" "Installeer bv. via pacman -S zeditor of flatpak"
+check_tool "zeditor" "zeditor" "pacman -S zed / zeditor"
 check_tool "bwrap"   "bwrap"   "pacman -S bubblewrap"
 check_tool "node"    "node"
 
-# Node-versie ≥ 24.9
 if command -v node &>/dev/null; then
     NODE_VER="$(node --version | sed 's/^v//')"
-    # Vergelijk major.minor
     NODE_MAJOR="${NODE_VER%%.*}"
     NODE_MINOR="${NODE_VER#*.}"
     NODE_MINOR="${NODE_MINOR%%.*}"
@@ -60,11 +56,10 @@ if command -v node &>/dev/null; then
     fi
 fi
 
-# jarvis-server
 if [ -x "$JARVIS_BIN" ]; then
     green "  ✓ jarvis-server ($JARVIS_BIN)"
 else
-    red "  ✗ jarvis-server — niet gevonden op $JARVIS_BIN. Installeer via het jarvis-setup-script."
+    red "  ✗ jarvis-server — niet gevonden op $JARVIS_BIN"
     MISSING=1
 fi
 
@@ -84,7 +79,6 @@ if [ -x "$DSH_BIN" ]; then
     INSTALLED_DSH="$("$DSH_BIN" --version 2>/dev/null || true)"
 fi
 
-# Check of de juiste versie geïnstalleerd is (kijk naar @0.2.2-rc.1)
 if echo "$INSTALLED_DSH" | grep -q "0.2.2-rc.1"; then
     green "  ✓ dsh $INSTALLED_DSH al geïnstalleerd"
 else
@@ -125,101 +119,150 @@ echo "=== DSH ACP-profiel ==="
 
 mkdir -p "$DSH_PROFILE_DIR"
 
-# Dynamische paden
-DASH_SLICE_CHECK="${REPO_ROOT}/scripts/cardine-slice-check"
-DASH_BWRAP="${REPO_ROOT}/scripts/cardine-bwrap"
-
 cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
-# Gegenereerd door install-lab.sh — overschrijf niet handmatig.
-# Provider: DeepInfra, model deepseek-ai/DeepSeek-V4-Flash.
+# Gegenereerd door install-lab.sh — DeepSeek V4 Flash via DeepInfra (ADR 0008).
+- id: llm-pi-ai
+  config:
+    providers:
+      deepinfra:
+        baseURL: https://api.deepinfra.com/v1/openai
+        api: openai-completions
+        apiKeyEnv: DEEPSEEK_API_KEY
+        models:
+          - id: deepseek-ai/DeepSeek-V4-Flash
+            name: DeepSeek V4 Flash (DeepInfra)
 
-llm-pi-ai:
-  -
+- id: acp
+  config:
     provider: deepinfra
-    baseURL: "https://api.deepinfra.com/v1/openai"
-    api: openai-completions
-    apiKeyEnv: DEEPSEEK_API_KEY
     model: deepseek-ai/DeepSeek-V4-Flash
 
-acp:
-  agent-default-model:
+- id: agent-default-model
+  config:
     provider: deepinfra
     model: deepseek-ai/DeepSeek-V4-Flash
 
-tool-web:
+- id: tool-web
   disabled: true
 
-mcp-jarvis:
-  plugin: "@deepseek-ai/dsh-mcp-client"
-  command: "${HOME}/.local/bin/jarvis-server"
-  cwd: "${REPO_ROOT}"
-  env:
-    PATH: "${HOME}/.jarvis/bin:${PATH}"
+# jarvis op het agent-pad (ADR 0006). Tools heten mcp__jarvis__<naam>.
+- insert:
+    - id: mcp-jarvis
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: jarvis
+        transport: stdio
+        command: ${HOME}/.local/bin/jarvis-server
+        cwd: ${REPO_ROOT}
+        env:
+          PATH: ${HOME}/.jarvis/bin:${HOME}/.local/bin:/usr/bin:/bin
+        failOnStartupError: true
 
-sandbox-policy:
-  mode: "workspace-write"
+# Workspace-allowlist (ADR 0007).
+- id: sandbox-policy
+  config:
+    mode: workspace-write
+    workspaceRoot: !!js process.cwd()
 
-approval:
-  mode: "ask"
+- id: approval
+  config:
+    policy: ask
 
-sandbox:
-  plugin: "@deepseek-ai/dsh-sandbox-bubblewrap"
-  runner: "${DASH_BWRAP}"
+# Shell onder onze bwrap.
+- id: sandbox
+  config:
+    runnerCommand:
+      - ${REPO_ROOT}/scripts/cardine-bwrap
+    runnerFailureSignatures:
+      - 'bwrap: '
 
-cardine-slice-check:
-  plugin: "@deepseek-ai/dsh-slice-check"
-  runner: "${DASH_SLICE_CHECK}"
+# make check aan het einde van een turn.
+- insert:
+    - id: slice-check
+      name: cardine-slice-check
 PATCHEOF
 
 green "  ✓ ${DSH_PROFILE_DIR}/cordis.patch.yml gegenereerd"
 
 ###############################################################################
-# Zed-configuratie ~/.config/zed/settings.json
+# Zed-configuratie ~/.config/zed/settings.json (JSONC-veilig)
 ###############################################################################
 echo ""
 echo "=== Zed-configuratie ==="
 
 mkdir -p "$(dirname "$ZED_SETTINGS")"
 
-# Gebruik node om settings.json te patchen (behoudt bestaande user-settings)
 NODE_SCRIPT='
 const fs = require("fs");
-const path = require("path");
 const filePath = process.argv[1];
-const home = process.env.HOME;
-const dshPath = home + "/.local/bin/dsh";
+const dshPath = process.env.HOME + "/.local/bin/dsh";
+
+function stripJsonc(text) {
+    let out = "";
+    let inString = false;
+    let escaped = false;
+    for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        const next = text[i + 1];
+        if (inString) {
+            out += c;
+            if (escaped) { escaped = false; }
+            else if (c === "\\") { escaped = true; }
+            else if (c === "\"") { inString = false; }
+        } else if (c === "\"") {
+            inString = true;
+            out += c;
+        } else if (c === "/" && next === "/") {
+            while (i < text.length && text[i] !== "\n") i++;
+            out += "\n";
+        } else if (c === "/" && next === "*") {
+            i += 2;
+            while (i < text.length && !(text[i] === "*" && text[i + 1] === "/")) i++;
+            i++;
+        } else {
+            out += c;
+        }
+    }
+    return out.replace(/,\s*([}\]])/g, "$1");
+}
 
 let settings = {};
 if (fs.existsSync(filePath)) {
-    try {
-        settings = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    } catch (e) {
-        console.error("Fout bij lezen " + filePath + ": " + e.message + " — start met leeg object");
-        settings = {};
+    const raw = fs.readFileSync(filePath, "utf-8").trim();
+    if (raw.length > 0) {
+        try {
+            settings = JSON.parse(stripJsonc(raw));
+        } catch (e) {
+            console.error("Fout bij parsen van " + filePath + ": " + e.message);
+            console.error("Afgebroken om bestaande Zed-instellingen te beschermen.");
+            process.exit(1);
+        }
     }
 }
 
-if (!settings.agent_servers) {
+if (!settings.agent_servers || typeof settings.agent_servers !== "object") {
     settings.agent_servers = {};
 }
 
 const key = "DeepSeek Harness";
+const existing = settings.agent_servers[key] || {};
 settings.agent_servers[key] = {
-    "type": "custom",
-    "command": dshPath,
-    "args": ["--profile", "acp"],
-    "env": {
-        "DSH_TELEMETRY_MODE": "OFF"
+    ...existing,
+    default_config_options: existing.default_config_options || { reasoning_effort: "medium" },
+    type: "custom",
+    command: dshPath,
+    args: ["--profile", "acp"],
+    env: {
+        ...(existing.env || {}),
+        DSH_TELEMETRY_MODE: "OFF"
     }
 };
 
 fs.writeFileSync(filePath, JSON.stringify(settings, null, 2) + "\n", "utf-8");
-console.log("✓ agent-server \"" + key + "\" ingesteld in " + filePath);
+console.log("  ✓ agent-server \"" + key + "\" ingesteld in " + filePath);
 '
 
 node -e "$NODE_SCRIPT" "$ZED_SETTINGS"
-
-green "  ✓ $ZED_SETTINGS bijgewerkt"
 
 ###############################################################################
 # Gereed
@@ -229,19 +272,11 @@ echo "============================================================"
 green "  install-lab — klaar!"
 echo "============================================================"
 echo ""
-echo "Nog één handmatige stap:"
+echo "Nog één handmatige stap (als je key nog leeg is):"
 echo ""
 echo "  1. Open ~/.dsh/.env en vul je DeepInfra API-key in:"
 echo ""
 echo "       DEEPSEEK_API_KEY=sk-..."
 echo ""
-echo "  2. Herlaad Zed en start een nieuwe thread 'DeepSeek Harness'"
-echo "     in het Agent-paneel."
-echo ""
-echo "  3. Optioneel: indexeer deze repo met:"
-echo ""
-echo "       cd ${REPO_ROOT}"
-echo "       ~/.local/bin/jarvis index"
-echo ""
-echo "Het lab-pad is nu klaar. Veel succes!"
+echo "  2. Start in Zed een nieuwe thread 'DeepSeek Harness' in het Agent-paneel."
 echo ""
