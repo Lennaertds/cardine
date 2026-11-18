@@ -80,19 +80,30 @@ acp:
     model: deepseek-ai/DeepSeek-V4-Flash
 ```
 
-### Zed
+### Zed 1.28+ — `env.PATH` voor agent_servers
 
-In `~/.config/zed/settings.json`, onder `agent_servers`:
+In een grafische Wayland/Hyprland-sessie staat `~/.local/bin` en `~/.jarvis/bin` niet
+standaard in het `PATH` van Zed. Voeg daarom `PATH` expliciet toe onder `env`:
 
 ```json
 "DeepSeek Harness": {
   "type": "custom",
   "command": "/home/ventje/.local/bin/dsh",
-  "args": ["--profile", "acp"]
+  "args": ["--profile", "acp"],
+  "env": {
+    "PATH": "/home/ventje/.jarvis/bin:/home/ventje/.local/bin:/usr/bin:/bin"
+  }
 }
 ```
 
-Zed leest die wijziging zelf. In het Agent-paneel start je een thread **DeepSeek Harness**.
+Zed leest die wijziging zelf. In het Agent-paneel start je een thread via
+**...** → **New DeepSeek Harness Thread** (Zed 1.28+) of door **DeepSeek Harness**
+te selecteren in de agent-kiezer.
+
+> **Let op:** Het `env.PATH`-veld is noodzakelijk omdat een grafische sessie
+> `~/.local/bin` en `~/.jarvis/bin` niet aan het `PATH` van een child-proces
+> meegeeft. Zonder deze toevoeging vindt `jarvis-server` de Zoekt/SCIP-binaries
+> niet.
 
 Het meegeleverde ACP-profiel opent een sessie op `deepseek-ai/DeepSeek-V4-Flash` via DeepInfra. [ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) noemt `deepseek-flash`; het exacte model-id op DeepInfra is `deepseek-ai/DeepSeek-V4-Flash`.
 
@@ -114,4 +125,8 @@ De shell gaat door `scripts/cardine-bwrap`. Die mount `/usr` en `/etc` alleen-le
 
 ## Controle
 
-`dsh --profile acp` moet afsluiten met code 0 zodra stdin dichtgaat. Een verse start die `initialize` en `session/new` krijgt, laat jarvis `ListToolsRequest` loggen. `searchCode` op `Project-Understanding` raakt deze repo. Een vuile of net geschreven zin zit er niet in tot `jarvis index` opnieuw draait.
+`dsh --profile acp` moet afsluiten met code 0 zodra stdin dichtgaat. Een verse start die `initialize` en `session/new` krijgt, laat jarvis `ListToolsRequest` loggen. `searchCode` op `Project-Understanding` raakt deze repo. Een vuile of net geschreven zin zit er niet in tot `jarvis index <pad> --no-semantic` opnieuw draait.
+
+> **Tip:** Gebruik `jarvis index "$(pwd)" --no-semantic` om deze repo te indexeren.
+> `--no-semantic` voorkomt dat jarvis een multi-GB semantic-modelgewicht downloadt.
+> De lexicale Zoekt-index (searchCode) is daarna beschikbaar voor de agent.

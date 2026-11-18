@@ -29,10 +29,17 @@ yellow() { tput setaf 3 2>/dev/null || true; echo "$*"; tput sgr0 2>/dev/null ||
 # Detecteer of we sudo kunnen gebruiken (op een echte Arch-machine).
 SUDO=""
 if command -v sudo &>/dev/null; then
-    if sudo -n true 2>/dev/null; then
+    if [ -t 0 ]; then
+        # Interactieve TTY: we kunnen sudo gebruiken — pacman_install zal om
+        # een wachtwoord vragen als dat nodig is (--noconfirm is ingesteld).
         SUDO="sudo"
     else
-        yellow "  ~ sudo is niet beschikbaar zonder wachtwoord — handmatige installatie nodig"
+        # Geen TTY (CI/CD, pipe, etc.) — alleen NOPASSWD-regel werkt.
+        if sudo -n true 2>/dev/null; then
+            SUDO="sudo"
+        else
+            yellow "  ~ sudo is niet beschikbaar zonder wachtwoord — handmatige installatie nodig"
+        fi
     fi
 fi
 
@@ -260,18 +267,25 @@ else
     fi
 
     # Nu de Zoekt/SCIP setup draaien (buildt Zoekt binary en scip binary)
-    echo "  → setup.sh --only zoekt --only scip (buildt Zoekt + SCIP, duurt even)"
-    # setup.sh zit in de jarvis-mcp package
-    JARVIS_SETUP="$(uv tool list 2>/dev/null | grep jarvis-mcp | head -1 | awk '{print $NF}')/setup.sh" || true
-    if [ -z "$JARVIS_SETUP" ] || [ ! -f "$JARVIS_SETUP" ]; then
-        # Alternatief: vind setup.sh via python -m jarvis_mcp
-        JARVIS_SETUP="$(python3 -m jarvis_mcp.setup 2>/dev/null || true)"
-        if [ -z "$JARVIS_SETUP" ] || [ ! -f "$JARVIS_SETUP" ]; then
-            # Zoek in de uv tool install dir
-            JARVIS_SETUP="$(find "${HOME}/.local/share/uv" -name setup.sh -path '*/jarvis*' 2>/dev/null | head -1)" || true
+    JARVIS_BIN_DIR="${HOME}/.jarvis/bin"
+    mkdir -p "$JARVIS_BIN_DIR"
+
+    # setup.sh zit in de jarvis-mcp package — helaas levert uv tool install
+    # die niet altijd mee. Probeer hem te vinden; als dat faalt, bouw dan
+    # Zoekt en SCIP handmatig.
+    JARVIS_SETUP=""
+    for candidate in \
+        "$(uv tool list 2>/dev/null | grep jarvis-mcp | head -1 | awk '{print $NF}')/setup.sh" \
+        "$(python3 -m jarvis_mcp.setup 2>/dev/null || true)" \
+        "$(find "${HOME}/.local/share/uv" -name setup.sh -path '*/jarvis*' 2>/dev/null | head -1)"; do
+        if [ -n "$candidate" ] && [ -f "$candidate" ]; then
+            JARVIS_SETUP="$candidate"
+            break
         fi
-    fi
-    if [ -n "$JARVIS_SETUP" ] && [ -f "$JARVIS_SETUP" ]; then
+    done
+
+    if [ -n "$JARVIS_SETUP" ]; then
+        echo "  → setup.sh --only zoekt --only scip (buildt Zoekt + SCIP, duurt even)"
         echo "    - setup.sh gevonden: $JARVIS_SETUP"
         bash "$JARVIS_SETUP" --only zoekt --only scip 2>&1 || {
             red "  ✗ setup.sh --only zoekt --only scip mislukt"
@@ -280,8 +294,57 @@ else
         }
         green "  ✓ Zoekt + SCIP build voltooid"
     else
-        yellow "  ~ setup.sh niet gevonden; Zoekt/SCIP mogelijk al aanwezig of handmatig nodig"
-        yellow "    jarvis-server werkt ook zonder — alleen searchCode via Zoekt niet"
+        yellow "  ~ setup.sh niet gevonden — Zoekt/SCIP handmatig bouwen"
+        # ---------- Zoekt (git-index + webserver) ----------
+        if [ ! -x "${JARVIS_BIN_DIR}/zoekt-git-index" ] || [ ! -x "${JARVIS_BIN_DIR}/zoekt-webserver" ]; then
+            echo "    → Zoekt builden (go install github.com/zoekt/zoekt/...@33f1f18af292)"
+            GOBIN="$JARVIS_BIN_DIR" go install \
+              github.com/zoekt/zoekt/cmd/zoekt-git-index@33f1f18af292 \
+              github.com/zoekt/zoekt/cmd/zoekt-webserver@33f1f18af292 2>&1 || {
+                red "  ✗ Zoekt build mislukt"
+                exit 1
+            }
+            green "  ✓ zoekt-git-index, zoekt-webserver gebouwd"
+        else
+            green "  ✓ zoekt binaries al aanwezig"
+        fi
+        # ---------- SCIP (Go) ----------
+        if [ ! -x "${JARVIS_BIN_DIR}/scip" ]; then
+            echo "    → SCIP builden (git clone sourcegraph/scip)"
+            SCIP_TMP="$(mktemp -d)"
+            git clone --depth 1 https://github.com/sourcegraph/scip.git "$SCIP_TMP" 2>&1 || {
+                red "  ✗ scip git clone mislukt"
+                rm -rf "$SCIP_TMP"
+                exit 1
+            }
+            GOWORK=off GOBIN="$JARVIS_BIN_DIR" go build -o "$JARVIS_BIN_DIR/scip" ./cmd/scip 2>&1 || {
+                red "  ✗ scip build mislukt"
+                rm -rf "$SCIP_TMP"
+                exit 1
+            }
+            rm -rf "$SCIP_TMP"
+            green "  ✓ scip gebouwd"
+        else
+            green "  ✓ scip binary al aanwezig"
+        fi
+        # ---------- scip-python (npm) ----------
+        if [ ! -x "${JARVIS_BIN_DIR}/scip-python" ]; then
+            echo "    → scip-python installeren (npm)"
+            npm install -g --prefix "$JARVIS_BIN_DIR" @sourcegraph/scip-python 2>&1 || {
+                yellow "  ~ scip-python npm install mislukt (kan later handmatig)"
+            }
+            # npm --prefix zet in bin/node_modules/.bin, symlink naar bin/
+            if [ -f "${JARVIS_BIN_DIR}/bin/scip-python" ] && [ ! -e "${JARVIS_BIN_DIR}/scip-python" ]; then
+                ln -sf "${JARVIS_BIN_DIR}/bin/scip-python" "${JARVIS_BIN_DIR}/scip-python"
+            fi
+            if [ -x "${JARVIS_BIN_DIR}/scip-python" ]; then
+                green "  ✓ scip-python geïnstalleerd"
+            else
+                yellow "  ~ scip-python niet beschikbaar"
+            fi
+        else
+            green "  ✓ scip-python al aanwezig"
+        fi
     fi
 fi
 
@@ -296,7 +359,11 @@ if [ -x "$DSH_BIN" ] && "$DSH_BIN" --version 2>/dev/null | grep -q "0.2.2-rc.1";
 else
     echo "  → dsh installeren: npm install -g --prefix \"$DSH_PREFIX\" $DSH_VERSION"
     mkdir -p "$DSH_PREFIX/bin"
-    npm install -g --prefix "$DSH_PREFIX" "$DSH_VERSION"
+    # In npm v11+ (Node 26) worden postinstall-scripts standaard geblokkeerd.
+    # Geef expliciet toestemming voor de vijf packages die postinstall nodig hebben.
+    npm install -g --prefix "$DSH_PREFIX" \
+      --allow-scripts='@deepseek-ai/dsh-subprocess-local,koffi,node-pty,@google/genai,protobufjs' \
+      "$DSH_VERSION"
     if [ -x "$DSH_BIN" ]; then
         green "  ✓ dsh geïnstalleerd op $DSH_BIN"
     else
@@ -477,6 +544,7 @@ settings.agent_servers[key] = {
     args: ["--profile", "acp"],
     env: {
         ...(existing.env || {}),
+        PATH: process.env.HOME + "/.jarvis/bin:" + process.env.HOME + "/.local/bin:/usr/bin:/bin",
         DSH_TELEMETRY_MODE: "OFF"
     }
 };
@@ -506,5 +574,8 @@ echo ""
 echo "  3. Optioneel: indexeer deze repo met:"
 echo ""
 echo "       cd ${REPO_ROOT}"
-echo "       ~/.local/bin/jarvis index"
+echo "       ~/.local/bin/jarvis index \"\$(pwd)\" --no-semantic"
+echo ""
+echo "     (Zonder --no-semantic probeert jarvis een semantic-index te bouwen,"
+echo "      waarvoor een multi-GB modelgewicht moet worden gedownload.\)"
 echo ""

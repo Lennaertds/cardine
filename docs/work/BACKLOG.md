@@ -28,7 +28,7 @@ Geen code/`--starter` tot een runtime-ADR. [0001](../decisions/0001-runtime-stac
 
 | Volg | Item | Categorie | Status |
 |------|------|-----------|--------|
-| ✓ | [install-lab](specs/install-lab.md) | harness | gedaan — install-lab.sh, Makefile, zed-dsh doc |
+| ✓ | install-lab | harness | gedaan — install-lab.sh, Makefile, zed-dsh doc |
 | 0 | [totaalproduct-onderdelen](specs/totaalproduct-onderdelen.md) | product | kader + herindeling gedaan |
 | ✓ | IDE-shell ([ide-shell](../product/ide-shell.md)) | product | gedaan — [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
 | ✓ | FS/events ([fs-events](../product/fs-events.md)) | product | gedaan — Zed-watch |
