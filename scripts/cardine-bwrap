@@ -36,18 +36,27 @@ if [[ $# -eq 0 ]]; then
   exit 1
 fi
 
+HOME_DIR="${HOME:-/home/ventje}"
+
+# Zorg dat ~/.dsh/ bestaat vóór bwrap hem kan binden (anders faalt --bind).
+mkdir -p "${HOME_DIR}/.dsh" "${HOME_DIR}/.dsh/profiles" "${HOME_DIR}/.dsh/profiles/acp" 2>/dev/null || true
+
 args=(
   --ro-bind /usr /usr
   --symlink usr/bin /bin
   --symlink usr/lib /lib
   --symlink usr/lib /lib64
   --ro-bind /etc /etc
+  --ro-bind "${HOME_DIR}/.local" "${HOME_DIR}/.local"
+  --ro-bind "${HOME_DIR}/.jarvis" "${HOME_DIR}/.jarvis"
+  # DSH-home persistent maken (schrijfbaar) zodat het profiel bewaard blijft
+  --bind "${HOME_DIR}/.dsh" "${HOME_DIR}/.dsh"
   --dev /dev
   --proc /proc
   --unshare-pid
   --die-with-parent
   --tmpfs /tmp
-  --setenv PATH /usr/bin:/bin
+  --setenv PATH "/usr/bin:/bin:${HOME_DIR}/.local/bin:${HOME_DIR}/.jarvis/bin"
 )
 
 declare -A made=()

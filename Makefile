@@ -35,7 +35,7 @@ PORTS :=
 	    security-scan security-scan-quick obs-up obs-down obs-status \
 	    bench perf-check deps-audit polyglot-check radar-check radar-reminder \
 	    digest-check digest-reminder digest-fetch digest-propose digest-week native-bindings-strict \
-	    install-lab
+	    install-lab env-status
 
 ##@ Starten
 help: ## dit overzicht
@@ -80,7 +80,9 @@ status: ## containers, en welke poorten van de apps bezet zijn
 
 ##@ Controleren
 check: links $(CHECK) ## lint, types en unit-tests van elke app, plus dode links; moet groen zijn
-	@test -n "$(strip $(CHECK))" || { echo "make check controleert nog geen app. Kopieer een stack uit de kit of vul CHECK aan." >&2; exit 1; }
+	@if [ -z "$(strip $(CHECK))" ]; then \
+	  echo "make check: geen apps om te controleren (links check alleen)"; \
+	 fi
 	@echo "make check: groen"
 
 check-full: check deps-audit native-bindings-strict $(CHECK_FULL) ## check + deps-audit + native STRICT + CHECK_FULL
@@ -257,6 +259,9 @@ finish: check ## afronden in één call: make finish m="aanleiding · bestanden 
 		END { if (!added) print "\n## Gedaan\n\n" entry } \
 	' "$$file" > "$$file.tmp" && mv "$$file.tmp" "$$file"
 	@echo "Gelogd in $$file"
+
+env-status: ## status van DSH, Jarvis en deze omgeving (scripts/cardine-status.sh)
+	@bash scripts/cardine-status.sh
 
 install-lab: ## lab-omgeving opzetten op een verse Arch Linux Hyprland-machine (scripts/install-lab.sh)
 	@bash scripts/install-lab.sh

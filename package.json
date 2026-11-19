@@ -1,0 +1,17 @@
+{
+  "name": "cardine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cardine — minimale AI-harness + standaard. DSH + Jarvis + MCP tooling voor een AI-agent-werkstation.",
+  "scripts": {
+    "status": "bash scripts/cardine-status.sh",
+    "status:json": "bash scripts/cardine-status.sh --json",
+    "verbose": "bash scripts/cardine-status.sh --verbose",
+    "install-lab": "bash scripts/install-lab.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ventje/cardine.git"
+  },
+  "license": "MIT"
+}

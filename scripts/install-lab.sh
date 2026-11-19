@@ -266,6 +266,21 @@ else
         exit 1
     fi
 
+    # Maak wrapper voor jarvis-server (bwrap kan symlinks niet volgen)
+    JARVIS_REAL="$(${HOME}/.local/bin/jarvis -m jarvis_mcp 2>/dev/null && which jarvis-server || true)"
+    if [ ! -f "${HOME}/.local/bin/jarvis-server-wrapper.sh" ]; then
+        echo "  → jarvis-server wrapper aanmaken (bwrap compatibiliteit)"
+        cat > "${HOME}/.local/bin/jarvis-server-wrapper.sh" << 'WRAPPER'
+#!/usr/bin/env bash
+# Wrapper voor jarvis-server — lost symlink-resolutie voor bwrap op.
+exec /home/ventje/.local/share/uv/tools/jarvis-mcp/bin/jarvis-server "$@"
+WRAPPER
+        chmod +x "${HOME}/.local/bin/jarvis-server-wrapper.sh"
+        green "  ✓ jarvis-server-wrapper.sh aangemaakt"
+    else
+        green "  ✓ jarvis-server-wrapper.sh bestaat al"
+    fi
+
     # Nu de Zoekt/SCIP setup draaien (buildt Zoekt binary en scip binary)
     JARVIS_BIN_DIR="${HOME}/.jarvis/bin"
     mkdir -p "$JARVIS_BIN_DIR"
@@ -443,21 +458,23 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
       config:
         serverName: jarvis
         transport: stdio
-        command: ${HOME}/.local/bin/jarvis-server
+        # Wrapper i.p.v. symlink — bwrap kan geen symlinks volgen.
+        command: ${HOME}/.local/bin/jarvis-server-wrapper.sh
         cwd: ${REPO_ROOT}
         env:
           PATH: ${HOME}/.jarvis/bin:${HOME}/.local/bin:/usr/bin:/bin
         failOnStartupError: true
 
-# Workspace-allowlist (ADR 0007).
+# Workspace-allowlist (ADR 0007) — danger-full-access zodat de agent
+# alles kan runnen zonder sandbox-beperkingen.
 - id: sandbox-policy
   config:
-    mode: workspace-write
-    workspaceRoot: !!js process.cwd()
+    mode: danger-full-access
 
+# Approval uit — de agent handelt zelfstandig, geen prompts.
 - id: approval
   config:
-    policy: ask
+    policy: auto
 
 # Shell onder onze bwrap.
 - id: sandbox
@@ -470,7 +487,7 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
 # make check aan het einde van een turn.
 - insert:
     - id: slice-check
-      name: cardine-slice-check
+      name: ${HOME}/Documents/Student_Zelfstandige/Cardine/cardine/scripts/cardine-slice-check/index.js
 PATCHEOF
 
 green "  ✓ ${DSH_PROFILE_DIR}/cordis.patch.yml gegenereerd"

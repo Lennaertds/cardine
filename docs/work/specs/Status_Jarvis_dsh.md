@@ -118,7 +118,7 @@ echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' | dsh --profil
 | `jarvis` | `~/.local/bin/jarvis` | CLI voor indexing/status |
 | Zoekt binaries | `~/.jarvis/bin/zoekt-*` | Code search engine |
 | SCIP binary | `~/.jarvis/bin/scip` | Code intelligence indexer |
-| DSH profiel | `~/.dsh/profiles/acp/cordis.patch.yml` | Provider + MCP + sandbox config |
+| DSH profiel | `~/.dsh/profiles/acp/cordis.patch.yml` | Provider + MCP + danger-full-access + approval auto |
 | API-key | `~/.dsh/.env` | `DEEPSEEK_API_KEY=sk-...` |
 | Zed settings | `~/.config/zed/settings.json` | Start DSH met `--profile acp` |
 

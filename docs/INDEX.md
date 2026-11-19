@@ -48,6 +48,7 @@
 - [radar.md](how-to/radar.md) — Tech-radar herzien (`make radar-reminder` / `radar-check`).
 - [zed-dsh.md](how-to/zed-dsh.md) — Zed + DeepSeek Harness + API-key op het lab-pad.
 - [digest.md](how-to/digest.md) — Digest fetch/propose (`digest-check` / `digest-fetch` / `digest-propose`).
+- [sandbox-troubleshoot.md](how-to/sandbox-troubleshoot.md) — bwrap/sandbox problemen oplossen.
 ## Besluiten — waarom het zo is
 
 - `decisions/` — Eén ADR per besluit. Nieuw: `make adr t="<besluit als zin>"`. Geldend:

@@ -1,15 +1,30 @@
 import { spawn } from "node:child_process";
+import { existsSync } from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 
 const name = "cardine-slice-check";
-const KNOWN_EMPTY = "make check controleert nog geen app";
 const steers = new WeakMap();
+
+// De cardine-repo is ../.. t.o.v. dit bestand (scripts/cardine-slice-check/index.js → cardine/)
+const CARDINE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+
+function findMakefile(dir) {
+  while (dir !== "/") {
+    if (existsSync(resolve(dir, "Makefile"))) return dir;
+    const parent = resolve(dir, "..");
+    if (parent === dir) return null;
+    dir = parent;
+  }
+  return null;
+}
 
 function run(cwd) {
   return new Promise((resolve) => {
     const child = spawn("make", ["check"], {
       cwd,
-      env: process.env,
+      env: { ...process.env, PATH: process.env.PATH },
     });
     let stderr = "";
     child.stderr.on("data", (chunk) => {
@@ -24,11 +39,19 @@ function run(cwd) {
 function apply(ctx) {
   ctx.on("agent/turn-stopping", async ({ agent }) => {
     try {
-      const cwd = agent.session?.header?.cwd;
-      if (typeof cwd !== "string" || cwd.length === 0) return;
+      // Bepaal CWD: agent's cwd, of fallback naar cardine root
+      let cwd = agent.session?.header?.cwd;
+      if (typeof cwd !== "string" || cwd.length === 0) cwd = CARDINE_ROOT;
+
+      // Zoek naar een Makefile — als de agent in een niet-cardine dir zit,
+      // gebruik dan de cardine root.
+      const mkDir = findMakefile(cwd);
+      if (!mkDir) cwd = CARDINE_ROOT;
+      else cwd = mkDir;
+
       const result = await run(cwd);
       if (result.code === 0) return;
-      if (result.stderr.includes(KNOWN_EMPTY)) return;
+
       const count = steers.get(agent) ?? 0;
       if (count >= 2) return;
       steers.set(agent, count + 1);
