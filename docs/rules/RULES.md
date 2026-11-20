@@ -7,7 +7,7 @@ Elke regel is één zin met het waarom erbij. Is een regel afdwingbaar met een t
 
 ## Nooit
 
-- Geen data of secrets uit andere projecten (GymFreak, DEP2, …) overnemen in code, tests, docs of prompts: het lab (en later het product) moet reproduceerbaar blijven zonder andermans inhoud.
+- Geen data of secrets uit andere projecten overnemen in code, tests, docs of prompts: het lab (en later het product) moet reproduceerbaar blijven zonder andermans inhoud.
 - Geen productie-hosting of publieke release **tijdens de labfase**: eerst lokaal bewijzen; deploy/portfolio-release alleen na expliciete productisatie-keuze (dan mag gratis OS of closed).
 - Geen betaalde SaaS of verplichte cloud-billing als productmodel: richting is eigen API-keys van de gebruiker (DeepSeek of andere) en hoogstwaarschijnlijk volledig gratis.
 - Geen API-keys of `.env` in git, docs of prompts: keys (DeepSeek e.d.) blijven lokaal bij de eigenaar.

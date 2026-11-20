@@ -53,7 +53,7 @@ Als je het script draait vanuit een context waar git de root niet kan vinden (bv
 **Verhelping:** draai `install-lab.sh` altijd vanuit de `cardine/` directory:
 
 ```bash
-cd ~/Documents/Student_Zelfstandige/Cardine/cardine
+cd ~/Documents/Cardine/cardine
 bash packages/lab/install-lab.sh
 ```
 

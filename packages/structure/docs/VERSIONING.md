@@ -35,7 +35,7 @@ Elk package heeft een `CHANGELOG.md` in de package-map. Formaat (geïnspireerd o
 - DSH-versie opgehoogd naar 0.3.0
 
 ### Fixed
-- Hardcoded pad naar /home/ventje vervangen door $HOME
+- Hardcoded pad (`$HOME`-relatief gemaakt) i.p.v. absoluut gebruikerspad
 
 ## [0.1.0] — 2026-11-17
 

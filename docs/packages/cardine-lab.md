@@ -66,7 +66,7 @@ packages/lab/
 | Onderdeel | Reden |
 |-----------|-------|
 | Persoonlijke paden in `install-lab.sh` (bv. `REPO_ROOT` naar Agent_Engineering) | Moet generiek gemaakt worden |
-| Harde paden naar `/home/ventje/` | Moet `$HOME`-relatief zijn in publieke versie |
+| Harde paden naar `$HOME` (bv. `/home/gebruikersnaam/`) | Moet `$HOME`-relatief zijn in publieke versie |
 | DSH-profiel met DeepInfra-specifieke config | Wordt gegenereerd; template blijft in package |
 
 ## Installatie

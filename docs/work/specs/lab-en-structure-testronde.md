@@ -54,7 +54,7 @@ bash packages/lab/install-lab.sh
 ```
 
 Wat controleren:
-- [ ] Geen foutmeldingen over ontbrekende paden naar `/home/ventje/` of `Agent_Engineering`
+- [ ] Geen foutmeldingen over ontbrekende paden (geen harde `$HOME`-paden of `Agent_Engineering`-paden in fouten)
 - [ ] DSH wordt correct geïnstalleerd of overgeslagen (als al aanwezig)
 - [ ] Jarvis wordt correct geïnstalleerd of overgeslagen
 - [ ] DSH-profiel wordt gegenereerd met correcte paden
