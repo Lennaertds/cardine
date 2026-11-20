@@ -25,7 +25,7 @@ research) en verschillende stacks (Next.js, NestJS, Python, SQL).
 
 De lessen uit die experimenten — wat werkt voor een agent, wat niet, welke
 mappen een agent nodig heeft om context te begrijpen — zijn samengebracht in
-[Agent_Engineering](https://github.com/ventje/Agent_Engineering) (privé, SSOT).
+[Agent_Engineering](https://github.com/Lennaertds/Agent_Engineering) (privé, SSOT).
 `cardine-structure` pullt daaruit op pinned commits.
 
 Zie voor de achtergrond:
@@ -48,7 +48,7 @@ Zie voor de achtergrond:
 ### Optie A — via npx
 
 ```bash
-npx cardine-structure mijn-project --profile app --modules research,agent
+npx @lennaertds/cardine-structure mijn-project --profile app --modules research,agent
 ```
 
 Dit is de aanbevolen manier. Het downloadt en draait `new-project.sh` zonder
@@ -58,7 +58,7 @@ dat je iets hoeft te installeren.
 
 ```bash
 # Download de nieuwste release van
-# https://github.com/ventje/cardine/releases
+# https://github.com/Lennaertds/cardine/releases
 # en draai:
 bash kit/new-project.sh mijn-project --profile app
 ```
@@ -66,7 +66,7 @@ bash kit/new-project.sh mijn-project --profile app
 ### Optie C — direct uit de repo
 
 ```bash
-git clone https://github.com/ventje/cardine.git
+git clone https://github.com/Lennaertds/cardine.git
 bash cardine/packages/structure/kit/new-project.sh mijn-project
 ```
 
@@ -149,7 +149,7 @@ Zie [docs/INDEX.md](../../docs/INDEX.md) voor de volledige navigatie-structuur.
 ## Hoe de pull werkt
 
 De structuur wordt **niet** in deze repo onderhouden. Hij leeft in
-[Agent_Engineering](https://github.com/ventje/Agent_Engineering) (privé, SSOT).
+[Agent_Engineering](https://github.com/Lennaertds/Agent_Engineering) (privé, SSOT).
 
 ```mermaid
 graph LR
@@ -194,7 +194,7 @@ meta-package. SemVer — `major.minor.patch`.
 
 | Actie | Versie |
 |-------|--------|
-| Huidige versie | [0.1.0](CHANGELOG.md) |
+| Huidige versie | [0.3.0](CHANGELOG.md) |
 | Git-tag | `structure-v<semver>` |
 | CHANGELOG | [CHANGELOG.md](CHANGELOG.md) |
 

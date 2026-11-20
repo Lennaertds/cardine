@@ -1,6 +1,6 @@
 # Meta-package: `cardine`
 
-> **De GitHub-repo `ventje/cardine` is het uithangbord.**
+> **De GitHub-repo `Lennaertds/cardine` is het uithangbord.**
 > De README legt uit wat Cardine is en verwijst naar de packages. Er komt geen install-code in de root — alleen uitleg, gidsen en verwijzingen.
 
 | Veld | Waarde |

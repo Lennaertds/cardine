@@ -25,16 +25,16 @@ grep 'cardine-bwrap' ~/.dsh/profiles/acp/cordis.patch.yml
 **Verwacht:** een regel zoals:
 
 ```yaml
-- /home/ventje/Documents/Student_Zelfstandige/Cardine/cardine/packages/lab/cardine-bwrap
+- /pad/naar/cardine/packages/lab/cardine-bwrap
 ```
 
-**Als het pad niet klopt** (bijv. `…/Student_Zelfstandige/cardine/…` zonder `Cardine/`):
+**Als het pad niet klopt** (bijv. verkeerde mapnaam):
 
 ```bash
 # Fix: vervang het foute pad door het juiste
-sed -i 's|/home/ventje/Documents/Student_Zelfstandige/cardine/scripts/cardine-bwrap|/home/ventje/Documents/Student_Zelfstandige/Cardine/cardine/packages/lab/cardine-bwrap|g' \
-  ~/.dsh/profiles/acp/cordis.patch.yml
-```
+INSTALL_LAB_DIR="$(dirname "$(readlink -f "$0")")"
+echo "Gebruik: $INSTALL_LAB_DIR/cardine-bwrap"
+# Werk het DSH-profiel bij met het juiste pad
 
 ### Waarom gebeurt dit?
 

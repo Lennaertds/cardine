@@ -88,10 +88,10 @@ standaard in het `PATH` van Zed. Voeg daarom `PATH` expliciet toe onder `env`:
 ```json
 "DeepSeek Harness": {
   "type": "custom",
-  "command": "/home/ventje/.local/bin/dsh",
+  "command": "dsh",
   "args": ["--profile", "acp"],
   "env": {
-    "PATH": "/home/ventje/.jarvis/bin:/home/ventje/.local/bin:/usr/bin:/bin"
+    "PATH": "$HOME/.jarvis/bin:$HOME/.local/bin:/usr/bin:/bin"
   }
 }
 ```

@@ -36,8 +36,8 @@ installeren.
 
 ```mermaid
 graph TD
-    M("cardine (meta)") --> L("cardine-lab")
-    M --> S("cardine-structure")
+    M("cardine (meta)") --> L("@lennaertds/cardine-lab")
+    M --> S("@lennaertds/cardine-structure")
     L --> D("DSH + Jarvis + bwrap")
     S --> K("Agent_Engineering / kit")
     style M fill:#4a90d9,color:#fff
@@ -47,8 +47,8 @@ graph TD
 
 | Package | Wat | Voor wie | Installatie |
 |---------|-----|----------|-------------|
-| **[cardine-lab]** ⚙️ | Reproduceerbaar AI-agent-werkstation voor Arch Linux / Hyprland. Installeert DSH, Jarvis, bwrap-sandbox en Zed-config in één idempotent script. | Wie Zed + DeepSeek Harness op Arch wil | `curl … \| bash` of `npm install -g cardine-lab` |
-| **[cardine-structure]** 📁 | Projectstandaard voor ieder project, ongeacht editor of abonnement. Bevat de bewezen `kern/`-`solo/`-`logging/`-boom, modules en stacks, gepulled uit Agent_Engineering. | Iedereen met een project | `npx cardine-structure` of GitHub release |
+| **[@lennaertds/cardine-lab]** ⚙️ | Reproduceerbaar AI-agent-werkstation voor Arch Linux / Hyprland. Installeert DSH, Jarvis, bwrap-sandbox en Zed-config in één idempotent script. | Wie Zed + DeepSeek Harness op Arch wil | `curl … \| bash` of `npm install -g @lennaertds/cardine-lab` |
+| **[@lennaertds/cardine-structure]** 📁 | Projectstandaard voor ieder project, ongeacht editor of abonnement. Bevat de bewezen `kern/`-`solo/`-`logging/`-boom, modules en stacks, gepulled uit Agent_Engineering. | Iedereen met een project | `npx @lennaertds/cardine-structure` of GitHub release |
 
 ### Hoe de packages samenhangen
 
@@ -62,7 +62,7 @@ cardine                    ← Meta: repo-root met README, docs, gidsen
 ```
 
 De structuur (`cardine-structure`) wordt **niet** in deze repo onderhouden — die
-leeft in de privé-sibling [Agent_Engineering](https://github.com/ventje/Agent_Engineering)
+leeft in de privé-sibling [Agent_Engineering](https://github.com/Lennaertds/Agent_Engineering)
 en wordt op pinned commits gepulled ([ADR 0013](docs/decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)).
 Zo blijft de SSOT op één plek en kan Cardine altijd een stabiele versie
 aanbieden.
@@ -88,7 +88,7 @@ voor alle opties (profiles, modules, stacks).
 
 ```bash
 # 1. Installeer de toolchain (DSH, Jarvis, bwrap, Zed-config)
-bash <(curl -fsSL https://raw.githubusercontent.com/ventje/cardine/main/packages/lab/install-lab.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/Lennaertds/cardine/main/packages/lab/install-lab.sh)
 
 # 2. Voeg de projectstandaard toe
 npx cardine-structure mijn-project --profile full
@@ -144,8 +144,8 @@ Elk package heeft een **eigen versie**, onafhankelijk van de andere.
 | Package | Versie | CHANGELOG | Git-tag |
 |---------|--------|-----------|---------|
 | `cardine` (meta) | 0.1.0 | [CHANGELOG.md](CHANGELOG.md) | `v0.1.0` |
-| `cardine-lab` | 0.1.0 | [packages/lab/CHANGELOG.md](packages/lab/CHANGELOG.md) | `lab-v0.1.0` |
-| `cardine-structure` | 0.1.0 | [packages/structure/CHANGELOG.md](packages/structure/CHANGELOG.md) | `structure-v0.1.0` |
+| `@lennaertds/cardine-lab` | 0.2.0 | [packages/lab/CHANGELOG.md](packages/lab/CHANGELOG.md) | `lab-v0.2.0` |
+| `@lennaertds/cardine-structure` | 0.2.0 | [packages/structure/CHANGELOG.md](packages/structure/CHANGELOG.md) | `structure-v0.2.0` |
 
 SemVer: `major.minor.patch`. Een *major* is een breaking change (installer werkt
 niet meer, kit-structuur wijzigt incompatibel). Een *minor* is nieuwe
@@ -162,11 +162,11 @@ schema.
 
 Deze repo is het **publieke uithangbord**. De projectstandaard en
 kennissamenvattingen leven in de sibling-repo
-[Agent_Engineering](https://github.com/ventje/Agent_Engineering) (privé, SSOT).
+[Agent_Engineering](https://github.com/Lennaertds/Agent_Engineering) (privé, SSOT).
 Cardine pullt daaruit — zie `packages/structure/pull_kit.sh`.
 
 Zie [AGENTS.md](AGENTS.md) voor agent-instructies en
 [docs/INDEX.md](docs/INDEX.md) voor de volledige documentatie-kaart.
 
-[cardine-lab]: packages/lab/README.md
-[cardine-structure]: packages/structure/README.md
+[@lennaertds/cardine-lab]: packages/lab/README.md
+[@lennaertds/cardine-structure]: packages/structure/README.md

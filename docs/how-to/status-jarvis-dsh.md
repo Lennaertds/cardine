@@ -69,7 +69,7 @@ cat ~/.config/zed/settings.json | grep -A 10 "DeepSeek Harness"
 ```
 
 > **Verwacht:** Een `"DeepSeek Harness"` block met:
-> - `"command": "/home/ventje/.local/bin/dsh"`
+> - `"command": "dsh"` of het volledige pad naar `dsh`
 > - `"args": ["--profile", "acp"]`
 > - `"env"` met `PATH` die `~/.jarvis/bin` en `~/.local/bin` bevat
 

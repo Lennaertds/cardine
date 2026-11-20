@@ -1,6 +1,6 @@
 {
   "name": "cardine",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Cardine — projectstructuur en AI-agent-werkstation. Meta-package die verwijst naar cardine-lab en cardine-structure.",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ventje/cardine.git"
+    "url": "git+https://github.com/Lennaertds/cardine.git"
   },
   "license": "MIT",
   "keywords": [
@@ -20,5 +20,8 @@
     "project-structure",
     "ai-agent",
     "workspace"
-  ]
+  ],
+  "publishConfig": {
+    "@Lennaertds:registry": "https://npm.pkg.github.com"
+  }
 }

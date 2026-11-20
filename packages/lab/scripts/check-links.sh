@@ -44,7 +44,7 @@ while IFS= read -r -d '' file; do
       # Als het absolute pad niet binnen de repo-root valt, is het een sibling-link.
       repo_root="$(cd "$root" && pwd)"
       if [[ -n "$abs_target" && "$abs_target" != "$repo_root" && "$abs_target" != "${repo_root}/"* ]]; then
-        : # accepteer — verwijst naar buiten deze repo (bv. ../Agent_Engineering/)
+        : # accepteer — verwijst naar buiten deze repo (bv. ../Agent_Engineering/ — privé sibling, niet publiek)
       else
         echo "$file: dode link naar $link"
         failed=1

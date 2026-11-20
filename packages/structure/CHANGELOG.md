@@ -28,5 +28,15 @@
 - `README.md` — package-overzicht met installatie-instructies
 - `docs/cardine-structure.md` — volledige documentatie
 
-[0.2.0]: https://github.com/ventje/cardine/compare/structure-v0.1.0...structure-v0.2.0
-[0.1.0]: https://github.com/ventje/cardine/compare/structure-v0.0.0...structure-v0.1.0
+## [0.3.0] — 2026-11-20
+
+### Changed
+- Scoped name: `cardine-structure` → `@lennaertds/cardine-structure`
+- `publishConfig` toegevoegd voor GitHub Packages
+- GitHub URLs: `ventje` → `Lennaertds`
+- Installatie-instructies: `npx @lennaertds/cardine-structure`
+- README bijgewerkt met nieuwe GitHub URLs
+
+[0.3.0]: https://github.com/Lennaertds/cardine/compare/structure-v0.2.0...structure-v0.3.0
+[0.2.0]: https://github.com/Lennaertds/cardine/compare/structure-v0.1.0...structure-v0.2.0
+[0.1.0]: https://github.com/Lennaertds/cardine/compare/structure-v0.0.0...structure-v0.1.0

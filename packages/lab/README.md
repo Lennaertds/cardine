@@ -36,7 +36,7 @@ voor de context bij alle keuzes.
 ### Stap 1 — Installeer de toolchain
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/ventje/cardine/main/packages/lab/install-lab.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/Lennaertds/cardine/main/packages/lab/install-lab.sh)
 ```
 
 of, als je de repo al hebt:
@@ -51,7 +51,7 @@ schade. Het installeert wat ontbreekt en slaat over wat er al is.
 ### Stap 2 — Voeg de projectstructuur toe
 
 ```bash
-npx cardine-structure mijn-project --profile full
+npx @lennaertds/cardine-structure mijn-project --profile full
 ```
 
 Zie [cardine-structure](../structure/README.md) voor alle opties.
@@ -167,7 +167,7 @@ en de meta-package. SemVer — `major.minor.patch`.
 
 | Actie | Versie |
 |-------|--------|
-| Huidige versie | [0.1.0](CHANGELOG.md) |
+| Huidige versie | [0.2.0](CHANGELOG.md) |
 | Git-tag | `lab-v<semver>` |
 | CHANGELOG | [CHANGELOG.md](CHANGELOG.md) |
 

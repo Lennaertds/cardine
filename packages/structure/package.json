@@ -1,6 +1,6 @@
 {
-  "name": "cardine-structure",
-  "version": "0.2.0",
+  "name": "@lennaertds/cardine-structure",
+  "version": "0.3.0",
   "description": "cardine-structure — projectstandaard voor ieder project, ongeacht editor of abonnement. Gepulled uit Agent_Engineering/kit/.",
   "bin": {
     "cardine-structure": "./kit/new-project.sh"
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ventje/cardine.git",
+    "url": "git+https://github.com/Lennaertds/cardine.git",
     "directory": "packages/structure"
   },
   "license": "MIT",
@@ -23,5 +23,8 @@
     "template",
     "cardine",
     "agent-engineering"
-  ]
+  ],
+  "publishConfig": {
+    "@lennaertds:registry": "https://npm.pkg.github.com"
+  }
 }

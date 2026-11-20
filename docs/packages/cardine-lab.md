@@ -73,11 +73,11 @@ packages/lab/
 
 ```bash
 # Optie A: direct via curl
-bash <(curl -fsSL https://raw.githubusercontent.com/ventje/cardine/main/packages/lab/install-lab.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/Lennaertds/cardine/main/packages/lab/install-lab.sh)
 
 # Optie B: via GitHub release (zip/tarball)
 # Optie C: later als AUR-package (PKGBUILD)
-# Optie D: via npm (npm install -g cardine-lab)
+# Optie D: via npm (npm install -g @lennaertds/cardine-lab)
 ```
 
 ## Relaties

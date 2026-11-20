@@ -42,8 +42,8 @@ Elk package heeft een `CHANGELOG.md` in de package-map. Formaat (geïnspireerd o
 ### Added
 - Initiële release: install-lab.sh, cardine-bwrap, cardine-slice-check
 
-[0.2.0]: https://github.com/ventje/cardine/compare/lab-v0.1.0...lab-v0.2.0
-[0.1.0]: https://github.com/ventje/cardine/releases/tag/lab-v0.1.0
+[0.2.0]: https://github.com/Lennaertds/cardine/compare/lab-v0.1.0...lab-v0.2.0
+[0.1.0]: https://github.com/Lennaertds/cardine/releases/tag/lab-v0.1.0
 ```
 
 ## Meta-versieoverzicht
