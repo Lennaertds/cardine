@@ -2,7 +2,7 @@
 
 - **Status:** aanvaard
 - **Datum:** 2026-11-16
-- **Raakt:** [session-spine.md](../product/session-spine.md), [onderdeel-session-spine](../work/specs/onderdeel-session-spine.md), [totaalproduct.md](../product/totaalproduct.md), [PRODUCT.md](../product/PRODUCT.md), [BACKLOG.md](../work/BACKLOG.md).
+- **Raakt:** [session-spine.md](../product/session-spine.md), [totaalproduct.md](../product/totaalproduct.md), [PRODUCT.md](../product/PRODUCT.md), [BACKLOG.md](../work/BACKLOG.md). Spec `onderdeel-session-spine` verwijderd — product-doc volstaat.
 
 ## Samenvatting
 

@@ -2,7 +2,7 @@
 
 - **Status:** aanvaard
 - **Datum:** 2026-11-16
-- **Raakt:** [structure.md](../product/structure.md), [onderdeel-structure](../work/specs/onderdeel-structure.md), [totaalproduct.md](../product/totaalproduct.md), [PRODUCT.md](../product/PRODUCT.md), [BACKLOG.md](../work/BACKLOG.md). [0001](0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) en [0003](0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) blijven gelden.
+- **Raakt:** [structure.md](../product/structure.md), [totaalproduct.md](../product/totaalproduct.md), [PRODUCT.md](../product/PRODUCT.md), [BACKLOG.md](../work/BACKLOG.md). Spec `onderdeel-structure` verwijderd — product-doc volstaat. [0001](0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) en [0003](0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) blijven gelden.
 
 ## Samenvatting
 

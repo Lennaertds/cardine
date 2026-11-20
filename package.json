@@ -2,7 +2,7 @@
   "name": "cardine",
   "version": "0.1.0",
   "private": true,
-  "description": "Cardine — minimale AI-harness + standaard. DSH + Jarvis + MCP tooling voor een AI-agent-werkstation.",
+  "description": "Cardine — projectstructuur en AI-agent-werkstation. Meta-package die verwijst naar cardine-lab en cardine-structure.",
   "scripts": {
     "status": "bash packages/lab/cardine-status.sh",
     "status:json": "bash packages/lab/cardine-status.sh --json",
@@ -13,5 +13,12 @@
     "type": "git",
     "url": "git+https://github.com/ventje/cardine.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": [
+    "cardine",
+    "agent-engineering",
+    "project-structure",
+    "ai-agent",
+    "workspace"
+  ]
 }

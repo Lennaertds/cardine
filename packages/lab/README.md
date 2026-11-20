@@ -18,7 +18,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/ventje/cardine/main/packages
 | `cardine-bwrap` | Strakkere bwrap-kooi voor de agent-shell |
 | `cardine-status.sh` | Status-check voor DSH, Jarvis en tools |
 | `cardine-slice-check/` | Node-module voor `make check` na een turn |
-| `scripts/` | Tool-scripts (digest, security, radar, audit, …) |
-| `systemd/` | Timer-units voor digest-fetch en digest-week |
+| `scripts/` | Extra tool-scripts (security, radar, audit, digest, …) — optioneel |
+| `systemd/` | Timer-units voor digest-fetch — optioneel; pas aan voor jouw machine |
 
 Zie [docs/cardine-lab.md](docs/cardine-lab.md) voor volledige documentatie.

@@ -5,7 +5,9 @@ Wants=network-online.target
 
 [Service]
 Type=oneshot
-WorkingDirectory=/home/ventje/Student_Zelfstandige/cardine
+# Pas WorkingDirectory aan naar de lokale clone, bv. /home/jouwgebruiker/cardine
+WorkingDirectory=/home/_jouwgebruiker_/cardine
 ExecStart=/usr/bin/make digest-fetch
-StandardOutput=append:/home/ventje/Student_Zelfstandige/cardine/data/external/digest/cron.log
-StandardError=append:/home/ventje/Student_Zelfstandige/cardine/data/external/digest/cron.log
+# Pas log-pad aan naar de lokale clone
+StandardOutput=append:/home/_jouwgebruiker_/cardine/data/external/digest/cron.log
+StandardError=append:/home/_jouwgebruiker_/cardine/data/external/digest/cron.log

@@ -35,7 +35,7 @@ Elk package heeft een `CHANGELOG.md` in de package-map. Formaat (geïnspireerd o
 - DSH-versie opgehoogd naar 0.3.0
 
 ### Fixed
-- Hardcoded pad naar /home/ventje vervangen door $HOME
+- Hardcoded pad vervangen door $HOME-relatieve paden
 
 ## [0.1.0] — 2026-11-17
 
@@ -59,7 +59,6 @@ De `CHANGELOG.md` in de repo-root geeft een **overzicht** van alle packages:
 |---------|--------|-----|
 | cardine-lab | 0.2.0 | Dry-run, Podman-support |
 | cardine-structure | 0.1.0 | Eerste publieke pull uit Agent_Engineering@abc123 |
-| cardine-zed-dsh | 0.1.0 | Initiële release |
 ```
 
 ## Tags in git
@@ -67,7 +66,6 @@ De `CHANGELOG.md` in de repo-root geeft een **overzicht** van alle packages:
 ```
 lab-v0.1.0          → packages/lab/ op versie 0.1.0
 structure-v0.1.0    → packages/structure/ op versie 0.1.0
-zed-dsh-v0.1.0      → packages/zed-dsh/ op versie 0.1.0
 v0.1.0              → meta-package versie 0.1.0
 ```
 
@@ -78,4 +76,3 @@ v0.1.0              → meta-package versie 0.1.0
 | `cardine` (meta) | `CHANGELOG.md` (root) |
 | `cardine-lab` | `packages/lab/CHANGELOG.md` |
 | `cardine-structure` | `packages/structure/CHANGELOG.md` |
-| `cardine-zed-dsh` | `packages/zed-dsh/CHANGELOG.md` |

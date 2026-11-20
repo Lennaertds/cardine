@@ -12,7 +12,7 @@ Stand: 2026-11-07 (A4/B-richting: lichte non-Electron IDE + indexing-first; A6�
 | 1 | Wat heeft Cursor; hergebruik vs verbeteren vs niet sturen? | A1 | deels (§9, §13, **§69–§75**) | Werkantwoord ↓; Cloud/Router blogs optioneel |
 | 2 | Andere harnesses (DeepSeek Harness, Pi, peers); hergebruik/verbeteren? | A2 | deels (**§76–§79**, **§105–§112**, §33) | Werkantwoord ↓; enforcement > prompts (§107) |
 | 3 | Mistral + open-source modellen / efficiëntie? | A3 | deels (**§89–§101**, **§134–§142**) | Werkantwoord ↓; Large 4 LICENSE; Kimi peer |
-| 4 | Hoe zit een IDE in elkaar: talen, fork, integraties? | A4 | open (namen §102–§104) | Richting: non-Electron shortlist — [cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md) |
+| 4 | Hoe zit een IDE in elkaar: talen, fork, integraties? | A4 | open (namen §102–§104) | Richting: non-Electron shortlist — zie [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
 | 5 | IDEs/harnesses tot op het bot vergelijken | A5 | deels (**§80–§86**, **§133**) | Werkantwoord ↓; PKU Harness-Bench Table 2; matrix nog |
 | 6 | Standaard in **docs** vs in **code/harness**? | A6 | **vorm** (§113–§117 + §107) | Decision-candidate + docs/code-tabel ↓ |
 | 7 | Welke **kwaliteitsgates** wanneer + rood? | A7 | **vorm** (§118–§122 + §117) | Lab-ladder + revert-zin ↓ |
@@ -49,7 +49,7 @@ Synthese uit bestaande § — genoeg om B te *richten*, niet om te forken.
 ### A4 — IDE-anatomie
 
 - **editor ≠ harness ≠ indexing.** Lab-primair = **indexing / Project-Understanding**; harness hergebruiken; IDE-shell = upstream Zed, pinned release, geen fork ([ide-shell](../product/ide-shell.md), [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)).
-- Componentkaart: [totaalproduct.md](../product/totaalproduct.md) (9 onderdelen). Shortlist-criteria: [cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md). Indexing: [indexing.md](../product/indexing.md).  
+- Componentkaart: [totaalproduct.md](../product/totaalproduct.md) (9 onderdelen). Shortlist-criteria: vastgelegd in [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md). Indexing: [indexing.md](../product/indexing.md).  
 - Listicles (§102–§104) = namenkaart, lage authority. Diepte = native/TUI architecture + plugin/RPC-surface (wantlist), niet VS Code-first.
 
 ### A5 — Vergelijking

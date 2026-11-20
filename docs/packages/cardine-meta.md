@@ -8,8 +8,8 @@
 | **Package** | `cardine` (meta) |
 | **Doelgroep** | Iedereen die op de GitHub-repo landt |
 | **Bron** | `cardine/` (root) |
-| **Installatie** | Niet van toepassing — verwijst naar 1, 2, 3 |
-| **Afhankelijk van** | verwijst naar `cardine-lab`, `cardine-structure`, `cardine-zed-dsh` |
+| **Installatie** | Niet van toepassing — verwijst naar 1, 2 |
+| **Afhankelijk van** | verwijst naar `cardine-lab`, `cardine-structure` |
 
 ---
 
@@ -31,8 +31,7 @@ cardine/
 │   └── ...
 ├── packages/
 │   ├── lab/            ← cardine-lab package
-│   ├── structure/      ← cardine-structure package (gepullt)
-│   └── zed-dsh/        ← cardine-zed-dsh package
+│   └── structure/      ← cardine-structure package (gepullt)
 ├── scripts/            ← Alleen wat voor de meta nodig is (status, etc.)
 ├── AGENTS.md           ← (publiek, maar gericht op ontwikkelaars)
 ├── Makefile            ← check, context, finish (voor ontwikkeling)
@@ -73,7 +72,6 @@ cardine/
 |---|---------|------|-----------|
 | 1 | **`cardine-lab`** | [cardine-lab.md](cardine-lab.md) | Arch/Hyprland AI-agent-werkstation |
 | 2 | **`cardine-structure`** | [cardine-structure.md](cardine-structure.md) | Projectstandaard (elke editor) |
-| 3 | **`cardine-zed-dsh`** | [cardine-zed-dsh.md](cardine-zed-dsh.md) | Zed + DSH met API-key |
 
 ## Afhankelijkheden en samenhang
 
@@ -83,20 +81,20 @@ cardine/
                     │   versie x.y.z   │
                     └────────┬─────────┘
                              │ verwijst naar
-              ┌──────────────┼──────────────┐
-              ▼              ▼              ▼
-    ┌─────────────────┐ ┌──────────┐ ┌──────────────┐
-    │  cardine-lab    │ │ structure│ │ cardine-zed-  │
-    │  Arch/Hyprland  │ │ project  │ │ dsh           │
-    │  toolchain      │ │ standaard│ │ DSH-config    │
-    └─────────────────┘ └──────────┘ └──────────────┘
-              │              │
-              │              ├── gepullt uit ───► Agent_Engineering/kit/
-              │              │                   (privé, SSOT)
-              │
-              ├── bevat ──► scripts/
-              ├── bevat ──► systemd/
-              └── genereert ──► ~/.dsh/profiles/ (ACP-profiel)
+               ┌─────────────┴──────────────┐
+               ▼                            ▼
+     ┌─────────────────┐          ┌──────────────────┐
+     │  cardine-lab    │          │ cardine-structure │
+     │  Arch/Hyprland  │          │ projectstandaard  │
+     │  toolchain      │          │ (elke editor)     │
+     └─────────────────┘          └──────────────────┘
+               │                        │
+               │                        ├── gepullt uit ───► Agent_Engineering/kit/
+               │                        │                   (privé, SSOT)
+               │
+               ├── bevat ──► scripts/
+               ├── bevat ──► systemd/
+               └── genereert ──► ~/.dsh/profiles/ (ACP-profiel)
 ```
 
 ### Installatie-volgordes
@@ -105,7 +103,6 @@ cardine/
 |----------|----------|----------|
 | Alleen projectstandaard | structure | 1. `npx cardine-structure` |
 | Volledig agent-werkstation | lab + structure | 1. `cardine-lab` 2. `cardine-structure` |
-| Alleen DSH in Zed | zed-dsh | 1. `cardine-zed-dsh` (als DSH al geïnstalleerd is) |
 
 ## Versiebeheer
 

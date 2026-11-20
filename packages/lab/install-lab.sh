@@ -20,7 +20,9 @@ JARVIS_PYTHON="3.13"
 NODE_MIN_MAJOR=24
 NODE_MIN_MINOR=9
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && git rev-parse --show-toplevel 2>/dev/null || pwd)"
+# Bepaal REPO_ROOT relatief aan de locatie van dit script.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && git rev-parse --show-toplevel 2>/dev/null || cd "${SCRIPT_DIR}/../.." && pwd)"
 
 green()  { tput setaf 2 2>/dev/null || true; echo "$*"; tput sgr0 2>/dev/null || true; }
 red()    { tput setaf 1 2>/dev/null || true; echo "$*" >&2; tput sgr0 2>/dev/null || true; }
@@ -267,16 +269,28 @@ else
     fi
 
     # Maak wrapper voor jarvis-server (bwrap kan symlinks niet volgen)
-    JARVIS_REAL="$(${HOME}/.local/bin/jarvis -m jarvis_mcp 2>/dev/null && which jarvis-server || true)"
-    if [ ! -f "${HOME}/.local/bin/jarvis-server-wrapper.sh" ]; then
-        echo "  → jarvis-server wrapper aanmaken (bwrap compatibiliteit)"
-        cat > "${HOME}/.local/bin/jarvis-server-wrapper.sh" << 'WRAPPER'
+    # Zoek de echte jarvis-server binary via uv tool list
+    JARVIS_REAL_PATH=""
+    if command -v uv &>/dev/null; then
+        JARVIS_REAL_PATH="$(uv tool list 2>/dev/null | grep jarvis-mcp | head -1 | awk '{print $NF}' || true)"
+    fi
+    if [ -z "$JARVIS_REAL_PATH" ] || [ ! -f "$JARVIS_REAL_PATH" ]; then
+        # Fallback: zoek via find
+        JARVIS_REAL_PATH="$(find "${HOME}/.local/share/uv/tools" -name 'jarvis-server' -type f 2>/dev/null | head -1 || true)"
+    fi
+    if [ -z "$JARVIS_REAL_PATH" ]; then
+        # Laatste poging: gebruik realpath op de symlink
+        JARVIS_REAL_PATH="$(realpath "${HOME}/.local/bin/jarvis-server" 2>/dev/null || echo "")"
+    fi
+    if [ -n "$JARVIS_REAL_PATH" ] && [ ! -f "${HOME}/.local/bin/jarvis-server-wrapper.sh" ]; then
+        echo "  → jarvis-server wrapper aanmaken voor ${JARVIS_REAL_PATH}"
+        cat > "${HOME}/.local/bin/jarvis-server-wrapper.sh" << WRAPPEREOF
 #!/usr/bin/env bash
 # Wrapper voor jarvis-server — lost symlink-resolutie voor bwrap op.
-exec /home/ventje/.local/share/uv/tools/jarvis-mcp/bin/jarvis-server "$@"
-WRAPPER
+exec ${JARVIS_REAL_PATH} "\$@"
+WRAPPEREOF
         chmod +x "${HOME}/.local/bin/jarvis-server-wrapper.sh"
-        green "  ✓ jarvis-server-wrapper.sh aangemaakt"
+        green "  ✓ jarvis-server-wrapper.sh aangemaakt (→ ${JARVIS_REAL_PATH})"
     else
         green "  ✓ jarvis-server-wrapper.sh bestaat al"
     fi
@@ -487,7 +501,7 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
 # make check aan het einde van een turn.
 - insert:
     - id: slice-check
-      name: ${HOME}/Documents/Student_Zelfstandige/Cardine/cardine/packages/lab/cardine-slice-check/index.js
+      name: ${REPO_ROOT}/packages/lab/cardine-slice-check/index.js
 PATCHEOF
 
 green "  ✓ ${DSH_PROFILE_DIR}/cordis.patch.yml gegenereerd"

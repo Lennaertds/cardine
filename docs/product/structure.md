@@ -1,9 +1,9 @@
 # Structure
 
 > **Rol:** Bijhouden hoe de projectstandaard in de agent-loop meewegen en afgedwongen wordt (docs + checks + hooks).
-> **Niet hier:** werkplan ([onderdeel-structure](../work/specs/onderdeel-structure.md)); kit-bron in Agent_Engineering; samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Niet hier:** kit-bron in Agent_Engineering; samenhang ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** beslist · **ADR:** [0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) · **Spec:** [onderdeel-structure](../work/specs/onderdeel-structure.md) · vorm: [ideeen A6–A7](../research/ideeen-en-vragen.md)
+**Stand:** beslist · **ADR:** [0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) · **Spec weg** — besluit in ADR's, vorm in product-doc · vorm: [ideeen A6–A7](../research/ideeen-en-vragen.md)
 
 ## Wat de gebruiker kan
 

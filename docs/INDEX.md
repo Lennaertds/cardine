@@ -78,7 +78,6 @@
 - [packages/INDEX.md](packages/INDEX.md) — Overzicht van alle packages
 - [packages/cardine-lab.md](packages/cardine-lab.md) — cardine-lab package
 - [packages/cardine-structure.md](packages/cardine-structure.md) — cardine-structure package
-- [packages/cardine-zed-dsh.md](packages/cardine-zed-dsh.md) — cardine-zed-dsh package
 - [packages/cardine-meta.md](packages/cardine-meta.md) — Meta-package cardine
 - [packages/VERSIONING.md](packages/VERSIONING.md) — Versiebeheer en changelogs
 - [packages/IMPLEMENTATION.md](packages/IMPLEMENTATION.md) — Implementatieplan (fasering)
@@ -88,9 +87,8 @@
 | Volg | Spec | Status |
 |------|------|--------|
 | 9 | [packages-lab](work/specs/packages-lab.md) | open — cardine-lab publiek-ready |
-| 10 | [packages-structure](work/specs/packages-structure.md) | open — cardine-structure: pull + versioning |
-| 11 | [packages-zed-dsh](work/specs/packages-zed-dsh.md) | open — cardine-zed-dsh: installer + profiel |
-| 12 | [packages-meta](work/specs/packages-meta.md) | open — README als uithangbord |
+| ✓ | [packages-structure](work/specs/packages-structure.md) | done — pull_kit.sh, kit/@c841cb9, package.json, tag structure-v0.1.0 |
+| ✓ | [packages-meta](work/specs/packages-meta.md) | done — README als uithangbord, meta-package afgerond |
 
 ## Agent — alleen bij schrijven of meta-taken
 

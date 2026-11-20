@@ -36,7 +36,7 @@ if [[ $# -eq 0 ]]; then
   exit 1
 fi
 
-HOME_DIR="${HOME:-/home/ventje}"
+HOME_DIR="${HOME:?HOME niet gezet — kan niet bepalen waar .dsh/ .local/ .jarvis/ staan}"
 
 # Zorg dat ~/.dsh/ bestaat vóór bwrap hem kan binden (anders faalt --bind).
 mkdir -p "${HOME_DIR}/.dsh" "${HOME_DIR}/.dsh/profiles" "${HOME_DIR}/.dsh/profiles/acp" 2>/dev/null || true

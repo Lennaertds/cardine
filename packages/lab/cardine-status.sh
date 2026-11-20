@@ -314,8 +314,6 @@ fi
 ###############################################################################
 header "10. Sandbox-configuratie"
 
-AE_DIR="${CARDINE_DIR}/../Agent_Engineering"
-
 CARDINE_BWRAP_EXPECTED="${LAB_DIR}/cardine-bwrap"
 SLICE_CHECK_EXPECTED="${LAB_DIR}/cardine-slice-check/index.js"
 SANDBOX_OK=true
@@ -426,20 +424,6 @@ fi
 ###############################################################################
 # 11. Agent_Engineering status
 ###############################################################################
-header "11. Agent_Engineering"
-
-if [ -d "$AE_DIR" ]; then
-  AE_PKG="${AE_DIR}/package.json"
-  if [ -f "$AE_PKG" ]; then
-    AE_VER=$(node -e "const p=require('${AE_PKG}'); console.log(p.version||'onbekend')" 2>/dev/null || echo "onbekend")
-    pass "Agent_Engineering" "versie $AE_VER"
-  else
-    warn "Agent_Engineering" "geen package.json in $AE_DIR"
-  fi
-else
-  warn "Agent_Engineering" "map niet gevonden naast cardine"
-fi
-
 ###############################################################################
 # Overzicht
 ###############################################################################

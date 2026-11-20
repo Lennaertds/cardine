@@ -1,7 +1,7 @@
 # IDE-shell
 
 > **Rol:** Bijhouden wat de IDE-shell is — GUI-host voor iemand die VS Code/Cursor kent. Besliscriterium is de kwaliteit van het agent-pad.
-> **Niet hier:** besluit ([ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)); criteria ([cursor-vervang-lagen](../work/specs/cursor-vervang-lagen.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Niet hier:** besluit ([ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
 
 **Stand:** beslist · **ADR:** [0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)
 

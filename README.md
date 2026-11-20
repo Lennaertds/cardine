@@ -1,33 +1,75 @@
 # Cardine
 
-> **Rol:** Lab-eerst. Nu de persoonlijke stapel op Arch Linux Hyprland: Zed + DeepSeek Harness + indexing + de structure uit Agent_Engineering ([ADR 0012](docs/decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md)). Later is deze repo het publieke uithangbord: packages en guides, met de structure gepullt uit Agent_Engineering ([ADR 0013](docs/decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)). Vorm: [ADR 0009](docs/decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md), [ADR 0010](docs/decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md).
-> **Niet hier:** de projectstandaard of de kennissamenvattingen. Die leven in de sibling-repo **Agent_Engineering**.
+> **Het scharnier voor mens en AI-agent in elk project.**
+>
+> Cardine is een projectstructuur én een reproduceerbaar AI-agent-werkstation.
+> Geen nieuwe editor, geen lock-in — alleen de standaard en de tools om er meteen
+> te werken, met de agent die je al hebt.
 
-## Naam & Filosofie
+## Waarom Cardine?
 
-- **Waarom *Cardine*:** *Cardine* is de Latijnse ablatief van *cardo* (de spil, het scharnier, de hoofdas waar een stad of constructie omheen is gebouwd). De ablatief drukt het middel en uitgangspunt uit: *"waarmee en vanuit waar alles scharniert"*.
-- **Filosofie:** Cardine bouwt geen editor. Het scharnier is de projectstructuur: een boom waarin mens en agent meteen werken, met een gids naar de editor en de agent die iemand al heeft.
+*Cardine* is de Latijnse ablatief van *cardo* (de spil, het scharnier). *"Waarmee en vanuit waar alles scharniert."*
 
-## Drie sporen
+AI-assistenten werken het best met een vaste projectstructuur. Zonder worden ze
+richtingloos; met te veel gereedschap raak je verstrikt. Cardine geeft **de
+structuur** (een bewezen boom voor mens én agent) en **de toolchain** (sandbox,
+indexering, status-checks) — en laat jou kiezen welke editor en welk model je
+gebruikt.
 
-| Spoor | Repo | Wat |
-|-------|------|-----|
-| 1 Omgeving | [Agent_Engineering](../Agent_Engineering/) (`kit/`, bootstrap) | Standaard voor GymFreak e.d. |
-| 2 Kennis | [Agent_Engineering/bron](../Agent_Engineering/bron/) | Principes, §, fundament — SSOT, niet kopiëren |
-| 3 Dit lab | **deze repo (`cardine`)** | Nu de persoonlijke stapel. Later het uithangbord: packages, guides, structure gepullt uit spoor 1 |
+## Architectuur
 
-## Architectuur & Distributie (kort)
+```mermaid
+graph TD
+    M[cardine — meta]<br>README, docs, gidsen] --> L[cardine-lab<br>Arch/Hyprland werkstation]
+    M --> S[cardine-structure<br>Projectstandaard]
+    L --> D[DSH + Jarvis + bwrap<br>Sandbox, indexering, status]
+    S --> K[Agent_Engineering/kit/<br>Bewezen structuur]
+    style M fill:#4a90d9,color:#fff
+    style L fill:#50b86c,color:#fff
+    style S fill:#e8a838,color:#fff
+```
 
-De verpakking staat in [PRODUCT.md](docs/product/PRODUCT.md). Eén meta-package wijst naar losse packages: de structuur, Claude in Zed, ChatGPT in Zed, en Zed + DeepSeek Harness met een API-key. Geen van die vier is verplicht. Op het lab-pad draait de agent-shell onder `bwrap`.
+| Package | Wat | Voor wie |
+|---------|-----|----------|
+| **[cardine-lab]** ⚙️ | Reproduceerbaar AI-agent-werkstation voor Arch Linux / Hyprland. Installeert DSH, Jarvis, bwrap-sandbox en Zed-config in één script. | Wie Zed + DeepSeek Harness op Arch wil draaien |
+| **[cardine-structure]** 📁 | Projectstandaard voor ieder project, ongeacht editor of abonnement. `npx cardine-structure mijn-project` begint met een bewezen structuur. | Iedereen met een project |
 
-## Werken met agents + bronnen
+## Installatie-paden
 
-Open de multi-root workspace (alle roots tegelijk):
+### Alleen de projectstructuur
 
-`../Agent+Cardine.code-workspace`
+```bash
+npx cardine-structure mijn-project --profile app --modules research,agent
+```
 
-Dan ziet de agent `cardine`, `Agent_Engineering/bron` én `Studeren` (voor planning en overkoepelende project-todos). Nieuwe lessen uit dit lab → eerst een § in Agent_Engineering `bron/bronnen.md`, pas daarna eventueel brug naar de kit (nooit rechtstreeks).
+### Volledig AI-agent-werkstation (Arch Linux / Hyprland)
 
-## Start
+```bash
+# 1. Installeer de toolchain
+bash <(curl -fsSL https://raw.githubusercontent.com/ventje/cardine/main/packages/lab/install-lab.sh)
 
-Kit staat (solo; modules agent, research, product; nog geen stacks). Context: [docs/context/CONTEXT.md](docs/context/CONTEXT.md) · Product: [docs/product/PRODUCT.md](docs/product/PRODUCT.md) · Lab-pad: [docs/product/totaalproduct.md](docs/product/totaalproduct.md). Eigen app-code pas na een runtime-ADR. Daarna BOOTSTRAP-stap 3 (apps).
+# 2. Voeg de projectstandaard toe
+npx cardine-structure mijn-project --profile full
+```
+
+## Docs
+
+| Waar | Wat |
+|------|-----|
+| [docs/INDEX.md](docs/INDEX.md) | Volledige docs-kaart |
+| [docs/product/PRODUCT.md](docs/product/PRODUCT.md) | Productoverzicht |
+| [docs/decisions/](docs/decisions/) | Architectuurbesluiten (ADR's) |
+| [docs/packages/VERSIONING.md](docs/packages/VERSIONING.md) | Versiebeheer |
+
+## Ontwikkeling
+
+Deze repo is het publieke uithangbord. De **projectstandaard** en
+**kennissamenvattingen** leven in de sibling-repo
+[**Agent_Engineering**](https://github.com/ventje/Agent_Engineering) (privé,
+SSOT). Cardine pullt daaruit.
+
+Zie [AGENTS.md](AGENTS.md) voor agent-instructies en [docs/INDEX.md](docs/INDEX.md)
+voor de volledige documentatie-kaart.
+
+[cardine-lab]: packages/lab/README.md
+[cardine-structure]: packages/structure/README.md

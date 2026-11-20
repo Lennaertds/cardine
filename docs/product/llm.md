@@ -1,9 +1,9 @@
 # LLM
 
 > **Rol:** Bijhouden van BYOK-modelproviders — default, fallbacks, wat wél de machine verlaat.
-> **Niet hier:** werkplan ([onderdeel-llm](../work/specs/onderdeel-llm.md)); harness-routing ([harness.md](harness.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Niet hier:** harness-routing ([harness.md](harness.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** beslist · **ADR:** [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) (default) en [0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) (`deepseek-flash` + Claude) · **Spec:** [onderdeel-llm](../work/specs/onderdeel-llm.md)
+**Stand:** beslist · **ADR:** [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) (default) en [0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) (`deepseek-flash` + Claude) · **Spec weg** — besluit in ADR's, vorm in product-doc
 
 ## Wat de gebruiker kan
 

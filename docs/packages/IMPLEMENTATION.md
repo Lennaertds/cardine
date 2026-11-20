@@ -7,7 +7,7 @@
 
 | Taak | Duur |
 |------|------|
-| Mapstructuur aanmaken `packages/lab/`, `packages/structure/`, `packages/zed-dsh/` | 1 dag |
+| Mapstructuur aanmaken `packages/lab/`, `packages/structure/` | 1 dag |
 | `install-lab.sh` verhuizen naar `packages/lab/` en publiek maken | 1 dag |
 | Alle scripts verhuizen naar `packages/lab/scripts/` | 1 dag |
 | CHANGELOG.md per package aanmaken | 1 dag |
@@ -28,13 +28,6 @@
 | `package.json` updaten met verwijzingen | 1 dag |
 | Overbodige root-bestanden opkuisen | 1 dag |
 
-## Fase 4 — Zed-DSH package
-
-| Taak | Duur |
-|------|------|
-| Zed-DSH install/config package maken | 1 dag |
-| CHANGELOG + README | 1 dag |
-
 ## Tijdlijn
 
 ```mermaid
@@ -43,7 +36,7 @@ gantt
     dateFormat  YYYY-MM-DD
     
     section Fase 1 — Package-structuur
-    Mapstructuur aanmaken packages/lab/ packages/structure/ packages/zed-dsh/       :p1a, 2026-11-21, 1d
+    Mapstructuur aanmaken packages/lab/ packages/structure/                         :p1a, 2026-11-21, 1d
     install-lab.sh verhuizen naar packages/lab/ en publiek maken                    :p1b, after p1a, 1d
     Alle scripts verhuizen naar packages/lab/scripts/                               :p1c, after p1b, 1d
     CHANGELOG.md per package aanmaken                                               :p1d, after p1c, 1d
@@ -57,8 +50,4 @@ gantt
     Root README herschrijven als uithangbord                                         :p3a, after p2c, 1d
     package.json updaten met verwijzingen                                           :p3b, after p3a, 1d
     Overbodige root-bestanden opkuisen                                              :p3c, after p3b, 1d
-    
-    section Fase 4 — Zed-DSH package
-    Zed-DSH install/config package maken                                            :p4a, after p3c, 1d
-    CHANGELOG + README                                                              :p4b, after p4a, 1d
 ```

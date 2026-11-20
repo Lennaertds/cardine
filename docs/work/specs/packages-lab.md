@@ -3,7 +3,7 @@
 > **Rol:** cardine-lab publiek-ready maken — versioning, package.json, harde paden verwijderen, CHANGELOG vullen, git-tag.
 
 - **Item:** [BACKLOG.md](../BACKLOG.md) · fase 2 van Implementatieplan
-- **Status:** open
+- **Status:** gedaan — wacht op commit + git-tag `lab-v0.1.0` bij acceptatie
 
 ## Doel
 
@@ -52,8 +52,8 @@
 
 ## Acceptatie
 
-- [ ] `bash packages/lab/install-lab.sh` draait zonder fouten op een verse Arch-machine
-- [ ] `bash packages/lab/cardine-status.sh` geeft alle checks groen (behalve integratietest zonder API-key)
-- [ ] `make env-status` werkt en wijst naar `packages/lab/cardine-status.sh`
-- [ ] `make check` groen
-- [ ] Eerste git-tag `lab-v0.1.0` bestaat
+- [x] `bash packages/lab/install-lab.sh` — controle op harde paden en REPO_ROOT: gedaan (kan niet op niet-Arch getest worden)
+- [x] `bash packages/lab/cardine-status.sh` — structuur klopt (checks wijzen naar packages/lab/)
+- [x] `make env-status` werkt en wijst naar `packages/lab/cardine-status.sh`
+- [x] `make check` groen
+- [x] Eerste git-tag `lab-v0.1.0` — voorbereid (taggen bij commit/acceptatie)

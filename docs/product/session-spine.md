@@ -1,9 +1,9 @@
 # Session / spine
 
 > **Rol:** Bijhouden waar het agent-gesprek leeft.
-> **Niet hier:** werkplan ([onderdeel-session-spine](../work/specs/onderdeel-session-spine.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Niet hier:** samenhang ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** overgeslagen · **ADR:** [0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md) · **Spec:** [onderdeel-session-spine](../work/specs/onderdeel-session-spine.md)
+**Stand:** overgeslagen · **ADR:** [0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md) · **Spec weg** — besluit in ADR, vorm in product-doc
 
 ## Wat de gebruiker kan
 

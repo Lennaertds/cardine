@@ -2,7 +2,7 @@
 
 - **Status:** aanvaard
 - **Datum:** 2026-11-16
-- **Raakt:** [tools.md](../product/tools.md), [onderdeel-tools](../work/specs/onderdeel-tools.md), [totaalproduct.md](../product/totaalproduct.md), [structure.md](../product/structure.md), [PRODUCT.md](../product/PRODUCT.md), [BACKLOG.md](../work/BACKLOG.md). Sluit T2 en T3 uit [0003](0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md).
+- **Raakt:** [tools.md](../product/tools.md), [totaalproduct.md](../product/totaalproduct.md), [structure.md](../product/structure.md), [PRODUCT.md](../product/PRODUCT.md), [BACKLOG.md](../work/BACKLOG.md). Spec `onderdeel-tools` verwijderd — product-doc volstaat. Sluit T2 en T3 uit [0003](0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md).
 
 ## Samenvatting
 

@@ -1,9 +1,9 @@
 # Harness
 
 > **Rol:** Bijhouden van de agent-loop — runtime, permissions, sessions, routing naar tools/LLM/indexing.
-> **Niet hier:** werkplan ([onderdeel-harness](../work/specs/onderdeel-harness.md)); modelkeuze ([llm.md](llm.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Niet hier:** modelkeuze ([llm.md](llm.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** beslist · **ADR:** [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) · **Spec:** [onderdeel-harness](../work/specs/onderdeel-harness.md) · bronnen: §76 Pi, §77 DSH
+**Stand:** beslist · **ADR:** [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) · **Spec weg** — besluit in ADR, vorm in product-doc · bronnen: §76 Pi, §77 DSH
 
 ## Wat de gebruiker kan
 

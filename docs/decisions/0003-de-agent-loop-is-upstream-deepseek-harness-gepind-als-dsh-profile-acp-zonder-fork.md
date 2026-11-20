@@ -2,7 +2,7 @@
 
 - **Status:** aanvaard
 - **Datum:** 2026-11-16
-- **Raakt:** [harness.md](../product/harness.md), [tools.md](../product/tools.md), [llm.md](../product/llm.md), [totaalproduct.md](../product/totaalproduct.md), [PRODUCT.md](../product/PRODUCT.md), [onderdeel-harness](../work/specs/onderdeel-harness.md), [BACKLOG.md](../work/BACKLOG.md). [0001](0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) en [0002](0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) blijven gelden.
+- **Raakt:** [harness.md](../product/harness.md), [tools.md](../product/tools.md), [llm.md](../product/llm.md), [totaalproduct.md](../product/totaalproduct.md), [PRODUCT.md](../product/PRODUCT.md), [BACKLOG.md](../work/BACKLOG.md). Spec `onderdeel-harness` verwijderd — product-doc volstaat. [0001](0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) en [0002](0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) blijven gelden.
 
 ## Samenvatting
 

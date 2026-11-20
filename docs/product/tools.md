@@ -1,9 +1,9 @@
 # Tools
 
 > **Rol:** Bijhouden van de exec-laag — wat de agent mag doen (read/edit/shell/MCP) en onder welke goedkeuring.
-> **Niet hier:** werkplan ([onderdeel-tools](../work/specs/onderdeel-tools.md)); harness-loop ([harness.md](harness.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Niet hier:** harness-loop ([harness.md](harness.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** beslist · **ADR:** [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) (whitelist) en [0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) (allowlist + `bwrap`) · **Spec:** [onderdeel-tools](../work/specs/onderdeel-tools.md)
+**Stand:** beslist · **ADR:** [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) (whitelist) en [0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) (allowlist + `bwrap`) · **Spec weg** — besluit in ADR's, vorm in product-doc
 
 ## Wat de gebruiker kan
 

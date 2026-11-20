@@ -9,8 +9,7 @@
 |---|---------|-----|-----------|-----------------|
 | 1 | **`cardine-lab`** | [cardine-lab.md](cardine-lab.md) | Arch/Hyprland AI-agent-werkstation | `curl … \| bash`, npm, later AUR |
 | 2 | **`cardine-structure`** | [cardine-structure.md](cardine-structure.md) | Iedereen met een project (elke editor) | `npx cardine-structure`, zip/tarball |
-| 3 | **`cardine-zed-dsh`** | [cardine-zed-dsh.md](cardine-zed-dsh.md) | Wie Zed + DSH met API-key wil | config-script, npm |
-| — | **`cardine`** (meta) | [cardine-meta.md](cardine-meta.md) | Iedereen op de GitHub-repo | verwijst naar 1, 2, 3 |
+| — | **`cardine`** (meta) | [cardine-meta.md](cardine-meta.md) | Iedereen op de GitHub-repo | verwijst naar 1, 2 |
 
 ### Later (optioneel)
 

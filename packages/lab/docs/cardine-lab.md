@@ -65,9 +65,9 @@ packages/lab/
 
 | Onderdeel | Reden |
 |-----------|-------|
-| Persoonlijke paden in `install-lab.sh` (bv. `REPO_ROOT` naar Agent_Engineering) | Moet generiek gemaakt worden |
-| Harde paden naar `/home/ventje/` | Moet `$HOME`-relatief zijn in publieke versie |
-| DSH-profiel met DeepInfra-specifieke config | Wordt gegenereerd; template blijft in package |
+| `systemd/*.service` met `_jouwgebruiker_` placeholder | Per-machine config; kopieer en pas aan |
+| Persoonlijke keys in `~/.dsh/.env` | Altijd lokaal, nooit in git |
+| Agent_Engineering-verbindingen | Sibling-repo, niet publiek |
 
 ## Installatie
 

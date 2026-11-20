@@ -2,7 +2,7 @@
 
 - **Status:** aanvaard
 - **Datum:** 2026-11-16
-- **Raakt:** [llm.md](../product/llm.md), [onderdeel-llm](../work/specs/onderdeel-llm.md), [totaalproduct.md](../product/totaalproduct.md), [PRODUCT.md](../product/PRODUCT.md), [BACKLOG.md](../work/BACKLOG.md). Sluit L2 en L3 uit [0003](0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). Geldt voor het API-key-pad; de abonnement-paden kiezen hun model zelf ([0010](0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md)).
+- **Raakt:** [llm.md](../product/llm.md), [totaalproduct.md](../product/totaalproduct.md), [PRODUCT.md](../product/PRODUCT.md), [BACKLOG.md](../work/BACKLOG.md). Spec `onderdeel-llm` verwijderd — product-doc volstaat. Sluit L2 en L3 uit [0003](0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). Geldt voor het API-key-pad; de abonnement-paden kiezen hun model zelf ([0010](0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md)).
 
 ## Samenvatting
 

@@ -1,0 +1,12 @@
+{
+  "name": "cardine-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "cardine-lab — reproduceerbaar AI-agent-werkstation voor Arch Linux / Hyprland. Toolchain, sandbox, indexering en editor-koppeling.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ventje/cardine.git",
+    "directory": "packages/lab"
+  },
+  "license": "MIT"
+}

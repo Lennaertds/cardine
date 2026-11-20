@@ -1,9 +1,9 @@
 # Indexing / Project-Understanding
 
 > **Rol:** Bijhouden van domein **indexing** — snelle, gerichte projectcontext voor de agent.
-> **Niet hier:** werkplan X1–X7 ([onderdeel-indexing](../work/specs/onderdeel-indexing.md)); FS-bus ([fs-events.md](fs-events.md)); samenhang ([totaalproduct.md](totaalproduct.md)); ADRs.
+> **Niet hier:** FS-bus ([fs-events.md](fs-events.md)); samenhang ([totaalproduct.md](totaalproduct.md)); ADRs.
 
-**Stand:** beslist, alleen agent-pad · **ADR:** [0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md) · **Spec:** [onderdeel-indexing](../work/specs/onderdeel-indexing.md)
+**Stand:** beslist, alleen agent-pad · **ADR:** [0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md) · **Spec weg** — besluit in ADR, vorm in product-doc
 
 ## Wat de gebruiker kan
 

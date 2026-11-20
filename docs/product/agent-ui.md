@@ -1,7 +1,7 @@
 # Agent-UI
 
 > **Rol:** Bijhouden van de menselijke agent-oppervlakte — chat, diffs, apply/reject.
-> **Niet hier:** werkplan ([onderdeel-agent-ui](../work/specs/onderdeel-agent-ui.md)); IDE-shell ([ide-shell.md](ide-shell.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Niet hier:** IDE-shell ([ide-shell.md](ide-shell.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
 
 **Stand:** beslist · geen aparte ADR (volgt [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md): ACP, geen fork)
 
