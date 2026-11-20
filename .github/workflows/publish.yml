@@ -1,0 +1,60 @@
+# Publish packages to GitHub Packages
+#
+# Triggered by git tags:
+#   v*               → Create GitHub Release (meta)
+#   structure-v*     → Publish @lennaertds/cardine-structure to GitHub Packages
+#   lab-v*           → Publish @lennaertds/cardine-lab to GitHub Packages
+#
+# GitHub Packages authenticates via GITHUB_TOKEN (automatisch beschikbaar).
+# Voor scoped packages (@lennaertds/*) moet de `.npmrc` correct staan.
+
+name: publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - 'structure-v*'
+      - 'lab-v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # voor GitHub Release
+      packages: write       # voor GitHub Packages
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@lennaertds'
+
+      # --- GitHub Release (bij v* tags) ---
+      - name: Create GitHub Release
+        if: startsWith(github.ref_name, 'v') && !startsWith(github.ref_name, 'v0.')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            --title "Cardine ${{ github.ref_name }}" \
+            --generate-notes \
+            --draft
+
+      # --- Publish @lennaertds/cardine-structure (bij structure-v* tags) ---
+      - name: Publish cardine-structure
+        if: startsWith(github.ref_name, 'structure-v')
+        working-directory: packages/structure
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish
+
+      # --- Publish @lennaertds/cardine-lab (bij lab-v* tags) ---
+      - name: Publish cardine-lab
+        if: startsWith(github.ref_name, 'lab-v')
+        working-directory: packages/lab
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish

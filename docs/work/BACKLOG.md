@@ -36,6 +36,7 @@ De afgewerkte stappen 0–8 (kader t/m session-spine) staan in [product/](../pro
 | Baseline indexing vs `rg` | product | Staat in [indexing.md](../product/indexing.md). |
 | Runtime + `--starter` / generators | apps | Na ADR's; bootstrap bewaakt |
 | API-key zelf in `~/.dsh/.env` zetten | harness | Hoe-to [lab-install](../how-to/zed-dsh.md); de waarde ontbreekt nog |
+| [tokenlogger](specs/tokenlogger.md) | harness | Per-turn token-tracking voor kosteninzicht en H×M-metingen |
 | Seam-tests | architecture | Pas na stack |
 | OTel / `make obs-*` | observability | Geen app |
 | Performance-budgets + `bench.sh` | performance | Geen meetpad zonder runtime |
