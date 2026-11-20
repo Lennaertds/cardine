@@ -72,6 +72,15 @@
 - `work/specs/` — Plan per item; na merge weg.
 - `work/logs/` — Dag-logs. Zoeken met `rg`, niet laden.
 
+## Packages — ontwerpdocumentatie
+
+- [packages/INDEX.md](packages/INDEX.md) — Overzicht van alle packages
+- [packages/cardine-lab.md](packages/cardine-lab.md) — cardine-lab package
+- [packages/cardine-structure.md](packages/cardine-structure.md) — cardine-structure package
+- [packages/cardine-zed-dsh.md](packages/cardine-zed-dsh.md) — cardine-zed-dsh package
+- [packages/cardine-meta.md](packages/cardine-meta.md) — Meta-package cardine
+- [packages/VERSIONING.md](packages/VERSIONING.md) — Versiebeheer en changelogs
+
 ## Agent — alleen bij schrijven of meta-taken
 
 - [write-rules.md](agent/write-rules.md) — Welke paden vrij, welke na toestemming.

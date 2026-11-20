@@ -252,13 +252,13 @@ context: ## startcontext in één keer tonen: make context [s=<slug>]
 
 finish: check ## afronden in één call: make finish m="aanleiding · bestanden · test · rest · item"
 	@test -n "$(m)" || { echo 'gebruik: make finish m="aanleiding · bestanden · test · rest · item"' >&2; exit 1; }
-	@file=$$($(MAKE) -s log); \
+	@file="$(shell $(MAKE) -s log)"; \
 	awk -v entry="- $(m)" ' \
 		/^## Gedaan/ { print; print ""; print entry; added=1; next } \
 		{ print } \
 		END { if (!added) print "\n## Gedaan\n\n" entry } \
-	' "$$file" > "$$file.tmp" && mv "$$file.tmp" "$$file"
-	@echo "Gelogd in $$file"
+	' "$$file" > "$$file.tmp" && mv "$$file.tmp" "$$file"; \
+	echo "Gelogd in $$file"
 
 env-status: ## status van DSH, Jarvis en deze omgeving (scripts/cardine-status.sh)
 	@bash scripts/cardine-status.sh
