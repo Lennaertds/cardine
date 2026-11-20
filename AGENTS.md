@@ -22,10 +22,17 @@ Lab-eerst (spoor 3): minimale AI-harness + standaard; later mogelijk gratis prod
 
 Alle commando's (incl. opt-in `security-scan*`, `obs-*`, `perf-*`, `deps-audit`, `polyglot-check`, `radar-*`, `digest-*`): `make help`.
 
+## Research vs besluiten
+
+- **Research** (onderbouwing) hoort in Agent_Engineering `bron/bronnen.md` als § (privé). Dat zijn de feiten, bronnen, experimenten — de *waarom*.
+- **Context en besluiten** in deze repo: `docs/decisions/` voor ADRs (harde keuzes) en eventueel context-docs die de achtergrond bij een besluit samenvatten. Niet dupliceren van § — alleen de voor deze repo relevante synthese.
+- **In README's** verwijs je naar `docs/decisions/` voor context en naar `docs/decisions/`-ADRs voor harde besluiten. De feitelijke onderbouwing (de research in Agent_Engineering) is privé en link je niet direct.
+- **Nieuw inzicht** dat in deze repo thuishoort? Eerst een § in Agent_Engineering, dan een ADR of context-doc hier. Geen §-duplicatie.
+
 ## Werken
 
 - **Start in 1 call:** draai `make context` (of `make context s=<slug>`) voor `RULES.md` + `BACKLOG.md` + eventuele spec. Geen item genoemd en niet duidelijk uit `BACKLOG.md`? Vraag welk item — geen default.
-- **Direct naar het juiste bestand** (open [docs/INDEX.md](docs/INDEX.md) alleen als de plek onbekend is): gedrag → [PRODUCT.md](docs/product/PRODUCT.md) + 1 domeinbestand; architectuur/seams → [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) + 1 subsystem; onderzoek → [RESEARCH.md](docs/research/RESEARCH.md) + 1 verslag; termen (`harness`, `structure`, `indexing`) → [GLOSSARY.md](docs/context/GLOSSARY.md); security → [security.md](docs/architecture/security.md).
+- **Direct naar het juiste bestand** (open [docs/INDEX.md](docs/INDEX.md) alleen als de plek onbekend is): gedrag → [PRODUCT.md](docs/product/PRODUCT.md) + 1 domeinbestand; architectuur/seams → [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) + 1 subsystem; context/besluiten → [docs/decisions/](docs/decisions/); termen (`harness`, `structure`, `indexing`) → [GLOSSARY.md](docs/context/GLOSSARY.md); security → [security.md](docs/architecture/security.md).
 - **Nieuw open werk:** `make spec s=<slug>` (BACKLOG blijft een korte indexregel; plan in `docs/work/specs/<slug>.md`).
 - **Uitvoeren wint van praten:** bij *implementeer* / *bouw* / *doe* / *fix* / *voer uit* / *ja* → direct code/docs wijzigen in deze beurt, geen tweede plan.
 - **Kwaliteit & scope:** **intent** boven groene tests; **één slice** per sessie; `## Bewust later` (P28) bij bewust incomplete oplevering. Regels per app: `apps/<app>/AGENTS.md`.

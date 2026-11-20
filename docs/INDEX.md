@@ -67,6 +67,12 @@
   - [0011 — Stack volgt op beslissingsdocs en een catalogus](decisions/0011-de-stack-volgt-op-beslissingsdocs-en-een-goedkeuring-tegen-een-catalogus.md)
   - [0012 — Eerst de persoonlijke stack op Arch Linux Hyprland](decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md)
   - [0013 — Cardine is het publieke uithangbord en pullt de structure](decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)
+   
+  Context-docs (geen ADR, maar achtergrond bij besluiten):
+   - [packages-context.md](decisions/packages-context.md) — Waarom meta, lab, structure, en de onderzoeksvragen die eraan voorafgingen
+
+Onderscheid research vs besluiten: [AGENTS.md](../AGENTS.md) § Research vs besluiten.
+
 ## Werk — status (niet vooraf lezen)
 
 - [BACKLOG.md](work/BACKLOG.md) — Index van open werk (korte regel + link). Nieuw item: `make spec s=<slug>`.
@@ -82,13 +88,11 @@
 - [packages/VERSIONING.md](packages/VERSIONING.md) — Versiebeheer en changelogs
 - [packages/IMPLEMENTATION.md](packages/IMPLEMENTATION.md) — Implementatieplan (fasering)
 
-## Packages — specs (werk-items)
+## Packages — specs (alleen nog open werk)
 
-| Volg | Spec | Status |
-|------|------|--------|
-| 9 | [packages-lab](work/specs/packages-lab.md) | open — cardine-lab publiek-ready |
-| ✓ | [packages-structure](work/specs/packages-structure.md) | done — pull_kit.sh, kit/@c841cb9, package.json, tag structure-v0.1.0 |
-| ✓ | [packages-meta](work/specs/packages-meta.md) | done — README als uithangbord, meta-package afgerond |
+| Spec | Status |
+|------|--------|
+| [bootstrap-geen-stack-tot-adr](work/specs/bootstrap-geen-stack-tot-adr.md) | open (guardrail) |
 
 ## Agent — alleen bij schrijven of meta-taken
 

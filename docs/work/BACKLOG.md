@@ -22,9 +22,9 @@ De afgewerkte stappen 0–8 (kader t/m session-spine) staan in [product/](../pro
 | Volg | Item | Categorie | Status |
 |------|------|-----------|--------|
 | — | [bootstrap-geen-stack-tot-adr](specs/bootstrap-geen-stack-tot-adr.md) | bootstrap | open (guardrail) |
-| ✓ | [packages-lab](specs/packages-lab.md) | packages | gedaan — package.json, harde paden opgeruimd, CHANGELOG 0.1.0, tag wacht op commit |
-| ✓ | [packages-structure](specs/packages-structure.md) | packages | gedaan — pull_kit.sh, eerste pull @c841cb9, package.json 0.1.0, tag structure-v0.1.0 |
-| 12 | [packages-meta](specs/packages-meta.md) | packages | Meta-package: README als uithangbord, opruimen |
+| 1 | [lab-en-structure-testronde](specs/lab-en-structure-testronde.md) | packages | Testen en fixen naar volgende versies — eerst bewijzen dat het werkt, dan pas uitbreiden |
+| — | [lab-macos](specs/lab-macos.md) | packages | packages/lab/ werkend op macOS (Intel + Apple Silicon) |
+| — | [lab-andere-linux](specs/lab-andere-linux.md) | packages | packages/lab/ uitbreiden naar Debian, Fedora, openSUSE |
 
 ## Straks
 
@@ -40,7 +40,6 @@ De afgewerkte stappen 0–8 (kader t/m session-spine) staan in [product/](../pro
 | OTel / `make obs-*` | observability | Geen app |
 | Performance-budgets + `bench.sh` | performance | Geen meetpad zonder runtime |
 | Strix-install + key | security | Geen netwerk-facing app nog |
-| Digest-feeds + week-cron | research | gedaan |
 
 ## Geparkeerd
 
