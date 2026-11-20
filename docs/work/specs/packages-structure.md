@@ -3,8 +3,9 @@
 > **Rol:** cardine-structure publiek-ready maken — pull_kit.sh, eerste pinned pull uit Agent_Engineering, package.json, CHANGELOG, README.
 
 - **Item:** [BACKLOG.md](../BACKLOG.md) · fase 2 van Implementatieplan
-- **Status:** open
-- **Blokkade:** Agent_Engineering repo moet bereikbaar zijn voor de eerste pull
+- **Status:** gereed
+- **Blokkade:** (opgelost) Agent_Engineering repo was bereikbaar
+- **Afhankelijkheid:** Agent_Engineering moet kit-tags beheren (zie `standaard/versioning.md` aldaar)
 
 ## Doel
 
@@ -20,49 +21,53 @@
 - ✅ Mapstructuur: `packages/structure/{kit,docs}/`
 - ✅ `README.md` en `CHANGELOG.md` bestaan (template)
 - ✅ `docs/cardine-structure.md` in `packages/structure/docs/`
-- ❌ `pull_kit.sh` — nog niet geschreven
-- ❌ `kit/` is leeg — nog geen pull gedaan
-- ❌ `package.json` — nog niet aangemaakt
-- ❌ `new-project.sh` — zit in Agent_Engineering, moet meegepulled worden
+- ✅ `pull_kit.sh` — geschreven en uitvoerbaar
+- ✅ `kit/` — eerste pull gedaan (commit c841cb9)
+- ✅ `package.json` — aangemaakt
+- ✅ `new-project.sh` — meegepulled in kit/
 
 ## Nog te doen
 
 ### Slice 1 — pull_kit.sh script
 
-- [ ] `packages/structure/pull_kit.sh` schrijven dat:
+- [x] `packages/structure/pull_kit.sh` schrijven dat:
   - Een pinned commit uit `Agent_Engineering/kit/` kopieert naar `packages/structure/kit/`
   - De commit hash opslaat in `kit/COMMIT` (of in package.json)
   - Idempotent is
-- [ ] Script uitvoerbaar maken (`chmod +x`)
+- [x] Script uitvoerbaar maken (`chmod +x`)
 
 ### Slice 2 — Eerste pinned pull
 
-- [ ] Bepalen welke commit uit Agent_Engineering gepulled wordt
-- [ ] `pull_kit.sh` draaien
-- [ ] Inhoud van `kit/` controleren (minstens: `kern/`, `solo/`, `logging/`, `new-project.sh`)
+- [x] Bepalen welke commit uit Agent_Engineering gepulled wordt
+- [x] `pull_kit.sh` draaien
+- [x] Inhoud van `kit/` controleren (minstens: `kern/`, `solo/`, `logging/`, `new-project.sh`)
 
 ### Slice 3 — Package.json en versioning
 
-- [ ] `packages/structure/package.json` aanmaken met naam `cardine-structure`, versie `0.1.0`
-- [ ] CHANGELOG.md vullen met `0.1.0` entry
-- [ ] Git-tag `structure-v0.1.0` voorbereiden
+- [x] `packages/structure/package.json` aanmaken met naam `cardine-structure`, versie `0.1.0`
+- [x] CHANGELOG.md vullen met `0.1.0` entry
+- [x] Git-tag `structure-v0.1.0` voorbereiden
+- [x] `pull_kit.sh` ondersteunt `--tag` (resolveert kit-v<semver> naar commit)
+- [x] Agent_Engineering: `scripts/tag-kit.sh`, `standaard/versioning.md`, `make tag-kit`
 
 ### Slice 4 — README en docs
 
-- [ ] README.md in `packages/structure/` controleren
-- [ ] `docs/cardine-structure.md` synchen met de werkelijkheid
+- [x] README.md in `packages/structure/` controleren
+- [x] `docs/cardine-structure.md` synchen met de werkelijkheid
 
 ## Raakvlakken
 
 - `Agent_Engineering/kit/` — SSOT (privé), wordt gepulled
-- `packages/structure/pull_kit.sh` — nog te schrijven
-- `packages/structure/package.json` — nog aan te maken
-- `packages/structure/kit/` — doel van de pull
+- `Agent_Engineering/standaard/versioning.md` — kit-tag beleid (nieuw) <!-- three-place: standaard/versioning.md, AGENTS.md, Makefile + scripts/tag-kit.sh -->
+- `packages/structure/pull_kit.sh` — geschreven, ondersteunt `--tag`
+- `packages/structure/package.json` — aangemaakt
+- `packages/structure/kit/` — gevuld met pull op commit c841cb9 (tag `kit-v0.1.0`)
+- `packages/structure/docs/cardine-structure.md` — versie-koppelingstabel
 - `docs/packages/VERSIONING.md` — versioning-schema
 
 ## Acceptatie
 
-- [ ] `bash packages/structure/pull_kit.sh` draait idempotent
-- [ ] `packages/structure/kit/` bevat `kern/`, `solo/`, `logging/`, `new-project.sh`
-- [ ] Git-tag `structure-v0.1.0` bestaat
-- [ ] `make check` groen
+- [x] `bash packages/structure/pull_kit.sh` draait idempotent
+- [x] `packages/structure/kit/` bevat `kern/`, `solo/`, `logging/`, `new-project.sh`
+- [x] Git-tag `structure-v0.1.0` bestaat
+- [x] `make check` groen
