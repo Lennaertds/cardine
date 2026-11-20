@@ -20,10 +20,10 @@ gebruikt.
 
 ```mermaid
 graph TD
-    M[cardine — meta]<br>README, docs, gidsen] --> L[cardine-lab<br>Arch/Hyprland werkstation]
-    M --> S[cardine-structure<br>Projectstandaard]
-    L --> D[DSH + Jarvis + bwrap<br>Sandbox, indexering, status]
-    S --> K[Agent_Engineering/kit/<br>Bewezen structuur]
+    M("cardine (meta)") --> L("cardine-lab")
+    M --> S("cardine-structure")
+    L --> D("DSH + Jarvis + bwrap")
+    S --> K("Agent_Engineering / kit")
     style M fill:#4a90d9,color:#fff
     style L fill:#50b86c,color:#fff
     style S fill:#e8a838,color:#fff
