@@ -42,6 +42,10 @@ Geen code/`--starter` tot een runtime-ADR. [0001](../decisions/0001-runtime-stac
 | — | [bootstrap-geen-stack-tot-adr](specs/bootstrap-geen-stack-tot-adr.md) | bootstrap | open (guardrail) |
 | ✓ | [cursor-vervang-lagen](specs/cursor-vervang-lagen.md) | research | gedaan — A4-shortlist; shell-keuze in [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
 | ✓ | [onderzoek-a2-harnesses](specs/onderzoek-a2-harnesses.md) | research | gedaan (§76–§79); voedt stap 4 |
+| 9 | [packages-lab](specs/packages-lab.md) | packages | cardine-lab publiek-ready — package.json, installer, versioning |
+| 10 | [packages-structure](specs/packages-structure.md) | packages | cardine-structure: pull_kit.sh, eerste pull, versioning |
+| 11 | [packages-zed-dsh](specs/packages-zed-dsh.md) | packages | cardine-zed-dsh: install.sh, profiel, versioning |
+| 12 | [packages-meta](specs/packages-meta.md) | packages | Meta-package: README als uithangbord, opruimen |
 
 ## Straks
 

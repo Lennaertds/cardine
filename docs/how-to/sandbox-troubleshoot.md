@@ -175,4 +175,4 @@ Als de output niet overeenkomt met wat in `cordis.patch.yml` staat: start een ni
 
 - [zed-dsh.md](zed-dsh.md) — volledige installatiehandleiding
 - [security.md](../architecture/security.md) — approval-policy en secrets
-- [Status_Jarvis_dsh.md](../work/specs/Status_Jarvis_dsh.md) — status-check voor de hele omgeving
+- [status-jarvis-dsh.md](status-jarvis-dsh.md) — status-check voor de hele omgeving

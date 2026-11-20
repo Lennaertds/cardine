@@ -49,6 +49,7 @@
 - [zed-dsh.md](how-to/zed-dsh.md) — Zed + DeepSeek Harness + API-key op het lab-pad.
 - [digest.md](how-to/digest.md) — Digest fetch/propose (`digest-check` / `digest-fetch` / `digest-propose`).
 - [sandbox-troubleshoot.md](how-to/sandbox-troubleshoot.md) — bwrap/sandbox problemen oplossen.
+- [status-jarvis-dsh.md](how-to/status-jarvis-dsh.md) — Status-check voor DSH, Jarvis en de hele omgeving.
 ## Besluiten — waarom het zo is
 
 - `decisions/` — Eén ADR per besluit. Nieuw: `make adr t="<besluit als zin>"`. Geldend:
@@ -80,6 +81,16 @@
 - [packages/cardine-zed-dsh.md](packages/cardine-zed-dsh.md) — cardine-zed-dsh package
 - [packages/cardine-meta.md](packages/cardine-meta.md) — Meta-package cardine
 - [packages/VERSIONING.md](packages/VERSIONING.md) — Versiebeheer en changelogs
+- [packages/IMPLEMENTATION.md](packages/IMPLEMENTATION.md) — Implementatieplan (fasering)
+
+## Packages — specs (werk-items)
+
+| Volg | Spec | Status |
+|------|------|--------|
+| 9 | [packages-lab](work/specs/packages-lab.md) | open — cardine-lab publiek-ready |
+| 10 | [packages-structure](work/specs/packages-structure.md) | open — cardine-structure: pull + versioning |
+| 11 | [packages-zed-dsh](work/specs/packages-zed-dsh.md) | open — cardine-zed-dsh: installer + profiel |
+| 12 | [packages-meta](work/specs/packages-meta.md) | open — README als uithangbord |
 
 ## Agent — alleen bij schrijven of meta-taken
 
