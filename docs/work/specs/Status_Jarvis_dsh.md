@@ -134,7 +134,7 @@ make install-lab
 Of direct:
 
 ```bash
-bash scripts/install-lab.sh
+bash packages/lab/install-lab.sh
 ```
 
 Het script slaat over wat al goed staat. Na afloop checken of `~/.dsh/.env` de API-key bevat.

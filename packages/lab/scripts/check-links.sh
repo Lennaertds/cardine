@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # check-links: meldt relatieve links in Markdown-bestanden die naar een niet-bestaand bestand wijzen.
-# Gebruik: scripts/check-links.sh [map] [uit te sluiten submap ...]
+# Gebruik: packages/lab/scripts/check-links.sh [map] [uit te sluiten submap ...]
 # Slaat over: externe links, ankers, codeblokken, inline code, HTML-commentaar, <placeholders>
 # en het tijdelijke opstartpakket _bootstrap/.
 set -euo pipefail

@@ -102,7 +102,7 @@ native-bindings-strict: ## NATIVE_STRICT=1 voor apps/native en/of native-c (onde
 	if [ "$$ran" = 0 ]; then echo "native-bindings-strict: geen native-stack — overgeslagen"; fi
 
 links: ## dode relatieve links in alle Markdown-bestanden
-	@bash scripts/check-links.sh .
+	@bash packages/lab/scripts/check-links.sh .
 
 smoke: ## smoke-tests tegen een omgeving: make smoke URL=https://…
 	@test -n "$(URL)" || { echo 'gebruik: make smoke URL=https://…' >&2; exit 1; }
@@ -115,14 +115,14 @@ build: $(BUILD) ## productiebuild van elke app
 
 ##@ Security (niet in make check)
 security-scan-quick: ## snelle Strix-scan; TARGET=pad|url (default .)
-	@bash scripts/security-scan.sh --quick --target "$(or $(TARGET),.)"
+	@bash packages/lab/scripts/security-scan.sh --quick --target "$(or $(TARGET),.)"
 
 security-scan: ## Strix-scan; TARGET=pad|url (default .). Zie docs/how-to/security-scan.md
-	@bash scripts/security-scan.sh --target "$(or $(TARGET),.)"
+	@bash packages/lab/scripts/security-scan.sh --target "$(or $(TARGET),.)"
 
 ##@ Performance (niet in make check)
 perf-check: ## budgets-doc structuur; zie docs/architecture/performance.md
-	@bash scripts/perf-check.sh
+	@bash packages/lab/scripts/perf-check.sh
 
 bench: ## alle bench-<app>; vereist apps/<app>/scripts/bench.sh
 	@test -n "$(strip $(BENCH))" || { echo "Nog geen app met BENCH. Kopieer een stack of vul BENCH aan in app.mk." >&2; exit 1; }
@@ -130,34 +130,34 @@ bench: ## alle bench-<app>; vereist apps/<app>/scripts/bench.sh
 
 ##@ Dependencies (in check-full, niet in check)
 deps-audit: ## CVE-audits per stack + dependencies.md; zie docs/how-to/deps-audit.md
-	@bash scripts/deps-audit.sh
+	@bash packages/lab/scripts/deps-audit.sh
 
 ##@ Polyglot (niet in make check)
 polyglot-check: ## polyglot.md + voorbeeld-ADR; zie docs/architecture/polyglot.md
-	@bash scripts/polyglot-check.sh
+	@bash packages/lab/scripts/polyglot-check.sh
 
 ##@ Tech-radar (module research; niet in make check)
 radar-check: ## docs/research/radar.md structuur; zie docs/how-to/radar.md
-	@bash scripts/radar-check.sh
+	@bash packages/lab/scripts/radar-check.sh
 
 radar-reminder: ## tip + Laatst herzien-datum (maandelijks ritueel)
-	@bash scripts/radar-reminder.sh
+	@bash packages/lab/scripts/radar-reminder.sh
 
 ##@ Digest (module research; niet in make check)
 digest-check: ## docs/research/digest scaffold; zie docs/how-to/digest.md
-	@bash scripts/digest-check.sh
+	@bash packages/lab/scripts/digest-check.sh
 
 digest-reminder: ## tip: feeds/SOURCES cureren (P5)
-	@bash scripts/digest-reminder.sh
+	@bash packages/lab/scripts/digest-reminder.sh
 
 digest-fetch: ## RSS/Atom → data/external/digest/; DIGEST_DRY_RUN=1 / DIGEST_FIXTURE=
-	@bash scripts/digest-fetch.sh
+	@bash packages/lab/scripts/digest-fetch.sh
 
 digest-propose: ## voorstel in digest/proposals/ (geen auto-radar); DIGEST_DRY_RUN=1
-	@bash scripts/digest-propose.sh
+	@bash packages/lab/scripts/digest-propose.sh
 
 digest-week: ## fetch + propose + AE bron/weken/YYYY-Www.md; DIGEST_WEEK= / DIGEST_WEEK_SKIP_FETCH=1
-	@bash scripts/digest-week.sh
+	@bash packages/lab/scripts/digest-week.sh
 
 ##@ Observability (module observability)
 obs-up: ## LGTM-stack starten (Grafana/Prometheus/Loki/Tempo/Alloy)
@@ -260,11 +260,11 @@ finish: check ## afronden in één call: make finish m="aanleiding · bestanden 
 	' "$$file" > "$$file.tmp" && mv "$$file.tmp" "$$file"; \
 	echo "Gelogd in $$file"
 
-env-status: ## status van DSH, Jarvis en deze omgeving (scripts/cardine-status.sh)
-	@bash scripts/cardine-status.sh
+env-status: ## status van DSH, Jarvis en deze omgeving (packages/lab/cardine-status.sh)
+	@bash packages/lab/cardine-status.sh
 
-install-lab: ## lab-omgeving opzetten op een verse Arch Linux Hyprland-machine (scripts/install-lab.sh)
-	@bash scripts/install-lab.sh
+install-lab: ## lab-omgeving opzetten op een verse Arch Linux Hyprland-machine (packages/lab/install-lab.sh)
+	@bash packages/lab/install-lab.sh
 
 ##@ Opruimen
 clean: $(CLEAN) ## build-output, tmp/ en data/interim/ leegmaken

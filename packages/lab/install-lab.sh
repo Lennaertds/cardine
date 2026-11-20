@@ -480,14 +480,14 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
 - id: sandbox
   config:
     runnerCommand:
-      - ${REPO_ROOT}/scripts/cardine-bwrap
+      - ${REPO_ROOT}/packages/lab/cardine-bwrap
     runnerFailureSignatures:
       - 'bwrap: '
 
 # make check aan het einde van een turn.
 - insert:
     - id: slice-check
-      name: ${HOME}/Documents/Student_Zelfstandige/Cardine/cardine/scripts/cardine-slice-check/index.js
+      name: ${HOME}/Documents/Student_Zelfstandige/Cardine/cardine/packages/lab/cardine-slice-check/index.js
 PATCHEOF
 
 green "  ✓ ${DSH_PROFILE_DIR}/cordis.patch.yml gegenereerd"

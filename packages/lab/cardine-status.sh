@@ -2,11 +2,12 @@
 # cardine-status.sh — check de status van DSH, Jarvis en aanverwante tooling.
 #
 # Gebruik:
-#   bash scripts/cardine-status.sh
-#   bash scripts/cardine-status.sh --json    (machineleesbare output)
-#   bash scripts/cardine-status.sh --verbose (extra detail)
+#   bash packages/lab/cardine-status.sh              (standaard check)
+#   bash packages/lab/cardine-status.sh --json       (machineleesbare output)
+#   bash packages/lab/cardine-status.sh --verbose    (extra detail)
+#   bash packages/lab/cardine-status.sh --fix        (herstel sandbox-paden in DSH-profiel)
 #
-# Dit script is idempotent en schrijft nergens naar.
+# Dit script is idempotent. --fix schrijft alleen naar het DSH-profiel.
 set -euo pipefail
 
 ###############################################################################
@@ -21,9 +22,13 @@ DSH_PROFILE="${HOME}/.dsh/profiles/acp/cordis.patch.yml"
 ZED_SETTINGS="${HOME}/.config/zed/settings.json"
 NODE_MIN_MAJOR=24
 NODE_MIN_MINOR=9
-CARDINE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Het script zit in packages/lab/, dus ../.. = cardine root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CARDINE_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+LAB_DIR="${CARDINE_DIR}/packages/lab"
 VERBOSE=false
 JSON=false
+FIX=false
 # Detecteer of we in een DSH/bwrap sandbox zitten
 IN_SANDBOX=false
 if [ -n "${DSH_SESSION_ID:-}" ] && [ -n "${DSH_SHELL:-}" ]; then
@@ -35,6 +40,7 @@ for arg in "$@"; do
   case "$arg" in
     --verbose|-v) VERBOSE=true ;;
     --json|-j)    JSON=true ;;
+    --fix|-f)     FIX=true ;;
   esac
 done
 
@@ -121,7 +127,7 @@ if [ -x "$DSH_BIN" ]; then
     warn "dsh" "binary ok maar versie niet herkend: $DSH_VER"
   fi
 else
-  fail "dsh" "binary niet gevonden op $DSH_BIN — run scripts/install-lab.sh"
+  fail "dsh" "binary niet gevonden op $DSH_BIN — run packages/lab/install-lab.sh"
 fi
 
 ###############################################################################
@@ -137,7 +143,7 @@ else
   if command -v uv &>/dev/null && uv tool list 2>/dev/null | grep -q jarvis-mcp; then
     warn "jarvis-server" "binary niet op $JARVIS_SERVER, maar wel geïnstalleerd via uv"
   else
-    fail "jarvis-server" "niet gevonden — run scripts/install-lab.sh"
+    fail "jarvis-server" "niet gevonden — run packages/lab/install-lab.sh"
   fi
 fi
 
@@ -205,7 +211,7 @@ elif [ -f "$DSH_PROFILE" ]; then
     warn "DSH profiel" "$DSH_PROFILE bestaat maar mist componenten"
   fi
 else
-  fail "DSH profiel" "niet gevonden in $DSH_PROFILE_ACTUAL of $DSH_PROFILE — run scripts/install-lab.sh"
+  fail "DSH profiel" "niet gevonden in $DSH_PROFILE_ACTUAL of $DSH_PROFILE — run packages/lab/install-lab.sh"
 fi
 
 ###############################################################################
@@ -226,7 +232,7 @@ if [ -f "$DSH_ENV_FILE" ]; then
     fail "API-key" "$DSH_ENV_FILE heeft geen DEEPSEEK_API_KEY"
   fi
 else
-  fail "API-key" "$DSH_ENV_FILE niet gevonden — run scripts/install-lab.sh"
+  fail "API-key" "$DSH_ENV_FILE niet gevonden — run packages/lab/install-lab.sh"
 fi
 
 ###############################################################################
@@ -263,7 +269,7 @@ else
 fi
 
 # Check cardine-slice-check package
-SLICE_PKG="${CARDINE_DIR}/scripts/cardine-slice-check/package.json"
+SLICE_PKG="${CARDINE_DIR}/packages/lab/cardine-slice-check/package.json"
 if [ -f "$SLICE_PKG" ]; then
   SLICE_VER=$(node -e "const p=require('${SLICE_PKG}'); console.log(p.version||'onbekend')" 2>/dev/null || echo "onbekend")
   pass "cardine-slice-check" "versie $SLICE_VER"
@@ -304,11 +310,124 @@ else
 fi
 
 ###############################################################################
-# 10. Agent_Engineering status
+# 10. Sandbox-configuratie en fixes
 ###############################################################################
-header "10. Agent_Engineering"
+header "10. Sandbox-configuratie"
 
 AE_DIR="${CARDINE_DIR}/../Agent_Engineering"
+
+CARDINE_BWRAP_EXPECTED="${LAB_DIR}/cardine-bwrap"
+SLICE_CHECK_EXPECTED="${LAB_DIR}/cardine-slice-check/index.js"
+SANDBOX_OK=true
+
+# 11a. Bestaat cardine-bwrap op de verwachte plek?
+if [ -f "$CARDINE_BWRAP_EXPECTED" ]; then
+  pass "cardine-bwrap" "gevonden op $CARDINE_BWRAP_EXPECTED"
+else
+  fail "cardine-bwrap" "niet gevonden op $CARDINE_BWRAP_EXPECTED"
+  SANDBOX_OK=false
+fi
+
+# 11b. Bestaat slice-check op de verwachte plek?
+if [ -f "$SLICE_CHECK_EXPECTED" ]; then
+  pass "cardine-slice-check" "gevonden op $SLICE_CHECK_EXPECTED"
+else
+  fail "cardine-slice-check" "niet gevonden op $SLICE_CHECK_EXPECTED"
+  SANDBOX_OK=false
+fi
+
+# 11c. Check DSH-profiel: staat het juiste pad naar cardine-bwrap?
+if [ -f "$DSH_PROFILE" ]; then
+  BWRAP_IN_PROFILE=$(grep -o '/[^"]*cardine-bwrap' "$DSH_PROFILE" 2>/dev/null || echo "")
+  if [ -n "$BWRAP_IN_PROFILE" ]; then
+    if [ "$BWRAP_IN_PROFILE" = "$CARDINE_BWRAP_EXPECTED" ]; then
+      pass "DSH profiel → cardine-bwrap" "pad klopt: $BWRAP_IN_PROFILE"
+    else
+      fail "DSH profiel → cardine-bwrap" "pad wijkt af: ${BWRAP_IN_PROFILE}"$'\n'"    verwacht: ${CARDINE_BWRAP_EXPECTED}"
+      SANDBOX_OK=false
+      if $FIX; then
+        if $JSON; then
+          echo "  {\"fix\":\"DSH profiel cardine-bwrap pad\"},"
+        else
+          echo "    ${BOLD}─── ${GREEN}FIXEN${NC} met sed ...${NC}"
+        fi
+        sed -i "s|${BWRAP_IN_PROFILE}|${CARDINE_BWRAP_EXPECTED}|g" "$DSH_PROFILE"
+        echo "    ${GREEN}✓${NC} gepatched"
+        SANDBOX_OK=true
+      fi
+    fi
+  else
+    warn "DSH profiel → cardine-bwrap" "geen cardine-bwrap pad gevonden in profiel"
+  fi
+
+  # 11d. Check DSH-profiel: staat het juiste pad naar cardine-slice-check?
+  SLICE_IN_PROFILE=$(grep -o '/[^"]*cardine-slice-check/index\.js' "$DSH_PROFILE" 2>/dev/null || echo "")
+  if [ -n "$SLICE_IN_PROFILE" ]; then
+    if [ "$SLICE_IN_PROFILE" = "$SLICE_CHECK_EXPECTED" ]; then
+      pass "DSH profiel → slice-check" "pad klopt: $SLICE_IN_PROFILE"
+    else
+      fail "DSH profiel → slice-check" "pad wijkt af: ${SLICE_IN_PROFILE}"$'\n'"    verwacht: ${SLICE_CHECK_EXPECTED}"
+      SANDBOX_OK=false
+      if $FIX; then
+        if ! $JSON; then
+          echo "    ${BOLD}─── ${GREEN}FIXEN${NC} met sed ...${NC}"
+        fi
+        sed -i "s|${SLICE_IN_PROFILE}|${SLICE_CHECK_EXPECTED}|g" "$DSH_PROFILE"
+        echo "    ${GREEN}✓${NC} gepatched"
+        SANDBOX_OK=true
+      fi
+    fi
+  else
+    # slice-check kan optioneel zijn — alleen warn als we in verbose mode zijn
+    $VERBOSE && warn "DSH profiel → slice-check" "geen slice-check pad in profiel (optioneel)"
+  fi
+else
+  fail "DSH profiel" "niet gevonden — kan sandbox-configuratie niet verifiëren"
+  SANDBOX_OK=false
+fi
+
+# 11e. Check DSH_HOME environment variable
+DSH_HOME_VAL="${DSH_HOME:-}"
+if [ -n "$DSH_HOME_VAL" ]; then
+  if [ "$DSH_HOME_VAL" = "${HOME}/.dsh" ]; then
+    pass "DSH_HOME" "correct: $DSH_HOME_VAL"
+  else
+    warn "DSH_HOME" "afwijkend: $DSH_HOME_VAL (verwacht: ${HOME}/.dsh)"
+  fi
+else
+  $VERBOSE && pass "DSH_HOME" "niet gezet (default ~/.dsh wordt gebruikt)"
+fi
+
+# 11f. Test of bwrap zelf werkt
+if command -v bwrap &>/dev/null; then
+  if bwrap --version &>/dev/null; then
+    pass "bwrap" "geïnstalleerd ($(bwrap --version 2>&1))"
+  else
+    warn "bwrap" "binary gevonden maar werkt niet (seccomp? user namespaces?)"
+  fi
+else
+  fail "bwrap" "niet geïnstalleerd — run: sudo pacman -S bubblewrap"
+  SANDBOX_OK=false
+fi
+
+# 11g. Check of er nog oude scripts/ paden bestaan buiten het DSH-profiel
+OLD_PATTERN="${CARDINE_DIR}/scripts/"
+if [ -d "$OLD_PATTERN" ] 2>/dev/null; then
+  warn "oude scripts/" "er bestaat nog een map ${OLD_PATTERN} — zou leeg moeten zijn"
+fi
+
+# 11h. Als SANDBOX_OK false is, toon een samenvattende fix-opdracht
+if ! $SANDBOX_OK && ! $FIX && ! $JSON; then
+  echo ""
+  echo "  ${YELLOW}─── Sandbox-configuratie heeft problemen.${NC}"
+  echo "  Herstel met: ${BOLD}bash packages/lab/cardine-status.sh --fix${NC}"
+fi
+
+###############################################################################
+# 11. Agent_Engineering status
+###############################################################################
+header "11. Agent_Engineering"
+
 if [ -d "$AE_DIR" ]; then
   AE_PKG="${AE_DIR}/package.json"
   if [ -f "$AE_PKG" ]; then
@@ -331,7 +450,12 @@ if ! $JSON; then
   echo "  $((${#RESULTS[@]})) checks — ${GREEN}$(( ${#RESULTS[@]} - FAILED - WARNED )) OK${NC}, ${YELLOW}${WARNED} warnings${NC}, ${RED}${FAILED} failures${NC}"
   if [ "$FAILED" -gt 0 ]; then
     echo ""
-    echo "${RED}Aanbevolen:${NC} run ${BOLD}bash scripts/install-lab.sh${NC} om te herstellen"
+    if ! $SANDBOX_OK; then
+      echo "${RED}Aanbevolen:${NC} run ${BOLD}bash packages/lab/cardine-status.sh --fix${NC} om sandbox-paden te herstellen"
+      echo "           Of ${BOLD}bash packages/lab/install-lab.sh${NC} voor volledige herinstallatie"
+    else
+      echo "${RED}Aanbevolen:${NC} run ${BOLD}bash packages/lab/install-lab.sh${NC} om te herstellen"
+    fi
   fi
   echo ""
   echo "${BOLD}Volle versie:${NC} draai met ${BOLD}--verbose${NC} of ${BOLD}--json${NC}"

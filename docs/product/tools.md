@@ -19,7 +19,7 @@ Geen eigen tool-runtime. De toolset is die van DeepSeek Harness ([ADR 0003](../d
 |-----------|--------|---------|
 | Whitelist / eigendom (T1) | beslist | DSH read/edit/shell + indexing-MCP — [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
 | Approval-model (T2) | staat | `workspace-write` + `ask`, vast in het ACP-profiel. How-to: [zed-dsh](../how-to/zed-dsh.md) |
-| Sandbox (T3) | staat | `scripts/cardine-bwrap`. `~/.ssh` niet zichtbaar. Zed en `dsh` blijven native |
+| Sandbox (T3) | staat | `packages/lab/cardine-bwrap`. `~/.ssh` niet zichtbaar. Zed en `dsh` blijven native |
 | MCP v1 (T4) | beslist | Aan, alleen voor de indexing-daemon. Geen open MCP-markt. |
 | Indexing vs generic search (T5) | beslist | Zoeken via indexing-tools; `rg` is de meet-fallback |
 

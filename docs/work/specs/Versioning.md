@@ -18,7 +18,7 @@ Door de versie in `package.json` te bumpen weet je altijd hoe "up to date" jouw 
 
 | Project | package.json | Status script | Make target |
 |---------|-------------|---------------|-------------|
-| `cardine/` | `cardine/package.json` versie `0.1.0` | `scripts/cardine-status.sh` | `make env-status` |
+| `cardine/` | `cardine/package.json` versie `0.1.0` | `packages/lab/cardine-status.sh` | `make env-status` |
 | `Agent_Engineering/` | `../Agent_Engineering/package.json` versie `0.1.0` | `scripts/agent-engineering-status.sh` | `make status` |
 
 ## Commando's
@@ -33,13 +33,13 @@ cd ~/Documents/Student_Zelfstandige/Cardine/cardine
 make env-status
 
 # Of direct via het script
-bash scripts/cardine-status.sh
+bash packages/lab/cardine-status.sh
 
 # Machineleesbaar (JSON)
-bash scripts/cardine-status.sh --json
+bash packages/lab/cardine-status.sh --json
 
 # Meer details
-bash scripts/cardine-status.sh --verbose
+bash packages/lab/cardine-status.sh --verbose
 ```
 
 ### Status van de Agent_Engineering kit
@@ -102,4 +102,4 @@ Een nieuwe versie release je door:
 ## Zie ook
 
 - [Status_Jarvis_dsh.md](Status_Jarvis_dsh.md) — handmatige checklist (uitgebreider)
-- [install-lab.sh](../../../scripts/install-lab.sh) — alles in één keer installeren (idempotent)
+- [install-lab.sh](../../../packages/lab/install-lab.sh) — alles in één keer installeren (idempotent)

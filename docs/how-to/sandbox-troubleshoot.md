@@ -25,14 +25,14 @@ grep 'cardine-bwrap' ~/.dsh/profiles/acp/cordis.patch.yml
 **Verwacht:** een regel zoals:
 
 ```yaml
-- /home/ventje/Documents/Student_Zelfstandige/Cardine/cardine/scripts/cardine-bwrap
+- /home/ventje/Documents/Student_Zelfstandige/Cardine/cardine/packages/lab/cardine-bwrap
 ```
 
 **Als het pad niet klopt** (bijv. `…/Student_Zelfstandige/cardine/…` zonder `Cardine/`):
 
 ```bash
 # Fix: vervang het foute pad door het juiste
-sed -i 's|/home/ventje/Documents/Student_Zelfstandige/cardine/scripts/cardine-bwrap|/home/ventje/Documents/Student_Zelfstandige/Cardine/cardine/scripts/cardine-bwrap|g' \
+sed -i 's|/home/ventje/Documents/Student_Zelfstandige/cardine/scripts/cardine-bwrap|/home/ventje/Documents/Student_Zelfstandige/Cardine/cardine/packages/lab/cardine-bwrap|g' \
   ~/.dsh/profiles/acp/cordis.patch.yml
 ```
 
@@ -54,7 +54,7 @@ Als je het script draait vanuit een context waar git de root niet kan vinden (bv
 
 ```bash
 cd ~/Documents/Student_Zelfstandige/Cardine/cardine
-bash scripts/install-lab.sh
+bash packages/lab/install-lab.sh
 ```
 
 Of gebruik de Makefile:
@@ -103,11 +103,11 @@ De instellingen staan in `~/.dsh/profiles/acp/cordis.patch.yml`:
     policy: auto
 ```
 
-Het sjabloon wordt gegenereerd door `scripts/install-lab.sh`.
+Het sjabloon wordt gegenereerd door `packages/lab/install-lab.sh`.
 
 ## 4. Slice-check draait in verkeerde directory
 
-De `cardine-slice-check` (in `scripts/cardine-slice-check/index.js`) checkt of `make check` groen is na elke turn. Als de agent in een directory werkt zonder Makefile (bv. `~` of `/tmp`), kreeg je:
+De `cardine-slice-check` (in `packages/lab/cardine-slice-check/index.js`) checkt of `make check` groen is na elke turn. Als de agent in een directory werkt zonder Makefile (bv. `~` of `/tmp`), kreeg je:
 
 ```
 make: *** No rule to make target 'check'.  Stop.
@@ -135,7 +135,7 @@ Dit is gefixt in de huidige versie.
 `cardine-bwrap` mount nu `~/.dsh/` als `--bind` (schrijfbaar) in plaats van het weg te laten. Hierdoor blijft het DSH-profiel behouden tussen calls.
 
 ```bash
-# In scripts/cardine-bwrap:
+# In packages/lab/cardine-bwrap:
 args=(
   ...
   --bind "${HOME_DIR}/.dsh" "${HOME_DIR}/.dsh"
@@ -153,7 +153,7 @@ mkdir -p "${HOME_DIR}/.dsh" "${HOME_DIR}/.dsh/profiles" "${HOME_DIR}/.dsh/profil
 
 ```bash
 # Check of ~/.dsh persistent is binnen de sandbox
-bash scripts/cardine-status.sh
+bash packages/lab/cardine-status.sh
 ```
 
 Het status-script rapporteert onder "Sandbox / bwrap" of `~/.dsh/` persistent is.

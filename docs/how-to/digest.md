@@ -61,11 +61,11 @@ DIGEST_WEEK_SKIP_FETCH=1 make digest-week
 Scheduling: **systemd user-timers** (geen `cronie` op deze machine). Eenmalig:
 
 ```bash
-bash scripts/install-digest-timers.sh
+bash packages/lab/scripts/install-digest-timers.sh
 systemctl --user list-timers 'digest-*'
 ```
 
-Units staan in `scripts/systemd/`; log: `data/external/digest/cron.log`.  
+Units staan in `packages/lab/systemd/`; log: `data/external/digest/cron.log`.  
 Timers draaien als je user-sessie actief is (`Persistent=true` haalt gemiste runs in). Zonder login: `loginctl enable-linger "$USER"`.
 
 Weekbrief is **geen** auto-§. Cureren blijft hieronder.

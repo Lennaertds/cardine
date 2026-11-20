@@ -4,10 +4,10 @@
   "private": true,
   "description": "Cardine — minimale AI-harness + standaard. DSH + Jarvis + MCP tooling voor een AI-agent-werkstation.",
   "scripts": {
-    "status": "bash scripts/cardine-status.sh",
-    "status:json": "bash scripts/cardine-status.sh --json",
-    "verbose": "bash scripts/cardine-status.sh --verbose",
-    "install-lab": "bash scripts/install-lab.sh"
+    "status": "bash packages/lab/cardine-status.sh",
+    "status:json": "bash packages/lab/cardine-status.sh --json",
+    "verbose": "bash packages/lab/cardine-status.sh --verbose",
+    "install-lab": "bash packages/lab/install-lab.sh"
   },
   "repository": {
     "type": "git",

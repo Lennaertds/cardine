@@ -11,7 +11,7 @@ Op een verse Arch Linux / Hyprland-machine volstaat één commando in deze repo:
 make install-lab
 ```
 
-Het script in `scripts/install-lab.sh`:
+Het script in `packages/lab/install-lab.sh`:
 
 1. **Arch-dependencies** via `sudo pacman -S --needed --noconfirm` (alleen als sudo beschikbaar is):
    - `zed` of `zeditor` — als `zeditor` niet op PATH staat
@@ -117,11 +117,11 @@ De model ziet de tools als `mcp__jarvis__searchCode`, `mcp__jarvis__goToDefiniti
 
 Nieuwe threads draaien op `workspace-write` en `approval: ask`. Een pad in de werkmap gaat door. Een pad daarbuiten stopt; verbreden vraagt. Dat staat vast in het profiel, niet in `DSH_PERMISSION_MODE`.
 
-De shell gaat door `scripts/cardine-bwrap`. Die mount `/usr` en `/etc` alleen-lezen, en de workspace schrijfbaar. `~/.ssh` is niet zichtbaar. Het DSH-profiel mount `/` alleen-lezen en laat die map wél zien; daarom is die runner niet de kooi ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)).
+De shell gaat door `packages/lab/cardine-bwrap`. Die mount `/usr` en `/etc` alleen-lezen, en de workspace schrijfbaar. `~/.ssh` is niet zichtbaar. Het DSH-profiel mount `/` alleen-lezen en laat die map wél zien; daarom is die runner niet de kooi ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)).
 
 ## make check
 
-`scripts/cardine-slice-check` luistert op `agent/turn-stopping`. Een rode `make check` stuurt de agent terug, hoogstens twee keer. De bekende stop "geen app, CHECK leeg" stuurt niet ([ADR 0001](../decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md)). Een thread van vóór deze insert ziet de haak niet.
+`packages/lab/cardine-slice-check` luistert op `agent/turn-stopping`. Een rode `make check` stuurt de agent terug, hoogstens twee keer. De bekende stop "geen app, CHECK leeg" stuurt niet ([ADR 0001](../decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md)). Een thread van vóór deze insert ziet de haak niet.
 
 ## Controle
 

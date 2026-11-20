@@ -7,8 +7,8 @@ import { randomUUID } from "node:crypto";
 const name = "cardine-slice-check";
 const steers = new WeakMap();
 
-// De cardine-repo is ../.. t.o.v. dit bestand (scripts/cardine-slice-check/index.js → cardine/)
-const CARDINE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+// De cardine-repo is ../../.. t.o.v. dit bestand (packages/lab/cardine-slice-check/index.js → cardine/)
+const CARDINE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 
 function findMakefile(dir) {
   while (dir !== "/") {
