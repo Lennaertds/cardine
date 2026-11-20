@@ -1,0 +1,113 @@
+# {{PROJECT}} — docs-kaart
+
+> Eén ingang voor alle documentatie. Kies het bestand bij je vraag en open alleen dat.
+> Werkwijze en commando's: [AGENTS.md](../AGENTS.md).
+
+## Context — waarom en voor wie
+
+- [CONTEXT.md](context/CONTEXT.md) — Domein, gebruiker of klant, doel, scope. Niet: techniek.
+- [GLOSSARY.md](context/GLOSSARY.md) — Wat een term betekent en hoe hij in de code heet. Ook de lijst van domeinen.
+<!-- als: vision
+- [vision.md](context/vision.md) — Richting op lange termijn. Niet: wat nu gebouwd wordt.
+-->
+<!-- als: assignment
+- [assignment.md](context/assignment.md) — De opdracht, de beoordelingscriteria en de deadlines.
+-->
+
+## Regels — wat nooit mag
+
+- [RULES.md](rules/RULES.md) — Inhoudelijke grenzen. Niet: codestijl of werkwijze.
+<!-- als: product
+
+## Product — wat het doet
+
+- [PRODUCT.md](product/PRODUCT.md) — Domeinen en wat bewust niet. Per domein één bestand: `product/<domein>.md`.
+-->
+<!-- als: design
+
+## Design — hoe het eruitziet
+
+- [DESIGN.md](design/DESIGN.md) — Start hier bij elke UI-taak: principes, wat nooit, tokens, kaart naar één craft-bestand.
+-->
+
+## Architectuur — hoe het in elkaar zit
+
+- [ARCHITECTURE.md](architecture/ARCHITECTURE.md) — Containers, stack, dataflow, invarianten, seams, hosting. Start hier voor "waar zit X". Niet: PWA/auth-catalogus → subsystemen.
+- [security.md](architecture/security.md) — Persoonsgegevens, secrets, auth-principes, Strix. Uitbreidingen: `## Bewust later`.
+- [observability.md](architecture/observability.md) — Signalen, LGTM, `make obs-*` (opt-in; alleen als de opdracht het noemt).
+- [performance.md](architecture/performance.md) — Budgets, anti-patronen, `make bench` / `perf-check` (opt-in).
+- [dependencies.md](architecture/dependencies.md) — CVE-audits, ritueel, `make deps-audit` (opt-in).
+- [polyglot.md](architecture/polyglot.md) — Extra talen na meting + ADR; native-map alleen met die stack (opt-in).
+- [<subsysteem>.md](architecture/<subsysteem>.md) — <Welke vraag; bv. runtime-client, auth, data-model>. Niet: <aanpalende vraag → ander bestand>.
+<!-- als: research
+
+## Onderzoek — wat we weten over het domein
+
+- [RESEARCH.md](research/RESEARCH.md) — Onderzoeksvragen, hoe bronnen beoordeeld worden, kaart van `research/`. Niet laden bij codewerk.
+- [wantlist.md](research/wantlist.md) — Bronnen die we nog willen verwerven.
+- [radar.md](research/radar.md) — Tech-radar (Adopt/Trial/Assess/Hold); `make radar-reminder` / `radar-check`.
+- [digest/](research/digest/README.md) — Inbound digest; `digest-fetch` / `digest-propose` (geen auto-radar).
+- `research/experiments/` — Eén verslag per experiment, met datum. Zoeken met `rg`.
+-->
+<!-- als: business
+
+## Business
+
+- `business/` — Businessplan, prijzen, voorwaarden, privacybeleid in mensentaal.
+-->
+
+## How-to — een taak uitvoeren
+
+- [security-scan.md](how-to/security-scan.md) — Strix installeren en `make security-scan` draaien.
+- [perf-bench.md](how-to/perf-bench.md) — `make perf-check` / `make bench` en app-scripts.
+- [deps-audit.md](how-to/deps-audit.md) — `make deps-audit` en audit-tools.
+- [native-ci.md](how-to/native-ci.md) — Soft vs `NATIVE_STRICT` / `check-full` / `native.yml`.
+<!-- als: research
+- [radar.md](how-to/radar.md) — Tech-radar herzien (`make radar-reminder` / `radar-check`).
+- [digest.md](how-to/digest.md) — Digest fetch/propose (`digest-check` / `digest-fetch` / `digest-propose`).
+-->
+- [<taak>.md](how-to/<taak>.md) — <Wanneer je dit nodig hebt>.
+
+## Besluiten — waarom het zo is
+
+- `decisions/` — Eén ADR per besluit. Nieuw: `make adr t="<besluit als zin>"`. Geldend:
+  - [0000 — Voorbeeld native module](decisions/0000-voorbeeld-native-module-na-budget-breuk.md) — sjabloonvorm (status *voorbeeld*); kopieer via `make adr`, niet als feit gebruiken.
+  - [<NNNN> — <titel>](decisions/<NNNN-slug>.md)
+<!-- als: solo
+
+## Werk — status (niet vooraf lezen)
+
+- [BACKLOG.md](work/BACKLOG.md) — Index van open werk (korte regel + link). Nieuw item: `make spec s=<slug>`.
+- `work/specs/` — Plan per item; na merge weg.
+- `work/logs/` — Dag-logs. Zoeken met `rg`, niet laden.
+-->
+<!-- als: team
+
+## Werk — status
+
+- In de issue tracker: <link>. Niet in de repo.
+-->
+<!-- als: meetings
+- `work/meetings/` — Verslagen van overleg. Wat er beslist werd, staat in een ADR.
+-->
+<!-- als: agent
+
+## Agent — alleen bij schrijven of meta-taken
+
+- [write-rules.md](agent/write-rules.md) — Welke paden vrij, welke na toestemming.
+- [doc-conventions.md](agent/doc-conventions.md) — Hoe je een doc schrijft.
+- [lessons.md](agent/lessons.md) — Lessen na mislukkingen bij meta-taken.
+-->
+
+## Data
+
+- [data/README.md](../data/README.md) — Welke dataset waar staat, herkomst, licentie, wat in git mag.
+<!-- als: deliverables
+
+## Niet vooraf lezen
+
+- `deliverables/` — Opgeleverde stukken, zoals ingediend. Geen waarheid.
+-->
+<!-- als: archive
+- `archive/` — Vervangen documenten. Alleen voor geschiedenis.
+-->

@@ -1,0 +1,21 @@
+name: check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Toolchain van de stack. Schrap wat je niet gebruikt.
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - uses: astral-sh/setup-uv@v6
+      - run: make setup
+      - run: make check

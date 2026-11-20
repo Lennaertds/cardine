@@ -101,8 +101,8 @@ native-bindings-strict: ## NATIVE_STRICT=1 voor apps/native en/of native-c (onde
 	fi; \
 	if [ "$$ran" = 0 ]; then echo "native-bindings-strict: geen native-stack — overgeslagen"; fi
 
-links: ## dode relatieve links in alle Markdown-bestanden
-	@bash packages/lab/scripts/check-links.sh .
+links: ## dode relatieve links (behalve kit/ — project-links werken pas na copy)
+	@bash packages/lab/scripts/check-links.sh . packages/structure/kit
 
 smoke: ## smoke-tests tegen een omgeving: make smoke URL=https://…
 	@test -n "$(URL)" || { echo 'gebruik: make smoke URL=https://…' >&2; exit 1; }
@@ -156,8 +156,8 @@ digest-fetch: ## RSS/Atom → data/external/digest/; DIGEST_DRY_RUN=1 / DIGEST_F
 digest-propose: ## voorstel in digest/proposals/ (geen auto-radar); DIGEST_DRY_RUN=1
 	@bash packages/lab/scripts/digest-propose.sh
 
-digest-week: ## fetch + propose + AE bron/weken/YYYY-Www.md; DIGEST_WEEK= / DIGEST_WEEK_SKIP_FETCH=1
-	@bash packages/lab/scripts/digest-week.sh
+digest-week: ## lab-privé: vereist Agent_Engineering als sibling. Zie packages/lab/scripts/digest-week.sh
+	@echo "lab-privé: digest-week vereist Agent_Engineering als sibling-repo — overslaan op publieke checkout." >&2; exit 1
 
 ##@ Observability (module observability)
 obs-up: ## LGTM-stack starten (Grafana/Prometheus/Loki/Tempo/Alloy)

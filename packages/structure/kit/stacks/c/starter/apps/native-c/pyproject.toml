@@ -1,0 +1,11 @@
+[project]
+name = "native-c"
+version = "0.1.0"
+description = "ctypes scaffold tests for apps/native-c (kit starter)"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+python_files = ["test_*.py"]

@@ -1,0 +1,10 @@
+{
+  "name": "native-c",
+  "version": "0.1.0",
+  "private": true,
+  "description": "N-API C scaffold for apps/native-c (kit starter — illustratief)",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test test/add.test.js"
+  }
+}

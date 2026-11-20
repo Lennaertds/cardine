@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Example Digest Fixture</title>
+    <link>https://example.com/</link>
+    <description>Offline fixture for DIGEST_FIXTURE / test-kit — not a real feed.</description>
+    <item>
+      <title>Fixture Tool Alpha</title>
+      <link>https://example.com/alpha</link>
+      <description>Illustrative item for digest-propose.</description>
+    </item>
+    <item>
+      <title>Fixture Lib Beta</title>
+      <link>https://example.com/beta</link>
+      <description>Second illustrative item.</description>
+    </item>
+  </channel>
+</rss>

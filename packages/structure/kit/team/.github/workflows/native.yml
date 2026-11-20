@@ -1,0 +1,27 @@
+# Harde native FFI-checks (NATIVE_STRICT). Soft blijft in check.yml → make check.
+# Schrap of disable deze workflow als het project geen apps/native of apps/native-c heeft.
+name: native
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  native-strict:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - uses: astral-sh/setup-uv@v6
+      - name: Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install maturin (PyO3-pad)
+        run: uv tool install maturin || pipx install maturin || true
+      - run: make setup
+      # check-full = soft check + deps-audit + native-bindings-strict (NATIVE_STRICT=1)
+      - run: make check-full NATIVE_FFI=auto

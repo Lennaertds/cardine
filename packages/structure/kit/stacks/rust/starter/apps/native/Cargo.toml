@@ -1,0 +1,18 @@
+[package]
+name = "native"
+version = "0.1.0"
+edition = "2021"
+description = "Hot-path Rust (kit starter): pure + optioneel napi (JS) en/of PyO3 (Python)."
+publish = false
+
+[lib]
+path = "src/lib.rs"
+crate-type = ["rlib", "cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.23", features = ["extension-module"], optional = true }
+
+[features]
+default = []
+# Maturin: tool.maturin.features = ["pyo3-bridge"]
+pyo3-bridge = ["dep:pyo3"]

@@ -35,7 +35,10 @@ packages/structure/
 ├── CHANGELOG.md
 ├── README.md
 ├── package.json
+├── pull_kit.sh       ← idempotent pull-script
 └── kit/              ← letterlijke kopie op pinned versie
+    ├── COMMIT        ← pinned commit hash
+    ├── README.md
     ├── kern/
     ├── solo/
     ├── logging/
@@ -50,15 +53,62 @@ packages/structure/
 
 ```
 Agent_Engineering/kit/  (SSOT, privé)
-         │
-         │  Bij elke release van cardine-structure:
-         │  1. Pinned commit uit Agent_Engineering
-         │  2. kit/ kopiëren naar packages/structure/kit/
-         │  3. Versie ophogen, changelog bijwerken
-         │
-         ▼
+  │  Git tags: kit-v0.1.0, kit-v0.2.0, ...
+  │
+  │  bash pull_kit.sh --tag v0.1.0   ← idempotent
+  │  1. Resolve kit-v0.1.0 naar commit in Agent_Engineering
+  │  2. kit/ kopiëren naar packages/structure/kit/
+  │  3. Commit hash + tag opslaan in kit/COMMIT
+  │
+  ▼
 cardine/packages/structure/  (publiek)
+  Git tags: structure-v0.1.0, structure-v0.2.0, ...
 ```
+
+Zie [`pull_kit.sh`](../pull_kit.sh) voor het idempotente script. Het script:
+- Accepteert een commit hash (`<commit>`) of een kit-tag (`--tag v0.1.0`)
+- Resolved `--tag v0.1.0` naar `kit-v0.1.0` in Agent_Engineering
+- Slaat commit hash + tag op in `kit/COMMIT`
+- Is idempotent: bij dezelfde commit gebeurt er niets
+
+## Versie-koppeling
+
+Elke `cardine-structure`-release wijst naar één specifieke kit-tag in Agent_Engineering.
+De kit-tags worden beheerd in Agent_Engineering (zie `standaard/versioning.md`).
+
+| cardine-structure | Agent_Engineering kit-tag | Commit |
+|------------------|---------------------------|--------|
+| 0.2.0 | `kit-v0.2.0` | 46fb1ab |
+| 0.1.0 | `kit-v0.1.0` | c841cb9 |
+
+### Een nieuwe versie uitbrengen
+
+```bash
+# 1. Tag de kit in Agent_Engineering
+cd ../Agent_Engineering
+make tag-kit TAG=v0.2.0
+
+# 2. Pull de nieuwe kit in cardine
+cd ../cardine
+bash packages/structure/pull_kit.sh --tag v0.2.0
+
+# 3. Versionering ophogen
+#    - package.json: versie naar 0.2.0
+#    - CHANGELOG.md: nieuwe entry
+#    - Deze tabel hierboven bijwerken
+#    - git tag structure-v0.2.0
+```
+
+## Aanpassingen voor publicatie
+
+De kit wordt 1-op-1 uit Agent_Engineering gepulled, met twee uitzonderingen:
+
+| Wijziging | Waarom |
+|-----------|--------|
+| `kit/README.md` wordt **vervangen** door een gebruikersversie | Het origineel bevat interne SSOT-links naar `../standaard/`, `../sjablonen/` etc. — die bestaan niet in de gepubliceerde package |
+| `pull_kit.sh` wordt uitgesloten van npm publish (`files` in package.json) | Interne tooling, niet relevant voor gebruikers |
+
+Deze aanpassingen worden **elke pull opnieuw gedaan** (automatisch of handmatig). De SSOT blijft Agent_Engineering.
 
 ## Wat blijft in Agent_Engineering (privé)
 

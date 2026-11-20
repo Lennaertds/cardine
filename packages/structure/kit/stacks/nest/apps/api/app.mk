@@ -1,0 +1,63 @@
+# api (apps/api) — make-targets van deze app. De root-Makefile neemt dit bestand automatisch op.
+API_DIR := apps/api
+API_PORT ?= 3001
+API_ENV := $(API_DIR)/.env
+
+TOOLS += node pnpm curl
+SETUP += setup-api
+DEV += dev-api
+CHECK += check-api
+CHECK_FULL += integration-api
+FMT += fmt-api
+BUILD += build-api
+SMOKE += smoke-api
+BENCH += bench-api
+SEED += seed-api
+DB_RESET += db-reset-api
+PORTS += $(API_PORT)
+
+.PHONY: setup-api dev-api check-api integration-api fmt-api build-api smoke-api bench-api seed-api db-reset-api
+
+##@ App api (apps/api)
+setup-api: ## api: dependencies installeren
+	pnpm --dir $(API_DIR) install
+
+dev-api: ## api: Nest in watch-modus (poort API_PORT, standaard 3001); start eerst de lokale diensten
+	@if [ -f docker-compose.yml ]; then $(MAKE) up; fi
+	PORT=$(API_PORT) pnpm --dir $(API_DIR) run start:dev
+
+check-api: ## api: lint, types en unit-tests
+	pnpm --dir $(API_DIR) run lint:check
+	pnpm --dir $(API_DIR) run typecheck
+	pnpm --dir $(API_DIR) run test
+
+integration-api: ## api: integratietests tegen de lokale database
+	pnpm --dir $(API_DIR) run test:integration
+
+fmt-api: ## api: Prettier en ESLint --fix
+	pnpm --dir $(API_DIR) run format
+	pnpm --dir $(API_DIR) run lint
+
+build-api: ## api: productiebuild naar apps/api/dist
+	pnpm --dir $(API_DIR) run build
+
+smoke-api: ## api: GET /health tegen URL (of API_URL)
+	@url="$(or $(API_URL),$(URL))"; curl -fsS "$$url/health" >/dev/null && echo "api: $$url/health ok"
+
+bench-api: ## api: latency-bench; vereist apps/api/scripts/bench.sh
+	@test -x $(API_DIR)/scripts/bench.sh || { \
+	  echo "bench-api: voeg uitvoerbaar $(API_DIR)/scripts/bench.sh toe (docs/how-to/perf-bench.md)." >&2; exit 1; }
+	@$(API_DIR)/scripts/bench.sh
+
+seed-api: ## api: testgebruikers en demo-data laden
+	pnpm --dir $(API_DIR) run seed
+
+db-reset-api: ## api: lokale database leegmaken, migreren en seeden; weigert buiten localhost
+	@test -f $(API_ENV) || { echo "Geen $(API_ENV). Draai make env." >&2; exit 1; }
+	@set -a; . ./$(API_ENV); set +a; \
+	case "$${DATABASE_URL:-}" in \
+	  *@localhost[:/]*|*@127.0.0.1[:/]*) ;; \
+	  *) echo "db-reset weigert: DATABASE_URL in $(API_ENV) wijst niet naar localhost." >&2; exit 1 ;; \
+	esac
+	pnpm --dir $(API_DIR) run db:reset
+	$(MAKE) seed-api

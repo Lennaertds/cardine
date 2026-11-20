@@ -1,0 +1,27 @@
+{
+  "name": "cardine-structure",
+  "version": "0.2.0",
+  "description": "cardine-structure — projectstandaard voor ieder project, ongeacht editor of abonnement. Gepulled uit Agent_Engineering/kit/.",
+  "bin": {
+    "cardine-structure": "./kit/new-project.sh"
+  },
+  "files": [
+    "kit/",
+    "docs/",
+    "README.md",
+    "CHANGELOG.md",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ventje/cardine.git",
+    "directory": "packages/structure"
+  },
+  "license": "MIT",
+  "keywords": [
+    "project-structure",
+    "template",
+    "cardine",
+    "agent-engineering"
+  ]
+}
