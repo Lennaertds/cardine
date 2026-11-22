@@ -21,6 +21,8 @@ In de context van een agent die bestanden en shell gebruikt, geconfronteerd met 
 
 Logs blijven zonder secrets en zonder `.env`.
 
+**`.env` binnen de workspace is dicht.** De workspace is writable, dus een `--bind` alleen laat de agent de `.env` lezen én overschrijven. `cardine-bwrap` legt daarom na de bind een lege overlay (`--overlay-src` + `--tmp-overlay`) en maskeert per bestand `*.env`/`*.env.*` (behalve `*.example`), SSH-keys, `*.pem`, `*.p12` en `*.pfx` met een lege 0000-bind. Gevolg: shell-writes landen in de overlay en niet op de host; bestandswijzigingen die moeten blijven lopen via de filesystem-tools. Bewezen door `make sandbox-secrets` (onderdeel van `make check`).
+
 ## Alternatieven
 
 | Optie | Waarom niet |

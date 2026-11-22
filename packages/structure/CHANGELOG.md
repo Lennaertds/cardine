@@ -37,6 +37,24 @@
 - Installatie-instructies: `npx @lennaertds/cardine-structure`
 - README bijgewerkt met nieuwe GitHub URLs
 
+## [0.4.0] — 2026-11-22
+
+### Added
+
+- `AGENTS.md` in de kit — expliciet verbod op `mcp__jarvis__indexRepo` vanuit de agent (breekt in `bwrap`, laat stale locks achter); bij een ontbrekende index vraagt de agent om `make index` vanaf de host
+- `Makefile` in de kit — `make env-status`, `make index` en `make jarvis-check` (stale locks + is deze repo geïndexeerd), gekoppeld aan `context` en `env-status`
+
+### Changed
+
+- `kit/` — gepind op Agent_Engineering `fca818f`; `COMMIT` gebruikt weer het formaat `<tag> = <hash>` met `kit-v0.2.0 = 46fb1ab…`, zodat `pull_kit.sh` de idempotentiecheck blijft herkennen
+- `docs/cardine-structure.md` — releaseprocedure: na een pull handmatig de `kern/`-afwijking controleren, want `pull_kit.sh` kopieert `kit/` letterlijk
+
+### Fixed
+
+- `kit/kern/` — bij de pull naar `fca818f` verdwenen de `jarvis-check`/`env-status`/`index`-targets en de `jarvis__indexRepo`-regel, terwijl die commit alleen de root `AGENTS.md` wijzigt; hersteld. **Bekend gedrag:** `pull_kit.sh` kopieert `kit/` letterlijk, dus elke pull kan deze afwijkingen wegzetten — controleer daarna `git diff packages/structure/kit/`
+- Geen tag op `fca818f`: die commit wijzigt alleen de root `AGENTS.md` buiten `kit/`
+
+[0.4.0]: https://github.com/Lennaertds/cardine/compare/structure-v0.3.0...structure-v0.4.0
 [0.3.0]: https://github.com/Lennaertds/cardine/compare/structure-v0.2.0...structure-v0.3.0
 [0.2.0]: https://github.com/Lennaertds/cardine/compare/structure-v0.1.0...structure-v0.2.0
 [0.1.0]: https://github.com/Lennaertds/cardine/compare/structure-v0.0.0...structure-v0.1.0

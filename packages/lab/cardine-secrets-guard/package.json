@@ -1,0 +1,9 @@
+{
+  "name": "cardine-secrets-guard",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  }
+}

@@ -53,21 +53,25 @@ De `CHANGELOG.md` in de repo-root geeft een **overzicht** van alle packages:
 ```markdown
 # Changelog — Cardine meta
 
-## [0.3.0] — 2026-11-20
+## [0.3.0] — 2026-11-22
 
 | Package | Versie | Wat |
 |---------|--------|-----|
-| cardine-lab | 0.2.0 | Dry-run, Podman-support |
-| cardine-structure | 0.1.0 | Eerste publieke pull uit Agent_Engineering@abc123 |
+| cardine-lab | 0.3.0 | Secrets-grens in kooi en guard, V4.1-model, plugin-fix |
+| cardine-structure | 0.4.0 | Kit `fca818f` met `jarvis-check`-targets |
 ```
 
 ## Tags in git
 
 ```
-lab-v0.1.0          → packages/lab/ op versie 0.1.0
-structure-v0.1.0    → packages/structure/ op versie 0.1.0
-v0.1.0              → meta-package versie 0.1.0
+lab-v<semver>          → packages/lab/ op versie <semver>
+structure-v<semver>    → packages/structure/ op versie <semver>
+v<semver>              → meta-package versie <semver>
 ```
+
+Laatste: `lab-v0.2.0`, `structure-v0.3.0`, `v0.2.0`. De meta-tag `v0.3.0` komt
+samen met `lab-v0.3.0` en `structure-v0.4.0`; `publish.yml` publiceert per
+package op de eigen tag.
 
 ## Packages & changelogs
 
@@ -76,3 +80,6 @@ v0.1.0              → meta-package versie 0.1.0
 | `cardine` (meta) | `CHANGELOG.md` (root) |
 | `cardine-lab` | `packages/lab/CHANGELOG.md` |
 | `cardine-structure` | `packages/structure/CHANGELOG.md` |
+
+Laatste stand (2026-11-22): meta 0.3.0, `@lennaertds/cardine-lab` 0.3.0,
+`@lennaertds/cardine-structure` 0.4.0.

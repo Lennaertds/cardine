@@ -73,13 +73,26 @@ Zie [`pull_kit.sh`](../pull_kit.sh) voor het idempotente script. Het script:
 
 ## Versie-koppeling
 
-Elke `cardine-structure`-release wijst naar één specifieke kit-tag in Agent_Engineering.
+Elke `cardine-structure`-release wijst naar één specifiek moment in Agent_Engineering.
 De kit-tags worden beheerd in Agent_Engineering (zie `standaard/versioning.md`).
 
 | cardine-structure | Agent_Engineering kit-tag | Commit |
 |------------------|---------------------------|--------|
+| 0.4.0 | geen tag (pullt HEAD) | fca818f (volledige hash in `kit/COMMIT`) |
+| 0.3.0 | geen tag (scoped name) | 46fb1ab |
 | 0.2.0 | `kit-v0.2.0` | 46fb1ab |
 | 0.1.0 | `kit-v0.1.0` | c841cb9 |
+
+`kit-v0.2.0` staat op `46fb1ab`; tussen dat commit en `fca818f` wijzigde in
+Agent_Engineering alleen de root `AGENTS.md` (buiten `kit/`). `structure/kit/` wijkt
+daarnaast op één punt bewust af: de `jarvis-check`-, `env-status`- en `index`-targets
+staan in `kern/Makefile` van de gepubliceerde kit, niet in Agent_Engineering (ADR 0015).
+`pull_kit.sh` kopieert de map letterlijk, dus controleer na elke pull de `git diff` van
+`packages/structure/kit/` en herstel die afwijking als de pull ze wegneemt. Bewezen bij de
+pull naar `fca818f`: de `jarvis-check`/`env-status`/`index`-targets én de
+`jarvis__indexRepo`-regel in `kern/AGENTS.md` gingen verloren en zijn handmatig teruggezet.
+Die commit wijzigt zelf alleen de root `AGENTS.md`, dus de inhoud van `kit/` hóórt na de
+pull gelijk te blijven.
 
 ### Een nieuwe versie uitbrengen
 

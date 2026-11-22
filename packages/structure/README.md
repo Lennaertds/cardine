@@ -194,7 +194,7 @@ meta-package. SemVer — `major.minor.patch`.
 
 | Actie | Versie |
 |-------|--------|
-| Huidige versie | [0.3.0](CHANGELOG.md) |
+| Huidige versie | [0.4.0](CHANGELOG.md) |
 | Git-tag | `structure-v<semver>` |
 | CHANGELOG | [CHANGELOG.md](CHANGELOG.md) |
 

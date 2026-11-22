@@ -15,7 +15,7 @@ SLUG = iconv -f utf-8 -t ascii//TRANSLIT | tr '[:upper:]' '[:lower:]' | sed -E '
 TOOLS := git make
 SETUP :=
 DEV :=
-CHECK :=
+CHECK := sandbox-secrets secrets-check
 CHECK_FULL :=
 FMT :=
 BUILD :=
@@ -103,6 +103,12 @@ native-bindings-strict: ## NATIVE_STRICT=1 voor apps/native en/of native-c (onde
 
 links: ## dode relatieve links (behalve kit/ — project-links werken pas na copy)
 	@bash packages/lab/scripts/check-links.sh . packages/structure/kit
+
+sandbox-secrets: ## bewijst dat cardine-bwrap .env en keys afschermt (packages/lab/scripts/check-bwrap-secrets.sh)
+	@bash packages/lab/scripts/check-bwrap-secrets.sh
+
+secrets-check: ## secrets-grens: rechten, geen .env in repos, guard-plugin actief (packages/lab/scripts/check-secrets.sh)
+	@bash packages/lab/scripts/check-secrets.sh
 
 smoke: ## smoke-tests tegen een omgeving: make smoke URL=https://…
 	@test -n "$(URL)" || { echo 'gebruik: make smoke URL=https://…' >&2; exit 1; }

@@ -353,6 +353,19 @@ else
   SANDBOX_OK=false
 fi
 
+# 11a2. Bewaakt cardine-bwrap de .env-grens (overlay + maskeer-stap)?
+if [ -f "$CARDINE_BWRAP_EXPECTED" ]; then
+  SECRET_CHECK="${LAB_DIR}/scripts/check-bwrap-secrets.sh"
+  if grep -q 'overlay-src' "$CARDINE_BWRAP_EXPECTED" 2>/dev/null && \
+     grep -q 'CARDINE_BWRAP_ALLOW_SECRETS' "$CARDINE_BWRAP_EXPECTED" 2>/dev/null && \
+     [ -f "$SECRET_CHECK" ]; then
+    pass "secrets-grens" "cardine-bwrap maskeert .env/keys (bewijs: make sandbox-secrets)"
+  else
+    fail "secrets-grens" "cardine-bwrap maskeert .env/keys niet — oude versie? (make sandbox-secrets)"
+    SANDBOX_OK=false
+  fi
+fi
+
 # 11b. Bestaat slice-check op de verwachte plek?
 if [ -f "$SLICE_CHECK_EXPECTED" ]; then
   pass "cardine-slice-check" "gevonden op $SLICE_CHECK_EXPECTED"

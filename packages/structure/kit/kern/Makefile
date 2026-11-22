@@ -59,7 +59,7 @@ doctor: ## nagaan of alle tools geïnstalleerd zijn die de apps nodig hebben
 env-status: jarvis-check ## status van DSH, Jarvis en deze omgeving
 	@if command -v jarvis >/dev/null; then \
 	  echo "env-status: ok (jarvis beschikbaar)"; \
-	 else \
+	else \
 	  echo "env-status: jarvis CLI niet gevonden" >&2; \
 	fi
 
@@ -270,7 +270,7 @@ experiment: ## verslag van een experiment: make experiment s=sleep-baseline
 	test -e "$$file" || sed -e "s|YYYY-MM-DD|$(TODAY)|g" -e "s|<slug>|$(s)|g" docs/research/experiments/_template.md >"$$file"; \
 	echo "$$file"
 
-context: jarvis-check ## context-bundle voor de agent (incl. jarvis-check): make context s=<slug> toont RULES + BACKLOG + spec in 1 uitvoer
+context: ## context-bundle voor de agent: make context s=<slug> toont RULES + BACKLOG + spec in 1 uitvoer
 	@echo "=== RULES.md ===" && cat docs/rules/RULES.md 2>/dev/null || echo "(geen RULES.md)"; \
 	echo ""; \
 	echo "=== BACKLOG ===" && cat docs/work/BACKLOG.md 2>/dev/null || echo "(geen BACKLOG.md)"; \

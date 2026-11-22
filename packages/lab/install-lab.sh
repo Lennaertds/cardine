@@ -449,18 +449,22 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
         api: openai-completions
         apiKeyEnv: DEEPSEEK_API_KEY
         models:
-          - id: deepseek-ai/DeepSeek-V4-Flash
-            name: DeepSeek V4 Flash (DeepInfra)
+          - id: deepseek-ai/DeepSeek-V4.1-Flash-1017
+            name: DeepSeek V4.1 Flash 1017 (DeepInfra)
+          - id: deepseek-ai/DeepSeek-V4-Flash-0731
+            name: DeepSeek V4 Flash 0731 (DeepInfra)
+          - id: deepseek-ai/DeepSeek-V3.2
+            name: DeepSeek V3.2 (DeepInfra)
 
 - id: acp
   config:
     provider: deepinfra
-    model: deepseek-ai/DeepSeek-V4-Flash
+    model: deepseek-ai/DeepSeek-V4.1-Flash-1017
 
 - id: agent-default-model
   config:
     provider: deepinfra
-    model: deepseek-ai/DeepSeek-V4-Flash
+    model: deepseek-ai/DeepSeek-V4.1-Flash-1017
 
 - id: tool-web
   disabled: true
@@ -508,6 +512,9 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
 - insert:
     - id: slice-check
       name: ${REPO_ROOT}/packages/lab/cardine-slice-check/index.js
+    # Secrets-grens voor de filesystem-tools (ADR 0016).
+    - id: secrets-guard
+      name: ${REPO_ROOT}/packages/lab/cardine-secrets-guard/index.js
 PATCHEOF
 
 green "  ✓ ${DSH_PROFILE_DIR}/cordis.patch.yml gegenereerd"

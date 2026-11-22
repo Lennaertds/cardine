@@ -18,11 +18,31 @@ Nooit data uit andere projecten. Keys zijn geen persoonsgegevens maar secrets (o
 
 | Secret | Waar het leeft | Wie het nodig heeft |
 |--------|----------------|---------------------|
-| `DEEPSEEK_API_KEY` (of equivalent) | `.env` lokaal; nooit committen | harness → LLM |
-| Andere LLM-provider keys | `.env` lokaal | harness (configureerbaar) |
-| Strix/LLM-key voor scans | `.env` / omgeving | `make security-scan*` |
+| `DEEPSEEK_API_KEY` (of equivalent) | `~/.dsh/.env` (door DSH gelezen); nooit committen | harness → LLM |
+| Andere LLM-provider keys | `~/.secrets/<repo>/.env`, 600 | harness (configureerbaar) |
+| Strix/LLM-key voor scans | `~/.secrets/<repo>/.env` / omgeving | `make security-scan*` |
 
-Nieuwe variabelen → `.env.example` van de app die ze leest (zodra die bestaat), **zonder** echte waarden.
+Nieuwe variabelen → `.env.example` van de app die ze leest (zodra die bestaat), **zonder** echte waarden. Echte waarden leven in `~/.secrets/<repo>/.env` (buiten elke repo), nooit in de repo zelf.
+
+### De agent en `.env`: twee grenzen, één waarheid
+
+Geen instructie maar een grens, op twee plekken:
+
+| Route | Grens | Bewijs |
+|-------|-------|--------|
+| Shell (`bash`, `grep`, `glob`) | `cardine-bwrap`: alleen `/usr`, `/etc` en de workspace worden gemount; `~/.secrets` bestaat daar niet | `make sandbox-secrets` |
+| Filesystem-tools (`read`, `write`, `edit`) | `cardine-secrets-guard` (`tools/pre-execute`): weigert op pad-resolutie `.env`/keys en alles onder `~/.secrets`, `~/.dsh`, `~/.ssh`, `~/.aws`, `~/.kube` | `make secrets-check` (unit-tests) |
+
+Waarom twee: de filesystem-tools draaien **niet** in de kooi maar in het DSH-hostproces (`dsh-fs-local`: *"cwd is a resolution default, not a containment boundary"*). Een bwrap-mount kan hen dus niet afschermen; alleen een listener vóór de tool wel. De guard is deny-only en resolvet paden (`realpath` + parent-walk), zodat `..`, symlinks en nog niet bestaande paden niet omzeilen.
+
+**Kooi-details (`cardine-bwrap`).** Binnen de workspace worden `*.env`/`*.env.*` (behalve `*.example`), SSH-keys en certificaten gemaskeerd met een lege `/dev/null`-bind in een overlay. `CARDINE_BWRAP_ALLOW_SECRETS=1` zet de maskeerd-stap uit (alleen debug).
+
+### Grenzen die je moet kennen
+
+- **Nieuwe sessie nodig.** DSH leest `cordis.patch.yml` bij start. Een wijziging aan de guard geldt pas in de **volgende** sessie; controleer met `make secrets-check`.
+- **Rechten zijn lokaal, geen repo-contract.** In de kooi bestaat `~/.secrets` bewust niet. De rechten (700/600) worden daarom op de host gecontroleerd en leveren een **waarschuwing** op, geen rood: `make check` moet op elke checkout groen kunnen zijn. Zet ze goed met `bash packages/lab/scripts/secrets-init.sh` in je eigen terminal; wat je dan ziet wil je oplossen.
+- **`chmod 000` helpt niet tegen de tools.** De tools draaien als jouw gebruiker en kunnen als bezitter alsnog lezen; alleen de guard of rechten op een **map** (700 op repo) werken.
+- **Symlinks helpen niet.** `read` volgt ze niet, maar `bash` en `grep` wel; een symlink naar `~/.secrets` is dus geen grens (en wordt door `check-secrets.sh` gemarkeerd als symlink naar buiten).
 
 ## Authenticatie en autorisatie
 
@@ -32,6 +52,8 @@ Lab: geen multi-user auth; solo lokaal met eigen API-keys. Prod-auth alleen na p
 | Dreiging | Maatregel | Bewaakt door |
 |----------|-----------|--------------|
 | Lekken van secrets of vreemde projectdata in prompts/index | RULES + geen import uit andere repos; redaction bij LLM-seam | RULES; later test op allowlist |
+| Agent leest of schrijft `.env`/keys via de shell | `cardine-bwrap` maskeert ze in de workspace (overlay + lege `/dev/null`-bind) | `sandbox-secrets` in `make check` |
+| Agent leest `~/.secrets`/`~/.dsh`/`~/.ssh` via `read`/`write` | `cardine-secrets-guard` (`tools/pre-execute`, deny-only, realpath) | `secrets-check` in `make check` |
 | Per ongeluk `_bootstrap` of secrets committen | `.git/info/exclude` voor bootstrap; `.gitignore` voor `.env` | pre-commit / gitignore |
 
 ## Actieve security-validatie (Strix)

@@ -143,9 +143,9 @@ Elk package heeft een **eigen versie**, onafhankelijk van de andere.
 
 | Package | Versie | CHANGELOG | Git-tag |
 |---------|--------|-----------|---------|
-| `cardine` (meta) | 0.1.0 | [CHANGELOG.md](CHANGELOG.md) | `v0.1.0` |
-| `@lennaertds/cardine-lab` | 0.2.0 | [packages/lab/CHANGELOG.md](packages/lab/CHANGELOG.md) | `lab-v0.2.0` |
-| `@lennaertds/cardine-structure` | 0.2.0 | [packages/structure/CHANGELOG.md](packages/structure/CHANGELOG.md) | `structure-v0.2.0` |
+| `cardine` (meta) | 0.3.0 | [CHANGELOG.md](CHANGELOG.md) | `v0.3.0` |
+| `@lennaertds/cardine-lab` | 0.3.0 | [packages/lab/CHANGELOG.md](packages/lab/CHANGELOG.md) | `lab-v0.3.0` |
+| `@lennaertds/cardine-structure` | 0.4.0 | [packages/structure/CHANGELOG.md](packages/structure/CHANGELOG.md) | `structure-v0.4.0` |
 
 SemVer: `major.minor.patch`. Een *major* is een breaking change (installer werkt
 niet meer, kit-structuur wijzigt incompatibel). Een *minor* is nieuwe
