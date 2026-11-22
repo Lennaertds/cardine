@@ -465,6 +465,12 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
 - id: tool-web
   disabled: true
 
+- id: tool-todo
+  disabled: true
+
+- id: tool-goal
+  disabled: true
+
 # jarvis op het agent-pad (ADR 0006). Tools heten mcp__jarvis__<naam>.
 - insert:
     - id: mcp-jarvis

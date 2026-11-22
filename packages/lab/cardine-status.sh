@@ -278,27 +278,54 @@ else
 fi
 
 ###############################################################################
-# 8. Is de repo geïndexeerd?
+# 8. Stale Jarvis lockfiles?
 ###############################################################################
-header "8. Repo-indexering"
+header "8. Stale Jarvis locks"
+
+STALE_LOCKS=false
+if [ -d "${HOME}/.jarvis" ]; then
+  for lock in "${HOME}/.jarvis"/index-*.lock; do
+    [ -e "$lock" ] || continue
+    pid=$(cat "$lock" 2>/dev/null || true)
+    if [ -n "$pid" ] && ! kill -0 "$pid" 2>/dev/null; then
+      STALE_LOCKS=true
+      if $FIX; then
+        rm -f "$lock"
+        pass "stale lock opgeruimd" "$lock (PID $pid bestaat niet meer)"
+      else
+        fail "stale lock" "$lock (PID $pid bestaat niet meer — run met --fix om op te ruimen)"
+      fi
+    else
+      pass "lock actief" "$lock (PID $pid)"
+    fi
+  done
+fi
+if ! $STALE_LOCKS; then
+  $VERBOSE && pass "jarvis locks" "geen stale locks in ${HOME}/.jarvis/"
+fi
+
+###############################################################################
+# 9. Is de repo geïndexeerd?
+###############################################################################
+header "9. Repo-indexering"
 
 if [ -x "$JARVIS_CLI" ]; then
   INDEX_STATUS=$("$JARVIS_CLI" get-index-status "$CARDINE_DIR" 2>/dev/null || true)
   if echo "$INDEX_STATUS" | grep -qiE 'indexed.*true|freshness.*fresh' 2>/dev/null; then
     pass "jarvis index" "cardine repo is geïndexeerd"
   elif echo "$INDEX_STATUS" | grep -qi 'indexed.*false' 2>/dev/null; then
-    warn "jarvis index" "cardine repo is nog niet geïndexeerd — draai: jarvis index \"\$PWD\" --no-semantic"
+    warn "jarvis index" "cardine repo is nog niet geïndexeerd — draai: make index"
   else
-    warn "jarvis index" "status niet bepaald (run: jarvis get-index-status .)"
+    warn "jarvis index" "status niet bepaald (run: make index)"
   fi
 else
   warn "jarvis index" "jarvis CLI niet beschikbaar om index-status te checken"
 fi
 
 ###############################################################################
-# 9. DSH integratietest (optioneel)
+# 10. DSH integratietest (optioneel)
 ###############################################################################
-header "9. DSH integratietest (snel)"
+header "10. DSH integratietest (snel)"
 
 if [ -x "$DSH_BIN" ]; then
   echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' | \
@@ -310,9 +337,9 @@ else
 fi
 
 ###############################################################################
-# 10. Sandbox-configuratie en fixes
+# 11. Sandbox-configuratie en fixes
 ###############################################################################
-header "10. Sandbox-configuratie"
+header "11. Sandbox-configuratie"
 
 CARDINE_BWRAP_EXPECTED="${LAB_DIR}/cardine-bwrap"
 SLICE_CHECK_EXPECTED="${LAB_DIR}/cardine-slice-check/index.js"

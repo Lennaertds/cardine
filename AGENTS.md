@@ -9,6 +9,7 @@ Lab-eerst (spoor 3): minimale AI-harness + standaard; later mogelijk gratis prod
 - Niet committen of pushen tenzij gevraagd.
 - Geen nieuwe map op root of in `docs/` zonder te vragen; geen nieuwe modulegrenzen / `utils/` buiten [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md).
 - Destructief (`make db-reset` e.d.) alleen op uitdrukkelijke vraag.
+- Geen `mcp__jarvis__indexRepo` aanroepen (breekt in `bwrap`-sandbox, laat stale `.lock`-bestanden achter); bij ontbrekende index: gebruiker vragen `make index` te draaien.
 - Geen stack/generators tot expliciete Pi/TS-runtime-keuze (`ADR 0001`). Lessen → eerst `§` in `Agent_Engineering/bron/`, niet hier dupliceren.
 
 ## Commando's

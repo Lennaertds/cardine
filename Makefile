@@ -35,7 +35,7 @@ PORTS :=
 	    security-scan security-scan-quick obs-up obs-down obs-status \
 	    bench perf-check deps-audit polyglot-check radar-check radar-reminder \
 	    digest-check digest-reminder digest-fetch digest-propose digest-week native-bindings-strict \
-	    install-lab env-status
+	    install-lab env-status index jarvis-check
 
 ##@ Starten
 help: ## dit overzicht
@@ -243,7 +243,7 @@ docs-health: links ## onderhoud: dode links, lengte van de AGENTS.md-bestanden, 
 	  echo "$$(git log -1 --format=%cs -- "$$file")  $$file"; \
 	done | sort | head -n 15 || true
 
-context: ## startcontext in één keer tonen: make context [s=<slug>]
+context: jarvis-check ## startcontext in één keer tonen (incl. jarvis-check): make context [s=<slug>]
 	@echo "=== RULES ===" && cat docs/rules/RULES.md
 	@echo "\n=== BACKLOG ===" && cat docs/work/BACKLOG.md
 	@if [ -n "$(s)" ] && [ -f "docs/work/specs/$(s).md" ]; then \
@@ -260,8 +260,38 @@ finish: check ## afronden in één call: make finish m="aanleiding · bestanden 
 	' "$$file" > "$$file.tmp" && mv "$$file.tmp" "$$file"; \
 	echo "Gelogd in $$file"
 
-env-status: ## status van DSH, Jarvis en deze omgeving (packages/lab/cardine-status.sh)
+env-status: jarvis-check ## status van DSH, Jarvis en deze omgeving (packages/lab/cardine-status.sh + jarvis-check)
 	@bash packages/lab/cardine-status.sh
+
+index: ## Jarvis code-index opbouwen voor deze repo (buiten sandbox draaien)
+	@command -v jarvis >/dev/null || { echo "jarvis niet gevonden op PATH" >&2; exit 1; }
+	@jarvis index "$(CURDIR)" --no-semantic
+
+jarvis-check: ## controles: stale Jarvis-locks en of de huidige repo geïndexeerd is
+	@if command -v jarvis >/dev/null; then \
+	  stale=0; \
+	  for lock in "$$HOME/.jarvis"/index-*.lock; do \
+	    [ -e "$$lock" ] || continue; \
+	    pid=$$(cat "$$lock" 2>/dev/null || true); \
+	    if [ -n "$$pid" ] && ! kill -0 "$$pid" 2>/dev/null; then \
+	      echo "WAARSCHUWING: stale Jarvis lock: $$lock (PID $$pid bestaat niet)"; \
+	      echo "  Oplossing: rm -f $$lock"; \
+	      stale=1; \
+	    fi; \
+	  done; \
+	  if [ "$$stale" = 0 ]; then \
+	    echo "jarvis-check: geen stale locks"; \
+	  fi; \
+	  slug=$$(basename "$(CURDIR)" | tr '[:upper:]' '[:lower:]'); \
+	  if ! jarvis status "$$slug" >/dev/null 2>&1; then \
+	    echo "TIP: repo '$$slug' is nog niet geïndexeerd."; \
+	    echo "  Draai in je terminal (buiten sandbox): make index"; \
+	  else \
+	    echo "jarvis-check: repo '$$slug' is geïndexeerd"; \
+	  fi; \
+	else \
+	  echo "jarvis-check: jarvis CLI niet gevonden — installeer via packages/lab/install-lab.sh" >&2; \
+	fi
 
 install-lab: ## lab-omgeving opzetten op een verse Arch Linux Hyprland-machine (packages/lab/install-lab.sh)
 	@bash packages/lab/install-lab.sh

@@ -9,6 +9,7 @@
 - Niet committen of pushen tenzij erom gevraagd is.
 - Geen nieuwe map op root of in `docs/` zonder te vragen: elke soort bestand heeft al een vaste plek.
 - <Destructief, bv.: `make db-reset` alleen op uitdrukkelijke vraag; het wist de lokale database.>
+- Geen `mcp__jarvis__indexRepo` aanroepen (breekt in sandbox, laat stale `.lock`-bestanden achter); bij ontbrekende index: gebruiker vragen `make index` te draaien.
 - Inhoudelijke grenzen: [RULES.md](docs/rules/RULES.md). Security (live): [security.md](docs/architecture/security.md). Overige engineering-docs: via [docs/INDEX.md](docs/INDEX.md) — alleen als de opdracht ze raakt.
 
 ## Commando's

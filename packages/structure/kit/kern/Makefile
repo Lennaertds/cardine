@@ -32,7 +32,7 @@ PORTS :=
 
 .PHONY: help setup env doctor dev up down logs status check check-full links smoke fmt build \
 	    data seed db-reset adr spec log meeting experiment docs-health clean \
-	    container-setup context finish \
+	    container-setup context finish env-status index jarvis-check \
 	    security-scan security-scan-quick obs-up obs-down obs-status \
 	    bench perf-check deps-audit polyglot-check radar-check radar-reminder \
 	    digest-check digest-reminder digest-fetch digest-propose native-bindings-strict
@@ -55,6 +55,43 @@ doctor: ## nagaan of alle tools geïnstalleerd zijn die de apps nodig hebben
 	@missing=0; for tool in $(sort $(TOOLS)); do \
 	  if command -v $$tool >/dev/null; then echo "ok    $$tool"; else echo "MIST  $$tool"; missing=1; fi; \
 	done; exit $$missing
+
+env-status: jarvis-check ## status van DSH, Jarvis en deze omgeving
+	@if command -v jarvis >/dev/null; then \
+	  echo "env-status: ok (jarvis beschikbaar)"; \
+	 else \
+	  echo "env-status: jarvis CLI niet gevonden" >&2; \
+	fi
+
+index: ## Jarvis code-index opbouwen voor deze repo (buiten sandbox draaien)
+	@command -v jarvis >/dev/null || { echo "jarvis niet gevonden op PATH" >&2; exit 1; }
+	@jarvis index "$(CURDIR)" --no-semantic
+
+jarvis-check: ## controles: stale Jarvis-locks en of de huidige repo geïndexeerd is
+	@if command -v jarvis >/dev/null; then \
+	  stale=0; \
+	  for lock in "$$HOME/.jarvis"/index-*.lock; do \
+	    [ -e "$$lock" ] || continue; \
+	    pid=$$(cat "$$lock" 2>/dev/null || true); \
+	    if [ -n "$$pid" ] && ! kill -0 "$$pid" 2>/dev/null; then \
+	      echo "WAARSCHUWING: stale Jarvis lock: $$lock (PID $$pid bestaat niet)"; \
+	      echo "  Oplossing: rm -f $$lock"; \
+	      stale=1; \
+	    fi; \
+	  done; \
+	  if [ "$$stale" = 0 ]; then \
+	    echo "jarvis-check: geen stale locks"; \
+	  fi; \
+	  slug=$$(basename "$(CURDIR)" | tr '[:upper:]' '[:lower:]'); \
+	  if ! jarvis status "$$slug" >/dev/null 2>&1; then \
+	    echo "TIP: repo '$$slug' is nog niet geïndexeerd."; \
+	    echo "  Draai in je terminal (buiten sandbox): make index"; \
+	  else \
+	    echo "jarvis-check: repo '$$slug' is geïndexeerd"; \
+	  fi; \
+	else \
+	  echo "jarvis-check: jarvis CLI niet gevonden — skip" >&2; \
+	fi
 
 ##@ Lokaal draaien
 dev: ## alle apps tegelijk starten; Ctrl-C stopt alles
@@ -233,7 +270,7 @@ experiment: ## verslag van een experiment: make experiment s=sleep-baseline
 	test -e "$$file" || sed -e "s|YYYY-MM-DD|$(TODAY)|g" -e "s|<slug>|$(s)|g" docs/research/experiments/_template.md >"$$file"; \
 	echo "$$file"
 
-context: ## context-bundle voor de agent: make context s=<slug> toont RULES + BACKLOG + spec in 1 uitvoer
+context: jarvis-check ## context-bundle voor de agent (incl. jarvis-check): make context s=<slug> toont RULES + BACKLOG + spec in 1 uitvoer
 	@echo "=== RULES.md ===" && cat docs/rules/RULES.md 2>/dev/null || echo "(geen RULES.md)"; \
 	echo ""; \
 	echo "=== BACKLOG ===" && cat docs/work/BACKLOG.md 2>/dev/null || echo "(geen BACKLOG.md)"; \
