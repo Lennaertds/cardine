@@ -30,6 +30,10 @@ Alle commando's (incl. opt-in `security-scan*`, `obs-*`, `perf-*`, `deps-audit`,
 - **In README's** verwijs je naar `docs/decisions/` voor context en naar `docs/decisions/`-ADRs voor harde besluiten. De feitelijke onderbouwing (de research in Agent_Engineering) is privé en link je niet direct.
 - **Nieuw inzicht** dat in deze repo thuishoort? Eerst een § in Agent_Engineering, dan een ADR of context-doc hier. Geen §-duplicatie.
 
+## Schrijven
+
+De lab-agent schrijft via de shell in de kooi (`cardine-bwrap`, bind op de host, [ADR 0017](docs/decisions/0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md)). `write`, `edit` en `apply_patch` staan uit. Een wijziging staat meteen op schijf en is zichtbaar in `git status`; commit en push blijven bij de gebruiker. Buiten de repo is er geen mount en geen schrijftool.
+
 ## Werken
 
 - **Start in 1 call:** draai `make context` (of `make context s=<slug>`) voor `RULES.md` + `BACKLOG.md` + eventuele spec. Geen item genoemd en niet duidelijk uit `BACKLOG.md`? Vraag welk item — geen default.

@@ -489,18 +489,36 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
           PATH: ${HOME}/.jarvis/bin:${HOME}/.local/bin:/usr/bin:/bin
         failOnStartupError: true
 
-# Workspace-allowlist (ADR 0007) — danger-full-access zodat de agent
-# alles kan runnen zonder sandbox-beperkingen.
+# Workspace-allowlist (ADR 0007 + ADR 0017).
+# De kooi is de enige schrijfrechter. workspaceRoot is de terugval voor een
+# sessie zonder cwd. De guard volgt de cwd van de open sessie.
 - id: sandbox-policy
   config:
-    mode: danger-full-access
+    mode: workspace-write
+    workspaceRoot: ${REPO_ROOT}
 
-# Approval uit — de agent handelt zelfstandig, geen prompts.
+# Vangnet voor deze lab-omgeving: nooit een approval-dialoog.
+# Upstream krijgt later policy: auto (Zed-eis, zonder fork). Tot dan is
+# never de lab-keuze (ADR 0017): deterministisch, vóór de dialoog.
 - id: approval
   config:
-    policy: auto
+    policy: never
 
-# Shell onder onze bwrap.
+# Alleen lezen. dsh-tool-fs laat write en edit weg bij false; applyPatch
+# staat upstream al uit en zetten we hier expliciet uit.
+- id: tool-fs
+  config:
+    read: true
+    readImage: true
+    write: false
+    edit: false
+    applyPatch: false
+
+# glob/grep blijven aan en lopen door de workspace-guard.
+- id: tool-fs-search
+  disabled: false
+
+# Shell onder onze bwrap. Het netwerk blijft open (ADR 0017).
 - id: sandbox
   config:
     runnerCommand:
@@ -512,7 +530,8 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
 - insert:
     - id: slice-check
       name: ${REPO_ROOT}/packages/lab/cardine-slice-check/index.js
-    # Secrets-grens voor de filesystem-tools (ADR 0016).
+    # Leesgrens voor read/read_image/glob/grep (ADR 0016 + 0017).
+    # De guard neemt de cwd van de sessie. De Zed-server zet geen workspace-pin.
     - id: secrets-guard
       name: ${REPO_ROOT}/packages/lab/cardine-secrets-guard/index.js
 PATCHEOF
@@ -581,16 +600,16 @@ if (!settings.agent_servers || typeof settings.agent_servers !== "object") {
 
 const key = "DeepSeek Harness";
 const existing = settings.agent_servers[key] || {};
+const env = { ...(existing.env || {}) };
+delete env.CARDINE_WORKSPACE;
+env.PATH = process.env.HOME + "/.jarvis/bin:" + process.env.HOME + "/.local/bin:/usr/bin:/bin";
+env.DSH_TELEMETRY_MODE = "OFF";
 settings.agent_servers[key] = {
     ...existing,
     type: "custom",
     command: dshPath,
     args: ["--profile", "acp"],
-    env: {
-        ...(existing.env || {}),
-        PATH: process.env.HOME + "/.jarvis/bin:" + process.env.HOME + "/.local/bin:/usr/bin:/bin",
-        DSH_TELEMETRY_MODE: "OFF"
-    }
+    env: env
 };
 
 fs.writeFileSync(filePath, JSON.stringify(settings, null, 2) + "\n", "utf-8");

@@ -24,18 +24,20 @@ Nooit data uit andere projecten. Keys zijn geen persoonsgegevens maar secrets (o
 
 Nieuwe variabelen → `.env.example` van de app die ze leest (zodra die bestaat), **zonder** echte waarden. Echte waarden leven in `~/.secrets/<repo>/.env` (buiten elke repo), nooit in de repo zelf.
 
-### De agent en `.env`: twee grenzen, één waarheid
+### De agent en bestanden: één schrijfroute, één leesgrens
 
-Geen instructie maar een grens, op twee plekken:
+De kooi is de enige schrijfrechter ([ADR 0017](../decisions/0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md)). `write`, `edit` en `apply_patch` staan uit. Wat blijft (`read`, `read_image`, `glob`, `grep`) stopt op de workspace-guard.
 
-| Route | Grens | Bewijs |
-|-------|-------|--------|
-| Shell (`bash`, `grep`, `glob`) | `cardine-bwrap`: alleen `/usr`, `/etc` en de workspace worden gemount; `~/.secrets` bestaat daar niet | `make sandbox-secrets` |
-| Filesystem-tools (`read`, `write`, `edit`) | `cardine-secrets-guard` (`tools/pre-execute`): weigert op pad-resolutie `.env`/keys en alles onder `~/.secrets`, `~/.dsh`, `~/.ssh`, `~/.aws`, `~/.kube` | `make secrets-check` (unit-tests) |
+| Route | In de workspace | Buiten de workspace | Bewijs |
+|-------|-----------------|---------------------|--------|
+| Shell lezen | moet | mag niet (`~/.ssh`, `~/.secrets`, `~/.dsh/.env`, `/etc/shadow`, een zusterrepo) | `make sandbox-check` |
+| Shell schrijven | moet, en meteen op de host | mag niet; de host-byte blijft | `make sandbox-check` |
+| `read` / `read_image` / `glob` / `grep` | moet | mag niet | guard-tests in `make sandbox-check` |
+| `write` / `edit` / `apply_patch` | de tool staat uit | de tool staat uit | profiel in `install-lab.sh` |
 
-Waarom twee: de filesystem-tools draaien **niet** in de kooi maar in het DSH-hostproces (`dsh-fs-local`: *"cwd is a resolution default, not a containment boundary"*). Een bwrap-mount kan hen dus niet afschermen; alleen een listener vóór de tool wel. De guard is deny-only en resolvet paden (`realpath` + parent-walk), zodat `..`, symlinks en nog niet bestaande paden niet omzeilen.
+De filesystem-tools die aan blijven draaien in het DSH-hostproces (`dsh-fs-local`: *"cwd is a resolution default, not a containment boundary"*). Een bwrap-mount dekt hen niet; de guard wel. De workspace van die guard is de cwd van de open sessie, niet de repo waar het lab ooit is geïnstalleerd. Die is deny-only en resolvet paden (`realpath` + parent-walk), zodat `..`, symlinks en nog niet bestaande paden niet omzeilen. Ze is defense-in-depth voor de lees-tools, en een vangnet als een ander profiel writes weer aanzet. Ze is niet de schrijfmuur.
 
-**Kooi-details (`cardine-bwrap`).** Binnen de workspace worden `*.env`/`*.env.*` (behalve `*.example`), SSH-keys en certificaten gemaskeerd met een lege `/dev/null`-bind in een overlay. `CARDINE_BWRAP_ALLOW_SECRETS=1` zet de maskeerd-stap uit (alleen debug).
+**Kooi (`cardine-bwrap`).** De workspace is een `--bind`: een write staat meteen op de host, `git status` ook. `*.env`/`*.env.*` (behalve `*.example`), SSH-keys en certificaten zijn afgedekt met een read-only leeg bestand; de host-inode van die bestanden blijft. `/tmp` is een gedeelde host-map (mode 700), geen tmpfs, zodat `make` en `node` een tijdelijk bestand kunnen afgeven. De kooi heeft een eigen user-namespace. Het netwerk blijft open ([ADR 0017](../decisions/0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md)): `npm`, `pip` en andere fetches vanuit de shell werken. Een mislukte mount eindigt rood, niet stil groen.
 
 ### Grenzen die je moet kennen
 
@@ -52,8 +54,9 @@ Lab: geen multi-user auth; solo lokaal met eigen API-keys. Prod-auth alleen na p
 | Dreiging | Maatregel | Bewaakt door |
 |----------|-----------|--------------|
 | Lekken van secrets of vreemde projectdata in prompts/index | RULES + geen import uit andere repos; redaction bij LLM-seam | RULES; later test op allowlist |
-| Agent leest of schrijft `.env`/keys via de shell | `cardine-bwrap` maskeert ze in de workspace (overlay + lege `/dev/null`-bind) | `sandbox-secrets` in `make check` |
-| Agent leest `~/.secrets`/`~/.dsh`/`~/.ssh` via `read`/`write` | `cardine-secrets-guard` (`tools/pre-execute`, deny-only, realpath) | `secrets-check` in `make check` |
+| Agent leest of schrijft `.env`/keys via de shell | `cardine-bwrap` dekt ze af; de host-inode blijft | `sandbox-check` in `make check` |
+| Agent leest buiten de repo of een geheim via `read`/`glob`/`grep` | `cardine-secrets-guard` (`tools/pre-execute`, deny-only, realpath). `write`/`edit` staan uit | `sandbox-check` in `make check` |
+| Shell-write verdwijnt (overlay) | workspace is een bind; de write staat op de host | `sandbox-check` eist de host-byte |
 | Per ongeluk `_bootstrap` of secrets committen | `.git/info/exclude` voor bootstrap; `.gitignore` voor `.env` | pre-commit / gitignore |
 
 ## Actieve security-validatie (Strix)

@@ -7,19 +7,19 @@
 
 ## Wat de gebruiker kan
 
-- De agent kan bestanden lezen/wijzigen en shell gebruiken **binnen** jouw allowlist/approvals — zonder verrassingen of supply-chain risico's buiten de workspace.
+- De agent leest in het project en wijzigt via de shell in de kooi. Buiten het project is er geen mount en geen write-tool. In het lab komt er geen goedkeuringsvraag.
 
 ## Besluit
 
-Geen eigen tool-runtime. De toolset is die van DeepSeek Harness ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)), ingekort tot read, edit, shell, plus de indexing-tools via MCP. Paden in de workspace gaan door. Daarbuiten vraagt de agent. Shell en `npm`/`pip` draaien onder `bwrap` met alleen de workspace ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)). Zoeken op het agent-pad loopt via [indexing.md](indexing.md); `rg` blijft de meet-fallback. Zed’s built-in grep hoort bij Zed Agent en draait niet mee.
+Geen eigen tool-runtime. De toolset is die van DeepSeek Harness ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)): `read`, `glob`/`grep`, shell, plus de indexing-tools via MCP. Schrijven doet de shell, in de kooi ([ADR 0017](../decisions/0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md)). `write`, `edit` en `apply_patch` staan in het lab-profiel uit. Shell en `npm`/`pip` draaien onder `bwrap` met alleen de workspace als bind ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)). Zoeken op het agent-pad loopt via [indexing.md](indexing.md); `rg` blijft de meet-fallback. Zed’s built-in grep hoort bij Zed Agent en draait niet mee.
 
 ## Stand van zaken
 
 | Onderwerp | Status | Notitie |
 |-----------|--------|---------|
 | Whitelist / eigendom (T1) | beslist | DSH read/edit/shell + indexing-MCP — [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
-| Approval-model (T2) | staat | `workspace-write` + `ask`, vast in het ACP-profiel. How-to: [zed-dsh](../how-to/zed-dsh.md) |
-| Sandbox (T3) | staat | `packages/lab/cardine-bwrap`. `~/.ssh` niet zichtbaar. Zed en `dsh` blijven native |
+| Approval-model (T2) | staat | Lab: `approval: never`, `workspace-write` op de repo. Geen dialoog. How-to: [zed-dsh](../how-to/zed-dsh.md). [ADR 0017](../decisions/0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md) |
+| Sandbox (T3) | staat | `packages/lab/cardine-bwrap` bindt de workspace; de shell is de schrijfrechter. `~/.ssh` niet zichtbaar. Zed en `dsh` blijven native |
 | MCP v1 (T4) | beslist | Aan, alleen voor de indexing-daemon. Geen open MCP-markt. |
 | Indexing vs generic search (T5) | beslist | Zoeken via indexing-tools; `rg` is de meet-fallback |
 

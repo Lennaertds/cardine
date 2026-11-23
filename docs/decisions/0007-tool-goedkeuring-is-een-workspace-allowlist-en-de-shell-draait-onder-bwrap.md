@@ -21,7 +21,9 @@ In de context van een agent die bestanden en shell gebruikt, geconfronteerd met 
 
 Logs blijven zonder secrets en zonder `.env`.
 
-**`.env` binnen de workspace is dicht.** De workspace is writable, dus een `--bind` alleen laat de agent de `.env` lezen én overschrijven. `cardine-bwrap` legt daarom na de bind een lege overlay (`--overlay-src` + `--tmp-overlay`) en maskeert per bestand `*.env`/`*.env.*` (behalve `*.example`), SSH-keys, `*.pem`, `*.p12` en `*.pfx` met een lege 0000-bind. Gevolg: shell-writes landen in de overlay en niet op de host; bestandswijzigingen die moeten blijven lopen via de filesystem-tools. Bewezen door `make sandbox-secrets` (onderdeel van `make check`).
+**Geraakt door [0017](0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md).** De overlay hieronder is vervangen: de workspace is een bind, shell-writes staan op de host, en `write`/`edit` staan uit. De secrets-maskering blijft. Het netwerk van de shell blijft open; dat staat vast in 0017.
+
+**`.env` binnen de workspace is dicht.** De workspace is writable, dus een `--bind` alleen laat de agent de `.env` lezen én overschrijven. `cardine-bwrap` maskeert daarom per bestand `*.env`/`*.env.*` (behalve `*.example`), SSH-keys, `*.pem`, `*.p12` en `*.pfx` met een read-only leeg bestand in de kooi. De host-inode blijft. Bewezen door `make sandbox-check`.
 
 ## Alternatieven
 
@@ -35,5 +37,5 @@ Logs blijven zonder secrets en zonder `.env`.
 ## Gevolgen
 
 - **Makkelijker:** gewone edits lopen. Een shell ziet `~/.ssh` niet.
-- **Moeilijker of risico:** `npm` of `pip` dat het netwerk of een cache buiten de workspace nodig heeft, faalt tot die mount bewust open gaat. `bwrap` is Linux; andere OS’en zijn een latere port.
+- **Moeilijker of risico:** `npm` of `pip` dat een cache buiten de workspace nodig heeft, faalt tot die map bewust gemount wordt. Het netwerk zelf blijft open ([0017](0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md)). `bwrap` is Linux; andere OS’en zijn een latere port.
 - **Te doen:** de kooi pas met de applicatie. Geen `apps/` door deze ADR. [0001](0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) blijft.

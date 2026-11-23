@@ -31,6 +31,17 @@
 - DSH-plugins `tool-web`, `tool-todo` en `tool-goal` standaard `disabled: true` (sturen een tool-schema met `triggers` mee dat DeepInfra weigert).
 - `cardine-status.sh` — nieuwe stap "stale Jarvis locks" met de oplossing erbij; index-status apart gerapporteerd.
 
+## [0.4.0] — 2026-11-23
+
+### Changed
+- **De kooi is de schrijfrechter** ([ADR 0017](../../docs/decisions/0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md)). `cardine-bwrap` bindt de workspace; shell-writes staan meteen op de host. De tmp-overlay is weg.
+- `/tmp` is een gedeelde host-map (mode 700), geen tmpfs, zodat `make` en `node` een tijdelijk bestand kunnen afgeven.
+- De shell-kooi draait in een user-namespace. Het netwerk blijft open; `make sandbox-check` eist een geslaagde TCP-connect vanuit de shell en wordt rood als de kooi het netwerk afsnijdt.
+- Het lab-profiel uit `install-lab.sh`: `workspace-write` op de repo, `approval: never`, `write`/`edit`/`apply_patch` uit, `glob`/`grep` aan. `cardine-strict.patch.yml` is geen tweede profiel meer.
+- `make check` loopt via `make sandbox-check` (route × richting, met tegenproef). Een gewone write moet op de host staan; een geheime host-inode blijft gelijk.
+- `make finish` schrijft het bericht via de omgeving, zet `geschreven via de kooi` in de dag-log, en wordt rood als de regel niet terug te lezen is.
+
+[0.4.0]: https://github.com/Lennaertds/cardine/releases/tag/lab-v0.4.0
 [0.3.0]: https://github.com/Lennaertds/cardine/releases/tag/lab-v0.3.0
 [0.2.0]: https://github.com/Lennaertds/cardine/releases/tag/lab-v0.2.0
 [0.1.0]: https://github.com/Lennaertds/cardine/releases/tag/lab-v0.1.0

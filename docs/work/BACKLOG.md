@@ -23,6 +23,7 @@ De afgewerkte stappen 0–8 (kader t/m session-spine) staan in [product/](../pro
 |------|------|-----------|--------|
 | — | [bootstrap-geen-stack-tot-adr](specs/bootstrap-geen-stack-tot-adr.md) | bootstrap | open (guardrail) |
 | 1 | [lab-en-structure-testronde](specs/lab-en-structure-testronde.md) | packages | Testen en fixen naar volgende versies — eerst bewijzen dat het werkt, dan pas uitbreiden |
+| — | [FIX-OMGEVING](specs/FIX-OMGEVING.md) | harness | Code geland (bind, never, write-tools uit). Herstart Zed/DSH nog nodig |
 | — | [lab-macos](specs/lab-macos.md) | packages | packages/lab/ werkend op macOS (Intel + Apple Silicon) |
 | — | [lab-andere-linux](specs/lab-andere-linux.md) | packages | packages/lab/ uitbreiden naar Debian, Fedora, openSUSE |
 

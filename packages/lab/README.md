@@ -131,8 +131,8 @@ packages/lab/
    Zed-config. Het genereert een ACP-profiel in `~/.dsh/profiles/` dat DSH als
    agent-paneel in Zed koppelt.
 2. **`cardine-bwrap`** vervangt de standaard bwrap-config door een strakkere
-   kooi die de agent-shell isoleert — geen netwerk, geen onbevoegde
-   bestandstoegang.
+   kooi die de agent-shell isoleert tot de workspace. Het netwerk blijft
+   open. Geen onbevoegde bestandstoegang.
 3. **`cardine-status.sh`** controleert of alle onderdelen werken: DSH-versie,
    Jarvis-index, sandbox, omgevingsvariabelen. Handig na installatie en bij
    problemen.
@@ -167,7 +167,7 @@ en de meta-package. SemVer — `major.minor.patch`.
 
 | Actie | Versie |
 |-------|--------|
-| Huidige versie | [0.3.0](CHANGELOG.md) |
+| Huidige versie | [0.4.0](CHANGELOG.md) |
 | Git-tag | `lab-v<semver>` |
 | CHANGELOG | [CHANGELOG.md](CHANGELOG.md) |
 

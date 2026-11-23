@@ -2,6 +2,7 @@
 
 - **Status:** aanvaard
 - **Datum:** 2026-11-22
+- **Geraakt door:** [0017](0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md) — de kooi schrijft via bind op de host; de secrets-maskering en deze guard blijven. Dit besluit is niet herschreven.
 - **Raakt:** [security.md](../architecture/security.md), [0007](0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md), `.dsh/profiles/acp/cordis.patch.yml` (buiten deze repo), `packages/lab/cardine-secrets-guard/`, `packages/lab/scripts/check-secrets.sh`.
 
 ## Samenvatting

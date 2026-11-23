@@ -81,5 +81,6 @@ package op de eigen tag.
 | `cardine-lab` | `packages/lab/CHANGELOG.md` |
 | `cardine-structure` | `packages/structure/CHANGELOG.md` |
 
-Laatste stand (2026-11-22): meta 0.3.0, `@lennaertds/cardine-lab` 0.3.0,
-`@lennaertds/cardine-structure` 0.4.0.
+Laatste stand (2026-11-23): meta 0.3.0, `@lennaertds/cardine-lab` 0.4.0,
+`@lennaertds/cardine-structure` 0.4.0. Tag op deze release: `lab-v0.4.0`.
+Meta en structure blijven op hun bestaande tags.

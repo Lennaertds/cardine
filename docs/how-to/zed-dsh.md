@@ -115,9 +115,9 @@ De model ziet de tools als `mcp__jarvis__searchCode`, `mcp__jarvis__goToDefiniti
 
 ## Allowlist en bwrap
 
-Nieuwe threads draaien op `workspace-write` en `approval: ask`. Een pad in de werkmap gaat door. Een pad daarbuiten stopt; verbreden vraagt. Dat staat vast in het profiel, niet in `DSH_PERMISSION_MODE`.
+Nieuwe threads draaien op `workspace-write` (de repo) en `approval: never` ([ADR 0017](../decisions/0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md)). Er is geen dialoog. `write`, `edit` en `apply_patch` staan uit; schrijven doet de shell in de kooi. Een pad buiten de repo is niet gemount. `DSH_PERMISSION_MODE=danger-full-access` omzeilt die grens; het lab-profiel zet die variabele niet.
 
-De shell gaat door `packages/lab/cardine-bwrap`. Die mount `/usr` en `/etc` alleen-lezen, en de workspace schrijfbaar. `~/.ssh` is niet zichtbaar. Het DSH-profiel mount `/` alleen-lezen en laat die map wél zien; daarom is die runner niet de kooi ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)).
+De shell gaat door `packages/lab/cardine-bwrap`. Die bindt de workspace, zodat een write meteen op de host staat, en draait in een user-namespace. Het netwerk blijft open. `~/.ssh`, `~/.secrets` en `~/.dsh/.env` zijn niet zichtbaar ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)).
 
 ## make check
 

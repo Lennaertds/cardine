@@ -24,6 +24,14 @@
 | @lennaertds/cardine-lab | 0.3.0 | Secrets-grens in de kooi + guard-plugin, `DeepSeek-V4.1-Flash-1017` als standaardmodel, `tool-web`/`tool-todo`/`tool-goal` uit, stale-lockcheck in `cardine-status.sh` |
 | @lennaertds/cardine-structure | 0.4.0 | Kit gepind op Agent_Engineering `fca818f`, `jarvis-check`/`env-status`/`index`-targets in `kern/`, pull-procedure gedocumenteerd |
 
+## Package-updates na 0.3.0 — 2026-11-23
+
+De meta blijft 0.3.0. Alleen lab is opgehoogd.
+
+| Package | Versie | Wat |
+|---------|--------|-----|
+| @lennaertds/cardine-lab | 0.4.0 | Bind-kooi als schrijfrechter, `approval: never`, fs-schrijftools uit, guard volgt de open sessie. Tag `lab-v0.4.0`. |
+
 [0.3.0]: https://github.com/Lennaertds/cardine/releases/tag/v0.3.0
 [0.2.0]: https://github.com/Lennaertds/cardine/releases/tag/v0.2.0
 [0.1.0]: https://github.com/Lennaertds/cardine/releases/tag/v0.1.0

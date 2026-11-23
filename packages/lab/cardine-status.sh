@@ -114,6 +114,45 @@ else
   warn "sandbox" "niet gedetecteerd (geen DSH_SESSION_ID/DSH_SHELL)"
 fi
 
+if [ "$(ps -p 1 -o comm= 2>/dev/null || true)" = "bwrap" ]; then
+  pass "PID 1" "bwrap"
+elif $IN_SANDBOX; then
+  fail "PID 1" "niet bwrap"
+else
+  warn "PID 1" "deze shell zit niet in de kooi"
+fi
+
+mount_line="$(awk -v dir="$CARDINE_DIR" '$5 == dir { print $0; exit }' /proc/self/mountinfo 2>/dev/null || true)"
+case "$mount_line" in
+  *overlay*)
+    fail "schrijfroute" "overlay — een write verdwijnt (ADR 0017 verwacht bind)"
+    ;;
+  "")
+    if $IN_SANDBOX; then
+      warn "schrijfroute" "geen mountinfo voor $CARDINE_DIR"
+    else
+      warn "schrijfroute" "niet in de kooi"
+    fi
+    ;;
+  *)
+    pass "schrijfroute" "bind"
+    ;;
+esac
+
+if [ -f "$DSH_PROFILE" ]; then
+  if grep -q 'policy: never' "$DSH_PROFILE" \
+    && grep -q 'write: false' "$DSH_PROFILE" \
+    && grep -q 'edit: false' "$DSH_PROFILE" \
+    && grep -q 'mode: workspace-write' "$DSH_PROFILE" \
+    && ! grep -q 'process.cwd()' "$DSH_PROFILE"; then
+    pass "profiel" "workspace-write, approval never, write/edit uit"
+  else
+    warn "profiel" "wijkt af van ADR 0017 — install-lab.sh en daarna DSH herstarten"
+  fi
+else
+  warn "profiel" "niet gevonden ($DSH_PROFILE)"
+fi
+
 ###############################################################################
 # 1. DSH — DeepSeek Harness
 ###############################################################################

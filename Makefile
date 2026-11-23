@@ -15,7 +15,7 @@ SLUG = iconv -f utf-8 -t ascii//TRANSLIT | tr '[:upper:]' '[:lower:]' | sed -E '
 TOOLS := git make
 SETUP :=
 DEV :=
-CHECK := sandbox-secrets secrets-check
+CHECK := sandbox-check
 CHECK_FULL :=
 FMT :=
 BUILD :=
@@ -35,7 +35,7 @@ PORTS :=
 	    security-scan security-scan-quick obs-up obs-down obs-status \
 	    bench perf-check deps-audit polyglot-check radar-check radar-reminder \
 	    digest-check digest-reminder digest-fetch digest-propose digest-week native-bindings-strict \
-	    install-lab env-status index jarvis-check
+	    install-lab env-status index jarvis-check sandbox-check sandbox-secrets secrets-check
 
 ##@ Starten
 help: ## dit overzicht
@@ -104,10 +104,13 @@ native-bindings-strict: ## NATIVE_STRICT=1 voor apps/native en/of native-c (onde
 links: ## dode relatieve links (behalve kit/ — project-links werken pas na copy)
 	@bash packages/lab/scripts/check-links.sh . packages/structure/kit
 
-sandbox-secrets: ## bewijst dat cardine-bwrap .env en keys afschermt (packages/lab/scripts/check-bwrap-secrets.sh)
+sandbox-check: ## bewijsmatrix van de kooi: route × richting (packages/lab/scripts/check-sandbox.sh)
+	@bash packages/lab/scripts/check-sandbox.sh
+
+sandbox-secrets: ## alias: alleen de shell-kooi (packages/lab/scripts/check-bwrap-secrets.sh)
 	@bash packages/lab/scripts/check-bwrap-secrets.sh
 
-secrets-check: ## secrets-grens: rechten, geen .env in repos, guard-plugin actief (packages/lab/scripts/check-secrets.sh)
+secrets-check: ## alias: leesgrens en repo-secrets (packages/lab/scripts/check-secrets.sh)
 	@bash packages/lab/scripts/check-secrets.sh
 
 smoke: ## smoke-tests tegen een omgeving: make smoke URL=https://…
@@ -256,14 +259,21 @@ context: jarvis-check ## startcontext in één keer tonen (incl. jarvis-check): 
 		echo "\n=== SPEC: $(s) ===" && cat "docs/work/specs/$(s).md"; \
 	fi
 
+# Het bericht gaat via de omgeving, niet via de shell-regel. Een `·` in
+# m= bleef anders stil uit de dag-log (2026-11-22) terwijl finish wel
+# "Gelogd" zei. De teruglees is de sluis: mist de regel, dan rood.
+finish: export FINISH_MSG := $(m)
 finish: check ## afronden in één call: make finish m="aanleiding · bestanden · test · rest · item"
-	@test -n "$(m)" || { echo 'gebruik: make finish m="aanleiding · bestanden · test · rest · item"' >&2; exit 1; }
-	@file="$(shell $(MAKE) -s log)"; \
-	awk -v entry="- $(m)" ' \
+	@test -n "$$FINISH_MSG" || { echo 'gebruik: make finish m="aanleiding · bestanden · test · rest · item"' >&2; exit 1; }
+	@file="$$($(MAKE) -s log)"; \
+	awk ' \
+		BEGIN { entry = "- " ENVIRON["FINISH_MSG"] " · geschreven via de kooi" } \
 		/^## Gedaan/ { print; print ""; print entry; added=1; next } \
 		{ print } \
 		END { if (!added) print "\n## Gedaan\n\n" entry } \
 	' "$$file" > "$$file.tmp" && mv "$$file.tmp" "$$file"; \
+	awk 'BEGIN { found = 0 } index($$0, ENVIRON["FINISH_MSG"]) { found = 1 } END { exit !found }' "$$file" \
+		|| { echo "finish: de regel staat niet in $$file" >&2; exit 1; }; \
 	echo "Gelogd in $$file"
 
 env-status: jarvis-check ## status van DSH, Jarvis en deze omgeving (packages/lab/cardine-status.sh + jarvis-check)

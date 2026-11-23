@@ -22,6 +22,7 @@
 
 - [ARCHITECTURE.md](architecture/ARCHITECTURE.md) — Containers, stack, dataflow, invarianten, seams, hosting. Start hier voor "waar zit X". Niet: PWA/auth-catalogus → subsystemen.
 - [security.md](architecture/security.md) — Persoonsgegevens, secrets, auth-principes, Strix. Uitbreidingen: `## Bewust later`.
+- [test_prompt.md](architecture/test_prompt.md) — Prompt om de Zed/DeepSeek-kooi te meten in welke repo er ook open staat.
 - [observability.md](architecture/observability.md) — Signalen, LGTM, `make obs-*` (opt-in; alleen als de opdracht het noemt).
 - [performance.md](architecture/performance.md) — Budgets, anti-patronen, `make bench` / `perf-check` (opt-in).
 - [dependencies.md](architecture/dependencies.md) — CVE-audits, ritueel, `make deps-audit` (opt-in).

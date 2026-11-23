@@ -1,10 +1,29 @@
 #!/usr/bin/env bash
-# Strakkere kooi dan de DSH-bwrap-profiel. DSH geeft --ro-bind / / mee;
-# die regel maakt ~/.ssh leesbaar. Dit script leest die argumenten en
-# mount alleen /usr, /etc en de workspace. ADR 0007.
+# cardine-bwrap — de kooi voor de shell van de agent.
 #
-# Binnen de workspace maskeert het .env, SSH-keys en certificaten, zodat
-# de agent ze niet kan lezen of overschrijven. Bewijs: make sandbox-secrets.
+# ADR 0007 (kooi + workspace-allowlist) en ADR 0017 (de kooi is de enige
+# schrijfrechter).
+#
+# Wat de kooi toelaat:
+#   * /usr, /lib*, /bin     — ro, om node/make/rg/ls te kunnen draaien
+#   * de workspace          — rw via --bind: een write staat meteen op de host
+#   * /tmp                  — bind van een host-map (700), geen tmpfs, zodat
+#                             make en node een tijdelijk bestand kunnen afgeven
+#   * /etc                  — verse tmpfs, plus hosts/resolv/CA/nss
+#   * jarvis-server         — alleen die ene binary
+#   * ~/.dsh/profiles       — ro en genest, zodat ~/.dsh/.env buiten de kooi blijft
+#
+# Wat de kooi weigert: alles hierboven niet. In het bijzonder geen
+# ~/Documents buiten de workspace, ~/.ssh, ~/.secrets, ~/.aws, ~/.config.
+# .env/keys in de workspace zijn afgedekt met een read-only leeg bestand;
+# de host-inode van die bestanden blijft.
+#
+# De kooi heeft een eigen user-namespace. Het netwerk blijft gedeeld
+# met de host: de shell moet npm, pip en andere fetches kunnen doen
+# (ADR 0017). Een map die niet aangemaakt kan worden of een bwrap die
+# faalt eindigt rood. Er is geen stille terugval.
+#
+# Bewijs: make sandbox-check.
 set -euo pipefail
 
 binds=()
@@ -19,13 +38,16 @@ while [[ $# -gt 0 ]]; do
       binds+=("$2" "$3")
       shift 3
       ;;
-    --ro-bind)
+    --ro-bind|--ro-bind-try|--bind-try)
       shift 3
       ;;
     --dev|--proc|--tmpfs)
       shift 2
       ;;
-    --unshare-pid|--die-with-parent)
+    --unshare-pid|--unshare-user|--unshare-cgroup|--unshare-ipc|--die-with-parent|--new-session)
+      shift
+      ;;
+    --unshare-all)
       shift
       ;;
     *)
@@ -42,26 +64,97 @@ fi
 
 HOME_DIR="${HOME:?HOME niet gezet — kan niet bepalen waar .dsh/ .local/ .jarvis/ staan}"
 
-# Zorg dat ~/.dsh/ bestaat vóór bwrap hem kan binden (anders faalt --bind).
-mkdir -p "${HOME_DIR}/.dsh" "${HOME_DIR}/.dsh/profiles" "${HOME_DIR}/.dsh/profiles/acp" 2>/dev/null || true
+# De kooi moet geen achterdeur naar 'stoppen-met-begrenzen' erven.
+# DSH_PERMISSION_MODE=danger-full-access zet upstream sandbox en approval uit.
+unset DSH_PERMISSION_MODE CARDINE_BWRAP_ALLOW_SECRETS
 
+# ~/.dsh moet als ouder bestaan voordat we de geneste profiles-mount maken.
+mkdir -p "${HOME_DIR}/.dsh" 2>/dev/null || true
+
+# Gedeelde /tmp. Op de host is dit een vaste map mode 700. Vanuit een al
+# draaiende kooi is die runtime-dir niet gemount; /tmp is dan al de gedeelde
+# map van de buitenste kooi, en een geneste make check kan daar wel schrijven.
+if [[ -n "${XDG_RUNTIME_DIR:-}" && -w "${XDG_RUNTIME_DIR}" ]]; then
+  tmp_root="${XDG_RUNTIME_DIR}/cardine-bwrap"
+elif [[ -w /tmp ]]; then
+  tmp_root="/tmp/cardine-bwrap-${UID}"
+else
+  echo "bwrap: geen schrijfbare map voor de gedeelde /tmp" >&2
+  exit 1
+fi
+if ! mkdir -p "$tmp_root"; then
+  echo "bwrap: kan $tmp_root niet aanmaken" >&2
+  exit 1
+fi
+if ! chmod 700 "$tmp_root"; then
+  echo "bwrap: kan $tmp_root niet op 700 zetten" >&2
+  exit 1
+fi
+# Restjes van een gecrashte kooi. Niet de map zelf: een gelijktijdige kooi
+# heeft daar zijn eigen submap.
+find "$tmp_root" -mindepth 1 -maxdepth 1 -type d -mmin +60 -exec rm -rf {} + 2>/dev/null || true
+
+tmp_dir=""
+mask_dir=""
+cleanup() {
+  status=$?
+  if [[ -n "$tmp_dir" ]]; then
+    rm -rf "$tmp_dir" || true
+  fi
+  if [[ -n "$mask_dir" ]]; then
+    rm -rf "$mask_dir" || true
+  fi
+  exit "$status"
+}
+trap cleanup EXIT
+
+tmp_dir="$(mktemp -d "${tmp_root}/tmp.XXXXXX")"
+chmod 700 "$tmp_dir"
+mask_dir="$(mktemp -d "${tmp_root}/mask.XXXXXX")"
+chmod 700 "$mask_dir"
+mask_file="${mask_dir}/empty"
+: >"$mask_file"
+
+# /tmp vóór de workspace-binds: een latere --bind van een pad onder /tmp
+# (de checks gebruiken mktemp) blijft dan zichtbaar.
 args=(
   --ro-bind /usr /usr
   --symlink usr/bin /bin
   --symlink usr/lib /lib
-  --symlink usr/lib /lib64
-  --ro-bind /etc /etc
-  --ro-bind "${HOME_DIR}/.local" "${HOME_DIR}/.local"
-  --ro-bind "${HOME_DIR}/.jarvis" "${HOME_DIR}/.jarvis"
-  # DSH-home persistent maken (schrijfbaar) zodat het profiel bewaard blijft
-  --bind "${HOME_DIR}/.dsh" "${HOME_DIR}/.dsh"
+  --symlink usr/lib64 /lib64
+  --tmpfs /etc
+  --bind "$tmp_dir" /tmp
+  --dir "${HOME_DIR}/.dsh"
   --dev /dev
   --proc /proc
+  --unshare-user
   --unshare-pid
   --die-with-parent
-  --tmpfs /tmp
   --setenv PATH "/usr/bin:/bin:${HOME_DIR}/.local/bin:${HOME_DIR}/.jarvis/bin"
+  --setenv TMPDIR /tmp
 )
+
+# Alleen mounten wat er is. Een ontbrekende map mag de kooi niet stil
+# voorbijgaan alsof hij wél afgeschermd is: we slaan de bind over, de map
+# bestaat dan niet in de kooi.
+if [[ -d "${HOME_DIR}/.jarvis" ]]; then
+  args+=(--ro-bind "${HOME_DIR}/.jarvis" "${HOME_DIR}/.jarvis")
+fi
+if [[ -d "${HOME_DIR}/.dsh/profiles" ]]; then
+  args+=(--ro-bind "${HOME_DIR}/.dsh/profiles" "${HOME_DIR}/.dsh/profiles")
+fi
+
+for entry in hosts resolv.conf nsswitch.conf ld.so.cache ld.so.preload \
+             ssl ca-certificates localtime; do
+  if [[ -e "/etc/$entry" ]]; then
+    args+=(--ro-bind "/etc/$entry" "/etc/$entry")
+  fi
+done
+
+jarvis_bin="${HOME_DIR}/.local/bin/jarvis-server"
+if [[ -e "${jarvis_bin}" ]]; then
+  args+=(--ro-bind "${jarvis_bin}" "${jarvis_bin}")
+fi
 
 declare -A made=()
 add_dirs() {
@@ -83,52 +176,40 @@ if [[ ${#binds[@]} -gt 0 ]]; then
   for ((i = 0; i < ${#binds[@]}; i += 2)); do
     src="${binds[$i]}"
     dest="${binds[$((i + 1))]}"
-    # Ouders aanmaken, het doel zelf niet: --bind vult die.
     parent="${dest%/*}"
     if [[ -n "$parent" && "$parent" != "$dest" ]]; then
       add_dirs "$parent"
     fi
+    # Bind, niet een overlay: de write is de host-write (ADR 0017).
     args+=(--bind "$src" "$dest")
     workspaces["$dest"]=1
   done
 
-  # Secrets binnen de workspace afschermen (ADR 0007: "zonder .env").
-  # Eerst een lege overlay NA de --bind: alle writes (ook rm en nieuwe
-  # bestanden) landen in een tmpfs en raken de host niet. Zonder deze stap
-  # schrijft de shell hieronder naar de echte .env.
+  # Maskeer geheimen ná de workspace-bind, zodat de mount alleen in de
+  # kooi geldt. Een ro-bind van een leeg bestand: lezen geeft niets,
+  # schrijven faalt. De host-inode blijft het origineel.
+  secrets=()
   for mountpoint in "${!workspaces[@]}"; do
-    if [[ -d "$mountpoint" ]]; then
-      args+=(--overlay-src "$mountpoint" --tmp-overlay "$mountpoint")
-    fi
+    [[ -d "$mountpoint" ]] || continue
+    while IFS= read -r -d '' file; do
+      case "$file" in
+        *.example) continue ;;
+      esac
+      secrets+=("$file")
+    done < <(find "$mountpoint" \
+               \( -name '*.env' -o -name '*.env.*' -o -name 'id_rsa' \
+                  -o -name 'id_ed25519' -o -name 'id_ecdsa' -o -name 'id_dsa' \
+                  -o -name '*.pem' -o -name '*.p12' -o -name '*.pfx' \) \
+               -type f -print0 2>/dev/null)
   done
 
-  # Dan .env/.env.* (behalve *.example), SSH-keys en certificaten maskeren.
-  # Uitzetten bewust: CARDINE_BWRAP_ALLOW_SECRETS=1 (bv. debuggen); standaard dicht.
-  if [[ "${CARDINE_BWRAP_ALLOW_SECRETS:-0}" != "1" ]]; then
-    secrets=()
-    for mountpoint in "${!workspaces[@]}"; do
-      [[ -d "$mountpoint" ]] || continue
-      while IFS= read -r -d '' file; do
-        case "$file" in
-          *.example) continue ;;  # nieuwe variabelen blijven documenteerbaar
-        esac
-        secrets+=("$file")
-      done < <(find "$mountpoint" \
-                 \( -name '*.env' -o -name '*.env.*' -o -name 'id_rsa' \
-                    -o -name 'id_ed25519' -o -name 'id_ecdsa' -o -name 'id_dsa' \
-                    -o -name '*.pem' -o -name '*.p12' -o -name '*.pfx' \) \
-                 -type f -print0 2>/dev/null)
+  if [[ ${#secrets[@]} -gt 0 ]]; then
+    for f in "${secrets[@]}"; do
+      args+=(--ro-bind "$mask_file" "$f")
     done
-
-    if [[ ${#secrets[@]} -gt 0 ]]; then
-      # Shell: een bind van /dev/null over elke secret, in de overlay, dus
-      # de host blijft intact. Lezen en schrijven falen (Permission denied),
-      # het pad blijft bestaan (geen ENOENT).
-      for f in "${secrets[@]}"; do
-        args+=(--bind /dev/null "$f")
-      done
-    fi
   fi
 fi
 
-exec bwrap "${args[@]}" -- "$@"
+# Geen exec: de EXIT-trap moet de tmp-map opruimen. De exitstatus van bwrap
+# blijft de status van dit script (de trap bewaart $?).
+bwrap "${args[@]}" -- "$@"
