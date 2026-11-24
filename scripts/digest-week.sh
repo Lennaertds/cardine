@@ -145,7 +145,7 @@ done
   echo "# Weekbrief — $WEEK"
   echo
   echo "> **Rol:** Inbound selectie van deze ISO-week. Geen SSOT — promote handmatig naar \`bronnen.md\` §."
-  echo "> **Gegenereerd:** $TODAY via \`make digest-week\` (Agent_Engineering). Dumps: \`data/external/digest/\`."
+  echo "> **Gegenereerd:** $TODAY via \`make digest-week\` (`kit/`). Dumps: \`data/external/digest/\`."
   echo
   echo "## Checklist"
   echo

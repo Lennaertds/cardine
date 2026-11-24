@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installeer systemd --user timer voor AE digest-day; schakel oude Cardine digest-* uit.
+# Installeer systemd --user timer voor digest-day; schakel oude digest-* timers uit.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="$ROOT/scripts/systemd"
@@ -12,7 +12,9 @@ for u in digest-fetch.timer digest-week.timer digest-fetch.service digest-week.s
   rm -f "$DST/$u"
 done
 
-cp -f "$SRC/digest-day.service" "$DST/digest-day.service"
+# @REPO_ROOT@ invullen, zodat de unit naar déze repo wijst en niet naar een
+# hardgecodeerd pad.
+sed "s|@REPO_ROOT@|$ROOT|g" "$SRC/digest-day.service" > "$DST/digest-day.service"
 cp -f "$SRC/digest-day.timer" "$DST/digest-day.timer"
 systemctl --user daemon-reload
 systemctl --user enable --now digest-day.timer

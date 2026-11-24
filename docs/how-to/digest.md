@@ -1,6 +1,6 @@
 # How-to — digest (inbound)
 
-> **Verhuisd:** live digest + systemd zit in sibling [`Agent_Engineering`](../../../Agent_Engineering/) (`make digest-day`, `bron/digest/`, `bron/weken/`). Zie [MOVED.md](../research/digest/MOVED.md).
+> **Live digest:** `make digest-day`, feeds in `bron/digest/`, weekbrieven in `bron/weken/`. Alles in deze repo.
 >
 > **Rol (legacy lab):** Feeds ophalen, voorstel maken, cureren naar radar — zonder dump als SSOT.
 > **Niet hier:** ring-keuzes ([radar.md](../research/radar.md)); inhoud van feeds.
@@ -48,7 +48,7 @@ arXiv-RSS vernieuwt **dagelijks** (geen weekend). HF Daily Papers via JSON-API (
 | Wanneer | Commando | Effect |
 |---------|----------|--------|
 | Ma–vr ~07:00 | `make digest-fetch` | Dumps in `data/external/digest/` |
-| Ma ~07:30 | `make digest-week` | Fetch + propose + weekbrief in sibling `Agent_Engineering/bron/weken/YYYY-Www.md` |
+| Ma ~07:30 | `make digest-week` | Fetch + propose + weekbrief in `bron/weken/YYYY-Www.md` |
 
 Handmatig:
 
@@ -72,7 +72,7 @@ Weekbrief is **geen** auto-§. Cureren blijft hieronder.
 
 ## Cureren
 
-1. Review voorstel (`proposals/`) of weekbrief (`../Agent_Engineering/bron/weken/`).
+1. Review voorstel (`proposals/`) of weekbrief (`bron/weken/`).
 2. Relevant lab → Trial/Assess op `radar.md` of ADR / `wantlist.md`.
 3. Agent Engineering: gekozen hits → `bron/bronnen.md` (§) + index; status in weekbrief bijwerken.
 4. YouTube e.d.: inbox of meteen § + kort in de weekbrief.

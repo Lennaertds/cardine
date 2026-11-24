@@ -57,16 +57,17 @@ fi
 ###############################################################################
 # 2. Repo's: geen geheim bestand, geen symlink naar buiten
 ###############################################################################
-# De repo zelf + zusterrepos naast de workspace (bv. Cardine/Agent_Engineering).
+# Alleen deze repo: er is geen tweede repo meer om na te lopen.
 declare -A seen_repo=()
-for root in "$CARDINE_DIR" "$(dirname "$CARDINE_DIR")"/*; do
+for root in "$CARDINE_DIR"; do
   [ -d "$root/.git" ] || continue
   [ -n "${seen_repo[$root]+x}" ] && continue
   seen_repo[$root]=1
   repo="$(basename "$root")"
   found="$(git -C "$root" ls-files | grep -E '(^|/)\.env$|(^|/)\.env\.[^/]+$' | grep -v '\.example$' || true)"
   if [ -n "$found" ]; then bad "$repo: geheim bestand in git: $(echo "$found" | tr '\n' ' ')"; else ok "$repo: geen .env in git"; fi
-  ondisk="$(find "$root" -name '.env' -o -name '.env.*' 2>/dev/null | grep -v '\.example$' | grep -v '/node_modules/' | grep -v '/\.git/' || true)"
+  # tmp/ is testafval (gitignored) en telt niet als geheim op schijf.
+  ondisk="$(find "$root" -name '.env' -o -name '.env.*' 2>/dev/null | grep -v '\.example$' | grep -v '/node_modules/' | grep -v '/\.git/' | grep -v '/tmp/' || true)"
   if [ -n "$ondisk" ]; then warn "$repo: .env op schijf (buiten ~/.secrets): $(echo "$ondisk" | sed "s|$root/||" | tr '\n' ' ')"; else ok "$repo: geen .env op schijf"; fi
   escape="$(find "$root" -maxdepth 3 -type l 2>/dev/null | while read -r l; do t="$(readlink -f "$l" 2>/dev/null || true)"; case "$t" in ""|"$HOME"|"$root"/*) ;; *) echo "$(readlink "$l") -> $t" ;; esac; done | head -5)"
   if [ -n "$escape" ]; then warn "$repo: symlink naar buiten: $(echo "$escape" | tr '\n' ' ')"; else ok "$repo: geen symlinks naar buiten"; fi

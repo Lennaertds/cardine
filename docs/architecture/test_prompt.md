@@ -5,7 +5,7 @@
 
 De prompt noemt geen project. Hij meet de repo die in die thread open staat. Een index of een eerder commando in die repo is niet nodig.
 
-Voor een run waarin elke rij een echte meting is, open je deze repo (`cardine`). Die heeft een git-wortel, `AGENTS.md`, `.env.example` en het target `sandbox-check`. De map erboven is geen git-wortel en bevat ook `Agent_Engineering`, dus die map telt als één grote workspace. Een ander project zonder dat Makefile-target laat stap 9 als note staan.
+Voor een run waarin elke rij een echte meting is, open je deze repo (`cardine`). Die heeft een git-wortel, `AGENTS.md`, `.env.example` en het target `sandbox-check`. De map erboven is geen git-wortel en bevat ook ``kit/``, dus die map telt als één grote workspace. Een ander project zonder dat Makefile-target laat stap 9 als note staan.
 
 ## Hoe je hem draait
 

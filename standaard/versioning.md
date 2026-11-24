@@ -1,18 +1,22 @@
 # Kit-versioning
 
-> **Rol:** Hoe Agent_Engineering kit-versies beheert, en hoe cardine-structure die pulled.
+> **Rol:** Hoe de kit (`kit/`) versies krijgt en hoe `cardine-structure` die overneemt.
 > **Niet hier:** SemVer voor projecten (staat in `kern/`), CHANGELOG-formaat.
 
 ## Waarom
 
-`cardine-structure` (publiek npm-package) pullt de kit uit Agent_Engineering op een **pinned commit**. Elke `cardine-structure`-release verwijst naar één specifieke kit-versie. Daarom heeft de kit eigen tags in Agent_Engineering.
+`cardine-structure` (publiek npm-package) bevat een kopie van `kit/`. Elke
+`cardine-structure`-release legt één kit-versie vast, zodat gebruikers weten welke
+structuur ze krijgen. De bron (`kit/`) en de distributiekopie
+(`packages/structure/kit/`) staan in dezelfde repo en worden gelijkgehouden met
+`make sync-kit`.
 
 ## Tags
 
 Kit-tags volgen het patroon `kit-v<semver>`:
 
 ```
-kit-v0.1.0       → eerste gepinde kit-release
+kit-v0.1.0       → eerste kit-release
 kit-v0.2.0       → kit met nieuwe module of stack
 kit-v0.2.1       → bugfix in kit zonder nieuwe features
 ```
@@ -31,25 +35,29 @@ SemVer voor de kit:
 # 1. Zorg dat alles gecommit is en make check groen
 make check
 
-# 2. Tag de huidige HEAD als kit-v0.2.0
+# 2. Zorg dat de distributiekopie gelijk is aan de bron
+make sync-kit
+
+# 3. Tag de huidige HEAD als kit-v0.2.0
 make tag-kit TAG=v0.2.0
 
-# 3. Het tag-script controleert of de werkdirectory schoon is
+# 4. Het tag-script controleert of de werkdirectory schoon is
 #    en of de tag nog niet bestaat op een andere commit.
 ```
 
-Na het taggen kan `cardine-structure` de nieuwe versie pullen met:
+De nieuwe versie gaat mee in de volgende `cardine-structure`-release:
 
 ```bash
-bash packages/structure/pull_kit.sh --tag v0.2.0
+bash packages/structure/sync_kit.sh
 ```
 
 ## Koppeling met cardine-structure
 
-| cardine-structure versie | Agent_Engineering kit-tag | Commit |
-|--------------------------|---------------------------|--------|
-| 0.1.0 | `kit-v0.1.0` | c841cb9 |
-| ... | ... | ... |
+| cardine-structure versie | kit-tag | Bijzonderheden |
+|--------------------------|---------|----------------|
+| 0.5.0 | — | `kit/` wordt de bron; geen pin meer |
+| 0.4.0 | — | `jarvis-check`/`env-status`/`index` in `kern/Makefile` |
+| 0.1.0 | `kit-v0.1.0` | eerste release |
 
 Deze tabel wordt bijgewerkt in `packages/structure/docs/cardine-structure.md`.
 
@@ -64,4 +72,4 @@ Deze tabel wordt bijgewerkt in `packages/structure/docs/cardine-structure.md`.
 | Uitbreiding | Waarom later | Vraag als |
 |-------------|-------------|-----------|
 | Automatische tag bij `make check` | Niet elke check is een release | Tags worden handmatig gezet |
-| Kit-CHANGELOG in Agent_Engineering zelf | Nu volstaat de koppelingstabel in cardine-structure | Kit wijzigt wekelijks |
+| Kit-CHANGELOG als apart bestand | Nu volstaat de koppelingstabel hierboven | Kit wijzigt wekelijks |

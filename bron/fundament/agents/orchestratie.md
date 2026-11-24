@@ -12,4 +12,4 @@
 
 ## Geen actie
 
-n8n hoort niet in de Agent_Engineering-kit.
+n8n hoort niet in de kit.

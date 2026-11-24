@@ -61,11 +61,11 @@ packages/lab/
     └── digest-week.timer
 ```
 
-## Wat is NIET voor publiek (blijft in Agent_Engineering privé)
+## Wat is NIET voor publiek (blijft in `kit/` privé)
 
 | Onderdeel | Reden |
 |-----------|-------|
-| Persoonlijke paden in `install-lab.sh` (bv. `REPO_ROOT` naar Agent_Engineering) | Moet generiek gemaakt worden |
+| Persoonlijke paden in `install-lab.sh` (bv. `REPO_ROOT` naar `kit/`) | Moet generiek gemaakt worden |
 | Harde paden naar `$HOME` (bv. `/home/gebruikersnaam/`) | Moet `$HOME`-relatief zijn in publieke versie |
 | DSH-profiel met DeepInfra-specifieke config | Wordt gegenereerd; template blijft in package |
 

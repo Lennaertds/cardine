@@ -135,7 +135,7 @@ idee / video / claim
 - **indexing** — hoe de agent de codebase vindt (regex-first vs embeddings — §69/§70)
 
 Onderzoeksvragen en volgorde: `cardine/docs/research/RESEARCH.md` + `cardine/docs/research/ideeen-en-vragen.md`.
-Lessen die hard genoeg zijn → terug als **§ in Agent_Engineering** (één feitenbron), niet gedupliceerd in het lab.
+Lessen die hard genoeg zijn → terug als **§ in `kit/`** (één feitenbron), niet gedupliceerd in het lab.
 
 Relatie in één zin: **AE leert en standaardiseert de schil; het lab experimenteert tot iets meetbaar genoeg is om te standaardiseren of bewust weg te laten.**
 

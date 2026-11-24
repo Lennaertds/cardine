@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# tag-kit.sh — Tag de huidige kit/ commit in Agent_Engineering
+# tag-kit.sh — Tag de huidige kit/ in deze repo
 #
 # Maakt een git-tag aan op de huidige HEAD die aangeeft welke versie van
 # de kit klaar is voor pull door cardine-structure.

@@ -1,7 +1,7 @@
 {
   "name": "@lennaertds/cardine-structure",
   "version": "0.5.0",
-  "description": "cardine-structure — projectstandaard voor ieder project, ongeacht editor of abonnement. Gepulled uit Agent_Engineering/kit/.",
+  "description": "cardine-structure — projectstandaard voor ieder project, ongeacht editor of abonnement. Gepulled uit kit/.",
   "bin": {
     "cardine-structure": "kit/new-project.sh"
   },

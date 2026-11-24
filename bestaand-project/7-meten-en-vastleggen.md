@@ -10,7 +10,7 @@
 3. **Vastleggen in een ADR:**
 
    ```bash
-   make adr t="Docs en structuur volgen de standaard uit Agent_Engineering"
+   make adr t="Docs en structuur volgen de standaard uit `kit/`"
    ```
 
    Met in **Gevolgen** de tabel van C1 tegenover C2, en wat je eruit leerde.

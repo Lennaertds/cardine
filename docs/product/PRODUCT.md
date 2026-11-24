@@ -30,9 +30,9 @@ De structuur zet de boom neer. Wat het project is, vult een gesprek. Besluit: [A
 
 | Fase | Wat | Status |
 |------|-----|--------|
-| Lab | De persoonlijke stapel werkend: Zed + DeepSeek Harness + indexing + de structure uit Agent_Engineering, op Arch Linux Hyprland | nu — [0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md) |
+| Lab | De persoonlijke stapel werkend: Zed + DeepSeek Harness + indexing + de structure uit `kit/`, op Arch Linux Hyprland | nu — [0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md) |
 | Thesis | Hetzelfde lab, leesbaar voor een beoordelaar | later |
-| Product | Publieke repo als uithangbord: packages, guides, structure gepullt uit Agent_Engineering | vorm beslist ([0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md), [0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)); pas nadat de persoonlijke stapel werkt |
+| Product | Publieke repo als uithangbord: packages, guides, structure gepullt uit `kit/` | vorm beslist ([0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md), [0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)); pas nadat de persoonlijke stapel werkt |
 
 ## Lab-pad
 
@@ -59,7 +59,7 @@ Op dit pad: shell, FS en Agent-UI = Zed. Harness = DeepSeek Harness. Het model i
 - Geen stille stackkeuze door de agent ([0011](../decisions/0011-de-stack-volgt-op-beslissingsdocs-en-een-goedkeuring-tegen-een-catalogus.md)).
 - Geen betalende SaaS. Abonnementen zijn die van Claude of ChatGPT. API-keys blijven van de gebruiker.
 - Geen publieke release tijdens de labfase ([RULES.md](../rules/RULES.md)).
-- Geen overname of duplicatie van data, secrets of broninhoud uit andere projecten of uit Agent_Engineering.
+- Geen overname of duplicatie van data, secrets of broninhoud uit andere projecten of uit `kit/`.
 - Geen eigen inference-serving.
 
 ## Bewust later

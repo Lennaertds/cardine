@@ -21,17 +21,17 @@ Een nieuw project begint leeg, en een bestaand project heeft zijn docs en mappen
 
 ## Doel en wat succes is
 
-- **Lab (nu):** de persoonlijke applicatie werkend op Arch Linux Hyprland: Zed + DeepSeek Harness + indexing + de structure uit Agent_Engineering ([ADR 0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md)). Kaart: [totaalproduct.md](../product/totaalproduct.md).
+- **Lab (nu):** de persoonlijke applicatie werkend op Arch Linux Hyprland: Zed + DeepSeek Harness + indexing + de structure uit `kit/` ([ADR 0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md)). Kaart: [totaalproduct.md](../product/totaalproduct.md).
 - **Thesis:** later toetsbaar doel op hetzelfde lab.
-- **Product:** Cardine als publiek uithangbord — packages en guides — dat de structure uit Agent_Engineering pullt ([ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)). De vorm is [ADR 0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md). Publiceren pas nadat de persoonlijke stapel werkt.
+- **Product:** Cardine als publiek uithangbord — packages en guides — dat de structure uit `kit/` distribueert ([ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)). De vorm is [ADR 0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md). Publiceren pas nadat de persoonlijke stapel werkt.
 - Geen stack-generator tot de gebruiker een voorstel uit de catalogus goedkeurt ([ADR 0011](../decisions/0011-de-stack-volgt-op-beslissingsdocs-en-een-goedkeuring-tegen-een-catalogus.md)). [0001](../decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) blijft voor eigen app-code.
 
 ## Scope
 
 - Domeinen: `harness`, `structure`, `indexing` (en hun scharnierwerking met `ide-shell` Zed, `fs-events`, `tools`, `llm`, `agent-ui` en `session-spine` — zie [GLOSSARY.md](GLOSSARY.md) en [PRODUCT.md](../product/PRODUCT.md)).
-- Spoor 3 in het drie-sporenmodel: nu de persoonlijke stapel op Arch Linux Hyprland; later het uithangbord dat packages en guides samenbrengt en de structure uit Agent_Engineering pullt ([ADR 0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md), [ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)). Kennis en standaard blijven in Agent_Engineering.
+- Spoor 3 in het drie-sporenmodel: nu de persoonlijke stapel op Arch Linux Hyprland; later het uithangbord dat packages en guides samenbrengt en de structure uit `kit/` distribueert ([ADR 0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md), [ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)). Kennis en standaard blijven in Agent_Engineering.
 - **Talen:** stack-talen staan in [ARCHITECTURE.md](../architecture/ARCHITECTURE.md) — daar nog open tot ADR-keuze (met sterke voorkeur voor native compilation naar één static binary zoals Rust/Go). Extra systemstalen voor hot paths: toegestaan na meting + ADR — zie [polyglot.md](../architecture/polyglot.md).
 
 ## Bewust niet
 
-Zie [PRODUCT.md](../product/PRODUCT.md) § Bewust niet en [RULES.md](../rules/RULES.md): nu geen productrelease/prod-hosting; geen feature-bloat; geen eigen Zed-fork onderhouden; geen zware Docker-vereiste voor de runtime zelf; geen duplicatie of overname van data/secrets uit andere projecten; lessen eerst als § in Agent_Engineering `bron/`.
+Zie [PRODUCT.md](../product/PRODUCT.md) § Bewust niet en [RULES.md](../rules/RULES.md): nu geen productrelease/prod-hosting; geen feature-bloat; geen eigen Zed-fork onderhouden; geen zware Docker-vereiste voor de runtime zelf; geen duplicatie of overname van data/secrets uit andere projecten; lessen eerst als § in `bron/`.

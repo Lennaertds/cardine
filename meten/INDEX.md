@@ -52,4 +52,4 @@ Verder: [van deze set naar een bachelorproef](bachelorproef.md).
 Nog niet gestart; wel afgesproken:
 
 - [ ] Na bootstrap/herordening van GymFreak (of Caddie): minimale eval — helpt de standaard-navigeren (eerste relevante bestand, slaagkans)?
-- [ ] Later: conditie **Cursor + kit** vs **Cardine (spoor 3)** op dezelfde taken (`eval-` naast het doelproject). Kennis blijft in Agent_Engineering `bron/`; dit lab is geen tweede SSOT.
+- [ ] Later: conditie **Cursor + kit** vs **Cardine (spoor 3)** op dezelfde taken (`eval-` naast het doelproject). Kennis blijft in `bron/`; dit lab is geen tweede SSOT.

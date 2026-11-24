@@ -1,13 +1,13 @@
 # Package: `cardine-structure`
 
 > **De projectstandaard voor ieder project, ongeacht editor of abonnement.**
-> Dit is het gratis product uit ADR 0009 — pulled uit `Agent_Engineering/kit/` op een pinned commit.
+> Dit is het gratis product uit ADR 0009 — pulled uit `kit/` op een pinned commit.
 
 | Veld | Waarde |
 |------|--------|
 | **Package** | `cardine-structure` |
 | **Doelgroep** | Iedereen die een projectstandaard wil (elke editor) |
-| **Bron** | `cardine/packages/structure/` (gepullt uit `Agent_Engineering/kit/`) |
+| **Bron** | `cardine/packages/structure/` (gepullt uit `kit/`) |
 | **Installatie** | `npx cardine-structure`, GitHub release zip/tarball, `new-project.sh` |
 | **Afhankelijk van** | niets (zelfstandig) |
 
@@ -15,7 +15,7 @@
 
 ## Inhoud
 
-De volledige `Agent_Engineering/kit/` op een pinned moment, letterlijk gekopieerd naar `packages/structure/kit/`.
+De volledige `kit/` op een pinned moment, letterlijk gekopieerd naar `packages/structure/kit/`.
 
 | Laag | Beschrijving | Verplicht? |
 |------|-------------|-----------|
@@ -64,7 +64,7 @@ packages/structure/kit/     (publieke distributiekopie, gaat mee in het package)
 ```
 
 Er is **geen tweede repo en geen pin meer nodig**. Vroeger kwam `kit/` uit de
-aparte repo `Agent_Engineering` en bewaarde `kit/COMMIT` de gepinde commit; dat
+aparte repo ``kit/`` en bewaarde `kit/COMMIT` de gepinde commit; dat
 pin-bestand is weg. Sinds de samenvoeging is `kit/` de enige bron.
 
 `sync_kit.sh` kopieert `kit/` letterlijk naar `packages/structure/kit/`.
@@ -99,16 +99,16 @@ bash packages/structure/sync_kit.sh
 
 ## Aanpassingen voor publicatie
 
-De kit wordt 1-op-1 uit Agent_Engineering gepulled, met twee uitzonderingen:
+De kit wordt 1-op-1 uit `kit/` gepulled, met twee uitzonderingen:
 
 | Wijziging | Waarom |
 |-----------|--------|
 | `kit/README.md` wordt **vervangen** door een gebruikersversie | Het origineel bevat interne SSOT-links naar `../standaard/`, `../sjablonen/` etc. — die bestaan niet in de gepubliceerde package |
 | `sync_kit.sh` staat niet in `files` van package.json | Interne tooling, niet relevant voor gebruikers |
 
-Deze aanpassingen worden **elke pull opnieuw gedaan** (automatisch of handmatig). De SSOT blijft Agent_Engineering.
+Deze aanpassingen worden **elke pull opnieuw gedaan** (automatisch of handmatig). De SSOT blijft `kit/`.
 
-## Wat blijft in Agent_Engineering (privé)
+## Wat blijft in `kit/` (privé)
 
 | Onderdeel | Waarom privé |
 |-----------|-------------|
@@ -132,7 +132,7 @@ npx cardine-structure my-project --profile app --modules research,agent
 ## Relaties
 
 - Maakt deel uit van de **cardine (meta)**-verwijzingen
-- Wordt gepulled uit **Agent_Engineering** (privé, SSOT) — zie [ADR 0013](../../../docs/decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)
+- Wordt gepulled uit **`kit/`** (privé, SSOT) — zie [ADR 0013](../../../docs/decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)
 - Kan samen met `cardine-lab` gebruikt worden voor een volledig werkstation
 
 ## Versiebeheer

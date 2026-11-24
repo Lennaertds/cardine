@@ -1,6 +1,6 @@
 # 0013 — Cardine is het publieke uithangbord en pullt de structure uit Agent_Engineering
 
-- **Status:** aanvaard
+- **Status:** **vervallen** (2026-11-24) — de twee repo's zijn samengevoegd; `kit/` is nu de bron in deze repo en er is geen pull of pin meer. De notitie hieronder blijft als geschiedenis staan.
 - **Datum:** 2026-11-17
 - **Raakt:** [PRODUCT.md](../product/PRODUCT.md), [structure.md](../product/structure.md), [README.md](../../README.md), [CONTEXT.md](../context/CONTEXT.md), [ARCHITECTURE.md](../architecture/ARCHITECTURE.md). Volgorde: [0012](0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md). Vorm: [0009](0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md), [0010](0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md).
 

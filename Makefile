@@ -220,8 +220,8 @@ digest-fetch: ## RSS/Atom → data/external/digest/; DIGEST_DRY_RUN=1 / DIGEST_F
 digest-propose: ## voorstel in digest/proposals/ (geen auto-radar); DIGEST_DRY_RUN=1
 	@bash packages/lab/scripts/digest-propose.sh
 
-digest-week: ## lab-privé: vereist Agent_Engineering als sibling. Zie packages/lab/scripts/digest-week.sh
-	@echo "lab-privé: digest-week vereist Agent_Engineering als sibling-repo — overslaan op publieke checkout." >&2; exit 1
+digest-week: ## weekbrief uit dumps → bron/weken/ (DIGEST_WEEK=2026-W45 om te forceren)
+	@bash scripts/digest-week.sh
 
 ##@ Observability (module observability)
 obs-up: ## LGTM-stack starten (Grafana/Prometheus/Loki/Tempo/Alloy)

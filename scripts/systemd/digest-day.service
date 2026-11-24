@@ -1,11 +1,14 @@
 [Unit]
-Description=Agent_Engineering digest-day (fetch + catch-up + weekbrief)
+Description=Cardine digest-day (fetch + catch-up + weekbrief)
 After=network-online.target
 Wants=network-online.target
 
+# Het pad is relabelbaar: install-digest-timers.sh vult de echte repo-root in
+# en schrijft de unit naar ~/.config/systemd/user/. Er is geen tweede repo meer;
+# bron/ en data/ leven in deze repo.
 [Service]
 Type=oneshot
-WorkingDirectory=/home/ventje/Student_Zelfstandige/Agent_Engineering
+WorkingDirectory=@REPO_ROOT@
 ExecStart=/usr/bin/make digest-day
-StandardOutput=append:/home/ventje/Student_Zelfstandige/Agent_Engineering/data/external/digest/cron.log
-StandardError=append:/home/ventje/Student_Zelfstandige/Agent_Engineering/data/external/digest/cron.log
+StandardOutput=append:@REPO_ROOT@/data/external/digest/cron.log
+StandardError=append:@REPO_ROOT@/data/external/digest/cron.log

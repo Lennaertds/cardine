@@ -25,14 +25,14 @@ research) en verschillende stacks (Next.js, NestJS, Python, SQL).
 
 De lessen uit die experimenten — wat werkt voor een agent, wat niet, welke
 mappen een agent nodig heeft om context te begrijpen — zijn samengebracht in
-[Agent_Engineering](https://github.com/Lennaertds/Agent_Engineering) (privé, SSOT).
-`cardine-structure` pullt daaruit op pinned commits.
+[`kit/`](../../kit/README.md) in deze repo (SSOT). `cardine-structure` bevat er een
+kopie van.
 
 Zie voor de achtergrond:
 - [docs/decisions/packages-context.md](../../docs/decisions/packages-context.md) —
-  Context: waarom een projectstructuur, waarom dual (docs + code), waarom pullen uit Agent_Engineering
+  Context: waarom een projectstructuur, waarom dual (docs + code), waarom de kit de bron is
 - [ADR 0013](../../docs/decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md) —
-  Waarom de structuur in Agent_Engineering blijft en Cardine eruit pullt
+  Waarom de structuur in `kit/` blijft
 - [ADR 0004](../../docs/decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) —
   Waarom de standaard dual is: een dunne AGENTS.md en een harde make check
 
@@ -146,15 +146,14 @@ Zie [docs/INDEX.md](../../docs/INDEX.md) voor de volledige navigatie-structuur.
 
 ---
 
-## Hoe de pull werkt
+## Hoe de distributie werkt
 
-De structuur wordt **niet** in deze repo onderhouden. Hij leeft in
-[Agent_Engineering](https://github.com/Lennaertds/Agent_Engineering) (privé, SSOT).
+De structuur wordt onderhouden in [`kit/`](../../kit/README.md) (SSOT).
 
 ```mermaid
 graph LR
-    AE[Agent_Engineering/kit/<br>SSOT, privé] -->|pinned commit| CS[cardine-structure/kit/<br>publiek]
-    CS -->|kit/| NP[new-project.sh<br>genereert project]
+    AE[kit/<br>SSOT] -->|sync_kit.sh| CS[cardine-structure/kit/<br>npm-package]
+    CS -->|new-project.sh| NP[genereert project]
     style AE fill:#888,color:#fff
     style CS fill:#e8a838,color:#fff
     style NP fill:#50b86c,color:#fff
@@ -162,7 +161,7 @@ graph LR
 
 Bij elke release van `cardine-structure`:
 
-1. Bepaal de pinned commit in Agent_Engineering
+1. Soms: `make tag-kit TAG=v0.2.0` na een opvallende kit-wijziging
 2. `sync_kit.sh` kopieert de bron `kit/` naar `packages/structure/kit/`
 3. Versie ophogen, changelog bijwerken
 
@@ -171,10 +170,10 @@ Zie [packages/structure/sync_kit.sh](sync_kit.sh) voor het script en
 
 ---
 
-## Wat blijft in Agent_Engineering (privé)
+## Wat niet in het package gaat
 
-Deze onderdelen van de standaard zijn **niet** publiek — ze bevatten principes,
-gidsen en interne tooling die niet in de gepubliceerde kit thuishoren:
+Deze onderdelen van de standaard staan in de repo maar niet in het npm-package —
+ze bevatten principes, gidsen en interne tooling:
 
 | Onderdeel | Waarom privé |
 |-----------|-------------|

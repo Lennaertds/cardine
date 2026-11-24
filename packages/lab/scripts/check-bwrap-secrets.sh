@@ -32,12 +32,11 @@ printf 'PK=1\n' >"$ws/apps/api/.env.example"
 printf 'normaal\n' >"$ws/readme.txt"
 printf 'intact\n' >"$host_only"
 
-cardine_root="$(cd "$LAB_DIR/../.." && pwd)"
-# De kennisbron (bron/) leeft nu in deze repo zelf; een losse sibling is er niet meer.
-sibling="$(dirname "$cardine_root")/Agent_Engineering"
-if [[ ! -d "$sibling" ]]; then
-  sibling=""
-fi
+
+# Een map BUITEN de workspace moet onzichtbaar zijn vanuit de kooi. Vroeger werd
+# hiervoor de sibling-repo gebruikt; die bestaat niet meer, dus nemen we de
+# bovenliggende map van deze repo — die is per definitie buiten de workspace.
+sibling="$(dirname "$(cd "$LAB_DIR/../.." && pwd)")"
 
 # Zonder wrapper moet de fixture lekken, anders is "niet leesbaar" geen bewijs.
 # Kale bwrap, mét /lib zodat het binair start, zónder onze maskers.

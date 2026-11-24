@@ -2,7 +2,7 @@
 
 > **Rol:** Dit document legt uit waarom Cardine uit meerdere packages bestaat, hoe de meta-, lab- en structuur-package samenhangen, en welke architectuurbesluiten (ADRs) daaraan ten grondslag liggen.
 >
-> Het geeft de achtergrond bij de README's. De README's verwijzen hiernaartoe voor de onderbouwing van de keuzes. De feitelijke research — bronnen, experimenten en paragraafverwijzingen — staat in Agent_Engineering (privé, dé Single Source of Truth). Dit document vat alleen de voor deze repo relevante synthese samen.
+> Het geeft de achtergrond bij de README's. De README's verwijzen hiernaartoe voor de onderbouwing van de keuzes. De feitelijke research — bronnen, experimenten en paragraafverwijzingen — staat in [`bron/`](../../bron/INDEX.md) (dé Single Source of Truth). Dit document vat alleen de voor deze repo relevante synthese samen.
 
 ---
 
@@ -44,9 +44,11 @@ De agent-shell draait onder een strakke bwrap-kooi (bubblewrap). Dat betekent da
 
 DeepSeek Flash is de primaire keuze voor het lab-pad: goedkoop en snel genoeg om iteratief te ontwikkelen. Claude fungeert als tweede provider voor wie een eigen API-key heeft en een ander model wil gebruiken. Het is geen exclusieve keuze — de gids legt ook de abonnement-paden uit (Claude in Zed, ChatGPT in Zed), die hun eigen model kiezen via de bijbehorende agent. Voor het API-key-pad geldt dit besluit; zie [ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md).
 
-## Waarom wordt de structuur uit Agent_Engineering gepulled?
+## Waarom zit de structuur in dezelfde repo?
 
-De projectstandaard — de kits, de bootstrap, de regels en de agent-instructies — leeft in Agent_Engineering (privé, dé Single Source of Truth). Cardine trekt die standaard op gepinde commits binnen, in plaats van hem te dupliceren. Zo blijft er één bron en kunnen verbeteringen in Agent_Engineering in één richting naar Cardine vloeien. Zie [ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md).
+De projectstandaard — de kit, de bootstrap, de regels en de agent-instructies — leeft in **`kit/`** van deze repo. Dat is de Single Source of Truth. `cardine-structure` bevat er een letterlijke kopie van, gemaakt met `sync_kit.sh`, zodat één bron volstaat.
+
+Vroeger stond de standaard in een aparte privé-repo (`Agent_Engineering`) en werd ze op gepinde commits gepulld ([ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md), **vervallen** op 2026-11-24). De pin liep in de praktijk uit de pas met de gepubliceerde kit; twee repo's bleken meer werk dan winst.
 
 ## Waarom SemVer en aparte versies per package?
 
@@ -65,5 +67,5 @@ Elk package krijgt een eigen SemVer-versie, onafhankelijk van de andere packages
 | Waarom DSH en geen eigen loop? | [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
 | Waarom een bwrap-sandbox? | [0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) |
 | Waarom deepseek-flash als model? | [0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) |
-| Waarom pullen uit Agent_Engineering? | [0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md) |
+| Waarom zit de structuur in dezelfde repo? | [0013 (vervallen)](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md) |
 | Waarom SemVer per package? | [0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md) + [VERSIONING.md](../packages/VERSIONING.md) |

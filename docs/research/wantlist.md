@@ -1,7 +1,7 @@
 # Wantlist
 
 > **Rol:** Bronnen die we nog willen lezen of verwerven, en waarom.
-> **Niet hier:** verwerkte bronnen (die staan als § in Agent_Engineering `bron/`); pdf’s (`data/external/`); vastgezette stack ([radar.md](radar.md) / ADR); ruwe vragen ([ideeen-en-vragen.md](ideeen-en-vragen.md)).
+> **Niet hier:** verwerkte bronnen (die staan als § in `bron/`); pdf’s (`data/external/`); vastgezette stack ([radar.md](radar.md) / ADR); ruwe vragen ([ideeen-en-vragen.md](ideeen-en-vragen.md)).
 
 Zie programma: [onderzoek-programma.md](onderzoek-programma.md). Status: `open` → `bezig` → `§n in AE` / `verwerkt`.
 

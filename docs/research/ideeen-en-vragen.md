@@ -1,7 +1,7 @@
 # Ideeën en open vragen (niet kwijtraken)
 
 > **Rol:** Jouw ruwe vragen/hypothesen voor spoor 3 — vastgelegd vóór ze in § of ADR landen.
-> **Niet hier:** feiten met URL (§ in Agent_Engineering `bron/`); harde keuzes (`docs/decisions/`); uitvoerplan (`specs/`).
+> **Niet hier:** feiten met URL (§ in `bron/`); harde keuzes (`docs/decisions/`); uitvoerplan (`specs/`).
 
 Stand: 2026-11-07 (A4/B-richting: lichte non-Electron IDE + indexing-first; A6–A9 nog vorm). Bron van **volgorde**: [onderzoek-programma.md](onderzoek-programma.md). Status: `open` / `deels (§…)` / `vorm` (decision-candidate, nog geen ADR) / `later B`.
 

@@ -1,13 +1,13 @@
 # Package: `cardine-structure`
 
 > **De projectstandaard voor ieder project, ongeacht editor of abonnement.**
-> Dit is het gratis product uit ADR 0009 — pulled uit `Agent_Engineering/kit/` op een pinned commit.
+> Dit is het gratis product uit ADR 0009 — de inhoud komt uit `kit/` in deze repo.
 
 | Veld | Waarde |
 |------|--------|
 | **Package** | `cardine-structure` |
 | **Doelgroep** | Iedereen die een projectstandaard wil (elke editor) |
-| **Bron** | `cardine/packages/structure/` (gepullt uit `Agent_Engineering/kit/`) |
+| **Bron** | `kit/` in deze repo, gekopieerd door `sync_kit.sh` |
 | **Installatie** | `npx cardine-structure`, GitHub release zip/tarball, `new-project.sh` |
 | **Afhankelijk van** | niets (zelfstandig) |
 
@@ -15,7 +15,7 @@
 
 ## Inhoud
 
-De volledige `Agent_Engineering/kit/` op een pinned moment, letterlijk gekopieerd naar `packages/structure/kit/`.
+De volledige `kit/`, letterlijk gekopieerd naar `packages/structure/kit/`.
 
 | Laag | Beschrijving | Verplicht? |
 |------|-------------|-----------|
@@ -35,7 +35,7 @@ packages/structure/
 ├── CHANGELOG.md
 ├── README.md
 ├── package.json
-└── kit/              ← letterlijke kopie op pinned versie
+└── kit/              ← letterlijke kopie van de bron
     ├── kern/
     ├── solo/
     ├── logging/
@@ -46,13 +46,13 @@ packages/structure/
     └── new-project.sh
 ```
 
-## Hoe de pull werkt
+## Hoe de distributie werkt
 
 ```
-Agent_Engineering/kit/  (SSOT, privé)
+kit/  (SSOT)
          │
          │  Bij elke release van cardine-structure:
-         │  1. Pinned commit uit Agent_Engineering
+         │  1. Optioneel: make tag-kit TAG=v0.2.0
          │  2. kit/ kopiëren naar packages/structure/kit/
          │  3. Versie ophogen, changelog bijwerken
          │
@@ -60,9 +60,9 @@ Agent_Engineering/kit/  (SSOT, privé)
 cardine/packages/structure/  (publiek)
 ```
 
-## Wat blijft in Agent_Engineering (privé)
+## Wat niet in het package gaat
 
-| Onderdeel | Waarom privé |
+| Onderdeel | Waarom niet in het package |
 |-----------|-------------|
 | `standaard/` | Regels, principes, waarom de structuur zo is — logica achter de kit |
 | `sjablonen/` | Invulgidsen per bestand — uitleg voor de maker |
@@ -84,7 +84,7 @@ npx cardine-structure my-project --profile app --modules research,agent
 ## Relaties
 
 - Maakt deel uit van de **cardine (meta)**-verwijzingen
-- Wordt gepulled uit **Agent_Engineering** (privé, SSOT) — zie [ADR 0013](../../docs/decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)
+- Komt uit **`kit/`** in deze repo (SSOT) — zie [ADR 0013](../../docs/decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)
 - Kan samen met `cardine-lab` gebruikt worden voor een volledig werkstation
 
 ## Versiebeheer

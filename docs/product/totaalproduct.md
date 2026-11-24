@@ -1,6 +1,6 @@
 # Totaalproduct — persoonlijke stack
 
-> **Rol:** Hoe de onderdelen van het **lab-pad** samenkomen: Zed + DeepSeek Harness met een API-key, plus indexing en de structure uit Agent_Engineering. Die stapel op Arch Linux Hyprland is de eerstvolgende voltooiing ([ADR 0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md)). Het is één package uit [ADR 0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md), niet het hele product.
+> **Rol:** Hoe de onderdelen van het **lab-pad** samenkomen: Zed + DeepSeek Harness met een API-key, plus indexing en de structure uit `kit/`. Die stapel op Arch Linux Hyprland is de eerstvolgende voltooiing ([ADR 0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md)). Het is één package uit [ADR 0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md), niet het hele product.
 > **Niet hier:** wat iemand meeneemt ([PRODUCT.md](PRODUCT.md)); detail per onderdeel (`product/<onderdeel>.md`); ADRs.
 
 Per onderdeel bijhouden → het productbestand in de tabel. Werk/beslissen → de gekoppelde spec.

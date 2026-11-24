@@ -1,6 +1,6 @@
 # Digest — inbound feeds
 
-> **Verhuisd naar Agent_Engineering** — zie [MOVED.md](MOVED.md). Dit lab-scaffold blijft als kit-voorbeeld.
+> **Verhuisd binnen de repo** — de live digest staat in `bron/digest/` en `bron/weken/`. Zie [MOVED.md](MOVED.md). Dit lab-scaffold blijft als kit-voorbeeld.
 >
 > **Rol:** Periodieke *inbound* hits (changelogs, advisories, papers) ophalen en voorstellen — vóór ze op de radar of in § belanden.
 > **Niet hier:** de tech-radar zelf ([radar.md](../radar.md)); wantlist ([wantlist.md](../wantlist.md)); feed-dumps als waarheid (P5).

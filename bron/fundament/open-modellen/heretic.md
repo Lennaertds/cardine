@@ -7,7 +7,7 @@
 
 - Project: `heretic-llm` / heretic-project.org — automatische parameterzoektocht (Optuna) die refusals ↓ houdt t.o.v. KL tot origineel
 - Past bij: **open weights modificatie**, interpretability-richtingen, lokale experimenten
-- Past *niet* bij: Agent_Engineering-bootstrap of standaard “doe dit altijd”
+- Past *niet* bij: bootstrap of standaard “doe dit altijd”
 
 ## Te schrijven
 

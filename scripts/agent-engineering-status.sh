@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# agent-engineering-status.sh — check de status van de Agent_Engineering kit.
+# agent-engineering-status.sh — check de status van de kit in deze repo.
 #
 # Gebruik:
 #   bash scripts/agent-engineering-status.sh
@@ -81,7 +81,7 @@ header "1. Package version"
 AE_PKG="${AE_DIR}/package.json"
 if [ -f "$AE_PKG" ]; then
   AE_VER=$(node -e "const p=require('${AE_PKG}'); console.log(p.version||'0.0.0')" 2>/dev/null || echo "0.0.0")
-  pass "Agent_Engineering" "versie $AE_VER"
+  pass "kit" "versie $AE_VER"
 else
   fail "package.json" "niet gevonden in $AE_DIR"
 fi

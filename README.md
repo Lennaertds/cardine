@@ -69,7 +69,7 @@ graph TD
     M("cardine (meta)") --> L("@lennaertds/cardine-lab")
     M --> S("@lennaertds/cardine-structure")
     L --> D("DSH + Jarvis + bwrap")
-    S --> K("Agent_Engineering / kit")
+    S --> K("`kit/` / kit")
     style M fill:#4a90d9,color:#fff
     style L fill:#50b86c,color:#fff
     style S fill:#e8a838,color:#fff
@@ -78,7 +78,7 @@ graph TD
 | Package | Wat | Voor wie | Installatie |
 |---------|-----|----------|-------------|
 | **[@lennaertds/cardine-lab]** ⚙️ | Reproduceerbaar AI-agent-werkstation voor Arch Linux / Hyprland. Installeert DSH, Jarvis, bwrap-sandbox en Zed-config in één idempotent script. | Wie Zed + DeepSeek Harness op Arch wil | `curl … \| bash` of `npm install -g @lennaertds/cardine-lab` |
-| **[@lennaertds/cardine-structure]** 📁 | Projectstandaard voor ieder project, ongeacht editor of abonnement. Bevat de bewezen `kern/`-`solo/`-`logging/`-boom, modules en stacks, gepulled uit Agent_Engineering. | Iedereen met een project | `npx @lennaertds/cardine-structure` of GitHub release |
+| **[@lennaertds/cardine-structure]** 📁 | Projectstandaard voor ieder project, ongeacht editor of abonnement. Bevat de bewezen `kern/`-`solo/`-`logging/`-boom, modules en stacks, gepulled uit `kit/`. | Iedereen met een project | `npx @lennaertds/cardine-structure` of GitHub release |
 
 ### Hoe de packages samenhangen
 
@@ -87,7 +87,7 @@ cardine                    ← Meta: repo-root met README, docs, gidsen
 ├── cardine-lab            ← Toolchain: scripts, sandbox, status-checks
 │   └── genereert          → ~/.dsh/profiles/ (ACP-profiel voor DSH)
 │   └── bevat              → scripts/, systemd/ (optionele tooling)
-└── cardine-structure      ← Projectstandaard: pulled uit Agent_Engineering/kit/
+└── cardine-structure      ← Projectstandaard: pulled uit kit/
     └── kit/               → Letterlijke kopie op pinned commit
 ```
 
@@ -153,7 +153,7 @@ geïnstalleerd wordt en hoe je sandbox, indexing en status-checks configureert.
 4. **Controleren**: `make check` controleert links, lint en tests.
 5. **Vastleggen**: `make finish` logt wat je gedaan hebt.
 6. **Bijwerken**: Een nieuwe versie van de structuur? `pull_kit.sh` haalt de
-   nieuwste pinned commit uit Agent_Engineering.
+   nieuwste pinned commit uit `kit/`.
 
 Zie voor de volledige product-visie en achtergrond:
 - [PRODUCT.md](docs/product/PRODUCT.md) — Wat het product doet, per onderdeel

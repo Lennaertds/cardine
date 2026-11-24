@@ -16,8 +16,8 @@
 
 | Taak | Duur |
 |------|------|
-| Script maken: `pull_kit.sh` dat kit uit Agent_Engineering kopieert | 1 dag |
-| Eerste pinned pull uit Agent_Engineering | 1 dag |
+| Script maken: `pull_kit.sh` dat kit uit `kit/` kopieert | 1 dag |
+| Eerste pinned pull uit `kit/` | 1 dag |
 | README.md voor structure-package | 1 dag |
 
 ## Fase 3 — Meta opschonen
@@ -42,8 +42,8 @@ gantt
     CHANGELOG.md per package aanmaken                                               :p1d, after p1c, 1d
     
     section Fase 2 — Structure-pull
-    Script maken: pull_kit.sh dat kit uit Agent_Engineering kopieert                 :p2a, after p1d, 1d
-    Eerste pinned pull uit Agent_Engineering                                        :p2b, after p2a, 1d
+    Script maken: pull_kit.sh dat kit uit `kit/` kopieert                 :p2a, after p1d, 1d
+    Eerste pinned pull uit `kit/`                                        :p2b, after p2a, 1d
     README.md voor structure-package                                                :p2c, after p2b, 1d
     
     section Fase 3 — Meta opschonen

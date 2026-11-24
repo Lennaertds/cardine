@@ -19,7 +19,7 @@ Dezelfde naam in `docs/product/`, en later in app-mappen zodra er een stack is (
 |------|-----------|------------|--------------------|
 | Spoor | Eén van de drie lagen: omgeving (kit), kennis (bron), lab (deze repo) | — (docs) | module (kit-module agent/research/product) |
 | Harness | De minimale runtime die de agent-loop en metingen draagt | `harness` | Cursor zelf (externe IDE); indexing |
-| Structure | Integratie met de projectstandaard (lezen/afdwingen) | `structure` | de standaard-repo Agent_Engineering |
+| Structure | Integratie met de projectstandaard (lezen/afdwingen) | `structure` | de standaard in `kit/` van deze repo |
 | Indexing | Opbouw en gebruik van een code-/context-index (Project-Understanding) | `indexing` | digest; IDE-shell; harness |
 | IDE-shell | Lichte editor-host (non-Electron) waaraan rest hangt | later | Cursor/VS Code-fork |
 | FS/events | Seam: file-wijzigingen doorgeven aan indexing/harness | later | “een app forken” |

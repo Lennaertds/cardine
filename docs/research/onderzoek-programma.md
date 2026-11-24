@@ -1,13 +1,13 @@
 # Onderzoeksprogramma — spoor 3 (vóór stack/fork)
 
 > **Rol:** Richtlijn voor agents: wat onderzoeken, in welke volgorde, waar schrijven.
-> **Niet hier:** feiten/samenvattingen (die horen in Agent_Engineering `bron/`); harde stack-keuzes (ADR pas ná genoeg §); ruwe ideeënlijst ([ideeen-en-vragen.md](ideeen-en-vragen.md)).
+> **Niet hier:** feiten/samenvattingen (die horen in `bron/`); harde stack-keuzes (ADR pas ná genoeg §); ruwe ideeënlijst ([ideeen-en-vragen.md](ideeen-en-vragen.md)).
 
-Stand: oktober 2026. Kennis-SSOT = sibling **Agent_Engineering** (`bron/bronnen.md`, index, fundament). Deze repo = lab + hypothesen + later code.
+Stand: oktober 2026. Kennis-SSOT = **`bron/`** in deze repo (`bronnen.md`, index, fundament). Daarnaast: lab + hypothesen + code.
 
 ## Regel: A vóór harde B
 
-1. **A — onderzoek** → nieuwe `§` in Agent_Engineering `bron/bronnen.md` (+ rij in `bronnen-index.md` + totaaloverzicht).
+1. **A — onderzoek** → nieuwe `§` in `bron/bronnen.md` (+ rij in `bronnen-index.md` + totaaloverzicht).
 2. **Hypothesen / ideeën niet kwijt** → hier: [ideeen-en-vragen.md](ideeen-en-vragen.md), `wantlist.md`, dit bestand.
 3. **B — keuzes** → ADR in `docs/decisions/` pas als A1–A2–A5 genoeg assen hebben (A6–A9 voeden B, blokkeren B niet). Geen `--starter` / stack tot expliciete ja van de mens.
 4. **Bouwen** → daarna in `apps/` / harness-code.
@@ -51,7 +51,7 @@ Prompt voor dichte video-§ blijft: AE `bron/fundament/prompts/youtube-samenvatt
 
 | Wat | Waar | Niet |
 |-----|------|------|
-| Feiten, mechanismen, cijfers, benchmarks | **Agent_Engineering** `bron/bronnen.md` (§) + index | Niet dupliceren naar hier |
+| Feiten, mechanismen, cijfers, benchmarks | **`bron/bronnen.md`** (§) + index | Niet dupliceren naar hier |
 | Diepte | AE `bron/fundament/` als § te kort is | Always-on in AGENTS |
 | Ruwe vragen / hypothesen | [ideeen-en-vragen.md](ideeen-en-vragen.md) | Als feit presenteren |
 | Bronnen nog te lezen | [wantlist.md](wantlist.md) | |

@@ -13,7 +13,7 @@ set -euo pipefail
 # De repo-root: dit script staat in <repo>/scripts/ (via de kit), in
 # <repo>/packages/lab/scripts/ (in cardine zelf) of in de kit-MAL
 # <kit>/kern/scripts/. Bij de mal is de omringende git-root verkeerd (dat is
-# Agent_Engineering, niet het toekomstige project), dus de mal wint dan.
+# deze repo, niet het toekomstige project), dus de mal wint dan.
 # Verder: zoek de git-root in plaats van niveaus te tellen.
 _here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 _parent="$(cd "$_here/.." && pwd)"

@@ -5,7 +5,7 @@
 #   npx cardine <map> …         → zelfde, zonder globale installatie
 #
 # De structuur komt uit packages/structure/kit/ dat met dit package wordt
-# meegestuurd (gepulld uit Agent_Engineering op een pinned commit, ADR 0013).
+# meegestuurd (gepulld uit `kit/` op een pinned commit, ADR 0013).
 # Er wordt niets buiten <map> geschreven.
 set -euo pipefail
 

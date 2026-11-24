@@ -1,9 +1,9 @@
-# Digest verhuisd → Agent_Engineering
+# Digest woont nu in bron/
 
-De live digest (feeds, systemd, weekbrieven) staat nu in sibling **`Agent_Engineering`**:
+De live digest (feeds, systemd, weekbrieven) staat in deze repo:
 
-- Feeds: `Agent_Engineering/bron/digest/SOURCES.md`
-- Dagelijks: `make digest-day` + `digest-day.timer`
-- Weekbrieven: `Agent_Engineering/bron/weken/`
+- **Feeds:** [`bron/digest/SOURCES.md`](../../../bron/digest/SOURCES.md)
+- **Weekbrieven:** `bron/weken/`
+- **Dagelijks draaien:** `make digest-day` (systemd-timer via `make install-digest-timers`)
 
-Cardine `digest-*` timers zijn uitgeschakeld. Scripts hier zijn legacy; niet meer schedulen.
+Deze map is het historische lab-scaffold en blijft als kit-voorbeeld staan.

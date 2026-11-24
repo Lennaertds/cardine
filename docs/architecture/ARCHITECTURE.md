@@ -5,7 +5,7 @@
 
 ## Systeemcontext
 
-Het product is de projectstructuur plus een gids ([PRODUCT.md](../product/PRODUCT.md), [ADR 0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md)). Deze pagina beschrijft de containers van het lab-pad: Zed + DeepSeek Harness met een API-key ([totaalproduct.md](../product/totaalproduct.md)). Externe systemen: Agent_Engineering (kit + bron, alleen lezen en verwijzen) en, op dit pad, LLM-providers via eigen API-keys. Geen prod-hosting in de labfase.
+Het product is de projectstructuur plus een gids ([PRODUCT.md](../product/PRODUCT.md), [ADR 0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md)). Deze pagina beschrijft de containers van het lab-pad: Zed + DeepSeek Harness met een API-key ([totaalproduct.md](../product/totaalproduct.md)). Externe systemen: `kit/` (kit + bron, alleen lezen en verwijzen) en, op dit pad, LLM-providers via eigen API-keys. Geen prod-hosting in de labfase.
 
 ## Containers
 
@@ -16,7 +16,7 @@ flowchart LR
   dev[Ontwikkelaar] --> harness[Harness]
   harness --> structure[Structure]
   harness --> indexing[Indexing]
-  structure -.->|leest standaard| ae[Agent_Engineering]
+  structure -.->|leest standaard| ae[`kit/`]
   harness -.->|later LLM| llm[LLM_provider]
 ```
 
@@ -43,7 +43,7 @@ Extra taal / native hot path (Rust, C, …): niet in deze tabel zetten zonder AD
 
 - Geen overname van data/secrets uit andere projecten.
 - Lab-artefacten (experimentoutput, index-cache): onder `data/` volgens [data/README.md](../../data/README.md); raw/runtime nooit in git of antwoorden.
-- Agent_Engineering: alleen lezen/verwijzen; deze repo schrijft daar niet naartoe via de harness (mens commit §’s in bron). De publieke structure-package pullt die bron en kopieert de standaard niet ([ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)).
+- `kit/`: alleen lezen/verwijzen; deze repo schrijft daar niet naartoe via de harness (mens commit §’s in bron). De publieke structure-package pullt die bron en kopieert de standaard niet ([ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)).
 
 ## Hosting en poorten
 
@@ -57,7 +57,7 @@ Niets afwijkends van de standaard tot er demo-/reference-datasets zijn. Geen sec
 
 - Geen stack-generators of stack-ADR tot expliciete runtime-keuze (BACKLOG + deze sectie).
 - Domeingrenzen `harness` / `structure` / `indexing` blijven de enige productdomeinen tot PRODUCT.md wijzigt.
-- Lessen uit het lab → eerst § in Agent_Engineering `bron/`, niet hier dupliceren.
+- Lessen uit het lab → eerst § in `bron/`, niet hier dupliceren.
 
 ## Seams (naden)
 
@@ -65,7 +65,7 @@ Niets afwijkends van de standaard tot er demo-/reference-datasets zijn. Geen sec
 |------|-----------------|--------------|
 | harness → structure | Welke standaardpaden/regels de loop mag lezen of afdwingen | nog te beveiligen (contracttest na stack) |
 | harness → indexing | Welke indexqueries de loop mag doen; geen raw secrets in index | nog te beveiligen |
-| structure → Agent_Engineering | Read-only paden (kit/bron); geen write vanuit lab-code | conventie + RULES; later pad-allowlist-test |
+| structure → `kit/` | Read-only paden (kit/bron); geen write vanuit lab-code | conventie + RULES; later pad-allowlist-test |
 | harness → LLM | Prompts/context via eigen API-key (DeepSeek e.d.); geen keys of vreemde projectdata in logs/index | nog te beveiligen (redaction + `.env`) |
 
 - **Mag een agent zonder akkoord:** docs invullen binnen bestaande bestanden; code *binnen* een bestaande domeinmodule achter een stabiele interface (pas na stack).

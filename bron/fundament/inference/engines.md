@@ -17,4 +17,4 @@ Samenvatting vier klassiekers: §29. DeepInfer: aparte sectie + link naar upstre
 
 ## Geen actie
 
-Geen engine in de Agent_Engineering-kit.
+Geen engine in de kit.

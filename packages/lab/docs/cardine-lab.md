@@ -61,13 +61,13 @@ packages/lab/
     └── digest-week.timer
 ```
 
-## Wat is NIET voor publiek (blijft in Agent_Engineering privé)
+## Wat is NIET voor publiek (blijft in `kit/` privé)
 
 | Onderdeel | Reden |
 |-----------|-------|
 | `systemd/*.service` met `_jouwgebruiker_` placeholder | Per-machine config; kopieer en pas aan |
 | Persoonlijke keys in `~/.dsh/.env` | Altijd lokaal, nooit in git |
-| Agent_Engineering-verbindingen | Sibling-repo, niet publiek |
+| Sibling-repo-verbindingen | Sibling-repo, niet publiek |
 
 ## Installatie
 

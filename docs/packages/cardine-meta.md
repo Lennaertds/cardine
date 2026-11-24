@@ -98,7 +98,7 @@ cardine/
      │  toolchain      │          │ (elke editor)     │
      └─────────────────┘          └──────────────────┘
                │                        │
-               │                        ├── gepullt uit ───► Agent_Engineering/kit/
+               │                        ├── gepullt uit ───► kit/
                │                        │                   (privé, SSOT)
                │
                ├── bevat ──► scripts/
