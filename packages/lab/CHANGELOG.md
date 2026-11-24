@@ -1,5 +1,21 @@
 # Changelog — cardine-lab
 
+## [0.5.1] — 2026-11-24
+
+### Fixed
+- `cardine-status.sh` leidde `LAB_DIR` af uit `${PROJECT_DIR}/packages/lab`. In een
+  npm-installatie is dat `@lennaertds/packages/lab`, wat niet bestaat, waardoor
+  `cardine-bwrap` en `cardine-slice-check` als ontbrekend werden gemeld. `LAB_DIR`
+  is nu de map van het script zelf; `PROJECT_DIR` (git-root van `$PWD`) staat
+  apart voor de workspace-, mount- en indexchecks.
+- De `secrets-grens`-check eiste `overlay-src` in `cardine-bwrap`, terwijl de
+  wrapper sinds ADR 0017 `--bind` gebruikt. De check verifieert nu
+  `--bind "$src"` plus de maskeer-stap `--ro-bind "$mask_file"`.
+- De DSH-profielpadcheck meldde een afwijking bij een andere, wél bestaande
+  installatie (repo naast npm). Alleen een pad dat niet bestaat is nu rood.
+- Fix-hints noemen `cardine-lab status --fix` en `cardine-lab install` in plaats
+  van het relatieve `packages/lab/...`, dat vanaf een andere cwd niet bestaat.
+
 ## [0.5.0] — 2026-11-24
 
 ### Added

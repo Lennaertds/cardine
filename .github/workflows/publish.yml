@@ -80,6 +80,9 @@ jobs:
         with:
           node-version: 24
           registry-url: 'https://registry.npmjs.org'
+      # Node 24 levert npm 11.x; de stage/dist-tag-API vereist >= 12.2.
+      - name: Pin npm 12.2.3
+        run: npm i -g npm@12.2.3
       - name: Publish cardine
         run: npm publish --access public
 
@@ -98,6 +101,9 @@ jobs:
         with:
           node-version: 24
           registry-url: 'https://registry.npmjs.org'
+      # Node 24 levert npm 11.x; de stage/dist-tag-API vereist >= 12.2.
+      - name: Pin npm 12.2.3
+        run: npm i -g npm@12.2.3
       - name: Publish @lennaertds/cardine-structure
         working-directory: packages/structure
         run: npm publish --access public
@@ -117,6 +123,9 @@ jobs:
         with:
           node-version: 24
           registry-url: 'https://registry.npmjs.org'
+      # Node 24 levert npm 11.x; de stage/dist-tag-API vereist >= 12.2.
+      - name: Pin npm 12.2.3
+        run: npm i -g npm@12.2.3
       - name: Publish @lennaertds/cardine-lab
         working-directory: packages/lab
         run: npm publish --access public

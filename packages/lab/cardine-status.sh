@@ -22,13 +22,20 @@ DSH_PROFILE="${HOME}/.dsh/profiles/acp/cordis.patch.yml"
 ZED_SETTINGS="${HOME}/.config/zed/settings.json"
 NODE_MIN_MAJOR=24
 NODE_MIN_MINOR=9
-# Het script zit in packages/lab/, dus ../.. = cardine root.
-# Eerst symlinks resolven: via een npm-symlink wijst ${BASH_SOURCE[0]} naar een
-# andere map en is ../.. de verkeerde root.
+# Twee verschillende roots, en dat onderscheid is essentieel:
+#
+#   PROJECT_DIR — het project waar je in werkt (workspaceRoot, index, scripts/).
+#                 De git-root van $PWD, zoals install-lab.sh dat ook doet.
+#   LAB_DIR     — de map van dit script: de lab-package zelf. In de repo is dat
+#                 <repo>/packages/lab/; via `npm i -g @lennaertds/cardine-lab`
+#                 is het <prefix>/lib/node_modules/@lennaertds/cardine-lab/.
+#
+# Nooit LAB_DIR uit PROJECT_DIR afleiden (`${PROJECT_DIR}/packages/lab`): die
+# bestaat niet in een willekeurig project of in een npm-installatie, en dan
+# vindt de status cardine-bwrap en de slice-check niet terug.
 SELF="$(readlink -f "${BASH_SOURCE[0]}")"
-SCRIPT_DIR="$(cd "$(dirname "${SELF}")" && pwd)"
-CARDINE_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
-LAB_DIR="${CARDINE_DIR}/packages/lab"
+LAB_DIR="$(cd "$(dirname "${SELF}")" && pwd)"
+PROJECT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 VERBOSE=false
 JSON=false
 FIX=false
@@ -125,14 +132,14 @@ else
   warn "PID 1" "deze shell zit niet in de kooi"
 fi
 
-mount_line="$(awk -v dir="$CARDINE_DIR" '$5 == dir { print $0; exit }' /proc/self/mountinfo 2>/dev/null || true)"
+mount_line="$(awk -v dir="$PROJECT_DIR" '$5 == dir { print $0; exit }' /proc/self/mountinfo 2>/dev/null || true)"
 case "$mount_line" in
   *overlay*)
     fail "schrijfroute" "overlay — een write verdwijnt (ADR 0017 verwacht bind)"
     ;;
   "")
     if $IN_SANDBOX; then
-      warn "schrijfroute" "geen mountinfo voor $CARDINE_DIR"
+      warn "schrijfroute" "geen mountinfo voor $PROJECT_DIR"
     else
       warn "schrijfroute" "niet in de kooi"
     fi
@@ -302,16 +309,16 @@ fi
 ###############################################################################
 header "7. Cardine packages"
 
-CARDINE_PKG="${CARDINE_DIR}/package.json"
+CARDINE_PKG="${LAB_DIR}/package.json"
 if [ -f "$CARDINE_PKG" ]; then
   CARDINE_VER=$(node -e "const p=require('${CARDINE_PKG}'); console.log(p.version||'onbekend')" 2>/dev/null || echo "onbekend")
   pass "cardine" "versie $CARDINE_VER"
 else
-  warn "cardine" "geen package.json in $CARDINE_DIR"
+  warn "cardine" "geen package.json in $LAB_DIR"
 fi
 
 # Check cardine-slice-check package
-SLICE_PKG="${CARDINE_DIR}/packages/lab/cardine-slice-check/package.json"
+SLICE_PKG="${LAB_DIR}/cardine-slice-check/package.json"
 if [ -f "$SLICE_PKG" ]; then
   SLICE_VER=$(node -e "const p=require('${SLICE_PKG}'); console.log(p.version||'onbekend')" 2>/dev/null || echo "onbekend")
   pass "cardine-slice-check" "versie $SLICE_VER"
@@ -352,7 +359,7 @@ fi
 header "9. Repo-indexering"
 
 if [ -x "$JARVIS_CLI" ]; then
-  INDEX_STATUS=$("$JARVIS_CLI" get-index-status "$CARDINE_DIR" 2>/dev/null || true)
+  INDEX_STATUS=$("$JARVIS_CLI" get-index-status "$PROJECT_DIR" 2>/dev/null || true)
   if echo "$INDEX_STATUS" | grep -qiE 'indexed.*true|freshness.*fresh' 2>/dev/null; then
     pass "jarvis index" "cardine repo is geïndexeerd"
   elif echo "$INDEX_STATUS" | grep -qi 'indexed.*false' 2>/dev/null; then
@@ -395,15 +402,25 @@ else
   SANDBOX_OK=false
 fi
 
-# 11a2. Bewaakt cardine-bwrap de .env-grens (overlay + maskeer-stap)?
+# 11a2. Bewaakt cardine-bwrap de .env-grens?
+# ADR 0017 kiest --bind (geen overlay) en maskeert geheimen met een ro-bind van
+# een leeg bestand. De vroegere 'overlay-src'-check keek naar de oude opzet.
 if [ -f "$CARDINE_BWRAP_EXPECTED" ]; then
   SECRET_CHECK="${LAB_DIR}/scripts/check-bwrap-secrets.sh"
-  if grep -q 'overlay-src' "$CARDINE_BWRAP_EXPECTED" 2>/dev/null && \
-     grep -q 'CARDINE_BWRAP_ALLOW_SECRETS' "$CARDINE_BWRAP_EXPECTED" 2>/dev/null && \
-     [ -f "$SECRET_CHECK" ]; then
-    pass "secrets-grens" "cardine-bwrap maskeert .env/keys (bewijs: make sandbox-secrets)"
+  BWRAP_HAS_BIND=false
+  BWRAP_MASKS=false
+  grep -q -- '--bind "\$src"' "$CARDINE_BWRAP_EXPECTED" 2>/dev/null && BWRAP_HAS_BIND=true
+  grep -q -- '--ro-bind "\$mask_file"' "$CARDINE_BWRAP_EXPECTED" 2>/dev/null && BWRAP_MASKS=true
+  if $BWRAP_HAS_BIND && $BWRAP_MASKS && [ -f "$SECRET_CHECK" ]; then
+    pass "secrets-grens" "cardine-bwrap bindt de workspace en maskeert .env/keys (bewijs: make sandbox-secrets)"
   else
-    fail "secrets-grens" "cardine-bwrap maskeert .env/keys niet — oude versie? (make sandbox-secrets)"
+    if ! $BWRAP_HAS_BIND; then
+      fail "secrets-grens" "cardine-bwrap bindt de workspace niet met --bind (ADR 0017)"
+    elif ! $BWRAP_MASKS; then
+      fail "secrets-grens" "cardine-bwrap maskeert .env/keys niet — oude versie? (make sandbox-secrets)"
+    else
+      fail "secrets-grens" "bewijs ontbreekt: $SECRET_CHECK niet gevonden"
+    fi
     SANDBOX_OK=false
   fi
 fi
@@ -418,12 +435,16 @@ fi
 
 # 11c. Check DSH-profiel: staat het juiste pad naar cardine-bwrap?
 if [ -f "$DSH_PROFILE" ]; then
-  BWRAP_IN_PROFILE=$(grep -o '/[^"]*cardine-bwrap' "$DSH_PROFILE" 2>/dev/null || echo "")
+  BWRAP_IN_PROFILE=$(grep -o '/[^"]*cardine-bwrap' "$DSH_PROFILE" 2>/dev/null || head -1)
   if [ -n "$BWRAP_IN_PROFILE" ]; then
     if [ "$BWRAP_IN_PROFILE" = "$CARDINE_BWRAP_EXPECTED" ]; then
       pass "DSH profiel → cardine-bwrap" "pad klopt: $BWRAP_IN_PROFILE"
+    elif [ -f "$BWRAP_IN_PROFILE" ]; then
+      # Een andere, wél bestaande installatie (repo naast npm) is geen fout:
+      # het profiel start een werkende wrapper. Alleen een dood pad is rood.
+      pass "DSH profiel → cardine-bwrap" "andere geldige installatie: $BWRAP_IN_PROFILE"
     else
-      fail "DSH profiel → cardine-bwrap" "pad wijkt af: ${BWRAP_IN_PROFILE}"$'\n'"    verwacht: ${CARDINE_BWRAP_EXPECTED}"
+      fail "DSH profiel → cardine-bwrap" "pad bestaat niet: ${BWRAP_IN_PROFILE}"$'\n'"    verwacht: ${CARDINE_BWRAP_EXPECTED}"
       SANDBOX_OK=false
       if $FIX; then
         if $JSON; then
@@ -441,12 +462,14 @@ if [ -f "$DSH_PROFILE" ]; then
   fi
 
   # 11d. Check DSH-profiel: staat het juiste pad naar cardine-slice-check?
-  SLICE_IN_PROFILE=$(grep -o '/[^"]*cardine-slice-check/index\.js' "$DSH_PROFILE" 2>/dev/null || echo "")
+  SLICE_IN_PROFILE=$(grep -o '/[^"]*cardine-slice-check/index\.js' "$DSH_PROFILE" 2>/dev/null || head -1)
   if [ -n "$SLICE_IN_PROFILE" ]; then
     if [ "$SLICE_IN_PROFILE" = "$SLICE_CHECK_EXPECTED" ]; then
       pass "DSH profiel → slice-check" "pad klopt: $SLICE_IN_PROFILE"
+    elif [ -f "$SLICE_IN_PROFILE" ]; then
+      pass "DSH profiel → slice-check" "andere geldige installatie: $SLICE_IN_PROFILE"
     else
-      fail "DSH profiel → slice-check" "pad wijkt af: ${SLICE_IN_PROFILE}"$'\n'"    verwacht: ${SLICE_CHECK_EXPECTED}"
+      fail "DSH profiel → slice-check" "pad bestaat niet: ${SLICE_IN_PROFILE}"$'\n'"    verwacht: ${SLICE_CHECK_EXPECTED}"
       SANDBOX_OK=false
       if $FIX; then
         if ! $JSON; then
@@ -491,7 +514,7 @@ else
 fi
 
 # 11g. Check of er nog oude scripts/ paden bestaan buiten het DSH-profiel
-OLD_PATTERN="${CARDINE_DIR}/scripts/"
+OLD_PATTERN="${PROJECT_DIR}/scripts/"
 if [ -d "$OLD_PATTERN" ] 2>/dev/null; then
   warn "oude scripts/" "er bestaat nog een map ${OLD_PATTERN} — zou leeg moeten zijn"
 fi
@@ -500,7 +523,7 @@ fi
 if ! $SANDBOX_OK && ! $FIX && ! $JSON; then
   echo ""
   echo "  ${YELLOW}─── Sandbox-configuratie heeft problemen.${NC}"
-  echo "  Herstel met: ${BOLD}bash packages/lab/cardine-status.sh --fix${NC}"
+  echo "  Herstel met: ${BOLD}cardine-lab status --fix${NC}${NC}"
 fi
 
 ###############################################################################
@@ -517,8 +540,8 @@ if ! $JSON; then
   if [ "$FAILED" -gt 0 ]; then
     echo ""
     if ! $SANDBOX_OK; then
-      echo "${RED}Aanbevolen:${NC} run ${BOLD}bash packages/lab/cardine-status.sh --fix${NC} om sandbox-paden te herstellen"
-      echo "           Of ${BOLD}bash packages/lab/install-lab.sh${NC} voor volledige herinstallatie"
+      echo "${RED}Aanbevolen:${NC} run ${BOLD}cardine-lab status --fix${NC} om sandbox-paden te herstellen"
+      echo "           Of ${BOLD}cardine-lab install${NC} voor volledige herinstallatie"
     else
       echo "${RED}Aanbevolen:${NC} run ${BOLD}bash packages/lab/install-lab.sh${NC} om te herstellen"
     fi

@@ -458,6 +458,10 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
         models:
           - id: deepseek-ai/DeepSeek-V4.1-Flash-1017
             name: DeepSeek V4.1 Flash 1017 (DeepInfra)
+          # Bestaande threads bewaren dit id in modelSelection. Zonder deze
+          # rij weigert pi-ai met UNKNOWN_MODEL zodra zo'n thread hervat.
+          - id: deepseek-ai/DeepSeek-V4-Flash
+            name: DeepSeek V4 Flash (DeepInfra)
           - id: deepseek-ai/DeepSeek-V4-Flash-0731
             name: DeepSeek V4 Flash 0731 (DeepInfra)
           - id: deepseek-ai/DeepSeek-V3.2
