@@ -7,7 +7,9 @@
     "status": "bash packages/lab/cardine-status.sh",
     "status:json": "bash packages/lab/cardine-status.sh --json",
     "verbose": "bash packages/lab/cardine-status.sh --verbose",
-    "install-lab": "bash packages/lab/install-lab.sh"
+    "install-lab": "bash packages/lab/install-lab.sh",
+    "check": "make check",
+    "finish": "make finish"
   },
   "repository": {
     "type": "git",

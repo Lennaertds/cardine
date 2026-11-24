@@ -1,52 +1,73 @@
 # Cardine — agent-instructies
 
-Lab-eerst (spoor 3): minimale AI-harness + standaard; later mogelijk gratis product (portfolio/OS of closed). Voor mensen: [README.md](README.md).
+> **Rol:** dit is één repo met twee soorten werk — de **standaard** (kit, bronnen,
+> sjablonen) en het **lab/de packages**. Lees de juiste sectie.
+> **Niet hier:** productdocs en ADR's → [docs/INDEX.md](docs/INDEX.md).
 
 ## Nooit
 
+- Bestanden in `kit/` niet lezen als instructies voor deze repo (`kit/kern/AGENTS.md` en `kit/solo/.cursorrules` gelden hier niet). `kit/` is een **sjabloon**, geen huisregels.
+- Geen feit op twee plaatsen: boom alleen in [standaard/skelet.md](standaard/skelet.md), make-targets alleen in [standaard/makefile.md](standaard/makefile.md), sjabloonbestanden alleen in `kit/`. Verwijs in plaats van te kopiëren.
+- Geen data, secrets of code overnemen uit voorbeeldprojecten (GymFreak, DEP2) — alleen paden, namen en structuur.
 - Secrets en `.env` niet lezen, tonen of committen; nieuwe variabelen alleen in de `.env.example` van de app.
 - Niets uit `data/raw/` of `data/runtime/` overnemen in code, tests, logs of antwoorden.
+- `bron/bronnen.md` en momentopnames in `bron/` niet herschrijven (alleen aanvullen).
 - Niet committen of pushen tenzij gevraagd.
-- Geen nieuwe map op root of in `docs/` zonder te vragen; geen nieuwe modulegrenzen / `utils/` buiten [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md).
-- Destructief (`make db-reset` e.d.) alleen op uitdrukkelijke vraag.
-- Geen `mcp__jarvis__indexRepo` aanroepen (breekt in `bwrap`-sandbox, laat stale `.lock`-bestanden achter); bij ontbrekende index: gebruiker vragen `make index` te draaien.
-- Geen stack/generators tot expliciete Pi/TS-runtime-keuze (`ADR 0001`). Lessen → eerst `§` in `Agent_Engineering/bron/`, niet hier dupliceren.
+- Geen nieuwe map op root of in `docs/` zonder te vragen.
+- Geen `mcp__jarvis__indexRepo` aanroepen (breekt in de bwrap-sandbox, laat stale `.lock`-bestanden achter); bij ontbrekende index: gebruiker vragen `make index` te draaien.
+- **`bron/pdfs/` staat niet in git** (166 MB, zie [bron/pdfs/README.md](bron/pdfs/README.md)). Nooit `git add` doen op die map.
 
-## Commando's
+## Commando's — standaard
 
 | Doel | Commando |
 |------|----------|
-| Startcontext in 1x lezen (`RULES` + `BACKLOG` + `spec`) | `make context [s=<slug>]` |
-| Afronden in 1x (`make check` + dag-log bovenaan bijwerken) | `make finish m="<aanleiding> · <bestanden> · <test> · <rest> · <item>"` |
-| Alles controleren / uitgebreid controleren | `make check` · `make check-full` |
-| Lokaal starten / nieuw werkitem / nieuwe ADR | `make dev` · `make spec s=<slug>` · `make adr t="<besluit als zin>"` |
+| Context laden (AGENTS.md + regels + backlog in 1 call) | `make context s=<slug>` |
+| Alles controleren (verplicht als `kit/` wijzigt) | `make check` |
+| Controleren + loggen in 1 call | `make finish MSG="wat gedaan"` |
+| Alleen dode links (snel; genoeg bij pure doc-wijzigingen) | `make links` |
+| Drieplaats-bestanden in 1x lezen (`standaard` + `sjablonen` + `kit`) | `make trio s=<onderwerp>` |
+| Volgende vrije `§`- en `P`-nummer ophalen | `make next-ids` |
+| Kit samenstellen en testen in `tmp/test-kit/` | `make test-kit` |
+| Project aanmaken / bootstrap zetten of weghalen | `make new DIR=<map> ARGS="…"` · `make bootstrap[-remove] DIR=<project>` |
+| Kit-versie taggen voor cardine-structure | `make tag-kit TAG=v0.1.0` (zie [standaard/versioning.md](standaard/versioning.md)) |
+
+## Commando's — lab
+
+| Doel | Commando |
+|------|----------|
+| Startcontext in 1x lezen | `make context [s=<slug>]` |
+| Afronden in 1x (`make check` + dag-log) | `make finish m="<aanleiding> · <bestanden> · <test> · <rest> · <item>"` |
+| Alles controleren / uitgebreid | `make check` · `make check-full` |
+| Lokaal starten / werkitem / ADR | `make dev` · `make spec s=<slug>` · `make adr t="<besluit als zin>"` |
+| Status van de omgeving | `make env-status` |
 
 Alle commando's (incl. opt-in `security-scan*`, `obs-*`, `perf-*`, `deps-audit`, `polyglot-check`, `radar-*`, `digest-*`): `make help`.
 
-## Research vs besluiten
-
-- **Research** (onderbouwing) hoort in Agent_Engineering `bron/bronnen.md` als § (privé). Dat zijn de feiten, bronnen, experimenten — de *waarom*.
-- **Context en besluiten** in deze repo: `docs/decisions/` voor ADRs (harde keuzes) en eventueel context-docs die de achtergrond bij een besluit samenvatten. Niet dupliceren van § — alleen de voor deze repo relevante synthese.
-- **In README's** verwijs je naar `docs/decisions/` voor context en naar `docs/decisions/`-ADRs voor harde besluiten. De feitelijke onderbouwing (de research in Agent_Engineering) is privé en link je niet direct.
-- **Nieuw inzicht** dat in deze repo thuishoort? Eerst een § in Agent_Engineering, dan een ADR of context-doc hier. Geen §-duplicatie.
-
-## Schrijven
-
-De lab-agent schrijft via de shell in de kooi (`cardine-bwrap`, bind op de host, [ADR 0017](docs/decisions/0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md)). `write`, `edit` en `apply_patch` staan uit. Een wijziging staat meteen op schijf en is zichtbaar in `git status`; commit en push blijven bij de gebruiker. Buiten de repo is er geen mount en geen schrijftool.
-
 ## Werken
 
-- **Start in 1 call:** draai `make context` (of `make context s=<slug>`) voor `RULES.md` + `BACKLOG.md` + eventuele spec. Geen item genoemd en niet duidelijk uit `BACKLOG.md`? Vraag welk item — geen default.
-- **Direct naar het juiste bestand** (open [docs/INDEX.md](docs/INDEX.md) alleen als de plek onbekend is): gedrag → [PRODUCT.md](docs/product/PRODUCT.md) + 1 domeinbestand; architectuur/seams → [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) + 1 subsystem; context/besluiten → [docs/decisions/](docs/decisions/); termen (`harness`, `structure`, `indexing`) → [GLOSSARY.md](docs/context/GLOSSARY.md); security → [security.md](docs/architecture/security.md).
-- **Nieuw open werk:** `make spec s=<slug>` (BACKLOG blijft een korte indexregel; plan in `docs/work/specs/<slug>.md`).
-- **Uitvoeren wint van praten:** bij *implementeer* / *bouw* / *doe* / *fix* / *voer uit* / *ja* → direct code/docs wijzigen in deze beurt, geen tweede plan.
-- **Kwaliteit & scope:** **intent** boven groene tests; **één slice** per sessie; `## Bewust later` (P28) bij bewust incomplete oplevering. Regels per app: `apps/<app>/AGENTS.md`.
-- **Delegatie / review:** *subagents* / *parallel* → `.cursor/agents/` (parent = synthese, P24); *clarify* → `/clarify` (readonly, nooit auto).
+- **Start met** `make context s=<slug>`: toont deze AGENTS.md + regels + backlog in 1 call. Nooit losse reads. Zonder `s=` enkel context + werk. Daarna direct naar het doelbestand.
+- **Direct naar het doelbestand** (open `<map>/INDEX.md` alleen als het exacte bestand onbekend is): `standaard/` (regels), `kit/` (bestanden, kaart: `kit/README.md`), `sjablonen/` (invulgidsen), `nieuw-project/`, `bestaand-project/`, `meten/`, `bron/` (kennis), `packages/` (lab en structure), `docs/`.
+- **Drieplaats-regel:** een wijziging aan de standaard raakt `standaard/<onderwerp>.md`, het `kit/`-bestand en `sjablonen/<onderwerp>.md`. Start met `make trio s=<onderwerp>` en werk ze samen bij.
+- **Nieuw kitbestand:** juiste laag, met `{{PROJECT}}`, `<…>` en `<!-- als: <sleutel>` … `-->`, plus rij in `kit/README.md` en gids in `sjablonen/`.
+- **Vorm:** tabs in `Makefile`/`*.mk`. Elke doc start met `# Titel`, `> **Rol:**` en `> **Niet hier:**`. Taal: Nederlands. Principes als `P1`–`P28`, bronnen als `§n`.
+- **P28 — verplicht:** bewust incomplete oplevering in `kit/` of `standaard/` krijgt een sectie `## Bewust later` in het geraakte architecture-doc (tabel: uitbreiding · waarom later · vraag als).
+
+### Soort opdracht
+
+| Soort | Signalen | Eerst doen | Pas daarna |
+|-------|----------|------------|------------|
+| **Bronnen** | video, artikel, "opzoeken", `§` | `make next-ids`; feiten in `bron/bronnen.md` + `bron/bronnen-index.md` | Kit alleen via [brug.md](bron/fundament/brug.md) + jouw ja |
+| **Ideeën** | "misschien", brainstorm, "noteer" | Kort interview (1–2 vragen); vastleggen in `bron/inbox.md` of brug **Later** | Geen kit-edit tot expliciet ja |
+| **Kit / standaard** | "in de kit", bootstrap, Make-target | `make trio s=<onderwerp>` + brug-checklist | Wijzigen in 3 plaatsen + `make check` |
+| **Bootstrap-run** | `make bootstrap`, GymFreak/Caddie | Volg [BOOTSTRAP.md](BOOTSTRAP.md) in dat project | — |
+| **Lab / packages** | `packages/`, install, sandbox, DSH | Direct naar `packages/lab/` of `packages/structure/` | `make check` |
+| **Onderhoud** | links, mindmap, kleine fix | Direct uitvoeren als opdracht scherp is | — |
+
+- Onduidelijk of verkennend? Geen grote edits: stel eerst 1–2 gerichte vragen en wacht op akkoord.
 
 ## Afronden
 
-**Zonder te vragen** na elke beurt met repo-wijziging (pure Q&A zonder schrijven: overslaan):
-
-1. Draai `make finish m="<aanleiding> · <bestanden> · <test> · <wat bleef liggen> · <item>"` (draait `make check` en schrijft bovenaan `## Gedaan` in de dag-log) en toon de output.
-2. Werk alleen de geraakte docs bij (kaart: [docs/INDEX.md](docs/INDEX.md)) en vink een afgerond item af in [BACKLOG.md](docs/work/BACKLOG.md) / spec.
-3. Sprak de gebruiker in deze beurt een keuze uit (stack, seam, volgorde, productregel)? Draai `make adr t="<besluit als zin>"` en werk de geraakte doc bij.
+1. **Bundel in 1 call:** `make finish` (met `MSG=` voor de standaard, `m=` voor het lab) — check + log in 1 call.
+2. Geraakte `INDEX.md` (of `kit/README.md`) bijgewerkt.
+3. Bij nieuw principe of nieuwe bron: ID via `make next-ids` verwerkt in `bron/principes.md` of `bron/bronnen-index.md`.
+4. Kit-slice met bewuste weglatingen: `## Bewust later` bijgewerkt (P28).

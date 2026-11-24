@@ -1,12 +1,29 @@
-# Publiceert naar de publieke npm-registry (registry.npmjs.org).
+# Publiceert naar de publieke npm-registry (registry.npmjs.org) via
+# **trusted publishing** (OIDC). Geen NPM_TOKEN, geen langlevend publiceertoken:
+# npm vertrouwt deze workflow op basis van repository + workflowbestand en
+# controleert dat met een kortlevend OIDC-token.
 #
-# Triggered by:
+# Eenmalige inrichting op npmjs.com, PER PACKAGE (pakketpagina → Settings →
+# Trusted Publisher → GitHub Actions). Alle velden zijn hoofdlettergevoelig:
+#   Organization/user: Lennaertds
+#   Repository:        cardine
+#   Workflow filename: publish.yml        (incl. .yml, zonder pad)
+#   Environment name:  leeg laten
+#   Allowed actions:   "npm publish" toestaan (anders mag de verbinding alleen
+#                      `npm stage publish`, wat een menselijke 2FA-stap vraagt)
+#
+# Triggers:
 #   - Tags: v*, structure-v*, lab-v*
 #   - Manual: workflow_dispatch (kies meta, structure, lab, of all)
 #
-# Vereist één repository-secret: NPM_TOKEN (npm Access Token met
-# "Read and write" voor de packages; 2FA-omzeiling aan als je 2FA hebt).
-# GITHUB_TOKEN werkt hier niet: dat geldt alleen voor GitHub Packages.
+# Belangrijk:
+#   - Vul de verbinding in VOOR de tag push; een nieuwe verbinding die niet
+#     binnen 2 dagen een geslaagde publish ziet, verloopt.
+#   - Een bestaande verbinding kan niet worden aangepast: verwijderen en
+#     opnieuw maken.
+#   - Hernoem dit bestand of de repo niet — de verbinding is eraan vastgeklonken.
+#   - npm CLI >= 11.21 (staged) c.q. 12.2 (dist-tags); Node 24 levert dat.
+#   - Provenance wordt bij OIDC automatisch gegenereerd (geen --provenance).
 
 name: publish
 
@@ -29,9 +46,6 @@ on:
           - structure
           - lab
 
-env:
-  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
 jobs:
   # ── GitHub Release (alleen bij v* tags, niet v0.*) ──
   release:
@@ -39,7 +53,7 @@ jobs:
     permissions:
       contents: write
     if: |
-      (github.event_name == 'push' && startsWith(github.ref_name, 'v') && !startsWith(github.ref_name, 'v0.'))
+      github.event_name == 'push' && startsWith(github.ref_name, 'v') && !startsWith(github.ref_name, 'v0.')
     steps:
       - uses: actions/checkout@v4
       - name: Create GitHub Release
@@ -56,6 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write # OIDC — verplicht voor trusted publishing
     if: |
       (github.event_name == 'push' && startsWith(github.ref_name, 'v') && !startsWith(github.ref_name, 'v0.')) ||
       (github.event_name == 'workflow_dispatch' && (inputs.package == 'meta' || inputs.package == 'all'))
@@ -63,16 +78,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
       - name: Publish cardine
-        run: npm publish
+        run: npm publish --access public
 
   # ── Publish @lennaertds/cardine-structure ──
   publish-structure:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write
     if: |
       (github.event_name == 'push' && startsWith(github.ref_name, 'structure-v')) ||
       (github.event_name == 'workflow_dispatch' && (inputs.package == 'structure' || inputs.package == 'all'))
@@ -80,17 +96,18 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
       - name: Publish @lennaertds/cardine-structure
         working-directory: packages/structure
-        run: npm publish
+        run: npm publish --access public
 
   # ── Publish @lennaertds/cardine-lab ──
   publish-lab:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write
     if: |
       (github.event_name == 'push' && startsWith(github.ref_name, 'lab-v')) ||
       (github.event_name == 'workflow_dispatch' && (inputs.package == 'lab' || inputs.package == 'all'))
@@ -98,8 +115,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
       - name: Publish @lennaertds/cardine-lab
         working-directory: packages/lab
-        run: npm publish
+        run: npm publish --access public

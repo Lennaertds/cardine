@@ -5,11 +5,25 @@
 # en het tijdelijke opstartpakket _bootstrap/.
 set -euo pipefail
 
+# Mappen die niet in git staan (bv. bron/pdfs/, via Syncthing): een link daarnaar
+# is niet dood op deze machine, maar mag op een verse kloon niet als fout tellen.
+skip_targets=()
+args=()
+while (($#)); do
+    if [[ "$1" == "--skip-target" ]] && (($# >= 2)); then
+        skip_targets+=("${2%/}"); shift 2
+    else
+        args+=("$1"); shift
+    fi
+done
+set -- ${args[@]+"${args[@]}"}
+
 root="${1:-.}"
 root="${root%/}"
 (($#)) && shift
 prune=(-path "$root/.git" -o -path '*/node_modules' -o -path "$root/tmp" -o -path "$root/_bootstrap")
 for excluded in "$@"; do prune+=(-o -path "$root/${excluded%/}"); done
+
 
 link_targets() {
   awk '
@@ -39,6 +53,14 @@ while IFS= read -r -d '' file; do
     # Relative link die buiten de repo-root wijst (../* of dieper) verwijst naar een
     # sibling repo in een multi-root workspace — die kunnen we niet valideren.
     if [[ ! -e "$path" ]]; then
+      # Vergelijk op het pad binnen de repo (bv. bron/pdfs/x.pdf), niet op de
+      # ruwe relatieve link: die is t.o.v. de map van het Markdown-bestand.
+      rel_path="${path#"$root"/}"
+      skipped=0
+      for st in "${skip_targets[@]}"; do
+        if [[ "$rel_path" == "$st/"* || "$rel_path" == "$st" ]]; then skipped=1; break; fi
+      done
+      if ((skipped)); then continue; fi
       # Bereken het absolute pad voor de link.
       abs_target="$(cd "$dir" && realpath -m "$target" 2>/dev/null || true)"
       # Als het absolute pad niet binnen de repo-root valt, is het een sibling-link.

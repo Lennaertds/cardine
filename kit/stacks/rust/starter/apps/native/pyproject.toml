@@ -1,0 +1,19 @@
+[project]
+name = "native"
+version = "0.1.0"
+description = "PyO3/maturin scaffold for apps/native (kit starter — kies na ADR)"
+requires-python = ">=3.11"
+# Build: uv --directory apps/native run maturin develop --features pyo3-bridge
+
+[build-system]
+requires = ["maturin>=1.7,<2.0"]
+build-backend = "maturin"
+
+[tool.maturin]
+manifest-path = "Cargo.toml"
+features = ["pyo3-bridge"]
+# module-naam = package name → import native
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

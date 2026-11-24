@@ -10,7 +10,8 @@
 ### Changed
 - **Registry: GitHub Packages → publieke npm** (`registry.npmjs.org`,
   `access: public`) voor alle drie de packages. `publish.yml` publiceert met
-  `NPM_TOKEN` en heeft nu ook een job voor de meta.
+  via trusted publishing (OIDC) — geen `NPM_TOKEN` — en heeft nu ook een job
+  voor de meta.
 
 ### Fixed
 - `kit/new-project.sh` resolvet eerst symlinks; via `cardine-structure` wees

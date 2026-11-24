@@ -1,0 +1,11 @@
+[Unit]
+Description=Agent_Engineering digest-day (fetch + catch-up + weekbrief)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/ventje/Student_Zelfstandige/Agent_Engineering
+ExecStart=/usr/bin/make digest-day
+StandardOutput=append:/home/ventje/Student_Zelfstandige/Agent_Engineering/data/external/digest/cron.log
+StandardError=append:/home/ventje/Student_Zelfstandige/Agent_Engineering/data/external/digest/cron.log

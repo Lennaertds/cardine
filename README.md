@@ -28,6 +28,36 @@ Zie voor de achtergrond:
 
 ---
 
+## De standaard zit ín deze repo
+
+Je hoeft niets te clonen naast elkaar: de projectstandaard (**kit**, **bronnen**,
+**sjablonen**, **standaard**) leeft hier, naast het lab en de packages.
+
+| Map | Wat | Naar een project? |
+|-----|-----|-------------------|
+| [kit/](kit/README.md) | De bestanden zelf, in lagen die een projectroot nabootsen: `kern`, `solo`, `team`, `modules/<naam>`, `stacks/<stack>`. Plus `new-project.sh` | **ja**, via het script |
+| [nieuw-project/](nieuw-project/INDEX.md) | Stappenplan van lege map tot werkend project | nee |
+| [bestaand-project/](bestaand-project/INDEX.md) | Stappenplan om een lopend project te herordenen | nee |
+| [sjablonen/](sjablonen/INDEX.md) | Per kitbestand: wanneer, hoe invullen, voorbeeld, snelle toets | nee |
+| [standaard/](standaard/INDEX.md) | De afspraken: boom, bestanden, stacks, Makefile, data, git, naamgeving | nee |
+| [bron/](bron/INDEX.md) | Principes P1–P28, bronnen-index + samenvattingen, fundament, kenniskaart | nooit |
+| [meten/](meten/INDEX.md) | Herhaalbare evaluatie met taken en condities | alleen `meten/kit/` |
+
+De PDF's onder `bron/pdfs/` staan **buiten git** (samen ~166 MB) en syncen via
+Syncthing; zie [bron/pdfs/README.md](bron/pdfs/README.md).
+
+```bash
+make new DIR=~/code/demo ARGS="--profile app"   # nieuw project
+make trio s=makefile                           # de drie plaatsen van één onderwerp
+make test-kit                                  # kit samenstellen en testen
+```
+
+De **brug** van kennis naar standaard: wat uit `bron/` de `kit/` mag raken,
+staat in [bron/fundament/brug.md](bron/fundament/brug.md). Zonder jouw ja geen
+kit-edit.
+
+---
+
 ## Packages
 
 Cardine bestaat uit twee packages. De meta-package (`cardine` in de root) is het
@@ -61,11 +91,13 @@ cardine                    ← Meta: repo-root met README, docs, gidsen
     └── kit/               → Letterlijke kopie op pinned commit
 ```
 
-De structuur (`cardine-structure`) wordt **niet** in deze repo onderhouden — die
-leeft in de privé-sibling [Agent_Engineering](https://github.com/Lennaertds/Agent_Engineering)
-en wordt op pinned commits gepulled ([ADR 0013](docs/decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)).
-Zo blijft de SSOT op één plek en kan Cardine altijd een stabiele versie
-aanbieden.
+De structuur wordt **in deze repo** onderhouden, in [kit/](kit/README.md).
+`packages/structure/kit/` is de publieke distributiekopie die met
+`@lennaertds/cardine-structure` meegaat. Vroeger kwam die uit een aparte
+privé-repo en werd ze op pinned commits gepulled (zie
+[ADR 0013](docs/decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md));
+sinds de samenvoeging is `kit/` de enige bron en is een pin of pull-script niet
+meer nodig.
 
 ---
 
@@ -167,10 +199,13 @@ schema.
 
 ## Ontwikkeling
 
-Deze repo is het **publieke uithangbord**. De projectstandaard en
-kennissamenvattingen leven in de sibling-repo
-[Agent_Engineering](https://github.com/Lennaertds/Agent_Engineering) (privé, SSOT).
-Cardine pullt daaruit — zie `packages/structure/pull_kit.sh`.
+Deze repo bevat alles: de projectstandaard ([kit/](kit/README.md)),
+de kennis ([bron/](bron/INDEX.md)), de gidsen ([sjablonen/](sjablonen/INDEX.md),
+[standaard/](standaard/INDEX.md)) en het lab ([packages/](packages/)).
+Er is geen tweede repo meer om mee te synchroniseren.
+
+De PDF's in `bron/pdfs/` staan bewust buiten git (zie
+[bron/pdfs/README.md](bron/pdfs/README.md)).
 
 Zie [AGENTS.md](AGENTS.md) voor agent-instructies en
 [docs/INDEX.md](docs/INDEX.md) voor de volledige documentatie-kaart.

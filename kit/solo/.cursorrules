@@ -1,0 +1,8 @@
+# {{PROJECT}} — Cursor, persoonlijk
+
+Volg [AGENTS.md](AGENTS.md): daar staan de grenzen, de commando's, de werkwijze en de kaart. Dit bestand bevat alleen mijn persoonlijke voorkeuren en wat enkel voor Cursor geldt. Het herhaalt niets uit AGENTS.md.
+
+- Antwoord in het Nederlands. Volledig in de code.
+- Bij een wijziging aan de UI: na de fix in de browser controleren, dan afronden. (DESIGN lezen: zie AGENTS.md.)
+- <Persoonlijke werkwijze, bv. "bij meer dan drie bestanden eerst een plan — tenzij de gebruiker al implementeer/bouw/ja zei; dan meteen code".>
+- <Cursor-specifiek, bv. welke `.cursor/rules/*.mdc` er zijn en waarvoor.>

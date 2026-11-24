@@ -1,0 +1,60 @@
+# Periodieke digest: fetch → propose → draft-PR (alleen voorstel-bestand).
+# Vereist module research + SOURCES.md. Raw dumps blijven CI-lokaal (gitignored).
+# Schrap of disable zonder research/feeds.
+name: digest
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 7 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  propose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: gate
+        name: Require digest + SOURCES
+        run: |
+          if [[ ! -f docs/research/digest/README.md ]]; then
+            echo "Geen digest-scaffold (kit: --modules research) — skip."
+            echo "skip=true" >>"$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [[ ! -f docs/research/digest/SOURCES.md ]]; then
+            echo "Geen SOURCES.md — skip (kopieer SOURCES.example.md)."
+            echo "skip=true" >>"$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "skip=false" >>"$GITHUB_OUTPUT"
+          echo "day=$(date -u +%F)" >>"$GITHUB_OUTPUT"
+      - name: Fetch feeds
+        if: steps.gate.outputs.skip != 'true'
+        run: make digest-fetch
+      - name: Propose (geen auto-radar)
+        if: steps.gate.outputs.skip != 'true'
+        run: make digest-propose
+      - name: Draft PR met voorstel
+        if: steps.gate.outputs.skip != 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(digest): voorstel ${{ steps.gate.outputs.day }}"
+          title: "digest: voorstel ${{ steps.gate.outputs.day }}"
+          body: |
+            Automatisch digest-voorstel (P5): **geen** auto-update van `radar.md`.
+
+            1. Review `docs/research/digest/proposals/*-draft.md`
+            2. Accepteer rijen → handmatig naar `radar.md` / wantlist
+            3. Merge = voorstel in git; curatie blijft mens/agent
+
+            Raw feeds staan niet in deze PR (`data/external/digest/` is gitignored).
+          branch: digest/propose-auto
+          delete-branch: true
+          draft: true
+          add-paths: |
+            docs/research/digest/proposals/

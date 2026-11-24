@@ -68,8 +68,19 @@ Alle drie de packages publiceren naar de **publieke npm-registry**
 privé-by-default en vereist per gebruiker een PAT, waardoor `npx cardine` niet
 werkt op een machine zonder token.
 
-`publish.yml` publiceert met het repository-secret `NPM_TOKEN`. `GITHUB_TOKEN`
-werkt alleen voor GitHub Packages, niet voor npmjs.
+`publish.yml` publiceert via **trusted publishing (OIDC)**: geen `NPM_TOKEN`,
+geen langlevend publiceertoken. GitHub Actions krijgt een kortlevend OIDC-token
+dat npm verifieert tegen een per package geregistreerde verbinding
+(npmjs.com → package → Settings → Trusted Publisher: GitHub Actions,
+repo `Lennaertds/cardine`, workflow `publish.yml`, `npm publish` toegestaan).
+
+Waarom niet met een token: 2FA-bypass-tokens verliezen rond januari 2027 het
+recht om direct te publiceren (npm-blog, juli 2026). OIDC en staged publishing
+blijven wel werken.
+
+Een nieuwe trusted-publisher-verbinding moet **binnen 2 dagen** een geslaagde
+publish zien, anders verloopt ze. Een bestaande verbinding kan niet worden
+aangepast — alleen verwijderd en opnieuw aangemaakt.
 
 Let bij het toevoegen van een `bin`: het pad is **relatief zonder `./`**
 (`bin/cardine`, `kit/new-project.sh`). Met `./` meldt npm 12 *"script name … was

@@ -1,0 +1,56 @@
+# --- Secrets ------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+!.env.observability.example
+
+# --- Data: alleen README's, reference/ en processed/demo/ in git ---------------
+data/raw/**
+data/external/**
+data/interim/**
+data/processed/**
+data/runtime/**
+data/models/**
+!data/**/
+!data/**/README.md
+!data/**/.gitkeep
+!data/processed/demo/**
+
+# --- Build-output en caches ---------------------------------------------------
+node_modules/
+.pnpm-store/
+.next/
+out/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+test-results/
+playwright-report/
+
+# --- Scratch, logs en sync-restjes --------------------------------------------
+tmp/
+*.log
+*.sync-conflict-*
+.DS_Store
+
+# --- Persoonlijk --------------------------------------------------------------
+local.mk
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea/
+
+# --- Eén package manager (pnpm) -----------------------------------------------
+package-lock.json
+yarn.lock
+
+# --- Specifiek voor dit project -----------------------------------------------

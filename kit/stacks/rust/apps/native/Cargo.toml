@@ -1,0 +1,12 @@
+[package]
+name = "native"
+version = "0.1.0"
+edition = "2021"
+description = "Hot-path Rust library (kit stack rust). FFI: zie starter napi."
+publish = false
+
+[lib]
+path = "src/lib.rs"
+crate-type = ["rlib", "cdylib"]
+
+[dependencies]

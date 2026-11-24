@@ -33,6 +33,7 @@ printf 'normaal\n' >"$ws/readme.txt"
 printf 'intact\n' >"$host_only"
 
 cardine_root="$(cd "$LAB_DIR/../.." && pwd)"
+# De kennisbron (bron/) leeft nu in deze repo zelf; een losse sibling is er niet meer.
 sibling="$(dirname "$cardine_root")/Agent_Engineering"
 if [[ ! -d "$sibling" ]]; then
   sibling=""

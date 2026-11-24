@@ -1,0 +1,12 @@
+# {{PROJECT}} — reproduceerbare omgeving voor oefeningen
+# ({{PROJECT}} wordt vervangen door de projectnaam bij het kopiëren)
+services:
+  dev:
+    image: python:3.12-slim
+    container_name: project-dev
+    working_dir: /workspace
+    volumes:
+      - ..:/workspace
+    command: tail -f /dev/null
+    stdin_open: true
+    tty: true

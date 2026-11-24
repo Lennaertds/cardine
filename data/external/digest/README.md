@@ -6,3 +6,5 @@
 Bestanden hier zijn gitignored (behalve deze README / `.gitkeep`).  
 `make digest-fetch` maakt `YYYY-MM-DD-<slug>/` met `raw.xml` + `items.md`.  
 Voorstellen horen in `docs/research/digest/proposals/` (niet hier). Cureren: `docs/how-to/digest.md`.
+
+Geen SSOT — cureren gaat via `bron/weken/` → `bron/bronnen.md` (§).

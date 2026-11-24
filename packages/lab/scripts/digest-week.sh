@@ -1,25 +1,17 @@
 #!/usr/bin/env bash
-# LAB-PRIVÉ — Wekelijks: fetch → propose → weekbrief in Agent Engineering bron/weken/.
-# Vereist Agent_Engineering als sibling naast cardine. Op een publieke checkout
-# zonder die repo geeft dit script een duidelijke foutmelding.
+# Wekelijks: fetch → propose → weekbrief in bron/weken/ van deze repo.
+# De kennisbron (bron/) leeft sinds de samenvoeging in deze repo zelf; er is
+# geen sibling-repo meer nodig.
 # Schrijft nooit bronnen.md (P5). Cron: zie docs/how-to/digest.md.
 # DIGEST_WEEK=2026-W44 — ISO-week forceren (default: vorige week op ma; anders huidige).
 # DIGEST_WEEK_SKIP_FETCH=1 — alleen propose + weekbrief.
 set -euo pipefail
 
-# Guard: alleen uitvoeren als Agent_Engineering als sibling bestaat.
-_GUARD_AE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/../Agent_Engineering"
-if [ ! -d "$_GUARD_AE" ]; then
-  echo "LAB-PRIVÉ: digest-week.sh vereist Agent_Engineering als sibling-repo." >&2
-  echo "Die repo is niet publiek. Installeer hem naast cardine of sla dit script over." >&2
-  exit 1
-fi
-
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 SCRIPTS="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-AE_BRON_WEKEN="${DIGEST_AE_WEKEN:-$ROOT/../Agent_Engineering/bron/weken}"
+BRON_WEKEN="${DIGEST_AE_WEKEN:-$ROOT/bron/weken}"
 LOG_DIR="data/external/digest"
 mkdir -p "$LOG_DIR"
 LOG="$LOG_DIR/cron.log"
@@ -30,7 +22,7 @@ log() { printf '%s %s\n' "$(date -Iseconds)" "$*" | tee -a "$LOG" >&2; }
 
 [[ -f docs/research/digest/README.md ]] || die "ontbreekt docs/research/digest/"
 [[ -f docs/research/digest/SOURCES.md ]] || die "geen SOURCES.md"
-[[ -d "$AE_BRON_WEKEN" ]] || die "AE-weekmap ontbreekt: $AE_BRON_WEKEN (verwacht sibling Agent_Engineering)"
+[[ -d "$BRON_WEKEN" ]] || die "weekmap ontbreekt: $BRON_WEKEN"
 
 # ISO-week: op maandag = vorige volledige week; anders huidige week.
 iso_week() {
@@ -66,7 +58,7 @@ PY
 }
 
 WEEK="$(iso_week)"
-OUT="$AE_BRON_WEKEN/${WEEK}.md"
+OUT="$BRON_WEKEN/${WEEK}.md"
 TODAY="$(date +%F)"
 tip "ISO-week=$WEEK → $OUT"
 

@@ -35,7 +35,62 @@ PORTS :=
 	    security-scan security-scan-quick obs-up obs-down obs-status \
 	    bench perf-check deps-audit polyglot-check radar-check radar-reminder \
 	    digest-check digest-reminder digest-fetch digest-propose digest-week native-bindings-strict \
-	    install-lab env-status index jarvis-check sandbox-check sandbox-secrets secrets-check
+	    install-lab env-status index jarvis-check sandbox-check sandbox-secrets secrets-check \
+	    test-kit trio next-ids mindmap bootstrap bootstrap-remove new tag-kit digest-day \
+	    digest-triage install-digest-timers sync-kit
+
+# De lagen van de kit bevatten links die pas kloppen in een samengesteld project;
+# test-kit controleert die.
+KIT_LAYERS := kit/kern kit/solo kit/team kit/modules kit/stacks/*/apps
+
+##@ Standaard (kit, bronnen, sjablonen)
+sync-kit: ## bron kit/ kopiëren naar packages/structure/kit/ (publieke distributiekopie)
+	@bash packages/structure/sync_kit.sh
+
+test-kit: ## projecten samenstellen met de kit in tmp/test-kit/ en ze controleren
+	@bash scripts/test-kit.sh
+
+trio: ## drieplaats-files tonen: make trio s=<onderwerp>
+	@test -n "$(s)" || { echo 'gebruik: make trio s=<onderwerp>' >&2; exit 1; }
+	@for f in "standaard/$(s).md" "sjablonen/$(s).md"; do \
+		if [ -f "$$f" ]; then echo "=== $$f ===" && cat "$$f"; fi; \
+	done
+	@echo "=== kit/ matches ===" && find kit -iname "*$(s)*" -exec head -n 120 {} +
+
+next-ids: ## volgende vrije §- en P-nummer tonen
+	@next_s=$$(grep -oE '§[0-9]+' bron/bronnen-index.md 2>/dev/null | tr -d '§' | sort -n | tail -n 1 || echo 0); \
+	next_p=$$(grep -oE '\bP[0-9]+\b' bron/principes.md 2>/dev/null | tr -d 'P' | sort -n | tail -n 1 || echo 0); \
+	echo "Volgende bron: §$$((next_s + 1)) | Volgende principe: P$$((next_p + 1))"
+
+mindmap: ## Markmap-HTML van kenniskaart-outline → bron/fundament/exports/
+	@mkdir -p bron/fundament/exports
+	@npx --yes markmap-cli --no-open --offline bron/fundament/kenniskaart-outline.md -o bron/fundament/exports/kenniskaart.html
+	@echo "mindmap: bron/fundament/exports/kenniskaart.html"
+
+new: ## project aanmaken: make new DIR=~/code/demo ARGS="--profile app"
+	@test -n "$(DIR)" || { echo 'gebruik: make new DIR=<map> [ARGS="--profile app --team --modules … --stacks …"]' >&2; exit 1; }
+	@bash kit/new-project.sh "$(DIR)" $(ARGS)
+
+bootstrap: ## deze standaard tijdelijk in een project zetten: make bootstrap DIR=../GymFreak
+	@test -n "$(DIR)" || { echo 'gebruik: make bootstrap DIR=<project>' >&2; exit 1; }
+	@bash scripts/bootstrap.sh "$(DIR)"
+
+bootstrap-remove: ## het opstartpakket weer weghalen: make bootstrap-remove DIR=../GymFreak
+	@test -n "$(DIR)" || { echo 'gebruik: make bootstrap-remove DIR=<project>' >&2; exit 1; }
+	@bash scripts/bootstrap.sh --remove "$(DIR)"
+
+tag-kit: ## kit-versie taggen voor cardine-structure: make tag-kit TAG=v0.1.0
+	@test -n "$(TAG)" || { echo 'gebruik: make tag-kit TAG=v0.1.0' >&2; exit 1; }
+	@bash scripts/tag-kit.sh "$(TAG)"
+
+digest-day: ## dagelijks: catch-up + fetch + weekbrief(en); CATCHUP_DAYS=7
+	@bash scripts/digest-day.sh
+
+digest-triage: ## weekbrief status have/keep/skip; WEEK= / FORCE=1
+	@python3 scripts/digest-triage.py $(if $(WEEK),--week $(WEEK),) $(if $(FORCE),--force,)
+
+install-digest-timers: ## systemd --user digest-day.timer (dagelijks 07:00)
+	@bash scripts/install-digest-timers.sh
 
 ##@ Starten
 help: ## dit overzicht
@@ -101,8 +156,8 @@ native-bindings-strict: ## NATIVE_STRICT=1 voor apps/native en/of native-c (onde
 	fi; \
 	if [ "$$ran" = 0 ]; then echo "native-bindings-strict: geen native-stack — overgeslagen"; fi
 
-links: ## dode relatieve links (behalve kit/ — project-links werken pas na copy)
-	@bash packages/lab/scripts/check-links.sh . packages/structure/kit
+links: ## dode relatieve links (behalve de kit-lagen — die kloppen pas na copy)
+	@bash packages/lab/scripts/check-links.sh . $(KIT_LAYERS) packages/structure/kit --skip-target bron/pdfs
 
 sandbox-check: ## bewijsmatrix van de kooi: route × richting (packages/lab/scripts/check-sandbox.sh)
 	@bash packages/lab/scripts/check-sandbox.sh

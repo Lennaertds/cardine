@@ -154,7 +154,7 @@ De structuur wordt **niet** in deze repo onderhouden. Hij leeft in
 ```mermaid
 graph LR
     AE[Agent_Engineering/kit/<br>SSOT, privé] -->|pinned commit| CS[cardine-structure/kit/<br>publiek]
-    CS -->|pull_kit.sh| NP[new-project.sh<br>genereert project]
+    CS -->|kit/| NP[new-project.sh<br>genereert project]
     style AE fill:#888,color:#fff
     style CS fill:#e8a838,color:#fff
     style NP fill:#50b86c,color:#fff
@@ -163,10 +163,10 @@ graph LR
 Bij elke release van `cardine-structure`:
 
 1. Bepaal de pinned commit in Agent_Engineering
-2. `pull_kit.sh` kopieert `kit/` naar `packages/structure/kit/`
+2. `sync_kit.sh` kopieert de bron `kit/` naar `packages/structure/kit/`
 3. Versie ophogen, changelog bijwerken
 
-Zie [packages/structure/pull_kit.sh](pull_kit.sh) voor het script en
+Zie [packages/structure/sync_kit.sh](sync_kit.sh) voor het script en
 [docs/cardine-structure.md](docs/cardine-structure.md) voor de details.
 
 ---
@@ -221,7 +221,7 @@ volledige schema.
 | Waar | Wat |
 |------|-----|
 | [docs/cardine-structure.md](docs/cardine-structure.md) | Volledige documentatie van dit package |
-| [pull_kit.sh](pull_kit.sh) | Script om de structuur uit Agent_Engineering te pullen |
+| [sync_kit.sh](sync_kit.sh) | Kopieert de bron `kit/` naar de publieke distributiekopie |
 | [docs/packages/VERSIONING.md](../../docs/packages/VERSIONING.md) | Versiebeheer-schema |
 | [docs/product/PRODUCT.md](../../docs/product/PRODUCT.md) | Productoverzicht van Cardine |
 | [README.md](../../README.md) | Meta-package — overzicht van alles |

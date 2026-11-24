@@ -1,0 +1,6 @@
+# PDF's worden NIET in git bewaard (samen ~166 MB).
+# Ze leven lokaal en worden gesynchroniseerd via Syncthing.
+# Terughalen: zie README.md in deze map.
+*
+!.gitignore
+!README.md
