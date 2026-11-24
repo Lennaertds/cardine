@@ -61,6 +61,21 @@ De `CHANGELOG.md` in de repo-root geeft een **overzicht** van alle packages:
 | cardine-structure | 0.4.0 | Kit `fca818f` met `jarvis-check`-targets |
 ```
 
+## Registry
+
+Alle drie de packages publiceren naar de **publieke npm-registry**
+(`registry.npmjs.org`, `access: public`). GitHub Packages is verlaten: dat is
+privé-by-default en vereist per gebruiker een PAT, waardoor `npx cardine` niet
+werkt op een machine zonder token.
+
+`publish.yml` publiceert met het repository-secret `NPM_TOKEN`. `GITHUB_TOKEN`
+werkt alleen voor GitHub Packages, niet voor npmjs.
+
+Let bij het toevoegen van een `bin`: het pad is **relatief zonder `./`**
+(`bin/cardine`, `kit/new-project.sh`). Met `./` meldt npm 12 *"script name … was
+invalid and removed"* en publiceert het package **zonder** commando. Controleer
+altijd met `npm publish --dry-run`; die waarschuwing is de enige hint.
+
 ## Tags in git
 
 ```

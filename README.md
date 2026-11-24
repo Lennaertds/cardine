@@ -74,12 +74,18 @@ aanbieden.
 ### 📁 Alleen de projectstructuur (elke editor, elk OS)
 
 ```bash
-npx cardine-structure mijn-project --profile app --modules research,agent
+npx cardine mijn-project --profile app
 ```
 
-Dit zet de volledige projectboom neer met `kern/`, `solo/`, `logging/`, plus
-de gekozen modules en stacks. Geen toolchain, geen sandbox — alleen de
-structuur. Werkt in VS Code, Zed, Cursor, of een terminal.
+Werkt vanaf elke cwd, ook in een lege map zonder clone. Dit zet de volledige
+projectboom neer met `kern/`, `solo/`, `logging/`, plus de gekozen modules en
+stacks. Geen toolchain, geen sandbox — alleen de structuur. Een tweede run
+overschrijft niets. Werkt in VS Code, Zed, Cursor, of een terminal.
+
+```bash
+npx cardine mijn-project --profile app --modules research,agent
+npx cardine oefeningen --profile schoolwerk --dry-run
+```
 
 Zie de [cardine-structure docs](packages/structure/docs/cardine-structure.md)
 voor alle opties (profiles, modules, stacks).
@@ -89,9 +95,10 @@ voor alle opties (profiles, modules, stacks).
 ```bash
 # 1. Installeer de toolchain (DSH, Jarvis, bwrap, Zed-config)
 bash <(curl -fsSL https://raw.githubusercontent.com/Lennaertds/cardine/main/packages/lab/install-lab.sh)
+#    of, als het package al beschikbaar is: npm i -g @lennaertds/cardine-lab && cardine-lab install
 
 # 2. Voeg de projectstandaard toe
-npx cardine-structure mijn-project --profile full
+npx cardine mijn-project --profile app
 ```
 
 Het lab-pad gebruikt Zed als IDE, DeepSeek Harness als agent-loop,

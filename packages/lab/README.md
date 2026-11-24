@@ -36,14 +36,18 @@ voor de context bij alle keuzes.
 ### Stap 1 — Installeer de toolchain
 
 ```bash
+npx @lennaertds/cardine-lab install
+```
+
+of via de repo:
+
+```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/Lennaertds/cardine/main/packages/lab/install-lab.sh)
 ```
 
-of, als je de repo al hebt:
-
-```bash
-bash packages/lab/install-lab.sh
-```
+Het package publiceert naar de publieke npm-registry — geen token nodig.
+`cardine-lab install` draait vanuit de map waarin je staat: die map (of de
+git-root ervan) wordt de `workspaceRoot` van het DSH-profiel.
 
 Het script is **idempotent**: je kunt het meerdere keren draaien zonder
 schade. Het installeert wat ontbreekt en slaat over wat er al is.
@@ -51,7 +55,7 @@ schade. Het installeert wat ontbreekt en slaat over wat er al is.
 ### Stap 2 — Voeg de projectstructuur toe
 
 ```bash
-npx @lennaertds/cardine-structure mijn-project --profile full
+npx cardine mijn-project --profile app
 ```
 
 Zie [cardine-structure](../structure/README.md) voor alle opties.

@@ -22,8 +22,11 @@ DSH_PROFILE="${HOME}/.dsh/profiles/acp/cordis.patch.yml"
 ZED_SETTINGS="${HOME}/.config/zed/settings.json"
 NODE_MIN_MAJOR=24
 NODE_MIN_MINOR=9
-# Het script zit in packages/lab/, dus ../.. = cardine root
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Het script zit in packages/lab/, dus ../.. = cardine root.
+# Eerst symlinks resolven: via een npm-symlink wijst ${BASH_SOURCE[0]} naar een
+# andere map en is ../.. de verkeerde root.
+SELF="$(readlink -f "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(cd "$(dirname "${SELF}")" && pwd)"
 CARDINE_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 LAB_DIR="${CARDINE_DIR}/packages/lab"
 VERBOSE=false

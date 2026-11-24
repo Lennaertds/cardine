@@ -1,6 +1,6 @@
 {
   "name": "@lennaertds/cardine-lab",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": false,
   "description": "cardine-lab — reproduceerbaar AI-agent-werkstation voor Arch Linux / Hyprland. Toolchain, sandbox, indexering en editor-koppeling.",
   "repository": {
@@ -10,6 +10,24 @@
   },
   "license": "MIT",
   "publishConfig": {
-    "@lennaertds:registry": "https://npm.pkg.github.com"
-  }
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "bin": {
+    "cardine-lab": "bin/cardine-lab"
+  },
+  "files": [
+    "bin/",
+    "install-lab.sh",
+    "cardine-bwrap",
+    "cardine-status.sh",
+    "cardine-slice-check/",
+    "cardine-secrets-guard/",
+    "scripts/",
+    "systemd/",
+    "docs/",
+    "README.md",
+    "CHANGELOG.md",
+    "package.json"
+  ]
 }

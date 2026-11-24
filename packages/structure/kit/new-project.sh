@@ -2,7 +2,9 @@
 # new-project: zet de kit neer in een nieuw of bestaand project. Overschrijft nooit een bestaand bestand.
 set -euo pipefail
 
-KIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Eerst symlinks resolven: via een npm-bin-symlink is BASH_SOURCE[0] de link in
+# <prefix>/bin en zou KIT_DIR daarheen wijzen (profielen/stacks niet gevonden).
+KIT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 
 usage() {
   cat <<'EOF'

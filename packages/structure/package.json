@@ -1,9 +1,9 @@
 {
   "name": "@lennaertds/cardine-structure",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "cardine-structure — projectstandaard voor ieder project, ongeacht editor of abonnement. Gepulled uit Agent_Engineering/kit/.",
   "bin": {
-    "cardine-structure": "./kit/new-project.sh"
+    "cardine-structure": "kit/new-project.sh"
   },
   "files": [
     "kit/",
@@ -25,6 +25,8 @@
     "agent-engineering"
   ],
   "publishConfig": {
-    "@lennaertds:registry": "https://npm.pkg.github.com"
-  }
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "private": false
 }

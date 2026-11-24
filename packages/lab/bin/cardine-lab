@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# cardine-lab CLI — entrypoint van het gepubliceerde package.
+#
+# Doet niets meer dan de scripts in dit package aanroepen met absolute paden,
+# zodat `npm i -g @lennaertds/cardine-lab` werkt vanaf elke cwd.
+#
+#   cardine-lab install [--force]   → install-lab.sh (idempotent)
+#   cardine-lab status [opties]     → cardine-status.sh (--json, --verbose, --fix)
+set -euo pipefail
+
+# Zelfde valstrik als bin/cardine: via de npm-symlink is BASH_SOURCE[0] de link
+# in <prefix>/bin, niet het bestand in het package.
+SELF="$(readlink -f "${BASH_SOURCE[0]}")"
+LAB_DIR="$(cd "$(dirname "${SELF}")/.." && pwd)"
+
+usage() {
+  cat <<'EOF'
+Gebruik: cardine-lab <commando> [opties]
+
+  install             lab-omgeving opzetten voor de huidige map (idempotent:
+                      een tweede run wijzigt alleen wat nog niet klopt).
+  status [opties]     status van de omgeving. Opties: --json --verbose --fix
+  version             versie van dit package
+  -h, --help          deze hulp
+
+Voorbeelden:
+  cardine-lab install
+  cardine-lab status --verbose
+  cardine-lab status --fix
+EOF
+}
+
+case "${1:-}" in
+  install)
+    shift
+    exec bash "${LAB_DIR}/install-lab.sh" "$@"
+    ;;
+  status)
+    shift
+    exec bash "${LAB_DIR}/cardine-status.sh" "$@"
+    ;;
+  version)
+    node -p "require('${LAB_DIR}/package.json').version"
+    ;;
+  -h | --help | help)
+    usage
+    ;;
+  *)
+    usage >&2
+    exit 1
+    ;;
+esac

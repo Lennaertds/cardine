@@ -1,5 +1,15 @@
 # Changelog — cardine-structure
 
+## [0.5.0] — 2026-11-24
+
+### Changed
+- Registry: GitHub Packages → publieke npm (`registry.npmjs.org`, `access: public`).
+- `private: false` expliciet.
+
+### Fixed
+- `kit/new-project.sh` resolvet eerst symlinks. Via het npm-`bin`-commando wees
+  `KIT_DIR` naar `<prefix>/bin`, zodat profielen en stacks niet gevonden werden.
+
 ## [0.2.0] — 2026-11-20
 
 ### Added

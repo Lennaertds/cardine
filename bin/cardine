@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# cardine CLI — het enige commando dat een verse map nodig heeft.
+#
+#   npm i -g cardine            → `cardine <map>` zet de structuur neer
+#   npx cardine <map> …         → zelfde, zonder globale installatie
+#
+# De structuur komt uit packages/structure/kit/ dat met dit package wordt
+# meegestuurd (gepulld uit Agent_Engineering op een pinned commit, ADR 0013).
+# Er wordt niets buiten <map> geschreven.
+set -euo pipefail
+
+# npm linkt bin/ naar ../lib/node_modules/<pkg>/bin/<naam>; BASH_SOURCE[0] is dan
+# de symlink. Eerst resolven, anders klopt ROOT niet en vindt de CLI de kit niet.
+SELF="$(readlink -f "${BASH_SOURCE[0]}")"
+ROOT="$(cd "$(dirname "${SELF}")/.." && pwd)"
+KIT="${ROOT}/packages/structure/kit"
+NEW_PROJECT="${KIT}/new-project.sh"
+
+usage() {
+  cat <<'EOF'
+Gebruik: cardine <map> [opties]
+
+  Zet de Cardine-projectstructuur neer in <map>. Overschrijft nooit een bestaand
+  bestand; een tweede run is een no-op.
+
+  --profile NAAM     app (standaard) | research | studie | schoolwerk
+  --team             team-laag in plaats van solo
+  --modules a,b      extra modules
+  --stacks a,b       stacks (next, nest, python, sql, rust, c)
+  --starter          ook de startcode van de stacks
+  --name NAAM        projectnaam voor {{PROJECT}} (standaard: de mapnaam)
+  --dry-run          alleen tonen wat er zou gebeuren
+  --no-git           geen git init
+  -h, --help         deze hulp
+
+Subcommando's:
+  status [opties]    status van de lab-omgeving (--json, --verbose, --fix)
+  version            versie van dit package
+
+Voorbeelden:
+  npx cardine mijn-project
+  npx cardine ~/code/api --profile app --stacks python,sql --starter
+  npx cardine oefeningen --profile schoolwerk --dry-run
+EOF
+}
+
+if [ ! -f "$NEW_PROJECT" ]; then
+  echo "cardine: kit niet gevonden op $NEW_PROJECT (onvolledige installatie)" >&2
+  echo "         installeer opnieuw: npm i -g cardine" >&2
+  exit 1
+fi
+
+case "${1:-}" in
+  -h | --help | help | "")
+    usage
+    exit 0
+    ;;
+  version)
+    node -p "require('${ROOT}/package.json').version"
+    exit 0
+    ;;
+  status)
+    shift
+    exec bash "${ROOT}/packages/lab/cardine-status.sh" "$@"
+    ;;
+  lab)
+    # Lab is een eigen package met eigen commando; `cardine` stuurt niet door
+    # want dat werkt alleen als @lennaertds/cardine-lab toevallig geïnstalleerd is.
+    echo "cardine: 'lab' hoort bij @lennaertds/cardine-lab" >&2
+    echo "         npm i -g @lennaertds/cardine-lab && cardine-lab install" >&2
+    exit 1
+    ;;
+  -*)
+    echo "cardine: optie '$1' zonder doelmap" >&2
+    usage >&2
+    exit 1
+    ;;
+esac
+
+exec bash "$NEW_PROJECT" "$@"

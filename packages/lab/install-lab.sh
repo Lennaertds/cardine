@@ -20,9 +20,11 @@ JARVIS_PYTHON="3.13"
 NODE_MIN_MAJOR=24
 NODE_MIN_MINOR=9
 
-# Bepaal REPO_ROOT relatief aan de locatie van dit script.
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && git rev-parse --show-toplevel 2>/dev/null || cd "${SCRIPT_DIR}/../.." && pwd)"
+# Bepaal REPO_ROOT = het project waarvoor je het lab installeert.
+# Dat is de git-root van de cwd (het project dat openstaat), niet de map van dit
+# script: na `npm i -g` zit het script in de npm-prefix en zou ../.. naar de
+# prefix wijzen — dan belandden workspaceRoot, cwd en de plugins daar.
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
 green()  { tput setaf 2 2>/dev/null || true; echo "$*"; tput sgr0 2>/dev/null || true; }
 red()    { tput setaf 1 2>/dev/null || true; echo "$*" >&2; tput sgr0 2>/dev/null || true; }
@@ -52,6 +54,7 @@ pacman_install() {
     # Anders alleen een melding; PACMAN_FAILED=1 — de rest van het script gaat door.
     local pkgs=("$@")
     local missing=()
+    local pkg
     for pkg in "${pkgs[@]}"; do
         if ! pacman -Qi "$pkg" &>/dev/null; then
             missing+=("$pkg")
@@ -62,7 +65,11 @@ pacman_install() {
     fi
     if [ -n "$SUDO" ]; then
         echo "  → pacman -S --needed --noconfirm ${missing[*]}"
-        $SUDO pacman -S --needed --noconfirm "${missing[@]}"
+        # Een mislukte pacman-run mag het script niet stil doorlaten.
+        if ! $SUDO pacman -S --needed --noconfirm "${missing[@]}"; then
+            red "  ✗ pacman -S mislukt voor: ${missing[*]}"
+            PACMAN_FAILED=1
+        fi
     else
         red "  ✗ ontbrekende pakketten: ${missing[*]}"
         red "    Installeer ze handmatig: sudo pacman -S --needed ${missing[*]}"

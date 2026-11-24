@@ -1,15 +1,23 @@
 # Meta-package: `cardine`
 
-> **De GitHub-repo `Lennaertds/cardine` is het uithangbord.**
-> De README legt uit wat Cardine is en verwijst naar de packages. Er komt geen install-code in de root — alleen uitleg, gidsen en verwijzingen.
+> **De GitHub-repo `Lennaertds/cardine` is het uithangbord én het startpunt voor een nieuw project.**
+> De README legt uit wat Cardine is. De root is installeerbaar: `cardine <map>` zet de
+> projectstructuur neer, zodat één commando in elke gloednieuwe map volstaat.
 
 | Veld | Waarde |
 |------|--------|
 | **Package** | `cardine` (meta) |
-| **Doelgroep** | Iedereen die op de GitHub-repo landt |
+| **Doelgroep** | Iedereen die een nieuw project begint |
 | **Bron** | `cardine/` (root) |
-| **Installatie** | Niet van toepassing — verwijst naar 1, 2 |
-| **Afhankelijk van** | verwijst naar `cardine-lab`, `cardine-structure` |
+| **Registry** | npmjs.org, `access: public` — geen token nodig |
+| **Installatie** | `npx cardine <map> [opties]` of `npm i -g cardine && cardine <map>` |
+| **Afhankelijk van** | bevat `packages/structure/kit/`; verwijst naar `cardine-lab` |
+
+Waarom de root wél installeerbaar is: een verse map heeft geen clone en geen
+`packages/structure/` van `@lennaertds/cardine-structure` nodig. `bin/cardine`
+roept `packages/structure/kit/new-project.sh` aan met een pad dat eerst door
+`readlink -f` gaat (via een npm-symlink wijst `BASH_SOURCE[0]` anders naar
+`<prefix>/bin`). Er wordt niets buiten `<map>` geschreven.
 
 ---
 
@@ -55,7 +63,8 @@ cardine/
 | Bestand | Waarom |
 |---------|--------|
 | `README.md` | Uithangbord — moet meteen duidelijk zijn |
-| `package.json` | Meta-package |
+| `package.json` | Meta-package met `bin.cardine` en `files` |
+| `bin/cardine` | Entrypoint: `cardine <map>` → kit/new-project.sh |
 | `CHANGELOG.md` | Overzicht alle versies |
 | `LICENSE` | MIT |
 | `docs/` | Productdocs, ADR's, gidsen, packages-ontwerp |
@@ -101,8 +110,9 @@ cardine/
 
 | Scenario | Packages | Volgorde |
 |----------|----------|----------|
-| Alleen projectstandaard | structure | 1. `npx cardine-structure` |
-| Volledig agent-werkstation | lab + structure | 1. `cardine-lab` 2. `cardine-structure` |
+| Nieuw project, geen toolchain | `cardine` (meta) | `npx cardine <map>` |
+| Volledig agent-werkstation | `cardine-lab` + `cardine` | `cardine-lab install` → `npx cardine <map>` |
+| Alleen de standaard, los van de meta | `@lennaertds/cardine-structure` | `npx @lennaertds/cardine-structure <map>` |
 
 ## Versiebeheer
 

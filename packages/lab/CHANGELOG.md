@@ -1,5 +1,20 @@
 # Changelog — cardine-lab
 
+## [0.5.0] — 2026-11-24
+
+### Added
+- `bin/cardine-lab` — CLI van het package: `cardine-lab install [--force]` en
+  `cardine-lab status [--json|--verbose|--fix]`. Lost paden op met `readlink -f`,
+  zodat het werkt vanaf elke cwd.
+- `files`-allowlist in `package.json`, zodat alleen de scripts, plugins en docs
+  van het package worden gepubliceerd.
+
+### Fixed
+- `PACMAN_FAILED` werd nooit gezet: `pacman_install` markeerde een mislukking
+  niet, dus de waarschuwing over ontbrekende systeempakketten kwam er nooit uit.
+  Een mislukte `pacman -S` zet de vlag nu ook.
+- `cardine-status.sh` resolvet eerst symlinks voordat het `../..` neemt.
+
 ## [0.1.0] — 2026-11-20
 
 ### Added
