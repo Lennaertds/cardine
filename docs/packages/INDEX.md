@@ -7,8 +7,8 @@
 
 | # | Package | Doc | Doelgroep | Installatievorm |
 |---|---------|-----|-----------|-----------------|
-| 1 | **`cardine-lab`** | [cardine-lab.md](cardine-lab.md) | Arch/Hyprland AI-agent-werkstation | `curl … \| bash`, npm, later AUR |
-| 2 | **`cardine-structure`** | [cardine-structure.md](cardine-structure.md) | Iedereen met een project (elke editor) | `npx cardine-structure`, zip/tarball |
+| 1 | **`cardine-lab`** | [cardine-lab.md](cardine-lab.md) | Arch/Hyprland AI-agent-werkstation | `npm i -g @lennaertds/cardine-lab` → `cardine-lab install` |
+| 2 | **`cardine-structure`** | [cardine-structure.md](cardine-structure.md) | Iedereen met een project (elke editor) | `npx @lennaertds/cardine-structure <map>` |
 | — | **`cardine`** (meta) | [cardine-meta.md](cardine-meta.md) | Iedereen op de GitHub-repo | verwijst naar 1, 2 |
 
 ### Later (optioneel)

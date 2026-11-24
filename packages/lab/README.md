@@ -36,13 +36,21 @@ voor de context bij alle keuzes.
 ### Stap 1 — Installeer de toolchain
 
 ```bash
+npm i -g @lennaertds/cardine-lab
+cardine-lab install
+```
+
+`cardine-lab` blijft daarna beschikbaar voor `cardine-lab status` en
+`cardine-lab status --fix`. Zonder globale installatie werkt ook:
+
+```bash
 npx @lennaertds/cardine-lab install
 ```
 
-of via de repo:
+of direct uit de repo (zonder npm):
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Lennaertds/cardine/main/packages/lab/install-lab.sh)
+bash packages/lab/install-lab.sh
 ```
 
 Het package publiceert naar de publieke npm-registry — geen token nodig.

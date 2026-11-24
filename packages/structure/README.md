@@ -45,23 +45,23 @@ Zie voor de achtergrond:
 - **Node.js** 18+ (voor `npx`) of **Git** (voor direct gebruik)
 - Geen editor-vereiste — werkt met Zed, VS Code, Cursor, terminal
 
-### Optie A — via npx
+### Optie A — via npx (aanbevolen)
 
 ```bash
 npx @lennaertds/cardine-structure mijn-project --profile app --modules research,agent
 ```
 
-Dit is de aanbevolen manier. Het downloadt en draait `new-project.sh` zonder
-dat je iets hoeft te installeren.
+Haalt het package van de publieke npm-registry en draait `new-project.sh`
+zonder dat je iets installeert. Werkt ook in een lege map.
 
-### Optie B — via GitHub release
+### Optie B — globaal installeren
 
 ```bash
-# Download de nieuwste release van
-# https://github.com/Lennaertds/cardine/releases
-# en draai:
-bash kit/new-project.sh mijn-project --profile app
+npm i -g @lennaertds/cardine-structure
+cardine-structure mijn-project --profile app
 ```
+
+Het `bin` heet `cardine-structure`. Handig als je de structuur vaak neerzet.
 
 ### Optie C — direct uit de repo
 
@@ -69,6 +69,8 @@ bash kit/new-project.sh mijn-project --profile app
 git clone https://github.com/Lennaertds/cardine.git
 bash cardine/packages/structure/kit/new-project.sh mijn-project
 ```
+
+Voor deze variant heb je géén npm nodig: alleen Git en Bash.
 
 ### Opties voor `new-project.sh`
 

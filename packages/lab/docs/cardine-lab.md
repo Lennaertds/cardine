@@ -71,14 +71,19 @@ packages/lab/
 
 ## Installatie
 
-```bash
-# Optie A: direct via curl
-bash <(curl -fsSL https://raw.githubusercontent.com/Lennaertds/cardine/main/packages/lab/install-lab.sh)
+Het package staat op de publieke npm-registry als `@lennaertds/cardine-lab`.
 
-# Optie B: via GitHub release (zip/tarball)
-# Optie C: later als AUR-package (PKGBUILD)
-# Optie D: via npm (npm install -g @lennaertds/cardine-lab)
+```bash
+# Aanbevolen: via npm
+npm i -g @lennaertds/cardine-lab
+cardine-lab install          # of: cardine-lab install --force
+
+# Status van de omgeving
+cardine-lab status           # --json | --verbose | --fix
 ```
+
+Een AUR-package (PKGBUILD) staat nog op de lijst, maar npm is de enige
+gedistribueerde route.
 
 ## Relaties
 

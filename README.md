@@ -77,8 +77,8 @@ graph TD
 
 | Package | Wat | Voor wie | Installatie |
 |---------|-----|----------|-------------|
-| **[@lennaertds/cardine-lab]** ⚙️ | Reproduceerbaar AI-agent-werkstation voor Arch Linux / Hyprland. Installeert DSH, Jarvis, bwrap-sandbox en Zed-config in één idempotent script. | Wie Zed + DeepSeek Harness op Arch wil | `curl … \| bash` of `npm install -g @lennaertds/cardine-lab` |
-| **[@lennaertds/cardine-structure]** 📁 | Projectstandaard voor ieder project, ongeacht editor of abonnement. Bevat de bewezen `kern/`-`solo/`-`logging/`-boom, modules en stacks, gepulled uit `kit/`. | Iedereen met een project | `npx @lennaertds/cardine-structure` of GitHub release |
+| **[@lennaertds/cardine-lab]** ⚙️ | Reproduceerbaar AI-agent-werkstation voor Arch Linux / Hyprland. Installeert DSH, Jarvis, bwrap-sandbox en Zed-config in één idempotent script. | Wie Zed + DeepSeek Harness op Arch wil | `npm i -g @lennaertds/cardine-lab` en dan `cardine-lab install` |
+| **[@lennaertds/cardine-structure]** 📁 | Projectstandaard voor ieder project, ongeacht editor of abonnement. Bevat de bewezen `kern/`-`solo/`-`logging/`-boom, modules en stacks, gepulled uit `kit/`. | Iedereen met een project | `npx @lennaertds/cardine-structure <map> --profile app` |
 
 ### Hoe de packages samenhangen
 
@@ -126,8 +126,8 @@ voor alle opties (profiles, modules, stacks).
 
 ```bash
 # 1. Installeer de toolchain (DSH, Jarvis, bwrap, Zed-config)
-bash <(curl -fsSL https://raw.githubusercontent.com/Lennaertds/cardine/main/packages/lab/install-lab.sh)
-#    of, als het package al beschikbaar is: npm i -g @lennaertds/cardine-lab && cardine-lab install
+npm i -g @lennaertds/cardine-lab
+cardine-lab install
 
 # 2. Voeg de projectstandaard toe
 npx cardine mijn-project --profile app

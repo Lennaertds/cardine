@@ -8,7 +8,7 @@
 | **Package** | `cardine-structure` |
 | **Doelgroep** | Iedereen die een projectstandaard wil (elke editor) |
 | **Bron** | `cardine/packages/structure/` (gepullt uit `kit/`) |
-| **Installatie** | `npx cardine-structure`, GitHub release zip/tarball, `new-project.sh` |
+| **Installatie** | `npx @lennaertds/cardine-structure <map>`, `npm i -g` + `cardine-structure`, of `new-project.sh` |
 | **Afhankelijk van** | niets (zelfstandig) |
 
 ---
@@ -121,12 +121,19 @@ Deze aanpassingen worden **elke pull opnieuw gedaan** (automatisch of handmatig)
 
 ## Installatie
 
-```bash
-# Nieuw project starten
-npx cardine-structure my-project --profile app --modules research,agent
+Het package staat op de publieke npm-registry als
+`@lennaertds/cardine-structure`.
 
-# Of download van GitHub releases
-# Of via: bash <(curl -fsSL ...)/packages/structure/kit/new-project.sh
+```bash
+# Nieuw project starten (aanbevolen)
+npx @lennaertds/cardine-structure mijn-project --profile app --modules research,agent
+
+# Of globaal installeren; het bin heet cardine-structure
+npm i -g @lennaertds/cardine-structure
+cardine-structure mijn-project --profile app
+
+# Of direct uit de repo (alleen Git + Bash nodig)
+bash packages/structure/kit/new-project.sh mijn-project --profile app
 ```
 
 ## Relaties
