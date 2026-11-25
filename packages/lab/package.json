@@ -19,6 +19,7 @@
   "files": [
     "bin/",
     "install-lab.sh",
+    "cardine-move.sh",
     "cardine-bwrap",
     "cardine-status.sh",
     "cardine-slice-check/",

@@ -1,5 +1,39 @@
 # Changelog — cardine-lab
 
+## [Unreleased]
+
+### Added
+- `cardine-move.sh` (`make move` / `make move-fix`, `cardine-lab move`): after a
+  folder move or rename it re-points every absolute path in the DSH profile,
+  rebuilds the `jarvis-server` wrapper when it is missing, and re-indexes the new
+  root. It never restarts DSH; it prints the `dsh kill` reminder instead.
+
+### Added
+- `install-lab.sh --profile NAME --name LABEL`: a second project gets its own
+  profile (`~/.dsh/profiles/<name>/`), its own Zed server
+  (`DeepSeek Harness (<name>)`) and its own `package.json` with the lab packages
+  linked. The plugin paths always point at THIS lab, so the slice check runs the
+  profile's `make check` in the project's own root.
+- `cardine-move.sh --profile NAME`, and without it the script reports every
+  profile: the one that owns the root, the intact ones of other projects, and any
+  whose root no longer exists. It also repairs a dead or missing
+  `cardine-slice-check` link in the profile's `node_modules`.
+- `lib/profile-paths.sh`: the single place that knows where a profile keeps
+  absolute paths, shared by the installer and the move script.
+
+### Fixed
+- `install-lab.sh` printed "jarvis-server-wrapper.sh already exists" for a file
+  that did not exist, when `uv tool list` could not find the tool. The block now
+  installs `jarvis-mcp` (and the `jarvis` CLI) when either is missing, and fails
+  red instead of green when the real binary cannot be found.
+- `cardine-status.sh --fix` died on `rm -f` of a stale lock under a read-only
+  `~/.jarvis` (a DSH sandbox), so the profile repair never ran. The lock cleanup
+  is now best-effort.
+- `cardine-status.sh` treated a moved profile as correct: an unanchored
+  `jarvis-server` match also hit the `mcp-jarvis` `cwd:` line. The check now
+  names the `cardine-bwrap` runner line. `DSH_PROFILE` follows `DSH_HOME` the way
+  DSH does.
+
 ## [0.5.2] — 2026-11-24
 
 ### Changed

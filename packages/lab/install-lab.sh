@@ -14,7 +14,6 @@ DSH_PREFIX="${HOME}/.local"
 DSH_BIN="${DSH_PREFIX}/bin/dsh"
 JARVIS_BIN="${HOME}/.local/bin/jarvis-server"
 DSH_ENV_FILE="${HOME}/.dsh/.env"
-DSH_PROFILE_DIR="${HOME}/.dsh/profiles/acp"
 ZED_SETTINGS="${HOME}/.config/zed/settings.json"
 JARVIS_PYTHON="3.13"
 NODE_MIN_MAJOR=24
@@ -25,6 +24,28 @@ NODE_MIN_MINOR=9
 # folder: after `npm i -g` the script sits in the npm prefix, and ../.. would
 # point at the prefix — then workspaceRoot, cwd and the plugins would land there.
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+
+# One profile per project root. The default is `acp`; a second project (the
+# bachelorproef next to this repo) gets its own: install-lab.sh --profile bp
+# --name "Bachelorproef". The profile name is also the file name, so
+# `dsh --profile <name>` finds it.
+PROFILE_NAME="acp"
+DISPLAY_NAME=""
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --profile) PROFILE_NAME="${2:?--profile needs a name}"; shift 2 ;;
+        --name) DISPLAY_NAME="${2:?--name needs a value}"; shift 2 ;;
+        *) echo "install-lab: unknown option '$1' (--profile NAME, --name LABEL)" >&2; exit 1 ;;
+    esac
+done
+case "$PROFILE_NAME" in
+    *[!a-z0-9-]* | "") echo "install-lab: profile name must be [a-z0-9-]: '$PROFILE_NAME'" >&2; exit 1 ;;
+esac
+[ -n "$DISPLAY_NAME" ] || DISPLAY_NAME="$PROFILE_NAME"
+DSH_PROFILE_DIR="${HOME}/.dsh/profiles/${PROFILE_NAME}"
+# The lab package itself (this script's folder). The profile's plugin paths use
+# it, so a profile of another repo still loads THIS lab.
+LAB_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 
 green()  { tput setaf 2 2>/dev/null || true; echo "$*"; tput sgr0 2>/dev/null || true; }
 red()    { tput setaf 1 2>/dev/null || true; echo "$*" >&2; tput sgr0 2>/dev/null || true; }
@@ -235,7 +256,14 @@ fi
 echo ""
 echo "=== jarvis-server ==="
 
-if [ -x "$JARVIS_BIN" ]; then
+# `jarvis-server` is on PATH, but the `jarvis` CLI and the uv tool itself can be
+# missing. A wiped ~/.local/bin after a crash made the old block print
+# "wrapper already exists" for a file that did not exist (2026-11-25).
+JARVIS_TOOL_INSTALLED=false
+if command -v uv &>/dev/null && uv tool list 2>/dev/null | grep -q jarvis-mcp; then
+    JARVIS_TOOL_INSTALLED=true
+fi
+if [ -x "$JARVIS_BIN" ] && [ -x "${HOME}/.local/bin/jarvis" ] && $JARVIS_TOOL_INSTALLED; then
     green "  ✓ jarvis-server ($JARVIS_BIN)"
 else
     echo "  → installing jarvis-server via uv tool install --python $JARVIS_PYTHON jarvis-mcp"
@@ -274,33 +302,38 @@ else
         red "  ✗ jarvis-server still not found at $JARVIS_BIN after install"
         exit 1
     fi
+fi
 
-    # Create a wrapper for jarvis-server (bwrap cannot follow symlinks)
-    # Find the real jarvis-server binary via uv tool list
-    JARVIS_REAL_PATH=""
-    if command -v uv &>/dev/null; then
-        JARVIS_REAL_PATH="$(uv tool list 2>/dev/null | grep jarvis-mcp | head -1 | awk '{print $NF}' || true)"
-    fi
-    if [ -z "$JARVIS_REAL_PATH" ] || [ ! -f "$JARVIS_REAL_PATH" ]; then
-        # Fallback: search with find
-        JARVIS_REAL_PATH="$(find "${HOME}/.local/share/uv/tools" -name 'jarvis-server' -type f 2>/dev/null | head -1 || true)"
-    fi
-    if [ -z "$JARVIS_REAL_PATH" ]; then
-        # Last attempt: use realpath on the symlink
-        JARVIS_REAL_PATH="$(realpath "${HOME}/.local/bin/jarvis-server" 2>/dev/null || echo "")"
-    fi
-    if [ -n "$JARVIS_REAL_PATH" ] && [ ! -f "${HOME}/.local/bin/jarvis-server-wrapper.sh" ]; then
-        echo "  → creating the jarvis-server wrapper for ${JARVIS_REAL_PATH}"
-        cat > "${HOME}/.local/bin/jarvis-server-wrapper.sh" << WRAPPEREOF
+# Create a wrapper for jarvis-server (bwrap cannot follow symlinks)
+# Find the real jarvis-server binary via uv tool list
+JARVIS_REAL_PATH=""
+if command -v uv &>/dev/null; then
+    JARVIS_REAL_PATH="$(uv tool list 2>/dev/null | grep jarvis-mcp | head -1 | awk '{print $NF}' || true)"
+fi
+if [ -z "$JARVIS_REAL_PATH" ] || [ ! -f "$JARVIS_REAL_PATH" ]; then
+    # Fallback: search with find
+    JARVIS_REAL_PATH="$(find "${HOME}/.local/share/uv/tools" -name 'jarvis-server' -type f 2>/dev/null | head -1 || true)"
+fi
+if [ -z "$JARVIS_REAL_PATH" ]; then
+    # Last attempt: use realpath on the symlink
+    JARVIS_REAL_PATH="$(readlink -f "${HOME}/.local/bin/jarvis-server" 2>/dev/null || echo "")"
+fi
+if [ -z "$JARVIS_REAL_PATH" ]; then
+    red "  ✗ could not find the real jarvis-server binary — the DSH profile needs the wrapper"
+    exit 1
+fi
+if [ ! -f "${HOME}/.local/bin/jarvis-server-wrapper.sh" ]; then
+    echo "  → creating the jarvis-server wrapper for ${JARVIS_REAL_PATH}"
+    cat > "${HOME}/.local/bin/jarvis-server-wrapper.sh" << WRAPPEREOF
 #!/usr/bin/env bash
 # Wrapper for jarvis-server — resolves symlinks for bwrap.
 exec ${JARVIS_REAL_PATH} "\$@"
 WRAPPEREOF
-        chmod +x "${HOME}/.local/bin/jarvis-server-wrapper.sh"
-        green "  ✓ jarvis-server-wrapper.sh created (→ ${JARVIS_REAL_PATH})"
-    else
-        green "  ✓ jarvis-server-wrapper.sh already exists"
-    fi
+    chmod +x "${HOME}/.local/bin/jarvis-server-wrapper.sh"
+    green "  ✓ jarvis-server-wrapper.sh created (→ ${JARVIS_REAL_PATH})"
+else
+    green "  ✓ jarvis-server-wrapper.sh already exists"
+fi
 
     # Now run the Zoekt/SCIP setup (builds the Zoekt and scip binaries)
     JARVIS_BIN_DIR="${HOME}/.jarvis/bin"
@@ -382,7 +415,6 @@ WRAPPEREOF
             green "  ✓ scip-python already present"
         fi
     fi
-fi
 
 ###############################################################################
 # 4. DeepSeek Harness (only if the pinned version is not there yet)
@@ -447,7 +479,7 @@ echo "=== DSH ACP profile ==="
 mkdir -p "$DSH_PROFILE_DIR"
 
 cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
-# Generated by install-lab.sh — DeepSeek V4 Flash via DeepInfra (ADR 0008).
+# Generated by install-lab.sh — profile ${PROFILE_NAME} for ${DISPLAY_NAME} — DeepSeek via DeepInfra (ADR 0008).
 - id: llm-pi-ai
   config:
     providers:
@@ -537,17 +569,53 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
     runnerFailureSignatures:
       - 'bwrap: '
 
-# make check at the end of a turn.
+# make check at the end of a turn. The profile may belong to another repo (the
+# bachelorproef); the gate always runs THIS lab, else it would run the other
+# repo's make check on this repo.
 - insert:
     - id: slice-check
-      name: ${REPO_ROOT}/packages/lab/cardine-slice-check/index.js
+      name: ${LAB_DIR}/cardine-slice-check/index.js
     # Read boundary for read/read_image/glob/grep (ADR 0016 + 0017).
     # The guard takes the session's cwd. The Zed server sets no workspace pin.
     - id: secrets-guard
-      name: ${REPO_ROOT}/packages/lab/cardine-secrets-guard/index.js
+      name: ${LAB_DIR}/cardine-secrets-guard/index.js
 PATCHEOF
 
 green "  ✓ ${DSH_PROFILE_DIR}/cordis.patch.yml generated"
+
+# A profile is one project: DSH resolves ${workspaceRoot} from this file, so each
+# project needs its own. The display name is recorded so the next step can
+# name the profile to restart.
+printf '%s\n' "${DISPLAY_NAME}" >"${DSH_PROFILE_DIR}/.display-name"
+
+# The package.json beside the profile carries the lab as linked dependencies —
+# that is how the slice-check and the secrets guard load. A fresh profile needs
+# one; `pnpm install` in the profile dir links it (the acp profile is linked that
+# way). Without pnpm this cannot be done here; the status reports it.
+if [ ! -f "${DSH_PROFILE_DIR}/package.json" ]; then
+    cat >"${DSH_PROFILE_DIR}/package.json" <<PKGEOF
+{
+  "name": "dsh-profile-${PROFILE_NAME}",
+  "private": true,
+  "dependencies": {
+    "cardine-slice-check": "link:${LAB_DIR}/cardine-slice-check",
+    "cardine-secrets-guard": "link:${LAB_DIR}/cardine-secrets-guard"
+  },
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-acp-app"
+      ]
+    }
+  }
+}
+PKGEOF
+    green "  ✓ ${DSH_PROFILE_DIR}/package.json"
+    yellow "  ~ link it once: cd ${DSH_PROFILE_DIR} && pnpm install"
+else
+    green "  ✓ ${DSH_PROFILE_DIR}/package.json already exists"
+fi
 
 ###############################################################################
 # 7. Zed configuration ~/.config/zed/settings.json (JSONC-safe)
@@ -609,7 +677,12 @@ if (!settings.agent_servers || typeof settings.agent_servers !== "object") {
     settings.agent_servers = {};
 }
 
-const key = "DeepSeek Harness";
+// One server per project: the server name carries the profile, and the args use
+// it. Without the suffix a second install would re-point the only server
+// ("DeepSeek Harness") at its own profile, and the first project would load the
+// other one.
+const PROFILE = process.env.INSTALL_PROFILE;
+const key = PROFILE === "acp" ? "DeepSeek Harness" : "DeepSeek Harness (" + PROFILE + ")";
 const existing = settings.agent_servers[key] || {};
 const env = { ...(existing.env || {}) };
 delete env.CARDINE_WORKSPACE;
@@ -619,7 +692,7 @@ settings.agent_servers[key] = {
     ...existing,
     type: "custom",
     command: dshPath,
-    args: ["--profile", "acp"],
+    args: ["--profile", PROFILE],
     env: env
 };
 
@@ -627,7 +700,7 @@ fs.writeFileSync(filePath, JSON.stringify(settings, null, 2) + "\n", "utf-8");
 console.log("  ✓ agent server \"" + key + "\" configured in " + filePath);
 '
 
-node -e "$NODE_SCRIPT" "$ZED_SETTINGS"
+INSTALL_PROFILE="$PROFILE_NAME" node -e "$NODE_SCRIPT" "$ZED_SETTINGS"
 
 ###############################################################################
 # Done
@@ -644,6 +717,8 @@ echo ""
 echo "       DEEPSEEK_API_KEY=sk-..."
 echo ""
 echo "  2. In Zed, start a new thread 'DeepSeek Harness' in the Agent panel."
+echo "     The server runs 'dsh --profile ${PROFILE_NAME}' (workspaceRoot: ${REPO_ROOT})."
+echo "     One profile per project: DSH resolves the workspace from this profile."
 echo ""
 echo "  3. Optional: index this repo with:"
 echo ""

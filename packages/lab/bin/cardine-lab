@@ -5,6 +5,7 @@
 # so that `npm i -g @lennaertds/cardine-lab` works from any cwd.
 #
 #   cardine-lab install [--force]   → install-lab.sh (idempotent)
+#   cardine-lab move [opts]         → cardine-move.sh (the project moved; --fix)
 #   cardine-lab status [opts]       → cardine-status.sh (--json, --verbose, --fix)
 set -euo pipefail
 
@@ -19,12 +20,15 @@ Usage: cardine-lab <command> [options]
 
   install             set up the lab environment for the current directory
                       (idempotent: a second run only changes what is still off).
+  move [opts]         the project moved: re-point the profile and repair the
+                      client. Options: --fix  (without: dry run)  --skip-index
   status [opts]       status of the environment. Options: --json --verbose --fix
   version             version of this package
   -h, --help          this help
 
 Examples:
   cardine-lab install
+  cardine-lab move --fix
   cardine-lab status --verbose
   cardine-lab status --fix
 USAGE
@@ -34,6 +38,10 @@ case "${1:-}" in
   install)
     shift
     exec bash "${LAB_DIR}/install-lab.sh" "$@"
+    ;;
+  move)
+    shift
+    exec bash "${LAB_DIR}/cardine-move.sh" "$@"
     ;;
   status)
     shift

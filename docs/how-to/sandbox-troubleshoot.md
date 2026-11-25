@@ -63,6 +63,64 @@ Or use the Makefile:
 make install-lab
 ```
 
+## 1b. You moved or renamed the repo
+
+The profile stores **absolute paths** in five places: `workspaceRoot`,
+`mcp-jarvis.cwd`, the `runnerCommand`, and the `name:` of both plugins. After a
+move every `bash` call fails with `spawn …/packages/lab/cardine-bwrap ENOENT`,
+and `grep`/`glob`/`read` keep working — they do not use the runner, so the error
+looks like a broken tool instead of a stale path.
+
+Run this from inside the project (on the host, not in a DSH shell — the cage
+cannot write `~/.dsh`):
+
+```bash
+make move          # dry run: which paths and tools are stale
+make move-fix      # rewrite the profile (paths only), rebuild the jarvis wrapper, re-index
+```
+
+What `make move-fix` does:
+
+1. Copies the profile to `cordis.patch.yml.bak` and replaces the old root in
+   **every** line of the profile. The model list, the approval policy and the
+   plugins stay as they are.
+2. Rebuilds `~/.local/bin/jarvis-server-wrapper.sh` when it is missing. `mcp-jarvis`
+   has `failOnStartupError: true`, so a missing wrapper takes jarvis down with it.
+3. Runs `jarvis index <new root> --no-semantic`. The index is labelled by folder
+   name, so an orphan entry of the old name can stay behind in `jarvis list`.
+4. **Does not restart DSH.** You do that: `dsh kill`, then start Zed / a thread
+   from inside the new root. The profile and the plugins load at server start.
+
+A thread started from a folder that is **not** the profile root gets no sandbox
+at all. Start every DSH session from inside the project the profile points at.
+
+## 1c. Two projects side by side (one profile each)
+
+DSH resolves `workspaceRoot`, `mcp-jarvis.cwd` and the slice check from **one
+profile per session**, and Zed knows one server per project. So a second project
+gets its own profile, generated from the lab in the first:
+
+```bash
+cd ~/Documents/Student_Zelfstandige/Cardine/Bachelorproef_2027_Codebase_Indexing
+bash ../cardine/packages/lab/install-lab.sh --profile bp --name "Bachelorproef 2027"
+cd ~/.dsh/profiles/bp && pnpm install        # links the slice check and the guard
+```
+
+What comes out:
+
+| Piece | Where |
+|-------|-------|
+| Probe profile | `~/.dsh/profiles/bp/cordis.patch.yml` — workspaceRoot and jarvis cwd: the BP repo |
+| Plugin paths | the lab in `cardine/packages/lab` — a profile of another repo still runs *this* slice check against *that* repo's `make check` |
+| Zed server | `DeepSeek Harness (bp)`, `args: ["--profile","bp"]`, next to `DeepSeek Harness` |
+| Jarvis backend | shared (`~/.jarvis`); the index is per repo — `jarvis index <root> --no-semantic` |
+| Credentials | shared `~/.dsh/.env` (never overwritten) |
+
+In Zed: open the project, pick **DeepSeek Harness (bp)** for the BP repo and
+**DeepSeek Harness** for cardine. A thread started in a folder none of the
+profiles names gets no sandbox. `make move` in either repo reports every profile,
+so a move that broke the other project shows up too.
+
 ## 2. bwrap not installed at all
 
 ```bash

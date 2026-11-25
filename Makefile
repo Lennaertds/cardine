@@ -35,7 +35,7 @@ PORTS :=
 	    security-scan security-scan-quick obs-up obs-down obs-status \
 	    bench perf-check deps-audit polyglot-check radar-check radar-reminder \
 	    digest-check digest-reminder digest-fetch digest-propose digest-week native-bindings-strict \
-	    install-lab env-status index jarvis-check sandbox-check sandbox-secrets secrets-check \
+	    install-lab move move-fix env-status index jarvis-check sandbox-check sandbox-secrets secrets-check \
 	    test-kit trio next-ids mindmap bootstrap bootstrap-remove new tag-kit digest-day \
 	    digest-triage install-digest-timers sync-kit
 
@@ -370,8 +370,14 @@ jarvis-check: ## controles: stale Jarvis-locks en of de huidige repo geïndexeer
 	  echo "jarvis-check: jarvis CLI not found — install via packages/lab/install-lab.sh" >&2; \
 	fi
 
-install-lab: ## set up the lab environment on a fresh Arch Linux Hyprland machine (packages/lab/install-lab.sh)
-	@bash packages/lab/install-lab.sh
+install-lab: ## set up the lab environment on a fresh Arch Linux Hyprland machine; a second project: make install-lab A="--profile bp --name Bachelorproef"
+	@bash packages/lab/install-lab.sh $(A)
+
+move: ## this repo moved: which profile paths and tools are stale? (dry run)
+	@bash packages/lab/cardine-move.sh
+
+move-fix: ## this repo moved: re-point the DSH profile, repair the jarvis client, re-index
+	@bash packages/lab/cardine-move.sh --fix
 
 ##@ Cleaning up
 clean: $(CLEAN) ## build-output, tmp/ en data/interim/ leegmaken

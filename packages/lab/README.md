@@ -130,6 +130,7 @@ packages/lab/
 | File | Role |
 |------|------|
 | `install-lab.sh` | Main script — idempotent, installs DSH + Jarvis + bwrap + Zed config |
+| `cardine-move.sh` | The project moved: re-point the DSH profile, repair the jarvis client, re-index. `make move` / `make move-fix`. See [sandbox-troubleshoot](../../docs/how-to/sandbox-troubleshoot.md#1b-you-moved-or-renamed-the-repo) |
 | `cardine-bwrap` | Tighter bwrap cage for the agent shell. See [ADR 0007](../../docs/decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md) |
 | `cardine-status.sh` | Status check for DSH, Jarvis and tools. See [docs/how-to/status-jarvis-dsh.md](../../docs/how-to/status-jarvis-dsh.md) |
 | `cardine-slice-check/` | Node module for `make check` after a turn — verifies a slice is complete |

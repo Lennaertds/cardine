@@ -18,7 +18,6 @@ JARVIS_SERVER="${HOME}/.local/bin/jarvis-server"
 JARVIS_CLI="${HOME}/.local/bin/jarvis"
 JARVIS_BIN_DIR="${HOME}/.jarvis/bin"
 DSH_ENV_FILE="${HOME}/.dsh/.env"
-DSH_PROFILE="${HOME}/.dsh/profiles/acp/cordis.patch.yml"
 ZED_SETTINGS="${HOME}/.config/zed/settings.json"
 NODE_MIN_MAJOR=24
 NODE_MIN_MINOR=9
@@ -36,6 +35,19 @@ NODE_MIN_MINOR=9
 SELF="$(readlink -f "${BASH_SOURCE[0]}")"
 LAB_DIR="$(cd "$(dirname "${SELF}")" && pwd)"
 PROJECT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+# DSH_HOME wins, the way DSH itself finds the profile. With several profiles
+# (one per project, ADR on multi-project lab) the profile that owns this root is
+# the one DSH loads for it; without one, the default `acp`.
+DSH_HOME_DIR="${DSH_HOME:-${HOME}/.dsh}"
+DSH_PROFILE=""
+for p in "${DSH_HOME_DIR}"/profiles/*/cordis.patch.yml; do
+  [ -f "$p" ] || continue
+  if [ "$(awk '/^ *workspaceRoot:/{sub(/^ *workspaceRoot: */,""); print; exit}' "$p")" = "$PROJECT_DIR" ]; then
+    DSH_PROFILE="$p"
+    break
+  fi
+done
+[ -n "$DSH_PROFILE" ] || DSH_PROFILE="${DSH_HOME_DIR}/profiles/acp/cordis.patch.yml"
 VERBOSE=false
 JSON=false
 FIX=false
@@ -242,9 +254,12 @@ header "4. DSH ACP-profiel"
 DSH_HOME_DIR="${DSH_HOME:-${HOME}/.dsh}"
 DSH_PROFILE_ACTUAL="${DSH_HOME_DIR}/profiles/acp/cordis.patch.yml"
 
+# The runner path is a top-level "- /path/cardine-bwrap" line (4 spaces in the
+# generated file). An unanchored 'jarvis-server' also matches the mcp-jarvis
+# 'cwd:' line, so the check must name the executable.
 if [ -f "$DSH_PROFILE_ACTUAL" ]; then
   if grep -q 'deepinfra' "$DSH_PROFILE_ACTUAL" 2>/dev/null && \
-     grep -q 'jarvis-server' "$DSH_PROFILE_ACTUAL" 2>/dev/null && \
+     grep -qE '^[[:space:]]+[-*][[:space:]]+\S*/cardine-bwrap[[:space:]]*$' "$DSH_PROFILE_ACTUAL" 2>/dev/null && \
      grep -q 'sandbox-policy' "$DSH_PROFILE_ACTUAL" 2>/dev/null; then
     pass "DSH profiel" "$DSH_PROFILE_ACTUAL (deepinfra + jarvis + sandbox)"
   else
@@ -253,7 +268,7 @@ if [ -f "$DSH_PROFILE_ACTUAL" ]; then
 elif [ -f "$DSH_PROFILE" ]; then
   # Fallback to ~/.dsh for when DSH_HOME is not set
   if grep -q 'deepinfra' "$DSH_PROFILE" 2>/dev/null && \
-     grep -q 'jarvis-server' "$DSH_PROFILE" 2>/dev/null && \
+     grep -qE '^[[:space:]]+[-*][[:space:]]+\S*/cardine-bwrap[[:space:]]*$' "$DSH_PROFILE" 2>/dev/null && \
      grep -q 'sandbox-policy' "$DSH_PROFILE" 2>/dev/null; then
     pass "DSH profiel" "$DSH_PROFILE (deepinfra + jarvis + sandbox)"
   else
@@ -339,7 +354,7 @@ if [ -d "${HOME}/.jarvis" ]; then
     if [ -n "$pid" ] && ! kill -0 "$pid" 2>/dev/null; then
       STALE_LOCKS=true
       if $FIX; then
-        rm -f "$lock"
+        rm -f "$lock" 2>/dev/null || true
         pass "stale lock cleaned up" "$lock (PID $pid no longer exists)"
       else
         fail "stale lock" "$lock (PID $pid no longer exists — run with --fix to clean up)"
