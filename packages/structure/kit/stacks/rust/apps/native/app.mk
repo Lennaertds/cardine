@@ -1,4 +1,4 @@
-# native (apps/native) — make-targets van deze app. De root-Makefile neemt dit bestand automatisch op.
+# native (apps/native) — make targets of this app. The root Makefile picks this file up automatically.
 NATIVE_DIR := apps/native
 # Soft lokaal; hard via NATIVE_STRICT=1 (check-full / CI). NATIVE_FFI=auto|napi|pyo3
 NATIVE_STRICT ?= 0

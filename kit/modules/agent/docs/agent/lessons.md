@@ -1,8 +1,8 @@
-# Lessen
+# Lessons
 
-> **Rol:** Wat bij meta-taken (docs herschrijven, refactors over het hele project) misliep, en hoe het nu moet.
-> **Niet hier:** lessen die bij elke taak gelden: die worden een regel in [AGENTS.md](../../AGENTS.md) of een test.
+> **Role:** What went wrong on meta tasks (rewriting docs, refactors across the whole project), and how to do it now.
+> **Not here:** lessons that apply to every task: those become a rule in [AGENTS.md](../../AGENTS.md) or a test.
 
-| Datum | Wat misliep | Les |
-|-------|-------------|-----|
-| <YYYY-MM-DD> | <De agent herschreef een ADR in plaats van een nieuwe te maken> | <ADR's nooit wijzigen; staat nu in AGENTS.md § Nooit> |
+| Date | What went wrong | Lesson |
+|------|-----------------|--------|
+| <YYYY-MM-DD> | <The agent rewrote an ADR instead of writing a new one> | <Never modify ADRs; now in AGENTS.md § Never> |

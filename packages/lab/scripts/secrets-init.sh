@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # secrets-init.sh — zet de secrets-centrale op de juiste rechten.
 #
-# Draai dit in je EIGEN terminal (buiten DSH/bwrap): in de kooi bestaat
-# ~/.secrets niet. Idempotent: het verandert alleen rechten, nooit inhoud.
+# Run this in YOUR OWN terminal (outside DSH/bwrap): in the cage
+# ~/.secrets does not exist. Idempotent: it only changes modes, never content.
 #
 #   bash packages/lab/scripts/secrets-init.sh
 set -euo pipefail

@@ -1,63 +1,63 @@
-# Tech-radar
+# Tech radar
 
-> **Rol:** Periodieke herijking van talen, frameworks, dependencies en tooling — wat we Adopt/Trial/Assess/Hold-en.
-> **Niet hier:** bronnen verwerven ([wantlist.md](wantlist.md)); domeinliteratuur (`research/<onderwerp>.md`); CVE-scan ([dependencies.md](../architecture/dependencies.md)); raw feeds als waarheid (P5).
+> **Role:** Periodic re-assessment of languages, frameworks, dependencies and tooling — what we Adopt/Trial/Assess/Hold.
+> **Not here:** acquiring sources ([wantlist.md](wantlist.md)); domain literature (`research/<topic>.md`); CVE scan ([dependencies.md](../architecture/dependencies.md)); raw feeds as truth (P5).
 
-Inbound feeds: [digest/](digest/README.md) (`digest-fetch` / `digest-propose`) — voorstellen cureren vóór je hier een rij zet (P5). Bron/horizon: Agent Engineering `bron/fundament/ecosysteem/kit-dekking-en-horizon.md` (C4).
+Inbound feeds: [digest/](digest/README.md) (`digest-fetch` / `digest-propose`) — curate proposals before you put a row here (P5). Source/horizon: Agent Engineering `bron/fundament/ecosysteem/kit-dekking-en-horizon.md` (C4).
 
-## Ritueel
+## Ritual
 
-1. **Maandelijks** (of na grote bump): `make radar-reminder` → herzie deze file.
-2. Wijzig een ring alleen met korte notitie; **Adopt** of **Hold** met impact → ADR.
-3. Snellere/veiligere deps: ook [dependencies.md](../architecture/dependencies.md)-ritueel; radar houdt de *keuzestand*.
-4. `make radar-check` na structurele edits (niet in `make check`).
+1. **Monthly** (or after a big bump): `make radar-reminder` → revise this file.
+2. Change a ring only with a short note; **Adopt** or **Hold** with impact → ADR.
+3. Faster/safer deps: the [dependencies.md](../architecture/dependencies.md) ritual too; the radar keeps the *state of choices*.
+4. `make radar-check` after structural edits (not in `make check`).
 
-## Laatst herzien
+## Last reviewed
 
-Laatst herzien: {{DATE}}
+Last reviewed: {{DATE}}
 
-(Zet de datum bij elke inhoudelijke update. `make radar-reminder` leest deze regel.)
+(Set the date on every substantive update. `make radar-reminder` reads this line.)
 
-## Ringen
+## Rings
 
-| Ring | Betekenis |
-|------|-----------|
-| **Adopt** | Standaardkeuze voor nieuwe stubs; team/solo kent het |
-| **Trial** | Actief uitproberen in één slice/app; nog geen default |
-| **Assess** | Op de radar; nog geen tijd/experiment |
-| **Hold** | Bewust niet (meer) voor nieuw werk; bestaande code mag blijven tot ADR |
+| Ring | Meaning |
+|------|---------|
+| **Adopt** | Default choice for new work; team/solo knows it |
+| **Trial** | Actively trying it in one slice/app; not a default yet |
+| **Assess** | On the radar; no time/experiment yet |
+| **Hold** | Deliberately not (any more) for new work; existing code may stay until an ADR |
 
 ## Radar
 
-Vervang voorbeeldrijen door projectkeuzes. Voorbeeldrijen zijn **illustratief**, geen feit over jouw stack.
+Replace the example rows with project choices. The example rows are **illustrative**, not a fact about your stack.
 
-| Ring | Categorie | Item | Notitie / ADR |
-|------|-----------|------|---------------|
-| Adopt | talen | TypeScript (Nest/Next) | kit-default; zie ARCHITECTURE |
-| Adopt | frameworks | Postgres 17 | enige writer user-data → ADR |
-| Trial | deps | `<snellere JSON-lib>` | voorbeeld — meet vóór Adopt |
-| Assess | tooling | `<bundler X>` | voorbeeld — nog geen experiment |
-| Hold | deps | `<verouderde ORM>` | voorbeeld — geen nieuw gebruik; migratie ADR |
+| Ring | Category | Item | Note / ADR |
+|------|----------|------|------------|
+| Adopt | languages | TypeScript (Nest/Next) | kit default; see ARCHITECTURE |
+| Adopt | frameworks | Postgres 17 | only writer of user data → ADR |
+| Trial | deps | `<faster JSON lib>` | example — measure before Adopt |
+| Assess | tooling | `<bundler X>` | example — no experiment yet |
+| Hold | deps | `<outdated ORM>` | example — no new use; migration ADR |
 
-Categorieën (vast houden): **talen** · **frameworks** · **deps** · **tooling**.
+Categories (keep fixed): **languages** · **frameworks** · **deps** · **tooling**.
 
-## Commando's
+## Commands
 
 ```bash
-make radar-check      # structuur + Bewust later; vereist module research
-make radar-reminder   # tip + Laatst herzien-datum
+make radar-check      # structure + Deliberately later; needs the research module
+make radar-reminder   # hint + Last reviewed date
 ```
 
 How-to: [../how-to/radar.md](../how-to/radar.md).
 
-## Bewust later
+## Deliberately later
 
-Vaste kop (P28): vraag ernaar of BACKLOG als dit nodig wordt.
+Fixed heading (P28): ask for it or file it in BACKLOG when this becomes needed.
 
-| Uitbreiding | Waarom later | Vraag als |
-|-------------|--------------|-----------|
-| Auto-plakken van digest-voorstellen in deze file | P5 — voorstel ≠ feit | Zero-touch radar-updates |
-| Radar in **kern** (elk project) | Opt-in via module `research` volstaat | Project zonder research wil toch radar |
-| Always-on regel in AGENTS | Harness tax (P25) | Elke taak moet de radar zien (meestal niet) |
-| `radar-check` in `check-full` | Bewust maandelijks, niet bij elke PR | Release-gate eist verse herziening |
-| Visual / HTML-export van ringen | Markdown is genoeg voor agents | Stakeholder wil plaatje |
+| Extension | Why later | Ask when |
+|-----------|-----------|----------|
+| Auto-pasting digest proposals into this file | P5 — proposal ≠ fact | Zero-touch radar updates |
+| Radar in **kern** (every project) | Opt-in via module `research` is enough | A project without research still wants a radar |
+| Always-on rule in AGENTS | Harness tax (P25) | Every task has to see the radar (usually not) |
+| `radar-check` in `check-full` | Deliberately monthly, not on every PR | A release gate demands a fresh review |
+| Visual / HTML export of the rings | Markdown is enough for agents | A stakeholder wants a picture |

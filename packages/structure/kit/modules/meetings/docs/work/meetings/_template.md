@@ -1,18 +1,18 @@
-# YYYY-MM-DD — <met wie>
+# YYYY-MM-DD — <with whom>
 
-- **Aanwezig:** <namen of rollen>
-- **Doel:** <waarom dit overleg>
+- **Present:** <names or roles>
+- **Goal:** <why this meeting>
 
-## Besproken
+## Discussed
 
 - <…>
 
-## Besluiten
+## Decisions
 
-- <Wat vastligt. Een besluit over het systeem wordt een ADR (`make adr t="…"`); link hier.>
+- <What is fixed. A decision about the system becomes an ADR (`make adr t="…"`); link it here.>
 
-## Acties
+## Actions
 
-| Wie | Wat | Tegen |
-|-----|-----|-------|
+| Who | What | By |
+|-----|------|----|
 | <…> | <…> | <YYYY-MM-DD> |

@@ -1,292 +1,292 @@
 # IDE-shell
 
-> **Rol:** Bijhouden wat de IDE-shell is — GUI-host voor iemand die VS Code/Cursor kent. Besliscriterium is de kwaliteit van het agent-pad.
-> **Niet hier:** besluit ([ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+ > **Role:** maintaining what the IDE shell is — a GUI host for someone who knows VS Code/Cursor. The decision criterion is the quality of the agent path.
+> **Not here:** the decision ([ADR 0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** beslist · **ADR:** [0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)
+**State:** decided · **ADR:** [0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md)
 
-## Wat jij wilt (vastgelegd)
+## What you want (recorded)
 
-| Eis | Gevolg |
+| Requirement | Consequence |
 |-----|--------|
-| **GUI** — niet in de terminal editen | Neovim valt af; Helix alleen ter begrip / niet als doel |
-| Performance | Beide Lapce/Zed ruim OK t.o.v. Cursor/Electron; **Arch-pakketgrootte is geen besliscriterium** |
-| Extensie-marktplaats | Niet nodig op korte termijn |
-| **Besliscriterium #1** | Hoe **goed** het **agent-pad** kan worden (eindkwaliteit), niet hoe weinig tijd de eerste fork kost |
-| VS Code als enige referentie | Onderstaande “VS Code-vertaling” per kandidaat |
+| **GUI** — no editing in the terminal | Neovim drops out; Helix is for understanding only, not a goal |
+| Performance | Both Lapce and Zed are well ahead of Cursor/Electron; **Arch package size is not a decision criterion** |
+| Extension marketplace | Not needed in the short term |
+| **Decision criterion #1** | How **good** the **agent path** can become (final quality), not how little time the first fork costs |
+| VS Code as the only reference | The "VS Code translation" per candidate below |
 
-## VS Code → wat je eigenlijk gebruikt
+## VS Code → what you are actually using
 
-In Cursor/VS Code zit ongeveer dit (Electron = browser-engine om de UI):
+Cursor/VS Code roughly consists of this (Electron = a browser engine around the UI):
 
-| VS Code-stuk | Wat het doet |
+| VS Code part | What it does |
 |--------------|--------------|
-| Workbench | Zijbalk, tabs, panels, command palette |
-| Monaco | De teksteditor |
-| Extensions (JS) | Bijna alles uitbreiden, vaak webviews |
-| LSP / debug | Taalservers + DAP (vaak via extensions) |
-| Integrated terminal | Shell in een paneel |
-| Electron | Zware runtime — jouw #1 ergernis |
+| Workbench | Sidebar, tabs, panels, command palette |
+| Monaco | The text editor |
+| Extensions (JS) | Extend almost everything, often webviews |
+| LSP / debug | Language servers + DAP (often via extensions) |
+| Integrated terminal | A shell in a panel |
+| Electron | Heavy runtime — your number one annoyance |
 
-Native editors doen dezelfde *jobs* zonder Chromium: eigen GUI-toolkit + LSP als aparte processen.
+Native editors do the same *jobs* without Chromium: an own GUI toolkit + LSP as separate processes.
 
 ---
 
-## 1. Lapce — aantrekkelijkste fork-kandidaat
+## 1. Lapce — the most attractive fork candidate
 
-**Voor jou:** GUI ✓ · performance-gericht ✓ · **Apache-2.0** ✓ · Arch `extra` (~59 MiB) ✓
+**For you:** GUI ✓ · performance-focused ✓ · **Apache-2.0** ✓ · Arch `extra` (~59 MiB) ✓
 
 ### Stack
 
-| Laag | Technologie |
+| Layer | Technology |
 |------|-------------|
-| Taal | Rust |
-| GUI | **Floem** (eigen toolkit) + **wgpu** (GPU: Vulkan/Metal/…) + layout à la Flexbox (Taffy) |
+| Language | Rust |
+| GUI | **Floem** (own toolkit) + **wgpu** (GPU: Vulkan/Metal/…) + a Flexbox-like layout (Taffy) |
 | Highlight | Tree-sitter |
-| Intelligentie | Built-in **LSP**-client |
-| Plugins | **WASI** (Wasm) — “Volts”; elke taal die naar WASI compileert |
-| Architectuur | **`lapce-app` (GUI) ↔ `lapce-proxy`** — proxy praat met disk, LSP, plugins, terminal |
+| Intelligence | Built-in **LSP** client |
+| Plugins | **WASI** (Wasm) — "Volts"; any language that compiles to WASI |
+| Architecture | **`lapce-app` (GUI) ↔ `lapce-proxy`** — the proxy talks to disk, LSP, plugins, terminal |
 
-Die proxy is bewust: **remote development** = GUI lokaal, proxy op de remote (zelfde idee als VS Code Remote, lichter uitgevoerd).
+That proxy is deliberate: **remote development** = GUI local, proxy on the remote (the same idea as VS Code Remote, implemented more lightly).
 
-### Features (VS Code-vertaling)
+### Features (VS Code translation)
 
-| VS Code-gewoonte | Lapce |
+| VS Code habit | Lapce |
 |------------------|-------|
-| Open folder / explorer | Ja (glob hide, git-kleuren in tree) |
-| Tabs, splits | Ja |
-| Ctrl+P / command palette | Ja (shortcuts searchable) |
-| IntelliSense / go-to-def / refs | Via LSP; panels o.a. find refs, implementations, document symbols, call hierarchy |
-| Terminal onderaan | Built-in |
-| Diff / SCM | Diff-editor, git status in explorer; geen volledige VS Code Git-UI |
-| Extensions marketplace | `plugins.lapce.dev` — **klein** t.o.v. VS Code |
-| Vim-modus | Built-in (aan/uit) |
-| Debug (DAP) | Aanwezig (sinds 0.3-lijn) |
-| AI | Experimenteel Copilot-pad geweest — niet jouw BYOK-harness |
+| Open folder / explorer | Yes (glob hide, git colours in the tree) |
+| Tabs, splits | Yes |
+| Ctrl+P / command palette | Yes (searchable shortcuts) |
+| IntelliSense / go-to-def / refs | Via LSP; panels for find refs, implementations, document symbols, call hierarchy |
+| Terminal at the bottom | Built-in |
+| Diff / SCM | Diff editor, git status in the explorer; no full VS Code Git UI |
+| Extensions marketplace | `plugins.lapce.dev` — **small** compared with VS Code |
+| Vim mode | Built-in (on/off) |
+| Debug (DAP) | Present (since the 0.3 line) |
+| AI | Had an experimental Copilot path — not your BYOK harness |
 
-### Forkbaarheid
+### Forkability
 
 | | |
 |--|--|
-| Licentie | **Apache-2.0** — forken, aanpassen, heruitgeven relatief eenvoudig |
-| Codebase | Kleiner/overzichtelijker dan Zed; Floem is wel eigen UI-stack (leercurve) |
-| Rijpheid | **Pre-1.0** (0.4.x); releases trager; docs dunner |
-| Onderhoudsrisico | Auteur/org deelt aandacht met **Lapdev** (remote env-product) |
-| Lab-fit | Beste “echte fork” op de GUI-lijst: dun houden + WASI/proxy-seams voor indexing/harness |
+| Licence | **Apache-2.0** — forking, modifying and redistributing is relatively simple |
+| Codebase | Smaller/clearer than Zed; Floem is an own UI stack though (learning curve) |
+| Maturity | **Pre-1.0** (0.4.x); slower releases; thinner docs |
+| Maintenance risk | The author/org shares attention with **Lapdev** (a remote environment product) |
+| Lab fit | The best "real fork" on the GUI list: keep it thin + WASI/proxy seams for indexing/harness |
 
-**Risico:** je forkt een *jonge* editor — bugs en missing polish t.o.v. VS Code zijn normaal.
+**Risk:** you fork a *young* editor — bugs and missing polish compared with VS Code are normal.
 
 ---
 
-## 2. Zed — modern, snel, zwaar om te forken
+## 2. Zed — modern, fast, heavy to fork
 
-**Voor jou:** GUI ✓ · performance-UI ✓ · agent-ecosysteem interessant · fork = **copyleft + monoliet**
+**For you:** GUI ✓ · performance UI ✓ · interesting agent ecosystem · fork = **copyleft + monolith**
 
 ### Stack
 
-| Laag | Technologie |
+| Layer | Technology |
 |------|-------------|
-| Taal | Rust (zeer veel crates) |
-| GUI | **GPUI** — eigen framework; Linux: Wayland/X11 + **wgpu**/Vulkan |
-| Buffers | Sum-tree (snelle edits in grote files) |
-| Highlight | Tree-sitter (Zed-makers = tree-sitter-origine) |
-| Extensies | **Wasm**-extensions (gezandboxed; géén VS Code-webview-vrijheid) |
-| Agents | Ingebouwde agent-UI + **ACP** (Agent Client Protocol) — externe agents als subprocess |
+| Language | Rust (a great many crates) |
+| GUI | **GPUI** — own framework; Linux: Wayland/X11 + **wgpu**/Vulkan |
+| Buffers | Sum-tree (fast edits in large files) |
+| Highlighting | Tree-sitter (the Zed makers originated tree-sitter) |
+| Extensions | **Wasm** extensions (sandboxed; no VS Code webview freedom) |
+| Agents | Built-in agent UI + **ACP** (Agent Client Protocol) — external agents as a subprocess |
 
-Linux is “first class” geworden; rendering-pad is actief verbeterd (Blade → wgpu).
+Linux has become "first class"; the rendering path is actively improved (Blade → wgpu).
 
-### Features (VS Code-vertaling)
+### Features (VS Code translation)
 
-| VS Code-gewoonte | Zed |
+| VS Code habit | Zed |
 |------------------|-----|
-| Workbench / panes | Volwaardige GUI-IDE-ervaring |
-| Extensions | Wasm; UI-extensies beperkt (visuele extension API nog in discussie/RFC) |
-| LSP / diagnostics | Sterk; veel servers |
-| Git | Ingebouwd |
-| Terminal | Ingebouwd |
-| AI / agent panel | **Sterk productpunt** — eigen + externe agents via ACP (handig later voor *jouw* harness als ACP-client) |
-| Collaboration | Multiplayer (niet jouw v1-doel) |
-| Marketplace | Groeit, maar ≠ VS Code-extensie-universum |
+| Workbench / panes | A full GUI IDE experience |
+| Extensions | Wasm; limited UI extensions (visual extension API still in discussion/RFC) |
+| LSP / diagnostics | Strong; many servers |
+| Git | Built-in |
+| Terminal | Built-in |
+| AI / agent panel | **A strong product point** — own and external agents via ACP (useful later for *your* harness as an ACP client) |
+| Collaboration | Multiplayer (not your v1 goal) |
+| Marketplace | Growing, but not the VS Code extension universe |
 
-### Forkbaarheid
+### Forkability
 
 | | |
 |--|--|
-| Licentie | Editor vooral **GPL-3.0-or-later**; GPUI e.d. deels **Apache-2.0**. Fork herdistribueren = copyleft-plichten |
-| Codebase | Enorm (~honderden crates) — sync met upstream is een baan |
+| Licence | The editor is mostly **GPL-3.0-or-later**; GPUI etc. partly **Apache-2.0**. Redistributing a fork = copyleft duties |
+| Codebase | Enormous (hundreds of crates) — syncing with upstream is a job in itself |
 | Arch-pakket | ~298 MiB installed — zwaarste op de shortlist |
-| Lab-fit | **Koppelen** (ACP / extensions) >> forken. Fork alleen als je core moet patchen én GPL accepteert |
+| Lab fit | **Coupling** (ACP / extensions) >> forking. Fork only if you must patch the core and accept GPL |
 
-**Performance-nuance:** UI is snel; grote TS-monorepo’s kunnen alsnog veel RAM/CPU trekken via LSP/index — net als elders. Shell ≠ indexing.
+**Performance nuance:** the UI is fast; large TS monorepos can still pull a lot of RAM/CPU through LSP/index — as elsewhere. Shell ≠ indexing.
 
 ---
 
-## 3. Kate — “klassieke” desktop-editor (KDE)
+## 3. Kate — the "classic" desktop editor (KDE)
 
-**Voor jou:** GUI ✓ · dichtst bij “gewone IDE zonder Electron” · Hyprland sleept **KDE Frameworks** mee
+**For you:** GUI ✓ · closest to an "ordinary IDE without Electron" · Hyprland drags **KDE Frameworks** along
 
 ### Stack
 
-| Laag | Technologie |
+| Layer | Technology |
 |------|-------------|
-| Taal | C++ |
+| Language | C++ |
 | GUI | **Qt** + **KDE Frameworks** |
-| Editor-core | **KTextEditor** (herbruikbare library: Document / View) |
-| Scripting | JavaScript (Kate-scripts) |
-| Plugins | Bundled addons (LSP, terminal, git, …) — geen VS Code-marktplaats |
+| Editor core | **KTextEditor** (a reusable library: Document / View) |
+| Scripting | JavaScript (Kate scripts) |
+| Plugins | Bundled addons (LSP, terminal, git, …) — no VS Code marketplace |
 
-### Features (VS Code-vertaling)
+### Features (VS Code translation)
 
-| VS Code-gewoonte | Kate |
+| VS Code habit | Kate |
 |------------------|------|
-| Multi-tab / splits / MDI | Ja |
-| Open folder as project | Lichtgewicht project-support |
-| Explorer / search in folder | Ja |
-| LSP (completion, def, refs, rename, format, diagnostics) | Plugin **LSP Client** |
-| Debug | DAP-support |
-| Terminal | Geïntegreerd (Konsole-achtig) |
-| Git | Integratie (niet zo rijk als VS Code Git Graph-extensies) |
-| Vi-modus | Optioneel |
-| Syntax | 300+ languages (klassiek + modern) |
-| Extensies van derden | Beperkt — wat KDE bundelt |
+| Multi-tab / splits / MDI | Yes |
+| Open folder as project | Lightweight project support |
+| Explorer / search in folder | Yes |
+| LSP (completion, def, refs, rename, format, diagnostics) | The **LSP Client** plugin |
+| Debug | DAP support |
+| Terminal | Integrated (Konsole-like) |
+| Git | Integration (not as rich as VS Code Git Graph extensions) |
+| Vi mode | Optional |
+| Syntax | 300+ languages (classic and modern) |
+| Third-party extensions | Limited — what KDE bundles |
 
-### Forkbaarheid
+### Forkability
 
 | | |
 |--|--|
-| Licentie | **LGPL-2.0-or-later** (KTextEditor/Kate-bijdragen) — library-vriendelijker dan GPL-app-fork |
-| Stack-kennis | Qt/KF — andere wereld dan Rust-lab |
-| Runtime op Hyprland | Werkt, maar **veel KF-deps** = gewicht + update-koppeling aan KDE Gear |
-| Lab-fit | Goede “bekende desktop-IDE”; matig voor *jouw* harness-fork-verhaal tenzij je Qt wilt |
+| Licence | **LGPL-2.0-or-later** (KTextEditor/Kate contributions) — more library-friendly than a GPL app fork |
+| Stack knowledge | Qt/KF — a different world from the Rust lab |
+| Runtime on Hyprland | Works, but **many KF dependencies** = weight plus update coupling to KDE Gear |
+| Lab fit | A good "familiar desktop IDE"; mediocre for *your* harness-fork story unless you want Qt |
 
 ---
 
-## 4. Helix — ter begrip (geen GUI-doel)
+## 4. Helix — for understanding (not a GUI goal)
 
-Helix is een **terminal**-editor (Rust). Jij wilt GUI → **niet jouw shell**. Wel nuttig om te weten wat “batteries included zonder Electron” betekent.
+Helix is a **terminal** editor (Rust). You want a GUI → **not your shell**. Still useful for understanding what "batteries included without Electron" means.
 
-### Hoe het in elkaar zit
+### How it fits together
 
-- **Modal** (zoals Vim): Normal / Insert / Select.
-- **Selection-first** (Kakoune): eerst selecteren, dan actie — een cursor = selectie van 1 teken; multi-cursor is normaal.
-- **Ingebouwd:** LSP, tree-sitter highlighting/textobjects, fuzzy pickers, file explorer — zonder plugin-manager.
-- **Geen** (stabiele) plugin-API in main; Steel/Scheme-plugins via aparte branch/AUR — uitbreiden = vaak **core forken**.
+- **Modal** (like Vim): Normal / Insert / Select.
+- **Selection-first** (Kakoune): select first, then act — a cursor is a one-character selection; multi-cursor is normal.
+- **Built in:** LSP, tree-sitter highlighting/textobjects, fuzzy pickers, file explorer — without a plugin manager.
+- **No** (stable) plugin API in main; Steel/Scheme plugins via a separate branch/AUR — extending often means **forking the core**.
 
-VS Code-vertaling: stel Monaco + werkblad weg, houd LSP + tree-sitter, stop alles in een snelle TUI met Vim-toetsen die “andersom” werken. Razendsnel, steile leercurve, slechte fit voor “ik wil een window met muis/panels”.
-
----
-
-## 5. Neovim — afgewezen voor dit product
-
-RPC/Lua = geweldige harness-seam en top-performance, maar **geen GUI-edit** volgens jouw eis. Eventueel later alleen als *backend* achter een aparte GUI — niet als primaire shell.
+VS Code translation: put Monaco + workbench aside, keep LSP + tree-sitter, pack it all into a fast TUI with Vim keys that work "backwards". Very fast, steep learning curve, a poor fit for "I want a window with a mouse and panels".
 
 ---
 
-## Vergelijking (jouw criteria)
+## 5. Neovim — rejected for this product
+
+RPC/Lua = a great harness seam and top performance, but **no GUI editing** per your requirement. Possibly later only as a *backend* behind a separate GUI — not as the primary shell.
+
+---
+
+## Comparison (your criteria)
 
 | | Lapce | Zed | Kate | Helix | (nvim) |
 |--|-------|-----|------|-------|--------|
-| GUI-window | ✓ | ✓ | ✓ | ✗ TUI | ✗ |
-| Perf-focus | Zeer hoog | Hoog (UI) | Mid (Qt/KF) | Extreem | Extreem |
-| VS Code-herkenbaar | Matig | Hoog | Mid-hoog | Laag | Laag |
-| Extensies | WASI, klein | Wasm + ACP | Bundled | Nauwelijks | Lua-rijk |
-| Agent-pad later | Zelf bouwen | ACP klaar | Zelf | — | RPC |
-| Fork-licentie | **Apache** | GPL | LGPL | MPL | Apache |
-| Fork-onderhoud | Middel | Zeer zwaar | Middel (Qt) | Middel | Onnodig |
+| GUI window | ✓ | ✓ | ✓ | ✗ TUI | ✗ |
+| Performance focus | Very high | High (UI) | Medium (Qt/KF) | Extreme | Extreme |
+| Familiar from VS Code | Moderate | High | Medium-high | Low | Low |
+| Extensions | WASI, small | Wasm + ACP | Bundled | Barely any | Rich Lua |
+| Agent path later | Build it yourself | ACP ready | Yourself | — | RPC |
+| Fork licence | **Apache** | GPL | LGPL | MPL | Apache |
+| Fork maintenance | Medium | Very heavy | Medium (Qt) | Medium | Unnecessary |
 | Arch size | ~59 MiB | ~298 MiB | ~36 MiB + KF | ~207 MiB | ~31 MiB |
-| Rijpheid | Pre-1.0 | Productief | Volwassen | Volwassen TUI | Volwassen |
+| Maturity | Pre-1.0 | Productive | Mature | Mature TUI | Mature |
 
-## Keuze Lapce vs Zed — herijkt op agent-pad
+## Lapce vs Zed — re-weighed on the agent path
 
-Jouw vraag: *niet* “waar heb ik het snelst een fork”, maar “waar wordt het agent-resultaat **beter** als *ik* het stuur (eigen harness/indexing)?”
+Your question is *not* "where do I get a fork fastest", but "where does the agent result become **better** when *I* steer (own harness/indexing)?"
 
-| | **Zed als host (koppelen)** | **Lapce forken + agent zelf** |
+| | **Zed as host (couple)** | **Fork Lapce + agent yourself** |
 |--|-----------------------------|-------------------------------|
-| Wat je erft | Agent panel, multi-buffer review, permissions-UI, **ACP** (JSON-RPC naar externe agent) | Snelle GUI + proxy; **geen** rijp agent-protocol/UI |
-| Eigen harness (DSH/Pi/…) | Als **ACP-server** (of subprocess): Zed toont diffs/threads; jij bezit loop/tools/LLM | Jij bouwt chat + apply/reject + streaming **én** de loop |
-| Eindkwaliteit agent-UX | Waarschijnlijk **hoger**: years of editor↔agent UX al in Zed | Afhankelijk van hoeveel Agent-UI jij nabouwt — vaak **dunner** dan Zed |
-| Eindkwaliteit *jouw* indexing/structure | Gelijk speelveld: eigen tools achter ACP of in-process | Gelijk speelveld: WASI/proxy hooks |
-| Wat je opgeeft | GPL-core niet herschrijven; upstream Zed-UI volgen | Apache-vrijheid in de shell; agent-UX is jouw schuld |
-| Wat je níet wint door Lapce-fork | Betere Instant Grep — dat is indexing, niet de editor | — |
+| What you inherit | Agent panel, multi-buffer review, permissions UI, **ACP** (JSON-RPC to an external agent) | Fast GUI + proxy; **no** mature agent protocol/UI |
+| Own harness (DSH/Pi/…) | As an **ACP server** (or subprocess): Zed shows diffs/threads; you own loop/tools/LLM | You build chat + apply/reject + streaming **and** the loop |
+| Final agent UX quality | Probably **higher**: years of editor↔agent UX already in Zed | Depends on how much agent UI you rebuild — often **thinner** than Zed |
+| Final quality of *your* indexing/structure | A level playing field: own tools behind ACP or in-process | A level playing field: WASI/proxy hooks |
+| What you give up | Not rewriting a GPL core; following upstream Zed UI | Apache freedom in the shell; agent UX is on you |
+| What a Lapce fork does **not** win you | Better Instant Grep — that is indexing, not the editor | — |
 
-**Conclusie:** [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md). Zed is de GUI-host; de eigen harness koppelt via ACP. Lapce blijft plan B voor het geval de editor-core later onder Apache eigendom moet zijn.
+**Conclusion:** [ADR 0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md). Zed is the GUI host; the own harness couples via ACP. Lapce stays plan B in case the editor core must later be ours under Apache.
 
-### Moet ik Zed forken voor “één grote app”?
+### Do I need to fork Zed for "one big app"?
 
-**Nee.** We halen een pinned upstream-release op. Reden en grens: [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md).
+**No.** We pull a pinned upstream release. Reason and limit: [ADR 0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md).
 
-“Eén werkende applicatie” = **één workflow voor jou**, niet per se één git-repo of één binary:
+"One working application" = **one workflow for you**, not necessarily one git repo or one binary:
 
 ```text
 ┌─────────────────────────────────────────────┐
-│  Zed (upstream, niet-fork)                  │
+│  Zed (upstream, not forked)                 │
 │  editor + panels + ACP-client + diffs       │
 └───────────────┬─────────────────────────────┘
                 │ ACP / tools / MCP
 ┌───────────────▼─────────────────────────────┐
-│  Jouw stack (aparte processen/repos OK)     │
+│  Your stack (separate processes/repos OK)   │
 │  harness (DSH/Pi) + indexing + structure    │
 │  + BYOK LLM                                 │
 └─────────────────────────────────────────────┘
 ```
 
-| Aanpak | Wanneer |
+| Approach | When |
 |--------|---------|
-| **Koppelen (default)** | Agent, indexing, structure, LLM als **externe** diensten die Zed aanstuurt of die naast Zed draaien — jij ervaart één product |
-| **Wasm-extension** | Dunne UI/commands in Zed zonder core-fork |
-| **Fork Zed** | Alleen als je **core** moet wijzigen die ACP/extensions niet aankunnen (renderer, harde productlimiet) — zeldzaam; dan GPL + sync-last |
+| **Couple (default)** | Agent, indexing, structure, LLM as **external** services that Zed drives or that run beside Zed — you experience one product |
+| **Wasm extension** | Thin UI/commands in Zed without forking the core |
+| **Fork Zed** | Only if you must change the **core** in ways ACP/extensions cannot reach (renderer, a hard product limit) — rare; then GPL + sync burden |
 
-Eigen werk zit in harness/indexing/structure — dat hoort **niet** in een Zed-fork. Forken lost “slechte Instant Grep” niet op; indexing wel.
+Our own work lives in harness/indexing/structure — that does **not** belong in a Zed fork. Forking does not fix "bad Instant Grep"; indexing does.
 
-### Disk-footprint (jouw Arch, 2026-11-07)
+### Disk footprint (your Arch, 2026-11-07)
 
-| Editor | Installed size (pakket) | Notitie |
+| Editor | Installed size (package) | Note |
 |--------|-------------------------|---------|
-| Lapce (`extra`) | **~59 MiB** | niet geïnstalleerd; pacman `-Si` |
+| Lapce (`extra`) | **~59 MiB** | not installed; pacman `-Si` |
 | Zed (`extra`) | **~298 MiB** | idem |
-| Cursor (`cursor-bin`) | **~508 MiB** | op jouw systeem; `/usr/share/cursor` ~544 M |
-| VS Code (`visual-studio-code-bin`) | **~1051 MiB** | op jouw systeem; `/usr/share/code` ~1.1 G |
+| Cursor (`cursor-bin`) | **~508 MiB** | on your system; `/usr/share/cursor` ~544 M |
+| VS Code (`visual-studio-code-bin`) | **~1051 MiB** | on your system; `/usr/share/code` ~1.1 G |
 | VSCodium/OSS `code` (`extra`) | ~768 MiB + aparte Electron | andere build dan Microsoft-bin |
 
-Lapce↔Zed blijft klein t.o.v. Cursor/VS Code; **RAM in gebruik** wordt vaak door **LSP** gedomineerd (Zed-community: editor &lt;350 MB met veel tabs, LSPs &gt;1 GB). Size Lapce vs Zed negeren we voor de shell-keuze.
+Lapce↔Zed stays small compared with Cursor/VS Code; **RAM in use** is often dominated by **LSP** (Zed community: editor under 350 MB with many tabs, LSPs over 1 GB). We ignore the size difference between Lapce and Zed for the shell choice.
 
-### Besluit
+### Decision
 
-Zed is de GUI-host. De meta-package haalt een pinned upstream-release op. Eigen werk (harness, indexing, structure, LLM) blijft buiten Zed en koppelt via ACP. Lapce is plan B. Kate is backup zonder agent-verhaal. Helix en Neovim zijn geen primaire shell.
+Zed is the GUI host. The meta package pulls a pinned upstream release. Our own work (harness, indexing, structure, LLM) stays outside Zed and couples via ACP. Lapce is plan B. Kate is a backup without an agent story. Helix and Neovim are not the primary shell.
 
-Het besluit staat in [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md). De Hyprland-smoke (start, agentpaneel, idle RAM) is niet gemeten.
+The decision is in [ADR 0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md). The Hyprland smoke test (start, agent panel, idle RAM) was not measured.
 
-## Stand van zaken
+## Current state
 
-| Onderwerp | Status |
+| Topic | Status |
 |-----------|--------|
-| Neovim afgewezen (geen GUI) | gedaan |
-| Diepte Lapce / Zed / Kate / Helix | gedaan |
-| Besliscriterium = agent-pad-kwaliteit | gedaan |
-| Zed als pinned upstream-release, geen fork | gedaan — [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
-| Hyprland-smoke | niet gemeten; item toch gesloten |
+| Neovim rejected (no GUI) | done |
+| Depth on Lapce / Zed / Kate / Helix | done |
+| Decision criterion = agent path quality | done |
+| Zed as a pinned upstream release, no fork | done — [ADR 0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md) |
+| Hyprland smoke test | not measured; item closed anyway |
 
 ## Raakvlakken
 
 - [fs-events.md](fs-events.md) · [agent-ui.md](agent-ui.md) · [indexing.md](indexing.md) · [harness.md](harness.md)
 
-## Gemelde pijn (Reddit, 2026-11-16)
+## Reported pain points (Reddit, 2026-11-16)
 
-Forum, niveau C. Geen werklijst en geen reden om te forken. Vier threads: [hype vs VS Code](https://www.reddit.com/r/vscode/comments/1thib4i/i_still_dont_understand_the_hype_around_zed_over/), [point of Zed](https://www.reddit.com/r/ZedEditor/comments/1kj1ih5/what_is_the_point_of_zed/), [subscription](https://www.reddit.com/r/ZedEditor/comments/1szb0nq/benefits_of_zed_subscription/), [disappointing](https://www.reddit.com/r/ZedEditor/comments/1u38eu4/zed_is_good_but_its_also_dissapointing/).
+Forum, level C. Not a work list and not a reason to fork. Four threads: [hype vs VS Code](https://www.reddit.com/r/vscode/comments/1thib4i/i_still_dont_understand_the_hype_around_zed_over/), [point of Zed](https://www.reddit.com/r/ZedEditor/comments/1kj1ih5/what_is_the_point_of_zed/), [subscription](https://www.reddit.com/r/ZedEditor/comments/1szb0nq/benefits_of_zed_subscription/), [disappointing](https://www.reddit.com/r/ZedEditor/comments/1u38eu4/zed_is_good_but_its_also_dissapointing/).
 
-- Grote tekstbestanden (log van gigabytes) hangen heel Zed; in VS Code hangt alleen die tab.
-- UI bij complex werk: meer panelen en filters voor iets dat in VS Code één actie is.
-- Workspace-zoeken opent een tab en toont niets tot je Enter drukt.
-- Git-paneel zonder staged/unstaged.
-- Verwijderd bestand kun je niet undo’en (discussie sinds 2024, [9143](https://github.com/zed-industries/zed/discussions/9143)).
-- Geen multi-root: één project is één map, en de language server draait dan per map.
-- Keybindings aanpassen voelt omslachtig.
-- Geen ingebouwde TODO/FIXME-markering.
-- AI-features en releases gaan sneller dan basis-editor-PR’s; het abonnement voegt weinig toe boven een eigen Claude- of Codex-sub. Iemand noemt dat Zed’s eigen ACP minder QoL heeft dan hun harness.
-- Geheugen: meldingen van meerdere GB op een groter project. Antwoorden wijten dat vooral aan de language server (JS/TS), niet aan de editor-binary.
+- Large text files (a gigabyte log) freeze all of Zed; in VS Code only that tab freezes.
+- The UI for complex work: more panels and filters for something that is one action in VS Code.
+- Workspace search opens a tab and shows nothing until you press Enter.
+- Git panel without staged/unstaged.
+- You cannot undo a deleted file (a discussion since 2024, [9143](https://github.com/zed-industries/zed/discussions/9143)).
+- No multi-root: one project is one directory, and the language server then runs per directory.
+- Customising keybindings feels cumbersome.
+- No built-in TODO/FIXME highlighting.
+- AI features and releases move faster than base editor PRs; the subscription adds little over your own Claude or Codex sub. Someone notes that Zed's own ACP has less quality of life than their harness.
+- Memory: reports of several GB on a larger project. Replies attribute that mostly to the language server (JS/TS), not the editor binary.
 
-## Bewust niet
+## Deliberately not
 
-- Electron / VS Code-fork.
-- Terminal als enige edit-UI.
-- Zed forken zonder GPL + onderhoud te accepteren.
+- Electron / a VS Code fork.
+- A terminal as the only edit UI.
+- Forking Zed without accepting GPL + maintenance.

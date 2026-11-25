@@ -1,26 +1,27 @@
-# Versiebeheer — Cardine packages
+# Versioning — Cardine packages
 
-> Hoe we versies bijhouden voor de meta en elk package.
+> How we keep versions for the meta package and each package.
 
-## Principe
+## Principle
 
-- **Elk package heeft een eigen versie** onafhankelijk van de andere packages.
-- **De meta-package (`cardine`) heeft ook een eigen versie**, die alleen wijzigt als de structuur van de meta (docs, gidsen) verandert.
-- **Geen monorepo-tools** (lerna, nx, turborepo) — te zwaar voor dit stadium. Handmatig of met een klein script.
+- **Each package has its own version**, independent of the others.
+- **The meta package (`cardine`) has its own version too**, which changes only when the meta's own structure (docs, guides) changes.
+- **No monorepo tools** (lerna, nx, turborepo) — too heavy at this stage. Manually, or with a small script.
 
 ## SemVer
 
 [SemVer](https://semver.org/) — `major.minor.patch`:
 
-| Deel | Wanneer ophogen |
-|------|----------------|
-| **major** | Breaking change: installer werkt niet meer op oude config, kit-structuur wijzigt incompatibel, package hernoemd |
-| **minor** | Nieuwe functionaliteit: nieuw script, nieuwe module in kit, nieuwe optie in installer |
-| **patch** | Bugfix, documentatie-update, kleine aanpassing |
+| Part | When to bump |
+|------|--------------|
+| **major** | Breaking change: the installer no longer works on an old config, the kit structure changes incompatibly, the package is renamed |
+| **minor** | New functionality: a new script, a new module in the kit, a new option in the installer |
+| **patch** | Bugfix, documentation update, small adjustment |
 
 ## CHANGELOG per package
 
-Elk package heeft een `CHANGELOG.md` in de package-map. Formaat (geïnspireerd op [Keep a Changelog](https://keepachangelog.com/)):
+Each package has a `CHANGELOG.md` in the package directory. Format (inspired by
+[Keep a Changelog](https://keepachangelog.com/)):
 
 ```markdown
 # Changelog — cardine-lab
@@ -28,85 +29,105 @@ Elk package heeft een `CHANGELOG.md` in de package-map. Formaat (geïnspireerd o
 ## [0.2.0] — 2026-11-20
 
 ### Added
-- Nieuwe --dry-run optie voor install-lab.sh
-- Ondersteuning voor Podman naast bwrap
+- New --dry-run option for install-lab.sh
+- Support for Podman alongside bwrap
 
 ### Changed
-- DSH-versie opgehoogd naar 0.3.0
+- DSH version bumped to 0.3.0
 
 ### Fixed
-- Hardcoded pad (`$HOME`-relatief gemaakt) i.p.v. absoluut gebruikerspad
+- Hardcoded path (`$HOME`-relative instead of an absolute user path)
 
 ## [0.1.0] — 2026-11-17
 
 ### Added
-- Initiële release: install-lab.sh, cardine-bwrap, cardine-slice-check
+- Initial release: install-lab.sh, cardine-bwrap, cardine-slice-check
 
 [0.2.0]: https://github.com/Lennaertds/cardine/compare/lab-v0.1.0...lab-v0.2.0
 [0.1.0]: https://github.com/Lennaertds/cardine/releases/tag/lab-v0.1.0
 ```
 
-## Meta-versieoverzicht
+## Meta version overview
 
-De `CHANGELOG.md` in de repo-root geeft een **overzicht** van alle packages:
+The `CHANGELOG.md` in the repo root gives an **overview** of all packages:
 
 ```markdown
 # Changelog — Cardine meta
 
 ## [0.3.0] — 2026-11-22
 
-| Package | Versie | Wat |
-|---------|--------|-----|
-| cardine-lab | 0.3.0 | Secrets-grens in kooi en guard, V4.1-model, plugin-fix |
-| cardine-structure | 0.4.0 | Kit `fca818f` met `jarvis-check`-targets |
+| Package | Version | What |
+|---------|---------|------|
+| cardine-lab | 0.3.0 | Secrets boundary in cage and guard, V4.1 model, plugin fix |
+| cardine-structure | 0.4.0 | Kit `fca818f` with `jarvis-check` targets |
 ```
 
 ## Registry
 
-Alle drie de packages publiceren naar de **publieke npm-registry**
-(`registry.npmjs.org`, `access: public`). GitHub Packages is verlaten: dat is
-privé-by-default en vereist per gebruiker een PAT, waardoor `npx cardine` niet
-werkt op een machine zonder token.
+All three packages publish to the **public npm registry**
+(`registry.npmjs.org`, `access: public`). GitHub Packages was abandoned: it is
+private by default and requires a PAT per user, which meant `npx cardine` did
+not work on a machine without a token.
 
-`publish.yml` publiceert via **trusted publishing (OIDC)**: geen `NPM_TOKEN`,
-geen langlevend publiceertoken. GitHub Actions krijgt een kortlevend OIDC-token
-dat npm verifieert tegen een per package geregistreerde verbinding
+`publish.yml` publishes via **trusted publishing (OIDC)**: no `NPM_TOKEN`, no
+long-lived publish token. GitHub Actions receives a short-lived OIDC token that
+npm verifies against a per-package registered connection
 (npmjs.com → package → Settings → Trusted Publisher: GitHub Actions,
-repo `Lennaertds/cardine`, workflow `publish.yml`, `npm publish` toegestaan).
+repo `Lennaertds/cardine`, workflow `publish.yml`, `npm publish` allowed).
 
-Waarom niet met een token: 2FA-bypass-tokens verliezen rond januari 2027 het
-recht om direct te publiceren (npm-blog, juli 2026). OIDC en staged publishing
-blijven wel werken.
+Why not a token: 2FA-bypass tokens lose the right to publish directly around
+January 2027 (npm blog, July 2026). OIDC and staged publishing keep working.
 
-Een nieuwe trusted-publisher-verbinding moet **binnen 2 dagen** een geslaagde
-publish zien, anders verloopt ze. Een bestaande verbinding kan niet worden
-aangepast — alleen verwijderd en opnieuw aangemaakt.
+A new trusted-publisher connection must see a successful publish **within 2
+days**, or it expires. An existing connection cannot be edited — only deleted
+and recreated.
 
-Let bij het toevoegen van een `bin`: het pad is **relatief zonder `./`**
-(`bin/cardine`, `kit/new-project.sh`). Met `./` meldt npm 12 *"script name … was
-invalid and removed"* en publiceert het package **zonder** commando. Controleer
-altijd met `npm publish --dry-run`; die waarschuwing is de enige hint.
+When adding a `bin`, the path is **relative without `./`**
+(`bin/cardine`, `kit/new-project.sh`). With `./` npm 12 reports *"script name …
+was invalid and removed"* and publishes the package **without** a command.
+Always check with `npm publish --dry-run`; that warning is the only hint.
+
+The workflow pins `npm@12.2.3`, because Node 24 ships npm 11.x and the
+staged/dist-tag API requires 12.2 or later.
 
 ## Tags in git
 
 ```
-lab-v<semver>          → packages/lab/ op versie <semver>
-structure-v<semver>    → packages/structure/ op versie <semver>
-v<semver>              → meta-package versie <semver>
+lab-v<semver>          → packages/lab/ at version <semver>
+structure-v<semver>    → packages/structure/ at version <semver>
+v<semver>              → meta package version <semver>
 ```
 
-Laatste: `lab-v0.2.0`, `structure-v0.3.0`, `v0.2.0`. De meta-tag `v0.3.0` komt
-samen met `lab-v0.3.0` en `structure-v0.4.0`; `publish.yml` publiceert per
-package op de eigen tag.
+Most recent: `lab-v0.4.0`, `structure-v0.4.0`, `v0.3.0`. The meta tag `v0.3.0`
+came with `lab-v0.3.0` and `structure-v0.4.0`; `publish.yml` publishes each
+package on its own tag.
 
-## Packages & changelogs
+## Packages and changelogs
 
-| Package | CHANGELOG locatie |
-|---------|------------------|
+| Package | CHANGELOG location |
+|---------|--------------------|
 | `cardine` (meta) | `CHANGELOG.md` (root) |
 | `cardine-lab` | `packages/lab/CHANGELOG.md` |
 | `cardine-structure` | `packages/structure/CHANGELOG.md` |
 
-Laatste stand (2026-11-23): meta 0.3.0, `@lennaertds/cardine-lab` 0.4.0,
-`@lennaertds/cardine-structure` 0.4.0. Tag op deze release: `lab-v0.4.0`.
-Meta en structure blijven op hun bestaande tags.
+Current state (2026-11-24): meta 0.4.0, `@lennaertds/cardine-lab` 0.5.1,
+`@lennaertds/cardine-structure` 0.5.0.
+
+## Staged publishing
+
+A release goes through `npm stage publish` and then `npm stage approve <id>`:
+
+```bash
+# 1. Bump package.json and add a CHANGELOG entry first — npm refuses to
+#    publish over an existing version.
+# 2. Stage it
+npm stage publish --tag latest
+# 3. Wait until `npm stage list` shows status "staged" (not "validating")
+npm stage list
+# 4. Approve with 2FA
+npm stage approve <id> --tag latest
+# 5. Verify — and install by exact version, because a stale npm cache can make
+#    `pkg@latest` resolve to the previous release
+npm view @lennaertds/cardine-lab dist-tags
+npm i -g @lennaertds/cardine-lab@<version>
+```

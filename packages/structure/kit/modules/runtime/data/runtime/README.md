@@ -1,3 +1,3 @@
 # data/runtime
 
-Wat de app lokaal schrijft terwijl hij draait: uploads, exports, cache. Nooit in git; kan persoonsgegevens bevatten, dus nooit lezen of tonen in een agent-sessie. In productie: een volume of object storage, ingesteld via een variabele in `.env`.
+What the app writes locally while it runs: uploads, exports, cache. Never in git; it may contain personal data, so never read or show it in an agent session. In production: a volume or object storage, configured through a variable in `.env`.

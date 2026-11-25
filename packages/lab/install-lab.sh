@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# install-lab: reproduceerbare lab-omgeving op een verse Arch Linux / Hyprland-machine.
-# Idempotent: een tweede run wijzigt alleen wat nog niet klopt.
+# install-lab: reproducible lab environment on a fresh Arch Linux / Hyprland machine.
+# Idempotent: a second run only changes what is not right yet.
 #
-# Automatische installatie van dependencies via sudo pacman (indien beschikbaar).
-# In een container/sandbox zonder sudo worden alleen checks gedraaid + instructies.
+# Automatic installation of dependencies via sudo pacman (if available).
+# In a container/sandbox without sudo, only checks run + instructions are printed.
 set -euo pipefail
 
 ###############################################################################
-# Configuratie
+# Configuration
 ###############################################################################
 DSH_VERSION="@deepseek-ai/dsh@0.2.2-rc.1"
 DSH_PREFIX="${HOME}/.local"
@@ -20,29 +20,29 @@ JARVIS_PYTHON="3.13"
 NODE_MIN_MAJOR=24
 NODE_MIN_MINOR=9
 
-# Bepaal REPO_ROOT = het project waarvoor je het lab installeert.
-# Dat is de git-root van de cwd (het project dat openstaat), niet de map van dit
-# script: na `npm i -g` zit het script in de npm-prefix en zou ../.. naar de
-# prefix wijzen — dan belandden workspaceRoot, cwd en de plugins daar.
+# Determine REPO_ROOT = the project you install the lab for.
+# That is the git root of the cwd (the project that is open), not this script's
+# folder: after `npm i -g` the script sits in the npm prefix, and ../.. would
+# point at the prefix — then workspaceRoot, cwd and the plugins would land there.
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
 green()  { tput setaf 2 2>/dev/null || true; echo "$*"; tput sgr0 2>/dev/null || true; }
 red()    { tput setaf 1 2>/dev/null || true; echo "$*" >&2; tput sgr0 2>/dev/null || true; }
 yellow() { tput setaf 3 2>/dev/null || true; echo "$*"; tput sgr0 2>/dev/null || true; }
 
-# Detecteer of we sudo kunnen gebruiken (op een echte Arch-machine).
+# Detect whether we can use sudo (on a real Arch machine).
 SUDO=""
 if command -v sudo &>/dev/null; then
     if [ -t 0 ]; then
-        # Interactieve TTY: we kunnen sudo gebruiken — pacman_install zal om
-        # een wachtwoord vragen als dat nodig is (--noconfirm is ingesteld).
+        # Interactive TTY: we can use sudo — pacman_install will ask for a
+        # password if needed (--noconfirm is set).
         SUDO="sudo"
     else
-        # Geen TTY (CI/CD, pipe, etc.) — alleen NOPASSWD-regel werkt.
+        # No TTY (CI/CD, pipe, etc.) — only a NOPASSWD rule works.
         if sudo -n true 2>/dev/null; then
             SUDO="sudo"
         else
-            yellow "  ~ sudo is niet beschikbaar zonder wachtwoord — handmatige installatie nodig"
+            yellow "  ~ sudo is not available without a password — manual install needed"
         fi
     fi
 fi
@@ -50,8 +50,8 @@ fi
 PACMAN_FAILED=0
 
 pacman_install() {
-    # Installeer een lijst pakketten als sudo+pacman beschikbaar is.
-    # Anders alleen een melding; PACMAN_FAILED=1 — de rest van het script gaat door.
+    # Install a list of packages if sudo+pacman is available.
+    # Otherwise just a message; PACMAN_FAILED=1 — the rest of the script continues.
     local pkgs=("$@")
     local missing=()
     local pkg
@@ -65,34 +65,34 @@ pacman_install() {
     fi
     if [ -n "$SUDO" ]; then
         echo "  → pacman -S --needed --noconfirm ${missing[*]}"
-        # Een mislukte pacman-run mag het script niet stil doorlaten.
+        # A failed pacman run must not let the script through silently.
         if ! $SUDO pacman -S --needed --noconfirm "${missing[@]}"; then
-            red "  ✗ pacman -S mislukt voor: ${missing[*]}"
+            red "  ✗ pacman -S failed for: ${missing[*]}"
             PACMAN_FAILED=1
         fi
     else
-        red "  ✗ ontbrekende pakketten: ${missing[*]}"
-        red "    Installeer ze handmatig: sudo pacman -S --needed ${missing[*]}"
+        red "  ✗ missing packages: ${missing[*]}"
+        red "    Install them by hand: sudo pacman -S --needed ${missing[*]}"
         PACMAN_FAILED=1
     fi
     return 0
 }
 
 is_arch() {
-    # Check of dit een Arch Linux machine is (of afgeleide).
+    # Check whether this is an Arch Linux machine (or a derivative).
     [ -f /etc/arch-release ] || grep -qi '^ID=arch' /etc/os-release 2>/dev/null
     return $?
 }
 
 ###############################################################################
-# 1. Pacman-dependencies — alles in één sudo-aanroep
+# 1. Pacman dependencies — everything in one sudo call
 ###############################################################################
-echo "=== Arch Linux systeempakketten ==="
+echo "=== Arch Linux system packages ==="
 
 if is_arch; then
-    # Lijst van mogelijke pakketten; pacman negeert wat al geïnstalleerd is.
+    # List of candidate packages; pacman ignores what is already installed.
     ARCH_PKGS=()
-    # zeditor heet in pacman meestal 'zed' of 'zeditor'
+    # zeditor is usually called 'zed' or 'zeditor' in pacman
     if ! command -v zeditor &>/dev/null && ! command -v zed &>/dev/null; then
         for p in zed zeditor; do
             if pacman -Si "$p" &>/dev/null 2>&1; then
@@ -101,18 +101,18 @@ if is_arch; then
             fi
         done
         if [ ${#ARCH_PKGS[@]} -eq 0 ]; then
-            # We weten niet zeker hoe het heet, probeer 'zed' als default
+            # We are not sure of the name, try 'zed' as the default
             ARCH_PKGS+=("zed")
         fi
     else
-        green "  ✓ zeditor/zed al aanwezig"
+        green "  ✓ zeditor/zed already present"
     fi
     if ! command -v bwrap &>/dev/null; then
         ARCH_PKGS+=("bubblewrap")
     else
-        green "  ✓ bwrap al aanwezig"
+        green "  ✓ bwrap already present"
     fi
-    # node — check of pacman >= 24.9 heeft
+    # node — check whether pacman has >= 24.9
     NEED_NODE=0
     if command -v node &>/dev/null; then
         NODE_VER="$(node --version | sed 's/^v//')"
@@ -121,7 +121,7 @@ if is_arch; then
         NODE_MINOR="${NODE_MINOR%%.*}"
         if [ "$NODE_MAJOR" -lt "$NODE_MIN_MAJOR" ] || \
            { [ "$NODE_MAJOR" -eq "$NODE_MIN_MAJOR" ] && [ "$NODE_MINOR" -lt "$NODE_MIN_MINOR" ]; }; then
-            red "  ✗ node v$NODE_VER — ≥ $NODE_MIN_MAJOR.$NODE_MIN_MINOR vereist"
+            red "  ✗ node v$NODE_VER — ≥ $NODE_MIN_MAJOR.$NODE_MIN_MINOR required"
             NEED_NODE=1
         else
             green "  ✓ node v$NODE_VER (≥ $NODE_MIN_MAJOR.$NODE_MIN_MINOR)"
@@ -132,38 +132,38 @@ if is_arch; then
     if [ "$NEED_NODE" -eq 1 ]; then
         ARCH_PKGS+=("nodejs" "npm")
     fi
-    # uv (Python package manager, nodig voor jarvis-mcp)
+    # uv (Python package manager, needed for jarvis-mcp)
     if ! command -v uv &>/dev/null; then
         ARCH_PKGS+=("uv")
     else
-        green "  ✓ uv al aanwezig"
+        green "  ✓ uv already present"
     fi
-    # jq (hulpprogramma voor setup.sh)
+    # jq (helper for setup.sh)
     if ! command -v jq &>/dev/null; then
         ARCH_PKGS+=("jq")
     else
-        green "  ✓ jq al aanwezig"
+        green "  ✓ jq already present"
     fi
-    # base-devel (cargo/rustc/make/gcc — nodig voor Zoekt/scip build)
+    # base-devel (cargo/rustc/make/gcc — needed for the Zoekt/scip build)
     if ! command -v cargo &>/dev/null || ! command -v go &>/dev/null; then
         ARCH_PKGS+=("base-devel" "go")
     else
-        green "  ✓ build-tools (cargo, go) al aanwezig"
+        green "  ✓ build tools (cargo, go) already present"
     fi
 
     if [ ${#ARCH_PKGS[@]} -gt 0 ]; then
         pacman_install "${ARCH_PKGS[@]}"
     fi
     if [ "$PACMAN_FAILED" -eq 1 ]; then
-        yellow "  ~ Sommige pakketten konden niet geïnstalleerd worden (geen sudo)."
-        yellow "    De rest van de setup gaat door — installeer de ontbrekende pakketten later."
+        yellow "  ~ Some packages could not be installed (no sudo)."
+        yellow "    The rest of the setup continues — install the missing packages later."
     fi
 else
-    yellow "  ~ geen Arch Linux — sla pacman-stap over, check alleen binaries"
+    yellow "  ~ not Arch Linux — skipping the pacman step, checking binaries only"
 fi
 
 ###############################################################################
-# 2. Node-versie controle (opnieuw na mogelijke installatie)
+# 2. Node version check (again after a possible install)
 ###############################################################################
 echo ""
 echo "=== Node.js ≥ $NODE_MIN_MAJOR.$NODE_MIN_MINOR ==="
@@ -177,20 +177,20 @@ if command -v node &>/dev/null; then
     NODE_MINOR="${NODE_MINOR%%.*}"
     if [ "$NODE_MAJOR" -lt "$NODE_MIN_MAJOR" ] || \
        { [ "$NODE_MAJOR" -eq "$NODE_MIN_MAJOR" ] && [ "$NODE_MINOR" -lt "$NODE_MIN_MINOR" ]; }; then
-        red "  ✗ node v$NODE_VER — te oud"
+        red "  ✗ node v$NODE_VER — too old"
     else
         green "  ✓ node v$NODE_VER (≥ $NODE_MIN_MAJOR.$NODE_MIN_MINOR)"
         NODE_OK=1
         NODE_INSTALLED="$NODE_VER"
     fi
 else
-    red "  ✗ node niet op PATH"
+    red "  ✗ node not on PATH"
 fi
 
-# Fallback: als pacman een te oude versie had, probeer dan fnm
+# Fallback: if pacman had too old a version, try fnm
 if [ "$NODE_OK" -eq 0 ]; then
     INSTALLED_FALLBACK=0
-    # Probeer fnm
+    # Try fnm
     if command -v fnm &>/dev/null; then
         echo "  → fnm install $NODE_MIN_MAJOR"
         fnm install "$NODE_MIN_MAJOR" 2>/dev/null || true
@@ -200,9 +200,9 @@ if [ "$NODE_OK" -eq 0 ]; then
             INSTALLED_FALLBACK=1
         fi
     fi
-    # Probeer nvm (langzamer, maar vaak aanwezig)
+    # Try nvm (slower, but often present)
     if [ "$NODE_OK" -eq 0 ] && [ -d "${HOME}/.nvm" ]; then
-        echo "  → nvm gebruiken voor node $NODE_MIN_MAJOR"
+        echo "  → using nvm for node $NODE_MIN_MAJOR"
         export NVM_DIR="${HOME}/.nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
         nvm install "$NODE_MIN_MAJOR" 2>/dev/null || true
@@ -213,7 +213,7 @@ if [ "$NODE_OK" -eq 0 ]; then
             INSTALLED_FALLBACK=1
         fi
     fi
-    # Laatste redmiddel: n (simpele Node version manager)
+    # Last resort: n (a simple Node version manager)
     if [ "$NODE_OK" -eq 0 ] && command -v n &>/dev/null; then
         echo "  → n $NODE_MIN_MAJOR"
         n "$NODE_MIN_MAJOR" 2>/dev/null || true
@@ -224,13 +224,13 @@ if [ "$NODE_OK" -eq 0 ]; then
         fi
     fi
     if [ "$NODE_OK" -eq 0 ]; then
-        red "  ✗ Geen manier gevonden om Node ≥ $NODE_MIN_MAJOR.$NODE_MIN_MINOR te installeren."
-        red "    Installeer handmatig: https://nodejs.org of via fnm/nvm/n"
+        red "  ✗ No way found to install Node ≥ $NODE_MIN_MAJOR.$NODE_MIN_MINOR."
+        red "    Install by hand: https://nodejs.org or via fnm/nvm/n"
     fi
 fi
 
 ###############################################################################
-# 3. jarvis-server installeren (als hij nog niet op PATH staat)
+# 3. Install jarvis-server (if it is not on PATH yet)
 ###############################################################################
 echo ""
 echo "=== jarvis-server ==="
@@ -238,77 +238,77 @@ echo "=== jarvis-server ==="
 if [ -x "$JARVIS_BIN" ]; then
     green "  ✓ jarvis-server ($JARVIS_BIN)"
 else
-    echo "  → jarvis-server installeren via uv tool install --python $JARVIS_PYTHON jarvis-mcp"
+    echo "  → installing jarvis-server via uv tool install --python $JARVIS_PYTHON jarvis-mcp"
 
-    # Eerst check of uv beschikbaar is
+    # First check that uv is available
     if ! command -v uv &>/dev/null; then
-        red "  ✗ uv niet gevonden. Installeer uv: curl -LsSf https://astral.sh/uv/install.sh | sh"
-        red "    of via: sudo pacman -S uv"
+        red "  ✗ uv not found. Install uv: curl -LsSf https://astral.sh/uv/install.sh | sh"
+        red "    or via: sudo pacman -S uv"
         exit 1
     fi
 
-    # Python 3.13 nodig — check of uv die kan vinden
+    # Python 3.13 needed — check that uv can find it
     if ! uv python find "$JARVIS_PYTHON" &>/dev/null; then
-        echo "  → Python $JARVIS_PYTHON niet gevonden, installeren via uv python install"
+        echo "  → Python $JARVIS_PYTHON not found, installing via uv python install"
         uv python install "$JARVIS_PYTHON" 2>&1 || {
-            red "  ✗ kon Python $JARVIS_PYTHON niet installeren via uv"
-            red "    Installeer python3.13 handmatig"
+            red "  ✗ could not install Python $JARVIS_PYTHON via uv"
+            red "    Install python3.13 by hand"
             exit 1
         }
     fi
 
-    # Installeer jarvis-mcp
+    # Install jarvis-mcp
     uv tool install --python "$JARVIS_PYTHON" jarvis-mcp 2>&1 || {
-        red "  ✗ uv tool install jarvis-mcp mislukt"
+        red "  ✗ uv tool install jarvis-mcp failed"
         exit 1
     }
 
-    # Controleer of jarvis nu op PATH staat (uv tool install zet in ~/.local/bin)
+    # Check that jarvis is on PATH now (uv tool install writes to ~/.local/bin)
     if ! command -v jarvis &>/dev/null || ! [ -x "$JARVIS_BIN" ]; then
-        # uv tools zitten in ~/.local/bin, voeg toe aan PATH voor de rest van dit script
+        # uv tools live in ~/.local/bin, add it to PATH for the rest of this script
         export PATH="${HOME}/.local/bin:${PATH}"
     fi
     if [ -x "$JARVIS_BIN" ]; then
-        green "  ✓ jarvis-server geïnstalleerd ($JARVIS_BIN)"
+        green "  ✓ jarvis-server installed ($JARVIS_BIN)"
     else
-        red "  ✗ jarvis-server nog niet gevonden op $JARVIS_BIN na installatie"
+        red "  ✗ jarvis-server still not found at $JARVIS_BIN after install"
         exit 1
     fi
 
-    # Maak wrapper voor jarvis-server (bwrap kan symlinks niet volgen)
-    # Zoek de echte jarvis-server binary via uv tool list
+    # Create a wrapper for jarvis-server (bwrap cannot follow symlinks)
+    # Find the real jarvis-server binary via uv tool list
     JARVIS_REAL_PATH=""
     if command -v uv &>/dev/null; then
         JARVIS_REAL_PATH="$(uv tool list 2>/dev/null | grep jarvis-mcp | head -1 | awk '{print $NF}' || true)"
     fi
     if [ -z "$JARVIS_REAL_PATH" ] || [ ! -f "$JARVIS_REAL_PATH" ]; then
-        # Fallback: zoek via find
+        # Fallback: search with find
         JARVIS_REAL_PATH="$(find "${HOME}/.local/share/uv/tools" -name 'jarvis-server' -type f 2>/dev/null | head -1 || true)"
     fi
     if [ -z "$JARVIS_REAL_PATH" ]; then
-        # Laatste poging: gebruik realpath op de symlink
+        # Last attempt: use realpath on the symlink
         JARVIS_REAL_PATH="$(realpath "${HOME}/.local/bin/jarvis-server" 2>/dev/null || echo "")"
     fi
     if [ -n "$JARVIS_REAL_PATH" ] && [ ! -f "${HOME}/.local/bin/jarvis-server-wrapper.sh" ]; then
-        echo "  → jarvis-server wrapper aanmaken voor ${JARVIS_REAL_PATH}"
+        echo "  → creating the jarvis-server wrapper for ${JARVIS_REAL_PATH}"
         cat > "${HOME}/.local/bin/jarvis-server-wrapper.sh" << WRAPPEREOF
 #!/usr/bin/env bash
-# Wrapper voor jarvis-server — lost symlink-resolutie voor bwrap op.
+# Wrapper for jarvis-server — resolves symlinks for bwrap.
 exec ${JARVIS_REAL_PATH} "\$@"
 WRAPPEREOF
         chmod +x "${HOME}/.local/bin/jarvis-server-wrapper.sh"
-        green "  ✓ jarvis-server-wrapper.sh aangemaakt (→ ${JARVIS_REAL_PATH})"
+        green "  ✓ jarvis-server-wrapper.sh created (→ ${JARVIS_REAL_PATH})"
     else
-        green "  ✓ jarvis-server-wrapper.sh bestaat al"
+        green "  ✓ jarvis-server-wrapper.sh already exists"
     fi
 
-    # Nu de Zoekt/SCIP setup draaien (buildt Zoekt binary en scip binary)
+    # Now run the Zoekt/SCIP setup (builds the Zoekt and scip binaries)
     JARVIS_BIN_DIR="${HOME}/.jarvis/bin"
     mkdir -p "$JARVIS_BIN_DIR"
 
-    # setup.sh zit in de jarvis-mcp package — helaas levert uv tool install
-    # die niet altijd mee. Probeer hem te vinden; als dat faalt, bouw dan
-    # Zoekt en SCIP handmatig.
+    # setup.sh ships inside the jarvis-mcp package — unfortunately uv tool install
+    # does not always include it. Try to find it; if that fails, build Zoekt
+    # and SCIP by hand.
     JARVIS_SETUP=""
     for candidate in \
         "$(uv tool list 2>/dev/null | grep jarvis-mcp | head -1 | awk '{print $NF}')/setup.sh" \
@@ -321,101 +321,101 @@ WRAPPEREOF
     done
 
     if [ -n "$JARVIS_SETUP" ]; then
-        echo "  → setup.sh --only zoekt --only scip (buildt Zoekt + SCIP, duurt even)"
-        echo "    - setup.sh gevonden: $JARVIS_SETUP"
+        echo "  → setup.sh --only zoekt --only scip (builds Zoekt + SCIP, takes a while)"
+        echo "    - setup.sh found: $JARVIS_SETUP"
         bash "$JARVIS_SETUP" --only zoekt --only scip 2>&1 || {
-            red "  ✗ setup.sh --only zoekt --only scip mislukt"
-            red "    (Controleer of build-dependencies (base-devel, go) correct zijn geïnstalleerd)"
+            red "  ✗ setup.sh --only zoekt --only scip failed"
+            red "    (Check that the build dependencies (base-devel, go) are installed correctly)"
             exit 1
         }
-        green "  ✓ Zoekt + SCIP build voltooid"
+        green "  ✓ Zoekt + SCIP build finished"
     else
-        yellow "  ~ setup.sh niet gevonden — Zoekt/SCIP handmatig bouwen"
+        yellow "  ~ setup.sh not found — building Zoekt/SCIP by hand"
         # ---------- Zoekt (git-index + webserver) ----------
         if [ ! -x "${JARVIS_BIN_DIR}/zoekt-git-index" ] || [ ! -x "${JARVIS_BIN_DIR}/zoekt-webserver" ]; then
-            echo "    → Zoekt builden (go install github.com/zoekt/zoekt/...@33f1f18af292)"
+            echo "    → building Zoekt (go install github.com/zoekt/zoekt/...@33f1f18af292)"
             GOBIN="$JARVIS_BIN_DIR" go install \
               github.com/zoekt/zoekt/cmd/zoekt-git-index@33f1f18af292 \
               github.com/zoekt/zoekt/cmd/zoekt-webserver@33f1f18af292 2>&1 || {
-                red "  ✗ Zoekt build mislukt"
+                red "  ✗ Zoekt build failed"
                 exit 1
             }
-            green "  ✓ zoekt-git-index, zoekt-webserver gebouwd"
+            green "  ✓ zoekt-git-index, zoekt-webserver built"
         else
-            green "  ✓ zoekt binaries al aanwezig"
+            green "  ✓ zoekt binaries already present"
         fi
         # ---------- SCIP (Go) ----------
         if [ ! -x "${JARVIS_BIN_DIR}/scip" ]; then
-            echo "    → SCIP builden (git clone sourcegraph/scip)"
+            echo "    → building SCIP (git clone sourcegraph/scip)"
             SCIP_TMP="$(mktemp -d)"
             git clone --depth 1 https://github.com/sourcegraph/scip.git "$SCIP_TMP" 2>&1 || {
-                red "  ✗ scip git clone mislukt"
+                red "  ✗ scip git clone failed"
                 rm -rf "$SCIP_TMP"
                 exit 1
             }
             GOWORK=off GOBIN="$JARVIS_BIN_DIR" go build -o "$JARVIS_BIN_DIR/scip" ./cmd/scip 2>&1 || {
-                red "  ✗ scip build mislukt"
+                red "  ✗ scip build failed"
                 rm -rf "$SCIP_TMP"
                 exit 1
             }
             rm -rf "$SCIP_TMP"
-            green "  ✓ scip gebouwd"
+            green "  ✓ scip built"
         else
-            green "  ✓ scip binary al aanwezig"
+            green "  ✓ scip binary already present"
         fi
         # ---------- scip-python (npm) ----------
         if [ ! -x "${JARVIS_BIN_DIR}/scip-python" ]; then
-            echo "    → scip-python installeren (npm)"
+            echo "    → installing scip-python (npm)"
             npm install -g --prefix "$JARVIS_BIN_DIR" @sourcegraph/scip-python 2>&1 || {
-                yellow "  ~ scip-python npm install mislukt (kan later handmatig)"
+                yellow "  ~ scip-python npm install failed (can be done by hand later)"
             }
-            # npm --prefix zet in bin/node_modules/.bin, symlink naar bin/
+            # npm --prefix writes to bin/node_modules/.bin, symlink it into bin/
             if [ -f "${JARVIS_BIN_DIR}/bin/scip-python" ] && [ ! -e "${JARVIS_BIN_DIR}/scip-python" ]; then
                 ln -sf "${JARVIS_BIN_DIR}/bin/scip-python" "${JARVIS_BIN_DIR}/scip-python"
             fi
             if [ -x "${JARVIS_BIN_DIR}/scip-python" ]; then
-                green "  ✓ scip-python geïnstalleerd"
+                green "  ✓ scip-python installed"
             else
-                yellow "  ~ scip-python niet beschikbaar"
+                yellow "  ~ scip-python not available"
             fi
         else
-            green "  ✓ scip-python al aanwezig"
+            green "  ✓ scip-python already present"
         fi
     fi
 fi
 
 ###############################################################################
-# 4. DeepSeek Harness (alleen als de gepinde versie nog niet staat)
+# 4. DeepSeek Harness (only if the pinned version is not there yet)
 ###############################################################################
 echo ""
 echo "=== DeepSeek Harness ==="
 
 if [ -x "$DSH_BIN" ] && "$DSH_BIN" --version 2>/dev/null | grep -q "0.2.2-rc.1"; then
-    green "  ✓ dsh al geïnstalleerd op $DSH_BIN"
+    green "  ✓ dsh already installed at $DSH_BIN"
 else
-    echo "  → dsh installeren: npm install -g --prefix \"$DSH_PREFIX\" $DSH_VERSION"
+    echo "  → installing dsh: npm install -g --prefix \"$DSH_PREFIX\" $DSH_VERSION"
     mkdir -p "$DSH_PREFIX/bin"
-    # In npm v11+ (Node 26) worden postinstall-scripts standaard geblokkeerd.
-    # Geef expliciet toestemming voor de vijf packages die postinstall nodig hebben.
+    # In npm v11+ (Node 26) postinstall scripts are blocked by default.
+    # Give explicit permission for the five packages that need postinstall.
     npm install -g --prefix "$DSH_PREFIX" \
       --allow-scripts='@deepseek-ai/dsh-subprocess-local,koffi,node-pty,@google/genai,protobufjs' \
       "$DSH_VERSION"
     if [ -x "$DSH_BIN" ]; then
-        green "  ✓ dsh geïnstalleerd op $DSH_BIN"
+        green "  ✓ dsh installed at $DSH_BIN"
     else
-        # Probeer npm link als de binary niet in bin/ staat
+        # Try npm link if the binary is not in bin/
         DSH_ALT="$(find "$DSH_PREFIX/lib/node_modules/@deepseek-ai/dsh" -name 'dsh' -type f 2>/dev/null | head -1)"
         if [ -n "$DSH_ALT" ] && [ ! -x "$DSH_BIN" ]; then
             ln -sf "$DSH_ALT" "$DSH_BIN"
-            green "  ✓ dsh gelinkt naar $DSH_BIN"
+            green "  ✓ dsh linked to $DSH_BIN"
         else
-            red "  ✗ dsh binary niet gevonden na installatie"
+            red "  ✗ dsh binary not found after install"
         fi
     fi
 fi
 
 ###############################################################################
-# 5. ~/.dsh/.env aanmaken (nooit overschrijven)
+# 5. Create ~/.dsh/.env (never overwrite)
 ###############################################################################
 echo ""
 echo "=== Credentials placeholder ==="
@@ -423,31 +423,31 @@ echo "=== Credentials placeholder ==="
 mkdir -p "${HOME}/.dsh"
 
 if [ -f "$DSH_ENV_FILE" ]; then
-    yellow "  ~ bestaat al: $DSH_ENV_FILE (niet overschreven)"
+    yellow "  ~ already exists: $DSH_ENV_FILE (not overwritten)"
     if grep -q '^DEEPSEEK_API_KEY=' "$DSH_ENV_FILE" 2>/dev/null; then
         EXISTING_KEY="$(grep '^DEEPSEEK_API_KEY=' "$DSH_ENV_FILE" | head -1 | cut -d= -f2)"
         if [ -n "$EXISTING_KEY" ]; then
-            green "  ✓ DEEPSEEK_API_KEY staat al ingevuld"
+            green "  ✓ DEEPSEEK_API_KEY is already filled in"
         else
-            yellow "  ! DEEPSEEK_API_KEY= staat leeg — vul de key in"
+            yellow "  ! DEEPSEEK_API_KEY= is empty — fill in the key"
         fi
     fi
 else
     echo "DEEPSEEK_API_KEY=" > "$DSH_ENV_FILE"
     chmod 600 "$DSH_ENV_FILE"
-    green "  ✓ $DSH_ENV_FILE aangemaakt (chmod 600)"
+    green "  ✓ $DSH_ENV_FILE created (chmod 600)"
 fi
 
 ###############################################################################
-# 6. DSH ACP-profiel ~/.dsh/profiles/acp/cordis.patch.yml
+# 6. DSH ACP profile ~/.dsh/profiles/acp/cordis.patch.yml
 ###############################################################################
 echo ""
-echo "=== DSH ACP-profiel ==="
+echo "=== DSH ACP profile ==="
 
 mkdir -p "$DSH_PROFILE_DIR"
 
 cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
-# Gegenereerd door install-lab.sh — DeepSeek V4 Flash via DeepInfra (ADR 0008).
+# Generated by install-lab.sh — DeepSeek V4 Flash via DeepInfra (ADR 0008).
 - id: llm-pi-ai
   config:
     providers:
@@ -458,8 +458,8 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
         models:
           - id: deepseek-ai/DeepSeek-V4.1-Flash-1017
             name: DeepSeek V4.1 Flash 1017 (DeepInfra)
-          # Bestaande threads bewaren dit id in modelSelection. Zonder deze
-          # rij weigert pi-ai met UNKNOWN_MODEL zodra zo'n thread hervat.
+          # Existing threads keep this id in modelSelection. Without this
+          # row pi-ai refuses with UNKNOWN_MODEL as soon as such a thread resumes.
           - id: deepseek-ai/DeepSeek-V4-Flash
             name: DeepSeek V4 Flash (DeepInfra)
           - id: deepseek-ai/DeepSeek-V4-Flash-0731
@@ -486,14 +486,14 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
 - id: tool-goal
   disabled: true
 
-# jarvis op het agent-pad (ADR 0006). Tools heten mcp__jarvis__<naam>.
+# jarvis on the agent path (ADR 0006). Tools are named mcp__jarvis__<name>.
 - insert:
     - id: mcp-jarvis
       name: '@deepseek-ai/dsh-mcp-client'
       config:
         serverName: jarvis
         transport: stdio
-        # Wrapper i.p.v. symlink — bwrap kan geen symlinks volgen.
+        # Wrapper instead of a symlink — bwrap cannot follow symlinks.
         command: ${HOME}/.local/bin/jarvis-server-wrapper.sh
         cwd: ${REPO_ROOT}
         env:
@@ -501,22 +501,22 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
         failOnStartupError: true
 
 # Workspace-allowlist (ADR 0007 + ADR 0017).
-# De kooi is de enige schrijfrechter. workspaceRoot is de terugval voor een
-# sessie zonder cwd. De guard volgt de cwd van de open sessie.
+# The cage is the only write right. workspaceRoot is the fallback for a
+# session without a cwd. The guard follows the cwd of the open session.
 - id: sandbox-policy
   config:
     mode: workspace-write
     workspaceRoot: ${REPO_ROOT}
 
-# Vangnet voor deze lab-omgeving: nooit een approval-dialoog.
-# Upstream krijgt later policy: auto (Zed-eis, zonder fork). Tot dan is
-# never de lab-keuze (ADR 0017): deterministisch, vóór de dialoog.
+# Safety net for this lab environment: never an approval dialog.
+# Upstream will get policy: auto later (a Zed demand, without a fork). Until then
+# never is the lab choice (ADR 0017): deterministic, before the dialog.
 - id: approval
   config:
     policy: never
 
-# Alleen lezen. dsh-tool-fs laat write en edit weg bij false; applyPatch
-# staat upstream al uit en zetten we hier expliciet uit.
+# Read only. dsh-tool-fs leaves write and edit out when false; applyPatch
+# is already off upstream and we turn it off explicitly here.
 - id: tool-fs
   config:
     read: true
@@ -525,11 +525,11 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
     edit: false
     applyPatch: false
 
-# glob/grep blijven aan en lopen door de workspace-guard.
+# glob/grep stay on and go through the workspace guard.
 - id: tool-fs-search
   disabled: false
 
-# Shell onder onze bwrap. Het netwerk blijft open (ADR 0017).
+# Shell under our bwrap. The network stays open (ADR 0017).
 - id: sandbox
   config:
     runnerCommand:
@@ -537,23 +537,23 @@ cat > "${DSH_PROFILE_DIR}/cordis.patch.yml" <<PATCHEOF
     runnerFailureSignatures:
       - 'bwrap: '
 
-# make check aan het einde van een turn.
+# make check at the end of a turn.
 - insert:
     - id: slice-check
       name: ${REPO_ROOT}/packages/lab/cardine-slice-check/index.js
-    # Leesgrens voor read/read_image/glob/grep (ADR 0016 + 0017).
-    # De guard neemt de cwd van de sessie. De Zed-server zet geen workspace-pin.
+    # Read boundary for read/read_image/glob/grep (ADR 0016 + 0017).
+    # The guard takes the session's cwd. The Zed server sets no workspace pin.
     - id: secrets-guard
       name: ${REPO_ROOT}/packages/lab/cardine-secrets-guard/index.js
 PATCHEOF
 
-green "  ✓ ${DSH_PROFILE_DIR}/cordis.patch.yml gegenereerd"
+green "  ✓ ${DSH_PROFILE_DIR}/cordis.patch.yml generated"
 
 ###############################################################################
-# 7. Zed-configuratie ~/.config/zed/settings.json (JSONC-veilig)
+# 7. Zed configuration ~/.config/zed/settings.json (JSONC-safe)
 ###############################################################################
 echo ""
-echo "=== Zed-configuratie ==="
+echo "=== Zed configuration ==="
 
 mkdir -p "$(dirname "$ZED_SETTINGS")"
 
@@ -598,8 +598,8 @@ if (fs.existsSync(filePath)) {
         try {
             settings = JSON.parse(stripJsonc(raw));
         } catch (e) {
-            console.error("Fout bij parsen van " + filePath + ": " + e.message);
-            console.error("Afgebroken om bestaande Zed-instellingen te beschermen.");
+            console.error("Error parsing " + filePath + ": " + e.message);
+            console.error("Aborted to protect the existing Zed settings.");
             process.exit(1);
         }
     }
@@ -624,32 +624,32 @@ settings.agent_servers[key] = {
 };
 
 fs.writeFileSync(filePath, JSON.stringify(settings, null, 2) + "\n", "utf-8");
-console.log("  ✓ agent-server \"" + key + "\" ingesteld in " + filePath);
+console.log("  ✓ agent server \"" + key + "\" configured in " + filePath);
 '
 
 node -e "$NODE_SCRIPT" "$ZED_SETTINGS"
 
 ###############################################################################
-# Gereed
+# Done
 ###############################################################################
 echo ""
 echo "============================================================"
-green "  install-lab — klaar!"
+green "  install-lab — done!"
 echo "============================================================"
 echo ""
-echo "Nog één handmatige stap (als je key nog leeg is):"
+echo "One manual step left (if your key is still empty):"
 echo ""
-echo "  1. Open ~/.dsh/.env en vul je DeepInfra API-key in:"
+echo "  1. Open ~/.dsh/.env and fill in your DeepInfra API key:"
 echo ""
 echo "       DEEPSEEK_API_KEY=sk-..."
 echo ""
-echo "  2. Start in Zed een nieuwe thread 'DeepSeek Harness' in het Agent-paneel."
+echo "  2. In Zed, start a new thread 'DeepSeek Harness' in the Agent panel."
 echo ""
-echo "  3. Optioneel: indexeer deze repo met:"
+echo "  3. Optional: index this repo with:"
 echo ""
 echo "       cd ${REPO_ROOT}"
 echo "       ~/.local/bin/jarvis index \"\$(pwd)\" --no-semantic"
 echo ""
-echo "     (Zonder --no-semantic probeert jarvis een semantic-index te bouwen,"
-echo "      waarvoor een multi-GB modelgewicht moet worden gedownload.\)"
+echo "     (Without --no-semantic jarvis tries to build a semantic index,"
+echo "      which needs a multi-GB model weight downloaded.)"
 echo ""

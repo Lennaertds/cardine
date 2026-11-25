@@ -1,50 +1,50 @@
 # .cursorrules (solo)
 
-> **Rol:** Jouw persoonlijke laag voor Cursor bovenop `AGENTS.md`: voorkeuren en Cursor-afspraken.
-> **Niet hier:** alles over het project zelf ([agents-root](agents-root.md)), regels voor één app ([agents-app](agents-app.md)).
+> **Role:** Your personal layer for Cursor on top of `AGENTS.md`: preferences and Cursor agreements.
+> **Not here:** anything about the project itself ([agents-root](agents-root.md)), rules for one app ([agents-app](agents-app.md)).
 
-**Kitbestand:** [kit/solo/.cursorrules](../kit/solo/.cursorrules) · laag solo · steunt op P2, P7
+**Kit file:** [kit/solo/.cursorrules](../kit/solo/.cursorrules) · layer solo · rests on P2, P7
 
-## Wanneer
+## When
 
-Elk soloproject. In een teamproject niet: daar horen persoonlijke voorkeuren in je eigen user rules, niet in de repo.
+Every solo project. Not in a team project: there personal preferences belong in your own user rules, not in the repo.
 
-## Waarom niet alles in `.cursorrules`
+## Why not everything in `.cursorrules`
 
-Cursor leest `AGENTS.md` en `.cursorrules` allebei. Staat dezelfde regel in beide, dan betaal je hem twee keer (harness tax, P25), en zodra één versie wijzigt, spreken ze elkaar tegen (P7). Daarom:
+Cursor reads both `AGENTS.md` and `.cursorrules`. If the same rule is in both, you pay for it twice (harness tax, P25), and as soon as one version changes they contradict each other (P7). Hence:
 
-| Hoort in `AGENTS.md` | Hoort in `.cursorrules` |
-|----------------------|-------------------------|
-| grenzen, commando's, werkwijze, afronden, de kaart | de verwijzing naar `AGENTS.md` |
-| harde leesroutes (UI → `DESIGN.md`, feature → `PRODUCT.md`) | taal van de antwoorden (Nederlands, …) |
-| uitvoeren wint van praten (*implementeer* → code deze beurt) | persoonlijke werkwijze (plan eerst **tenzij** al uitvoer-woord; browser-check **na** de fix) |
-| rapportagestijl (extreem beknopt; geldt voor elke tool) | wat alleen in Cursor bestaat (welke `.mdc`-rules, `@`-gebruik) |
-| alles wat ook een andere tool of een frisse agent moet weten | (niets dat al links staat) |
+| Belongs in `AGENTS.md` | Belongs in `.cursorrules` |
+|------------------------|---------------------------|
+| boundaries, commands, working method, finishing, the map | the reference to `AGENTS.md` |
+| hard read routes (UI → `DESIGN.md`, feature → `PRODUCT.md`) | language of the answers (Dutch, …) |
+| doing beats talking (*implement* → code this turn) | personal working method (plan first **unless** there is already an action word; browser check **after** the fix) |
+| reporting style (extremely brief; applies to every tool) | what exists only in Cursor (which `.mdc` rules, `@` usage) |
+| everything another tool or a fresh agent must also know | (nothing that is already linked) |
 
-Zo is `AGENTS.md` in elk project dezelfde standaard, en is `.cursorrules` het enige bestand dat per persoon verschilt. Wissel je van project, dan staan de regels op dezelfde plaats.
+That keeps `AGENTS.md` the same standard in every project, and `.cursorrules` the only file that differs per person. Change project and the rules are in the same place.
 
-## Invullen
+## Filling in
 
-1. De eerste alinea uit de kit laten staan.
-2. Twee à vier persoonlijke regels. Gelden ze in al je projecten, dan staan ze in elk project hetzelfde.
-3. Een bestaande `.cursorrules` die als router diende: de inhoud gaat naar `AGENTS.md`, `docs/agent/write-rules.md` en de geneste `AGENTS.md`'s ([stap 6](../bestaand-project/6-router-en-kaart.md)). Wat overblijft is deze dunne laag.
+1. Keep the first paragraph from the kit.
+2. Two to four personal lines. If they apply in all your projects, they appear the same in every project.
+3. An existing `.cursorrules` that served as a router: its content goes to `AGENTS.md`, `docs/agent/write-rules.md` and the nested `AGENTS.md` files ([step 6](../existing-project/6-router-and-map.md)). What remains is this thin layer.
 
-## Voorbeeld (GymFreak)
+## Example (GymFreak)
 
 ```markdown
-# GymFreak — Cursor, persoonlijk
+# GymFreak — Cursor, personal
 
-Volg [AGENTS.md](AGENTS.md): daar staan de grenzen, de commando's, de werkwijze en de kaart. Dit bestand bevat
-alleen mijn persoonlijke voorkeuren en wat enkel voor Cursor geldt. Het herhaalt niets uit AGENTS.md.
+Follow [AGENTS.md](AGENTS.md): it holds the boundaries, the commands, the working method and the map. This file
+contains only my personal preferences and what applies to Cursor alone. It repeats nothing from AGENTS.md.
 
-- Antwoord in het Nederlands. Volledig in de code.
-- Bij een wijziging aan de UI: na de fix in de browser controleren op iPhone- en desktopbreedte, dan afronden. (Lezen van DESIGN hoort in AGENTS.md.)
-- Bij meer dan drie bestanden: kort plan alleen als nog geen *implementeer* / *bouw* / *ja*; daarna meteen code.
-- Kwaliteit boven tokenzuinigheid: liever een bestand meer lezen dan gokken.
+- Answer in Dutch. Comments in the code in English.
+- On a UI change: after the fix, check in the browser at iPhone and desktop widths, then finish. (Reading DESIGN belongs in AGENTS.md.)
+- With more than three files: a short plan only if there is no *implement* / *build* / *yes* yet; then code straight away.
+- Quality over token thrift: rather read one extra file than guess.
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] ≤ 15 regels.
-- [ ] Geen regel die ook in `AGENTS.md` staat (`rg` op een kernwoord).
-- [ ] De eerste regel verwijst naar `AGENTS.md`.
+- [ ] ≤ 15 lines.
+- [ ] No line that is also in `AGENTS.md` (`rg` on a key word).
+- [ ] The first line refers to `AGENTS.md`.

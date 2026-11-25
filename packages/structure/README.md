@@ -1,228 +1,229 @@
 # cardine-structure
 
-> **De projectstandaard voor ieder project, ongeacht editor of abonnement.**
+> **The project standard for every project, regardless of editor or subscription.**
 
-Een AI-agent werkt het best als hij de boom kent. Zonder vaste structuur raadt
-hij mappen, mist conventies, en begint elke sessie opnieuw. `cardine-structure`
-zet een bewezen projectboom neer — docs, data, besluiten, logs, werkitems —
-zodat mens én agent meteen weten waar alles staat.
+An AI agent works best when it knows the tree. Without a fixed structure it
+guesses at directories, misses conventions, and every session starts over.
+`cardine-structure` lays down a proven project tree — docs, data, decisions,
+logs, work items — so human and agent both know immediately where everything
+lives.
 
-Dit is het **gratis product**: geen editor, geen abonnement, geen lock-in.
-Alleen de structuur, klaar om in te werken met de editor en agent die je al
-hebt. Zie [docs/decisions/packages-context.md](../../docs/decisions/packages-context.md)
-voor de context (vraag A6 — structuur docs vs code, A8 — formaat
-per publiek, A9 — session-scope) en het bijbehorende besluit
-[ADR 0009](../../docs/decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md).
+This is the **free product**: no editor, no subscription, no lock-in. Just the
+structure, ready to work in with the editor and agent you already have. See
+[docs/decisions/packages-context.md](../../docs/decisions/packages-context.md)
+for the context (question A6 — structure docs vs code, A8 — format per audience,
+A9 — session scope) and the corresponding decision
+[ADR 0009](../../docs/decisions/0009-the-product-is-the-free-project-structure-and-a-guide-to-the-agent-paths.md).
 
 ---
 
-## Hoe de structuur is ontstaan
+## How the structure came about
 
-De projectstandaard is niet van de ene op de andere dag bedacht. Hij is
-gegroeid uit maanden experimenteren met AI-agenten in verschillende editors
-(Zed, Cursor, VS Code), verschillende projecttypes (web-apps, data-pipelines,
-research) en verschillende stacks (Next.js, NestJS, Python, SQL).
+The project standard was not invented overnight. It grew from months of
+experimenting with AI agents in different editors (Zed, Cursor, VS Code),
+different project types (web apps, data pipelines, research) and different
+stacks (Next.js, NestJS, Python, SQL).
 
-De lessen uit die experimenten — wat werkt voor een agent, wat niet, welke
-mappen een agent nodig heeft om context te begrijpen — zijn samengebracht in
-[`kit/`](../../kit/README.md) in deze repo (SSOT). `cardine-structure` bevat er een
-kopie van.
+The lessons from those experiments — what works for an agent, what does not,
+which directories an agent needs to understand context — are gathered in
+[`kit/`](../../kit/README.md) in this repo (SSOT). `cardine-structure` contains a
+copy of it.
 
-Zie voor de achtergrond:
+Background:
 - [docs/decisions/packages-context.md](../../docs/decisions/packages-context.md) —
-  Context: waarom een projectstructuur, waarom dual (docs + code), waarom de kit de bron is
-- [ADR 0013](../../docs/decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md) —
-  Waarom de structuur in `kit/` blijft
-- [ADR 0004](../../docs/decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) —
-  Waarom de standaard dual is: een dunne AGENTS.md en een harde make check
+  Context: why a project structure, why dual (docs + code), why the kit is the source
+- [ADR 0013](../../docs/decisions/0013-cardine-is-the-public-shop-window-and-pulls-the-structure-from-agent-engineering.md) —
+  Why the structure stays in `kit/`
+- [ADR 0004](../../docs/decisions/0004-the-project-standard-is-dual-a-thin-agents-md-and-a-hard-make-check.md) —
+  Why the standard is dual: a thin AGENTS.md and a hard make check
 
 ---
 
-## Installatie
+## Install
 
-### Vereisten
+### Requirements
 
-- **Node.js** 18+ (voor `npx`) of **Git** (voor direct gebruik)
-- Geen editor-vereiste — werkt met Zed, VS Code, Cursor, terminal
+- **Node.js** 18+ (for `npx`) or **Git** (for direct use)
+- No editor requirement — works with Zed, VS Code, Cursor, a terminal
 
-### Optie A — via npx (aanbevolen)
+### Option A — via npx (recommended)
 
 ```bash
-npx @lennaertds/cardine-structure mijn-project --profile app --modules research,agent
+npx @lennaertds/cardine-structure my-project --profile app --modules research,agent
 ```
 
-Haalt het package van de publieke npm-registry en draait `new-project.sh`
-zonder dat je iets installeert. Werkt ook in een lege map.
+Pulls the package from the public npm registry and runs `new-project.sh` without
+installing anything. Works in an empty directory too.
 
-### Optie B — globaal installeren
+### Option B — install globally
 
 ```bash
 npm i -g @lennaertds/cardine-structure
-cardine-structure mijn-project --profile app
+cardine-structure my-project --profile app
 ```
 
-Het `bin` heet `cardine-structure`. Handig als je de structuur vaak neerzet.
+The `bin` is called `cardine-structure`. Handy if you set the structure up often.
 
-### Optie C — direct uit de repo
+### Option C — straight from the repo
 
 ```bash
 git clone https://github.com/Lennaertds/cardine.git
-bash cardine/packages/structure/kit/new-project.sh mijn-project
+bash cardine/packages/structure/kit/new-project.sh my-project
 ```
 
-Voor deze variant heb je géén npm nodig: alleen Git en Bash.
+This variant needs no npm: only Git and Bash.
 
-### Opties voor `new-project.sh`
+### Options for `new-project.sh`
 
-| Optie | Beschrijving | Voorbeeld |
-|-------|-------------|-----------|
-| `--profile` | Voorgedefinieerde combinatie van modules/stacks | `--profile app`, `--profile full` |
-| `--modules` | Modules toevoegen (komma-gescheiden) | `--modules research,agent,design` |
-| `--stacks` | Stacks toevoegen (komma-gescheiden) | `--stacks next,python` |
-| `--team` | Team-map met CI en templates | `--team` |
+| Option | Description | Example |
+|--------|-------------|---------|
+| `--profile` | Predefined combination of modules/stacks | `--profile app`, `--profile research` |
+| `--modules` | Add modules (comma-separated) | `--modules research,agent,design` |
+| `--stacks` | Add stacks (comma-separated) | `--stacks next,python` |
+| `--team` | Team layer with CI and templates | `--team` |
 
-Zie [docs/cardine-structure.md](docs/cardine-structure.md) voor alle profiles
-en modules.
+See [docs/cardine-structure.md](docs/cardine-structure.md) for every profile and
+module.
 
 ---
 
-## Wat je krijgt
+## What you get
 
-### De boom
+### The tree
 
 ```
-mijn-project/
-├── README.md               ← Project-beschrijving
-├── AGENTS.md               ← Agent-instructies
+my-project/
+├── README.md               ← Project description
+├── AGENTS.md               ← Agent instructions
 ├── Makefile                ← check, context, finish
 ├── .gitignore / .editorconfig
 ├── docs/
-│   ├── INDEX.md            ← Doc-kaart — startpunt voor elke vraag
-│   ├── context/            ← Waarom, voor wie, termen
-│   ├── rules/              ← Grenzen, wat nooit mag
-│   ├── product/            ← Wat het product doet
-│   ├── architecture/       ← Hoe het in elkaar zit
-│   ├── decisions/          ← ADR's (waarom het zo is)
-│   ├── how-to/             ← Taken uitvoeren
-│   ├── research/           ← Wat we weten, experimenten
+│   ├── INDEX.md            ← Doc map — starting point for any question
+│   ├── context/            ← Why, for whom, terms
+│   ├── rules/              ← Boundaries, what never happens
+│   ├── product/            ← What the product does
+│   ├── architecture/       ← How it fits together
+│   ├── decisions/          ← ADRs (why things are the way they are)
+│   ├── how-to/             ← Performing tasks
+│   ├── research/           ← What we know, experiments
 │   └── work/               ← Backlog, specs, logs, meetings
 ├── data/
-│   ├── raw/                ← Bron-data (niet in git)
-│   ├── external/           ← Externe data (niet in git)
-│   ├── interim/            ← Tussenstanden (niet in git)
-│   ├── processed/          ← Verwerkte data
-│   ├── reference/          ← Naslag (wel in git)
-│   └── runtime/            ← Runtime-artefacten (niet in git)
-├── apps/                   ← Applicatiecode (per app)
-└── packages/               ← Deelbare code
+│   ├── raw/                ← Source data (not in git)
+│   ├── external/           ← External data (not in git)
+│   ├── interim/            ← Intermediate states (not in git)
+│   ├── processed/          ← Processed data
+│   ├── reference/          ← Reference material (in git)
+│   └── runtime/            ← Runtime artefacts (not in git)
+├── apps/                   ← Application code (per app)
+└── packages/               ← Shareable code
 ```
 
-### Lagen
+### Layers
 
-| Laag | Beschrijving | Verplicht? |
-|------|-------------|-----------|
-| `kern/` | README, AGENTS.md, Makefile, docs/, data/ (5 lagen) | altijd |
-| `solo/` | .cursorrules, work/ (BACKLOG, specs, logs) | standaard |
-| `logging/` | logs/status-log.md, logs/onderwerpen/ | altijd |
-| `team/` | .github/ (CI, PR-template, issues) | optioneel (`--team`) |
-| `modules/<naam>/` | Per domein (agent, research, design, compose, …) | optioneel (`--modules`) |
-| `stacks/<stack>/` | Per tech-stack (next, nest, python, sql, rust, c) | optioneel (`--stacks`) |
-| `profiles/<naam>.profile` | Voorgedefinieerde combinaties | optioneel (`--profile`) |
-| `new-project.sh` | Generator-script | ja |
+| Layer | Description | Required? |
+|-------|-------------|-----------|
+| `kern/` | README, AGENTS.md, Makefile, docs/, data/ (5 layers) | always |
+| `solo/` | .cursorrules, work/ (BACKLOG, specs, logs) | default |
+| `logging/` | logs/status-log.md, logs/topics/ | always |
+| `team/` | .github/ (CI, PR template, issues) | optional (`--team`) |
+| `modules/<name>/` | Per domain (agent, research, design, compose, …) | optional (`--modules`) |
+| `stacks/<stack>/` | Per tech stack (next, nest, python, sql, rust, c) | optional (`--stacks`) |
+| `profiles/<name>.profile` | Predefined combinations | optional (`--profile`) |
+| `new-project.sh` | Generator script | yes |
 
-### Wat een agent ermee kan
+### What an agent can do with it
 
-Met een vaste boom navigeert een agent moeiteloos:
+With a fixed tree an agent navigates effortlessly:
 
-1. **`docs/INDEX.md`** — één ingang voor alle documentatie. De agent leest dit
-   en weet meteen waar docs, regels, besluiten en werkitems staan.
-2. **`docs/decisions/`** — ADR's leggen vast waarom iets zo is. De agent
-   raadpleegt ze bij twijfel over architectuur.
-3. **`docs/rules/`** — harde grenzen die de agent nooit overschrijdt.
-4. **`docs/work/`** — backlog, specs, logs. De agent weet wat er nog moet
-   gebeuren en wat er al gedaan is.
-5. **`Makefile`** — `make check` valideert links, lint en tests.
-   `make context` geeft de agent startcontext.
+1. **`docs/INDEX.md`** — one entrance to all documentation. The agent reads this
+   and knows immediately where docs, rules, decisions and work items live.
+2. **`docs/decisions/`** — ADRs record why something is the way it is. The agent
+   consults them when architecture is in doubt.
+3. **`docs/rules/`** — hard boundaries the agent never crosses.
+4. **`docs/work/`** — backlog, specs, logs. The agent knows what still needs to
+   happen and what is already done.
+5. **`Makefile`** — `make check` validates links, lint and tests.
+   `make context` gives the agent starting context.
 
-Zie [docs/INDEX.md](../../docs/INDEX.md) voor de volledige navigatie-structuur.
+See [docs/INDEX.md](../../docs/INDEX.md) for the full navigation structure.
 
 ---
 
-## Hoe de distributie werkt
+## How distribution works
 
-De structuur wordt onderhouden in [`kit/`](../../kit/README.md) (SSOT).
+The structure is maintained in [`kit/`](../../kit/README.md) (SSOT).
 
 ```mermaid
 graph LR
-    AE[kit/<br>SSOT] -->|sync_kit.sh| CS[cardine-structure/kit/<br>npm-package]
-    CS -->|new-project.sh| NP[genereert project]
+    AE[kit/<br>SSOT] -->|sync_kit.sh| CS[cardine-structure/kit/<br>npm package]
+    CS -->|new-project.sh| NP[generates project]
     style AE fill:#888,color:#fff
     style CS fill:#e8a838,color:#fff
     style NP fill:#50b86c,color:#fff
 ```
 
-Bij elke release van `cardine-structure`:
+On every release of `cardine-structure`:
 
-1. Soms: `make tag-kit TAG=v0.2.0` na een opvallende kit-wijziging
-2. `sync_kit.sh` kopieert de bron `kit/` naar `packages/structure/kit/`
-3. Versie ophogen, changelog bijwerken
+1. Sometimes: `make tag-kit TAG=v0.2.0` after a notable kit change
+2. `sync_kit.sh` copies the source `kit/` into `packages/structure/kit/`
+3. Bump the version, update the changelog
 
-Zie [packages/structure/sync_kit.sh](sync_kit.sh) voor het script en
-[docs/cardine-structure.md](docs/cardine-structure.md) voor de details.
-
----
-
-## Wat niet in het package gaat
-
-Deze onderdelen van de standaard staan in de repo maar niet in het npm-package —
-ze bevatten principes, gidsen en interne tooling:
-
-| Onderdeel | Waarom privé |
-|-----------|-------------|
-| `standaard/` | Regels, principes, waarom de structuur zo is |
-| `sjablonen/` | Invulgidsen per bestand — uitleg voor de maker |
-| `nieuw-project/`, `bestaand-project/` | Gidsen voor het gebruik van de kit |
-| `bron/` | Kennis, principes, fundament — research en achtergrond |
-| `meten/` | Meetprotocollen, taken, resultaten |
-| `scripts/` | Interne tooling (test-kit, bootstrap, sessielogs) |
+See [packages/structure/sync_kit.sh](sync_kit.sh) for the script and
+[docs/cardine-structure.md](docs/cardine-structure.md) for the details.
 
 ---
 
-## Versiebeheer
+## What is not in the package
 
-Dit package heeft een **eigen versie**, onafhankelijk van `cardine-lab` en de
-meta-package. SemVer — `major.minor.patch`.
+These parts of the standard live in the repo but not in the npm package — they
+contain principles, guides and internal tooling:
 
-| Actie | Versie |
-|-------|--------|
-| Huidige versie | [0.4.0](CHANGELOG.md) |
-| Git-tag | `structure-v<semver>` |
+| Part | Why private |
+|------|-------------|
+| `standard/` | Rules, principles, why the structure is the way it is |
+| `sjablonen/` | Fill-in guides per file — explanation for the maker |
+| `new-project/`, `existing-project/` | Guides for using the kit |
+| `bron/` | Knowledge, principles, fundamentals — research and background |
+| `measurement/` | Measurement protocols, tasks, results |
+| `scripts/` | Internal tooling (test-kit, bootstrap, session logs) |
+
+---
+
+## Versioning
+
+This package has its **own version**, independent of `cardine-lab` and the meta
+package. SemVer — `major.minor.patch`.
+
+| Item | Value |
+|------|-------|
+| Current version | 0.5.1 ([CHANGELOG](CHANGELOG.md)) |
+| Git tag | `structure-v<semver>` |
 | CHANGELOG | [CHANGELOG.md](CHANGELOG.md) |
 
-Een *major* is een breaking change in de kit-structuur (bijv. een laag
-hernoemd of verwijderd). Een *minor* is een nieuwe module of stack. Een *patch*
-is een bugfix of documentatie.
+A *major* is a breaking change in the kit structure (for example a layer renamed
+or removed). A *minor* is a new module or stack. A *patch* is a bugfix or
+documentation.
 
-Zie [docs/packages/VERSIONING.md](../../docs/packages/VERSIONING.md) voor het
-volledige schema.
-
----
-
-## Relaties met andere packages
-
-| Package | Relatie |
-|---------|---------|
-| **[cardine (meta)](../../README.md)** | Dit package maakt deel uit van de meta-verwijzingen. De root-README geeft het overzicht. |
-| **[cardine-lab](../lab/README.md)** | Installeert de toolchain. `cardine-structure` kan los gebruikt worden, maar samen geven ze een volledig werkstation. |
+See [docs/packages/VERSIONING.md](../../docs/packages/VERSIONING.md) for the full
+scheme.
 
 ---
 
-## Meer lezen
+## Relations to other packages
 
-| Waar | Wat |
-|------|-----|
-| [docs/cardine-structure.md](docs/cardine-structure.md) | Volledige documentatie van dit package |
-| [sync_kit.sh](sync_kit.sh) | Kopieert de bron `kit/` naar de publieke distributiekopie |
-| [docs/packages/VERSIONING.md](../../docs/packages/VERSIONING.md) | Versiebeheer-schema |
-| [docs/product/PRODUCT.md](../../docs/product/PRODUCT.md) | Productoverzicht van Cardine |
-| [README.md](../../README.md) | Meta-package — overzicht van alles |
+| Package | Relation |
+|---------|----------|
+| **[cardine (meta)](../../README.md)** | This package is part of the meta's references. The root README gives the overview. |
+| **[cardine-lab](../lab/README.md)** | Installs the toolchain. `cardine-structure` works on its own, but together they give a complete workstation. |
+
+---
+
+## Read more
+
+| Where | What |
+|-------|------|
+| [docs/cardine-structure.md](docs/cardine-structure.md) | Full documentation of this package |
+| [sync_kit.sh](sync_kit.sh) | Copies the source `kit/` into the public distribution copy |
+| [docs/packages/VERSIONING.md](../../docs/packages/VERSIONING.md) | Versioning scheme |
+| [docs/product/PRODUCT.md](../../docs/product/PRODUCT.md) | Cardine product overview |
+| [README.md](../../README.md) | Meta package — overview of everything |

@@ -1,42 +1,42 @@
-# docs/INDEX.md (de kaart)
+# docs/INDEX.md (the map)
 
-> **Rol:** Eén ingang voor alle docs: per bestand de vraag die het beantwoordt, en wanneer niet.
-> **Niet hier:** de werkwijze ([agents-root](agents-root.md)), de mappenboom ([skelet](../standaard/skelet.md)).
+> **Role:** One entry point for all docs: per file the question it answers, and when not.
+> **Not here:** the working method ([agents-root](agents-root.md)), the folder tree ([skelet](../standard/skelet.md)).
 
-**Kitbestand:** [kit/kern/docs/INDEX.md](../kit/kern/docs/INDEX.md) · laag kern · P2, naar het voorbeeld van llms.txt (§15)
+**Kit file:** [kit/kern/docs/INDEX.md](../kit/kern/docs/INDEX.md) · layer kern · P2, following the llms.txt example (§15)
 
-## Wanneer
+## When
 
-Altijd. Het script laat alleen de secties staan van de modules die je koos. Elke keer dat een doc bijkomt of verdwijnt, past de kaart mee aan.
+Always. The script keeps only the sections of the modules you chose. Every time a doc appears or disappears, the map changes with it.
 
-## Invullen
+## Filling in
 
-1. **Per sectie** een vraag die de lezer heeft ("hoe zit het in elkaar"), niet de mapnaam.
-2. **Per bestand:** `[naam](pad) — <welke vraag>. Niet: <aanpalende vraag → ander bestand>.` Het "niet" voorkomt dat de agent het verkeerde bestand opent.
-3. **Mappen met veel bestanden** (`decisions/`, `logs/`, `experiments/`): geen lijst per bestand, maar hoe je zoekt (`rg`, het nummer, de datum). Uitzondering: de geldende ADR's, zolang het er minder dan ±15 zijn.
-4. **Regels met `<…>`** vervangen of schrappen. Geen links naar bestanden die nog niet bestaan.
-5. **Wat niet vooraf gelezen wordt** (`work/`, `deliverables/`, `archive/`) staat onderaan, met die waarschuwing.
+1. **Per section** a question the reader has ("how does it fit together"), not the folder name.
+2. **Per file:** `[name](path) — <which question>. Not: <adjacent question → other file>.` The "not" stops the agent from opening the wrong file.
+3. **Folders with many files** (`decisions/`, `logs/`, `experiments/`): no list per file, but how to search (`rg`, the number, the date). Exception: the active ADRs, as long as there are fewer than ±15.
+4. **Lines with `<…>`** are replaced or removed. No links to files that do not exist yet.
+5. **What is not read up front** (`work/`, `deliverables/`, `archive/`) goes at the bottom, with that warning.
 
-## Voorbeeld (GymFreak, één sectie)
+## Example (GymFreak, one section)
 
 ```markdown
-## Architectuur — hoe het in elkaar zit
+## Architecture — how it fits together
 
-- [ARCHITECTURE.md](architecture/ARCHITECTURE.md) — Containers, hosting, poorten, wie schrijft waar. Start hier voor "waar zit X".
-- [runtime-client.md](architecture/runtime-client.md) — PWA, offline, push, chrome-poll. Niet: containers → ARCHITECTURE.
-- [auth.md](architecture/auth.md) — JWT, demo-account, cookies in code. Niet: privacy-claims → legal.
-- [data-import.md](architecture/data-import.md) — Hoe Hevy- en Health-exports binnenkomen. Niet: wat een veld betekent → GLOSSARY.
-- [llm.md](architecture/llm.md) — Welke prompts, welk model, wat nooit naar de LLM gaat.
-- [security.md](architecture/security.md) — Gezondheidsdata, secrets, auth-principes, Strix.
-- [observability.md](architecture/observability.md) — Signalen en LGTM (opt-in).
-- [performance.md](architecture/performance.md) — Budgets en bench (opt-in).
-- [dependencies.md](architecture/dependencies.md) — CVE-audits (`deps-audit`, opt-in).
-- [polyglot.md](architecture/polyglot.md) — Extra talen na meting (`polyglot-check`, opt-in).
+- [ARCHITECTURE.md](architecture/ARCHITECTURE.md) — Containers, hosting, ports, who writes where. Start here for "where is X".
+- [runtime-client.md](architecture/runtime-client.md) — PWA, offline, push, chrome poll. Not: containers → ARCHITECTURE.
+- [auth.md](architecture/auth.md) — JWT, demo account, cookies in code. Not: privacy claims → legal.
+- [data-import.md](architecture/data-import.md) — How Hevy and Health exports come in. Not: what a field means → GLOSSARY.
+- [llm.md](architecture/llm.md) — Which prompts, which model, what never goes to the LLM.
+- [security.md](architecture/security.md) — Health data, secrets, auth principles, Strix.
+- [observability.md](architecture/observability.md) — Signals and LGTM (opt-in).
+- [performance.md](architecture/performance.md) — Budgets and bench (opt-in).
+- [dependencies.md](architecture/dependencies.md) — CVE audits (`deps-audit`, opt-in).
+- [polyglot.md](architecture/polyglot.md) — Extra languages after measurement (`polyglot-check`, opt-in).
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] `make links` is groen.
-- [ ] Elk doc onder `docs/` staat op de kaart, of in een map waarvan de kaart zegt hoe je zoekt.
-- [ ] Geen bestand staat er twee keer.
-- [ ] Een frisse agent kiest bij "waar zit de import van Hevy?" meteen het goede bestand.
+- [ ] `make links` is green.
+- [ ] Every doc under `docs/` is on the map, or in a folder whose map entry says how to search it.
+- [ ] No file is listed twice.
+- [ ] A fresh agent asked "where is the import of Hevy?" picks the right file straight away.

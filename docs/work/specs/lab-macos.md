@@ -1,63 +1,63 @@
 # Spec — lab-macos
 
-> **Rol:** `packages/lab/` werkend krijgen op macOS (Intel en Apple Silicon).
+> **Role:** Get `packages/lab/` working on macOS (Intel and Apple Silicon).
 
 - **Item:** [BACKLOG.md](../BACKLOG.md)
 - **Status:** open
 
-## Doel
+## Goal
 
-`install-lab.sh` installeert de lab-stack op macOS via Homebrew. `cardine-bwrap` wordt overgeslagen (bwrap bestaat niet op macOS). `cardine-status.sh` herkent macOS en slaat Linux-specifieke checks over. Zed-config gebruikt het macOS-pad.
+`install-lab.sh` installs the lab stack on macOS via Homebrew. `cardine-bwrap` is skipped (bwrap does not exist on macOS). `cardine-status.sh` recognises macOS and skips Linux-specific checks. The Zed config uses the macOS path.
 
 ## Scope
 
-- **In:** `install-lab.sh` (brew-detectie, Zed-installatie via brew, Zed-config pad), `cardine-status.sh` (macOS-herkenning, bwrap-check overslaan), `docs/cardine-lab.md`
-- **Buiten scope:** Linux-specifieke dingen (aparte spec), Windows, bwrap/sandbox op macOS
+- **In:** `install-lab.sh` (brew detection, Zed install via brew, Zed config path), `cardine-status.sh` (macOS detection, skip the bwrap check), `docs/cardine-lab.md`
+- **Out of scope:** Linux-specific things (separate spec), Windows, bwrap/sandbox on macOS
 
-## Basis — wat blijft gelijk aan Linux
+## Base — what stays the same as Linux
 
-| Onderdeel | Waarom |
+| Part | Why |
 |-----------|--------|
-| Node.js installatie | Via fnm/nvm/n, of via brew |
+| Node.js install | Via fnm/nvm/n, or via brew |
 | `uv` + jarvis-mcp | Via `uv tool install`, cross-platform |
 | DSH (DeepSeek Harness) | `npm install -g`, cross-platform |
-| `cardine-slice-check/` | Node-module, OS-onafhankelijk |
-| DSH ACP-profiel | YAML-generatie, identiek |
-| DSH `.env` aanmaken | Identiek |
-| Zoekt/SCIP build | Go build werkt op macOS (mits Go geïnstalleerd) |
-| `scripts/` tool-scripts | Bash met POSIX-commando's, werken op macOS |
+| `cardine-slice-check/` | Node module, OS independent |
+| DSH ACP profile | YAML generation, identical |
+| Creating the DSH `.env` | Identical |
+| Zoekt/SCIP build | Go build works on macOS (if Go is installed) |
+| `scripts/` tool scripts | Bash with POSIX commands, work on macOS |
 
-## Wat verandert op macOS
+## What changes on macOS
 
 | Aspect | Linux (Arch) | macOS |
 |--------|-------------|-------|
 | **Package manager** | `pacman` | `brew` (Homebrew) |
-| **sudo nodig?** | Ja, voor pacman | Nee, brew werkt zonder sudo |
-| **bwrap** | `bubblewrap` via pacman | **Bestaat niet** — sandbox overslaan |
+| **sudo needed?** | Yes, for pacman | No, brew works without sudo |
+| **bwrap** | `bubblewrap` via pacman | **Does not exist** — skip the sandbox |
 | **Zed** | `pacman -S zed` | `brew install --cask zed` |
 | **Zed config pad** | `~/.config/zed/settings.json` | `~/Library/Application Support/Zed/settings.json` |
-| **systemd** | Beschikbaar | **Bestaat niet** — geen timers |
+| **systemd** | Available | **Does not exist** — no timers |
 | **build-essential** | `base-devel` | Xcode Command Line Tools (`xcode-select --install`) |
 | **Go** | `go` via pacman | `brew install go` |
-| **Architectuur** | x86_64 | x86_64 (Intel) + arm64 (Apple Silicon) |
+| **Architecture** | x86_64 | x86_64 (Intel) + arm64 (Apple Silicon) |
 
-## Wat ontbreekt op macOS (en waarom ok)
+## What is missing on macOS (and why that is fine)
 
-| Ontbrekend | Gevolg | Oplossing |
+| Missing | Consequence | Solution |
 |------------|--------|-----------|
-| `bwrap` / `cardine-bwrap` | Geen sandbox voor agent-shell | DSH-profiel: `sandbox`-sectie overslaan. Documenteren: "macOS heeft geen equivalente sandbox — agent-shell draait native." |
-| `systemd` | Geen digest-timers | Timers zijn optioneel. Op macOS: `launchd`-agents als het nodig is. |
-| `pacman` | Geen systeempakketten via dit script | Alles via brew |
+| `bwrap` / `cardine-bwrap` | No sandbox for the agent shell | DSH profile: skip the `sandbox` section. Document: "macOS has no equivalent sandbox — the agent shell runs natively." |
+| `systemd` | No digest timers | Timers are optional. On macOS: `launchd` agents if needed. |
+| `pacman` | No system packages via this script | Everything via brew |
 
-## Aanpak per slice
+## Approach per slice
 
-### Slice 1 — macOS-herkenning + brew-installatie
+### Slice 1 — macOS detection + brew install
 
 - [ ] `is_macos()` functie: `[ "$(uname)" = "Darwin" ]`
-- [ ] Homebrew check: `command -v brew` — als niet aanwezig, faal met installatie-instructies
-- [ ] `install_with_brew()` functie: roept `brew install $@` aan
-- [ ] Bestaand Arch-blok in `install-lab.sh` uitbreiden met `elif is_macos; then` tak
-- [ ] Op macOS: brew installeert Zed, node, uv, jq, go
+- [ ] Homebrew check: `command -v brew` — if not present, fail with install instructions
+- [ ] `install_with_brew()` function: calls `brew install $@`
+- [ ] Extend the existing Arch block in `install-lab.sh` with an `elif is_macos; then` branch
+- [ ] On macOS: brew installs Zed, node, uv, jq, go
 
 ```bash
 is_macos() {
@@ -79,9 +79,9 @@ install_with_brew() {
 }
 ```
 
-### Slice 2 — macOS-specifieke dependencies
+### Slice 2 — macOS-specific dependencies
 
-Welke brew-packages heb je nodig:
+Which brew packages you need:
 
 ```bash
 MACOS_PKGS=()
@@ -89,7 +89,7 @@ if ! command -v zed &>/dev/null && ! command -v zeditor &>/dev/null; then
   MACOS_PKGS+=("--cask zed")
 fi
 if ! command -v bwrap &>/dev/null; then
-  yellow "  ~ bwrap bestaat niet op macOS — sandbox uitgeschakeld"
+  yellow "  ~ bwrap does not exist on macOS — sandbox disabled"
 fi
 # node
 if ! command -v node &>/dev/null; then
@@ -103,35 +103,35 @@ fi
 if ! command -v jq &>/dev/null; then
   MACOS_PKGS+=("jq")
 fi
-# go (voor Zoekt/SCIP build)
+# go (for the Zoekt/SCIP build)
 if ! command -v go &>/dev/null; then
   MACOS_PKGS+=("go")
 fi
 ```
 
-- [ ] macOS dependency lijst in `install-lab.sh`
-- [ ] Xcode CLI tools check: `xcode-select -p` — als niet gevonden, melding met `xcode-select --install`
+- [ ] macOS dependency list in `install-lab.sh`
+- [ ] Xcode CLI tools check: `xcode-select -p` — if not found, a message with `xcode-select --install`
 
-### Slice 3 — macOS: geen bwrap, geen sandbox
+### Slice 3 — macOS: no bwrap, no sandbox
 
-`cardine-bwrap` slaat nergens op op macOS. Het DSH-profiel moet de sandbox-runner **niet** instellen.
+`cardine-bwrap` makes no sense on macOS. The DSH profile must **not** set the sandbox runner.
 
-- [ ] In `install-lab.sh`: op macOS de `sandbox`-sectie in `cordis.patch.yml` **niet** genereren
-- [ ] jarvis-server wrapper: op macOS is symlink-resolutie geen probleem (geen bwrap), dus wrapper is niet nodig
-- [ ] In `cardine-status.sh`: bwrap-check overslaan op macOS — `warn` met "macOS: bwrap niet beschikbaar"
+- [ ] In `install-lab.sh`: on macOS do **not** generate the `sandbox` section in `cordis.patch.yml`
+- [ ] jarvis-server wrapper: on macOS symlink resolution is no problem (no bwrap), so no wrapper is needed
+- [ ] In `cardine-status.sh`: skip the bwrap check on macOS — `warn` with "macOS: bwrap not available"
 
 ```yaml
-# In DSH-profiel op macOS: geen sandbox-runner, geen wrapper.
-# shell-commando's draaien native.
+# In the DSH profile on macOS: no sandbox runner, no wrapper.
+# Shell commands run natively.
 ```
 
-### Slice 4 — macOS Zed-config pad
+### Slice 4 — macOS Zed config path
 
-Huidig: hardcoded `~/.config/zed/settings.json` (regel 22 in `cardine-status.sh`, regel 18 in `install-lab.sh`).
+Current: hardcoded `~/.config/zed/settings.json` (line 22 in `cardine-status.sh`, line 18 in `install-lab.sh`).
 
 Op macOS: `~/Library/Application Support/Zed/settings.json`
 
-- [ ] Functie `zed_settings_path()` die per OS het juiste pad teruggeeft:
+- [ ] A `zed_settings_path()` function that returns the right path per OS:
 
 ```bash
 zed_settings_path() {
@@ -143,57 +143,57 @@ zed_settings_path() {
 }
 ```
 
-- [ ] `ZED_SETTINGS` variabele in `install-lab.sh` en `cardine-status.sh` vervangen door aanroep van `zed_settings_path()`
+- [ ] Replace the `ZED_SETTINGS` variable in `install-lab.sh` and `cardine-status.sh` with a call to `zed_settings_path()`
 
-### Slice 5 — Zoekt/SCIP: Go build op macOS
+### Slice 5 — Zoekt/SCIP: Go build on macOS
 
-Zoekt en SCIP worden gebouwd met Go. Dat werkt op macOS zolang Go geïnstalleerd is (via brew). De build-stappen in `install-lab.sh` zijn al cross-platform (`go install`, `git clone`, `npm install`). Geen wijziging nodig — alleen Go moet beschikbaar zijn.
+Zoekt and SCIP are built with Go. That works on macOS as long as Go is installed (via brew). The build steps in `install-lab.sh` are already cross-platform (`go install`, `git clone`, `npm install`). No change needed — only Go must be available.
 
-- [ ] Test of `setup.sh` (van jarvis-mcp) werkt op macOS
-- [ ] Fallback (handmatige Zoekt/SCIP build) werkt ongewijzigd
+- [ ] Test whether `setup.sh` (from jarvis-mcp) works on macOS
+- [ ] The fallback (manual Zoekt/SCIP build) works unchanged
 
-### Slice 6 — `cardine-status.sh` macOS-aware
+### Slice 6 — `cardine-status.sh` macOS aware
 
 - [ ] `is_macos()` functie
-- [ ] bwrap-check (§3) overslaan: `if ! is_macos; then ... check bwrap ...`
-- [ ] sandbox-detectie (§0) op macOS: `warn` "sandbox: macOS heeft geen bwrap — agent-shell draait native"
-- [ ] Zed-pad (§4 check): gebruikt `zed_settings_path()`
-- [ ] DSH_HOME check (§10): werkt ongewijzigd op macOS (`~/.dsh`)
+- [ ] Skip the bwrap check (§3): `if ! is_macos; then ... check bwrap ...`
+- [ ] Sandbox detection (§0) on macOS: `warn` "sandbox: macOS has no bwrap — agent shell runs natively"
+- [ ] Zed path (§4 check): uses `zed_settings_path()`
+- [ ] DSH_HOME check (§10): works unchanged on macOS (`~/.dsh`)
 
-### Slice 7 — Docs bijwerken
+### Slice 7 — Update the docs
 
-- [ ] `docs/cardine-lab.md`: doelgroep uitbreiden naar macOS
-- [ ] README.md: "brew-based installatie op macOS" sectie
+- [ ] `docs/cardine-lab.md`: extend the audience to macOS
+- [ ] README.md: a "brew-based install on macOS" section
 - [ ] `CHANGELOG.md`: `0.2.0` entry
 
-## Architectuurnoten (Apple Silicon vs Intel)
+## Architecture notes (Apple Silicon vs Intel)
 
-- Zoekt/SCIP Go build: cross-architectuur, Go genereert native binary voor `uname -m`
-- jarvis via uv: Python + platform wheels, werkt op arm64
-- DSH via npm: Node cross-platform, werkt op arm64
-- Zed op macOS: `brew install --cask zed` installeert de juiste arch
-- **Geen extra werk** — alles is al multi-arch dankzij Go/Node/brew
+- Zoekt/SCIP Go build: cross-architecture, Go generates a native binary for `uname -m`
+- jarvis via uv: Python + platform wheels, works on arm64
+- DSH via npm: Node cross-platform, works on arm64
+- Zed on macOS: `brew install --cask zed` installs the right arch
+- **No extra work** — everything is already multi-arch thanks to Go/Node/brew
 
-## Niet doen (bewust later)
+## Do not do (deliberately later)
 
-- bwrap-achtige sandbox op macOS (gebruik `sandbox-exec` of Docker) — te zwaar voor lab
-- `launchd`-timers als systemd-vervanger — pas als digest-feeds nodig zijn
-- Windows — geen bash/npm/uv-pipeline
+- A bwrap-like sandbox on macOS (use `sandbox-exec` or Docker) — too heavy for the lab
+- `launchd` timers as a systemd replacement — only once digest feeds are needed
+- Windows — no bash/npm/uv pipeline
 
-## Raakvlakken
+## Touchpoints
 
-- `packages/lab/install-lab.sh` — hoofdscript
-- `packages/lab/cardine-status.sh` — macOS-checks
-- `packages/lab/cardine-bwrap` — ongewijzigd, wordt niet gebruikt op macOS
-- `packages/lab/docs/cardine-lab.md` — docs updaten
-- `packages/lab/README.md` — installatie-instructies
+- `packages/lab/install-lab.sh` — main script
+- `packages/lab/cardine-status.sh` — macOS checks
+- `packages/lab/cardine-bwrap` — unchanged, not used on macOS
+- `packages/lab/docs/cardine-lab.md` — update the docs
+- `packages/lab/README.md` — install instructions
 
-## Acceptatie
+## Acceptance
 
-- [ ] `make check` groen
-- [ ] `bash packages/lab/install-lab.sh` herkent macOS en gebruikt brew
-- [ ] `bash packages/lab/install-lab.sh` configureert Zed op het juiste pad
-- [ ] `bash packages/lab/install-lab.sh` slaat bwrap + sandbox over op macOS
-- [ ] `bash packages/lab/cardine-status.sh` werkt op macOS zonder fouten (bwrap-check overgeslagen)
+- [ ] `make check` is green
+- [ ] `bash packages/lab/install-lab.sh` recognises macOS and uses brew
+- [ ] `bash packages/lab/install-lab.sh` configures Zed at the right path
+- [ ] `bash packages/lab/install-lab.sh` skips bwrap + sandbox on macOS
+- [ ] `bash packages/lab/cardine-status.sh` works on macOS without errors (bwrap check skipped)
 - [ ] DSH start op macOS (`dsh --profile acp` init)
 - [ ] Zed-config staat op `~/Library/Application Support/Zed/settings.json`

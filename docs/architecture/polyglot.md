@@ -1,87 +1,87 @@
 # Polyglot
 
-> **Rol:** Wanneer een extra taal (Rust, C, …) mag, hoe je dat beslist, en wat een agent zonder akkoord mag doen.
-> **Niet hier:** latency-budgets ([performance.md](performance.md)); containerlijst ([ARCHITECTURE.md](ARCHITECTURE.md)); CVE-audits ([dependencies.md](dependencies.md)).
+> **Role:** when an extra language (Rust, C, …) is allowed, how to decide that, and what an agent may do without approval.
+> **Not here:** latency budgets ([performance.md](performance.md)); container list ([ARCHITECTURE.md](ARCHITECTURE.md)); CVE audits ([dependencies.md](dependencies.md)).
 
-Extra systemstalen zijn **toegestaan** voor hot paths na meting + ADR — niet omdat het “cooler” is, en niet omdat de agent aanneemt dat Rust/C “niet mag”. Native app-mappen bestaan **alleen** als dit project die stack koos (`--stacks rust` → `apps/native`, `--stacks c` → `apps/native-c`). Zonder die mappen: geen FFI aannemen; eerst meten, ADR, dan stack toevoegen.
+Extra systems languages are **allowed** for hot paths after measuring + an ADR — not because it is "cooler", and not because the agent assumes Rust/C "is not allowed". Native app directories exist **only** if this project chose that stack (`--stacks rust` → `apps/native`, `--stacks c` → `apps/native-c`). Without those directories: do not assume FFI; measure first, ADR, then add the stack.
 
-## Relatie tot andere docs
+## Relation to other docs
 
-| Hier | Elders |
-|------|--------|
-| Beslisboom taal + grenzen FFI/sidecar | `performance.md` — budgets en anti-patronen |
-| Wat in `apps/` / seams mag | `ARCHITECTURE.md` — containers, seams |
-| Voorbeeld-ADR-vorm | `docs/decisions/0000-voorbeeld-native-module-na-budget-breuk.md` |
+| Here | Elsewhere |
+|------|-----------|
+| Decision tree for a language + FFI/sidecar boundaries | `performance.md` — budgets and anti-patterns |
+| What may live in `apps/` / seams | `ARCHITECTURE.md` — containers, seams |
+| Example ADR shape | `docs/decisions/0000-example-native-module-after-budget-breach.md` |
 | Soft vs hard FFI in CI | [how-to/native-ci.md](../how-to/native-ci.md) |
 
-## Beslisboom
+## Decision tree
 
-1. **Meet** het hot path (`make bench-*` en/of obs: p95, CPU, allocaties).
-2. **Budget gebroken?** Zo nee: optimaliseer in de bestaande stack (algoritme, I/O, caching). Zo ja: ga door.
-3. **Native overwegen** (Rust/C of andere systemstaal) alleen met meetbaar probleem.
-4. **ADR vóór** nieuwe taalmap, crate, of FFI-grens (zie voorbeeld-ADR). Status `aanvaard` → pas code / stack.
-5. **Kies integratie** (tabel hieronder) en leg die in de ADR + `ARCHITECTURE.md` (nieuwe container of seam).
-6. **Bench opnieuw** tegen hetzelfde budget; zo niet: terug of andere optie.
+1. **Measure** the hot path (`make bench-*` and/or obs: p95, CPU, allocations).
+2. **Budget broken?** If not: optimise within the existing stack (algorithm, I/O, caching). If so: continue.
+3. **Consider native** (Rust/C or another systems language) only with a measurable problem.
+4. **ADR first**, before a new language directory, crate, or FFI boundary (see the example ADR). Status `accepted` → only then code / stack.
+5. **Choose the integration** (table below) and record it in the ADR + `ARCHITECTURE.md` (new container or seam).
+6. **Bench again** against the same budget; if not met: back out or take another option.
 
 ```
-budget OK? ──ja──► blijf in bestaande stack-talen
+budget OK? ──yes──► stay in the existing stack languages
      │
-    nee
+     no
      ▼
-optimaliseer in-stack ──helpt──► klaar
+optimise in-stack ──helps──► done
      │
-  helpt niet
+  does not help
      ▼
-ADR + native (FFI / sidecar / proces) → opnieuw meten
+ADR + native (FFI / sidecar / process) → measure again
 ```
 
-## Integratievormen
+## Integration forms
 
-| Vorm | Wanneer | Let op |
-|------|---------|--------|
-| **FFI / native module** in bestaande app | Zelfde proces, lage latency, duidelijke pure functie | Build-tooling, ABI, geen secrets in native logs |
-| **Sidecar** (aparte binary naast de app) | Eigen lifecycle, andere resource-limits | Compose/poorten in `ARCHITECTURE.md`; healthchecks |
-| **Apart proces / job** (batch, queue-worker) | CPU-zwaar, mag async | Geen sync-wacht op HTTP-request-pad |
+| Form | When | Watch out for |
+|------|------|---------------|
+| **FFI / native module** in the existing app | Same process, low latency, a clear pure function | Build tooling, ABI, no secrets in native logs |
+| **Sidecar** (a separate binary next to the app) | Its own lifecycle, different resource limits | Compose/ports in `ARCHITECTURE.md`; healthchecks |
+| **Separate process / job** (batch, queue worker) | CPU-heavy, may be async | No synchronous wait on the HTTP request path |
 
-SQL/analytics blijft Python/SQL tenzij een mart aantoonbaar CPU-gebonden is (zelfde boom + ADR).
+SQL/analytics stays Python/SQL unless a mart is demonstrably CPU-bound (same tree + ADR).
 
-## Wat de agent mag
+## What the agent may do
 
-| Zonder akkoord | Eerst vragen of ADR |
-|----------------|---------------------|
-| Optimaliseren binnen bestaande stack/taal | Nieuwe map `apps/<native-…>`, crate, of `.rs`/`.c` in de repo |
-| Bench/obs gebruiken om een vermoeden te staven | FFI-binding of sidecar toevoegen |
-| Verwijzen naar deze doc + voorbeeld-ADR | Aannemen dat Rust/C “niet mag”, “altijd moet”, of dat `apps/native` al bestaat |
+| Without approval | Ask first or file an ADR |
+|------------------|--------------------------|
+| Optimise within the existing stack/language | A new `apps/<native-…>` directory, crate, or `.rs`/`.c` in the repo |
+| Use bench/obs to support a suspicion | Adding an FFI binding or a sidecar |
+| Refer to this doc + the example ADR | Assume Rust/C "is not allowed", "is always required", or that `apps/native` already exists |
 
-### Als native-stacks aanwezig zijn
+### If native stacks are present
 
-| Stack | App | Check | Starter-FFI (met `--starter`) |
-|-------|-----|-------|-------------------------------|
+| Stack | App | Check | Starter FFI (with `--starter`) |
+|-------|-----|-------|--------------------------------|
 | `rust` | `apps/native` | `make check-native` | napi + PyO3 |
 | `c` | `apps/native-c` | `make check-native-c` | N-API stub + ctypes |
 
-ADR kiest taal + FFI-pad (of meerdere seams). Ontbreekt de app-map: die stack hoort (nog) niet bij dit project.
+The ADR picks the language + FFI path (or several seams). If the app directory is missing, that stack does not (yet) belong to this project.
 
-## Commando's
+## Commands
 
 ```bash
-make polyglot-check            # vaste secties in dit bestand; niet in make check
-make perf-check                # budgets aanwezig
-make bench                     # meting vóór native-keuze
-make check-native              # soft FFI (alleen met rust-stack)
-make check-native-c            # soft FFI (alleen met c-stack)
-NATIVE_STRICT=1 make check-native   # hard (of via check-full)
+make polyglot-check            # fixed sections in this file; not in make check
+make perf-check                # budgets present
+make bench                     # measurement before a native choice
+make check-native              # soft FFI (only with the rust stack)
+make check-native-c            # soft FFI (only with the c stack)
+NATIVE_STRICT=1 make check-native   # hard (or via check-full)
 make check-full                # soft check + native-bindings-strict
 ```
 
-Soft vs hard FFI: [how-to/native-ci.md](../how-to/native-ci.md). Team: `.github/workflows/native.yml` (als native-stacks meekwamen).
+Soft vs hard FFI: [how-to/native-ci.md](../how-to/native-ci.md). Team: `.github/workflows/native.yml` (if native stacks were included).
 
-## Bewust later
+## Deliberately later
 
-Vaste kop (P28): vraag ernaar of BACKLOG als dit nodig wordt.
+Fixed heading (P28): ask about it or file a BACKLOG item when this becomes needed.
 
-| Uitbreiding | Waarom later | Vraag als |
-|-------------|--------------|-----------|
-| Volledige N-API/`#[napi]` build.rs in de kit-starter | Soft check + STRICT via maturin/pnpm in project-CI; kit levert scaffolds | Day-1 `.node` zonder project-toolchain |
-| Sidecar-compose-sjabloon | FFI-pad dekt hot path; sidecar is ADR-keuze | Compose/healthchecks standaard voor native |
-| `cargo`/`cc` in `TOOLS` zonder native-stack | Geen native in elk project | Altijd toolchains op elke machine |
+| Extension | Why later | Ask when |
+|-----------|-----------|----------|
+| Full N-API/`#[napi]` build.rs in the kit starter | Soft check + STRICT via maturin/pnpm in project CI; the kit ships scaffolds | Day-1 `.node` without a project toolchain |
+| Sidecar compose template | The FFI path covers the hot path; a sidecar is an ADR choice | Compose/healthchecks standard for native |
+| `cargo`/`cc` in `TOOLS` without a native stack | No native in every project | Toolchains always needed on every machine |

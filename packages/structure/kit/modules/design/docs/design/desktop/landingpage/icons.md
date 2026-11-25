@@ -1,31 +1,31 @@
 # Desktop — icons
 
-> **Rol:** Eén icoonfamilie op de showcase.  
-> **Niet hier:** product-iconen en fonts ([materials-type](../../iphone/materials-type.md)).
+> **Role:** One icon family on the showcase.
+> **Not here:** product icons and fonts ([materials-type](../../iphone/materials-type.md)).
 
-Iconen helpen de tekst. Ze vervangen hem niet, behalve waar het icoon een standaardactie is (sluiten, menu) mét `aria-label`.
+Icons help the text. They do not replace it, except where the icon is a standard action (close, menu) **with** an `aria-label`.
 
-## 1. Eén familie
+## 1. One family
 
-- SVG. Geen JPG, PNG of emoji als icoon.
-- Dezelfde familie als de product-UI. Geen tweede pack op showcase-routes.
-- Eén stroke in dezelfde laag: **1.75**. Hoeken van de stroke volgen de familie, niet per icoon anders.
-- **Fill vs outline set-wide:** rust = outline over de hele showcase-set. Filled alleen voor een actieve staat in diezelfde familie. Niet outline en filled door elkaar op één balk.
-- Kleur: `currentColor`. Accent alleen als het icoon ín de primaire knop staat.
-- Maten (**optical size**), niet freestylen: **16** meta, **20** in de balk, **24** naast een sectietitel. Groter dan 24: het icoon in een vorm zetten, niet het glyph oprekken.
-- **Fixed bounding box** per maat (viewBox/hit-area gelijk binnen 16, binnen 20, binnen 24). Glyphs centreren in die box; geen per-icoon crop die de rij laat verspringen.
+- SVG. No JPG, PNG or emoji as an icon.
+- The same family as the product UI. No second pack on showcase routes.
+- One stroke in the same layer: **1.75**. Stroke corners follow the family, not differently per icon.
+- **Fill vs outline set-wide:** rest = outline across the whole showcase set. Filled only for an active state in that same family. Not outline and filled mixed on one bar.
+- Colour: `currentColor`. Accent only if the icon sits **inside** the primary button.
+- Sizes (**optical size**), no freestyling: **16** meta, **20** in the bar, **24** next to a section title. Bigger than 24: put the icon in a shape, do not stretch the glyph.
+- **Fixed bounding box** per size (viewBox/hit area the same within 16, within 20, within 24). Centre glyphs in that box; no per-icon crop that makes the row jump.
 
-## 2. Wanneer
+## 2. When
 
-- Naast een actie, met label, tenzij de actie sluiten of een even duidelijke standaard is.
-- Als bullet alleen als elke bullet hetzelfde gewicht heeft en de tekst ook zonder icoon klopt.
-- Decor naast een zichtbaar label: `aria-hidden="true"`.
-- Icoon dat zelf de betekenis draagt: tekstalternatief. Een control kondigt ook staat aan (open, geselecteerd).
+- Next to an action, with a label, unless the action is close or an equally obvious standard.
+- As a bullet only if every bullet has the same weight and the text works without the icon too.
+- Decor next to a visible label: `aria-hidden="true"`.
+- An icon that carries the meaning itself: a text alternative. A control also announces its state (open, selected).
 
-## 3. Uitlijning
+## 3. Alignment
 
-Icoon en label delen één verticale as. Gap 8px. Het icoon verspringt niet als de rij hovert.
+Icon and label share one vertical axis. Gap 8px. The icon does not jump when the row hovers.
 
-Een merklogo (LinkedIn, GitHub) blijft het officiële teken, in `currentColor` of de oorspronkelijke monochrome vorm. Niet hertekenen, niet uitrekken.
+A brand logo (LinkedIn, GitHub) stays the official mark, in `currentColor` or the original monochrome form. Do not redraw, do not stretch.
 
-**Test:** op de showcase komt elk icoon uit één familie, op 16, 20 of 24px, en nergens staat een emoji als knop.
+**Test:** on the showcase every icon comes from one family, at 16, 20 or 24px, and nowhere is an emoji used as a button.

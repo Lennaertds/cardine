@@ -1,7 +1,7 @@
 # How-to — deps-audit
 
-> **Rol:** `make deps-audit` draaien en audit-tools installeren.
-> **Niet hier:** ritueel en ADR-beleid ([architecture/dependencies.md](../architecture/dependencies.md)).
+> **Role:** run `make deps-audit` and install the audit tools.
+> **Not here:** the ritual and ADR policy ([architecture/dependencies.md](../architecture/dependencies.md)).
 
 ## deps-audit
 
@@ -9,22 +9,22 @@
 make deps-audit
 ```
 
-Controleert vaste secties in `docs/architecture/dependencies.md` en runt audits voor elke gevonden stack (JS, Python; Rust stub). Zit in `make check-full`, niet in `make check`.
+Checks the fixed sections in `docs/architecture/dependencies.md` and runs audits for each stack it finds (JS, Python; Rust stub). Part of `make check-full`, not of `make check`.
 
 ## Tools
 
 | Stack | Tool | Tip |
 |-------|------|-----|
-| JS/TS | `pnpm` of `npm` (meegeleverd) | Lockfile aanwezig houden (`pnpm-lock.yaml` / `package-lock.json`) |
-| Python | `pip-audit` of `uv` | `pipx install pip-audit` of recente `uv` |
-| Rust | `cargo-audit` | `cargo install cargo-audit` — script meldt stub tot aangesloten |
+| JS/TS | `pnpm` or `npm` (already present) | Keep the lockfile (`pnpm-lock.yaml` / `package-lock.json`) |
+| Python | `pip-audit` or `uv` | `pipx install pip-audit` or a recent `uv` |
+| Rust | `cargo-audit` | `cargo install cargo-audit` — the script reports a stub until it is wired up |
 
-Zonder tool: waarschuwing + skip voor die stack. Installeer de tool vóór release/`check-full` in CI.
+Without the tool: a warning and a skip for that stack. Install the tool before release / `check-full` in CI.
 
-Uitbreidingen (license-gate, SBOM, `TARGET=`, …): zie `## Bewust later` in [dependencies.md](../architecture/dependencies.md) (P28) — vraag ernaar als nodig.
+Extensions (licence gate, SBOM, `TARGET=`, …): see `## Deliberately later` in [dependencies.md](../architecture/dependencies.md) (P28) — ask about them when needed.
 
-## CVE gevonden
+## CVE found
 
-1. Upgrade of patch in de lockfile.
-2. Lukt dat niet: ADR met waarom je de dep houdt + mitigerende maatregel.
-3. Opnieuw `make deps-audit` tot groen (of ADR + bewuste ignore — documenteer, niet stil).
+1. Upgrade or patch in the lockfile.
+2. If that does not work: an ADR explaining why you keep the dependency, plus the mitigating measure.
+3. Run `make deps-audit` again until green (or an ADR plus a deliberate ignore — document it, do not do it silently).

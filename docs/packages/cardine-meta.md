@@ -1,123 +1,113 @@
-# Meta-package: `cardine`
+# Meta package: `cardine`
 
-> **De GitHub-repo `Lennaertds/cardine` is het uithangbord én het startpunt voor een nieuw project.**
-> De README legt uit wat Cardine is. De root is installeerbaar: `cardine <map>` zet de
-> projectstructuur neer, zodat één commando in elke gloednieuwe map volstaat.
+> **The GitHub repo `Lennaertds/cardine` is both the shop window and the starting point for a new project.**
+> The README explains what Cardine is. The root is installable: `cardine <dir>` lays down the
+> project structure, so one command in any brand-new directory suffices.
 
-| Veld | Waarde |
-|------|--------|
+| Field | Value |
+|-------|-------|
 | **Package** | `cardine` (meta) |
-| **Doelgroep** | Iedereen die een nieuw project begint |
-| **Bron** | `cardine/` (root) |
-| **Registry** | npmjs.org, `access: public` — geen token nodig |
-| **Installatie** | `npx cardine <map> [opties]` of `npm i -g cardine && cardine <map>` |
-| **Afhankelijk van** | bevat `packages/structure/kit/`; verwijst naar `cardine-lab` |
+| **Audience** | Anyone starting a new project |
+| **Source** | `cardine/` (root) |
+| **Registry** | npmjs.org, `access: public` — no token needed |
+| **Install** | `npx cardine <dir> [options]` or `npm i -g cardine && cardine <dir>` |
+| **Depends on** | contains `packages/structure/kit/`; refers to `cardine-lab` |
 
-Waarom de root wél installeerbaar is: een verse map heeft geen clone en geen
-`packages/structure/` van `@lennaertds/cardine-structure` nodig. `bin/cardine`
-roept `packages/structure/kit/new-project.sh` aan met een pad dat eerst door
-`readlink -f` gaat (via een npm-symlink wijst `BASH_SOURCE[0]` anders naar
-`<prefix>/bin`). Er wordt niets buiten `<map>` geschreven.
+Why the root is installable at all: a fresh directory has no clone and does not
+need `packages/structure/` from `@lennaertds/cardine-structure`. `bin/cardine`
+calls `packages/structure/kit/new-project.sh` with a path that goes through
+`readlink -f` first (through an npm symlink `BASH_SOURCE[0]` otherwise points at
+`<prefix>/bin`). Nothing is written outside `<dir>`.
 
 ---
 
-## Wat in de root van de repo
+## What lives in the repo root
 
 ```
 cardine/
-├── README.md           ← Visitekaartje, uitleg, links naar packages
-├── package.json        ← Meta: "cardine" met versie, verwijzingen
-├── CHANGELOG.md        ← Overzicht van alle package-versies
+├── README.md           ← Shop window, explanation, links to packages
+├── package.json        ← Meta: "cardine" with version, references
+├── CHANGELOG.md        ← Overview of all package versions
 ├── LICENSE             ← MIT
 ├── docs/
-│   ├── INDEX.md        ← Doc-kaart
-│   ├── product/        ← Productdocs per onderdeel
-│   ├── decisions/      ← ADR's (publiek — zonder privé-details)
+│   ├── INDEX.md        ← Doc map
+│   ├── product/        ← Product docs per part
+│   ├── decisions/      ← ADRs (public — without private details)
 │   ├── packages/
-│   │   └── INDEX.md    ← Dit document
-│   ├── guides/         ← Gidsen per pad
+│   │   └── INDEX.md    ← This document
+│   ├── how-to/         ← Guides per path
 │   └── ...
 ├── packages/
 │   ├── lab/            ← cardine-lab package
-│   └── structure/      ← cardine-structure package (gepullt)
-├── scripts/            ← Alleen wat voor de meta nodig is (status, etc.)
-├── AGENTS.md           ← (publiek, maar gericht op ontwikkelaars)
-├── Makefile            ← check, context, finish (voor ontwikkeling)
+│   └── structure/      ← cardine-structure package (mirrored)
+├── scripts/            ← Only what the meta needs (status, etc.)
+├── AGENTS.md           ← (public, but aimed at developers)
+├── Makefile            ← check, context, finish (for development)
 └── .gitignore
 ```
 
-## Wat verdwijnt uit de root (naar packages/)
+## What stays in the root
 
-| Huidig bestand | Gaat naar |
-|---------------|-----------|
-| `scripts/install-lab.sh` | `packages/lab/install-lab.sh` |
-| `scripts/cardine-bwrap` | `packages/lab/cardine-bwrap` |
-| `scripts/cardine-slice-check/` | `packages/lab/cardine-slice-check/` |
-| `scripts/cardine-status.sh` | `packages/lab/cardine-status.sh` |
-| `scripts/digest-*` | `packages/lab/scripts/` |
-| `scripts/security-scan.sh` etc. | `packages/lab/scripts/` |
-| `scripts/systemd/` | `packages/lab/systemd/` |
-
-## Wat blijft in de root
-
-| Bestand | Waarom |
-|---------|--------|
-| `README.md` | Uithangbord — moet meteen duidelijk zijn |
-| `package.json` | Meta-package met `bin.cardine` en `files` |
-| `bin/cardine` | Entrypoint: `cardine <map>` → kit/new-project.sh |
-| `CHANGELOG.md` | Overzicht alle versies |
+| File | Why |
+|------|-----|
+| `README.md` | Shop window — must be clear at a glance |
+| `package.json` | Meta package with `bin.cardine` and `files` |
+| `bin/cardine` | Entrypoint: `cardine <dir>` → kit/new-project.sh |
+| `CHANGELOG.md` | Overview of all versions |
 | `LICENSE` | MIT |
-| `docs/` | Productdocs, ADR's, gidsen, packages-ontwerp |
-| `AGENTS.md` | Agent-instructies voor ontwikkeling |
-| `Makefile` | `make check`, `make context` voor ontwikkeling |
-| `.gitignore` | Standaard |
-| `.editorconfig` | Code-stijl |
+| `docs/` | Product docs, ADRs, guides, packages design |
+| `AGENTS.md` | Agent instructions for development |
+| `Makefile` | `make check`, `make context` for development |
+| `.gitignore` | Standard |
+| `.editorconfig` | Code style |
 | `.pre-commit-config.yaml` | Pre-commit hooks |
-| `.env.example` | Voorbeeld |
+| `.env.example` | Example |
 
-## Packages die de meta aanbiedt
+## Packages the meta offers
 
-| # | Package | Doc | Doelgroep |
-|---|---------|------|-----------|
-| 1 | **`cardine-lab`** | [cardine-lab.md](cardine-lab.md) | Arch/Hyprland AI-agent-werkstation |
-| 2 | **`cardine-structure`** | [cardine-structure.md](cardine-structure.md) | Projectstandaard (elke editor) |
+| # | Package | Doc | Audience |
+|---|---------|-----|----------|
+| 1 | **`cardine-lab`** | [cardine-lab.md](cardine-lab.md) | Arch/Hyprland AI-agent workstation |
+| 2 | **`cardine-structure`** | [cardine-structure.md](cardine-structure.md) | Project standard (any editor) |
 
-## Afhankelijkheden en samenhang
+## Dependencies and relations
 
 ```
                     ┌──────────────────┐
-                    │   cardine (meta) │  ← GitHub repo, README, gidsen
-                    │   versie x.y.z   │
+                    │   cardine (meta) │  ← GitHub repo, README, guides
+                    │   version x.y.z  │
                     └────────┬─────────┘
-                             │ verwijst naar
+                             │ refers to
                ┌─────────────┴──────────────┐
                ▼                            ▼
-     ┌─────────────────┐          ┌──────────────────┐
+     ┌─────────────────┐          ┌───────────────────┐
      │  cardine-lab    │          │ cardine-structure │
-     │  Arch/Hyprland  │          │ projectstandaard  │
-     │  toolchain      │          │ (elke editor)     │
-     └─────────────────┘          └──────────────────┘
+     │  Arch/Hyprland  │          │ project standard  │
+     │  toolchain      │          │ (any editor)      │
+     └─────────────────┘          └───────────────────┘
                │                        │
-               │                        ├── gepullt uit ───► kit/
-               │                        │                   (privé, SSOT)
+               │                        ├── mirrored from ───► kit/
+               │                        │                     (repo, SSOT)
                │
-               ├── bevat ──► scripts/
-               ├── bevat ──► systemd/
-               └── genereert ──► ~/.dsh/profiles/ (ACP-profiel)
+               ├── contains ──► scripts/
+               ├── contains ──► systemd/
+               └── generates ──► ~/.dsh/profiles/ (ACP profile)
 ```
 
-### Installatie-volgordes
+### Install orders
 
-| Scenario | Packages | Volgorde |
-|----------|----------|----------|
-| Nieuw project, geen toolchain | `cardine` (meta) | `npx cardine <map>` |
-| Volledig agent-werkstation | `cardine-lab` + `cardine` | `cardine-lab install` → `npx cardine <map>` |
-| Alleen de standaard, los van de meta | `@lennaertds/cardine-structure` | `npx @lennaertds/cardine-structure <map>` |
+| Scenario | Packages | Order |
+|----------|----------|-------|
+| New project, no toolchain | `cardine` (meta) | `npx cardine <dir>` |
+| Full agent workstation | `cardine-lab` + `cardine` | `cardine-lab install` → `npx cardine <dir>` |
+| Structure only, without the meta | `@lennaertds/cardine-structure` | `npx @lennaertds/cardine-structure <dir>` |
 
-## Versiebeheer
+## Versioning
 
-Zie [VERSIONING.md](VERSIONING.md) voor het algemene schema.
-De meta-package heeft een eigen versie die alleen wijzigt als de structuur van de meta (docs, gidsen) verandert.
-Git-tag: `v<semver>` (zonder prefix).
+See [VERSIONING.md](VERSIONING.md) for the general scheme.
+The meta package has its own version, which changes only when the meta's own
+structure (docs, guides) changes.
+Git tag: `v<semver>` (no prefix).
 
-CHANGELOG in root: `CHANGELOG.md` — overzicht van alle package-versies in tabelvorm.
+CHANGELOG in the root: `CHANGELOG.md` — an overview of all package versions in
+table form.

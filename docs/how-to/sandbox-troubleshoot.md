@@ -1,20 +1,20 @@
 # How-to — Sandbox / bwrap troubleshoot
 
-> **Rol:** Wat te doen als de sandbox (bwrap) niet werkt, of als DSH klaagt over `ENOENT` / ontbrekende runner.
+> **Role:** what to do when the sandbox (bwrap) does not work, or when DSH complains about `ENOENT` / a missing runner.
 >
-> **Niet hier:** de installatie van DSH of jarvis ([zed-dsh.md](zed-dsh.md)), de approval-policy ([security.md](../architecture/security.md)).
+> **Not here:** installing DSH or jarvis ([zed-dsh.md](zed-dsh.md)), the approval policy ([security.md](../architecture/security.md)).
 
-## Symptomen
+## Symptoms
 
-| Foutmelding | Oorzaak |
+| Error | Cause |
 |-------------|---------|
-| `spawn …/cardine-bwrap ENOENT` | Het pad naar `cardine-bwrap` in het DSH-profiel klopt niet. |
-| `Error: sandbox mode "…" is requested but no sandbox backend is usable` | bwrap ontbreekt, of de runner kan niet starten. |
-| `make: *** No rule to make target 'check'` | De slice-check draait `make check` in een directory zonder Makefile. |
+| `spawn …/cardine-bwrap ENOENT` | The path to `cardine-bwrap` in the DSH profile is wrong. |
+| `Error: sandbox mode "…" is requested but no sandbox backend is usable` | bwrap is missing, or the runner cannot start. |
+| `make: *** No rule to make target 'check'` | The slice check runs `make check` in a directory without a Makefile. |
 
-## 1. cardine-bwrap niet gevonden (ENOENT)
+## 1. cardine-bwrap not found (ENOENT)
 
-Dit is de meest voorkomende oorzaak. Het DSH-profiel (`~/.dsh/profiles/acp/cordis.patch.yml`) verwijst naar een **absoluut pad** voor de bwrap-runner. Als dat pad niet klopt, kan DSH de sandbox niet starten.
+This is the most common cause. The DSH profile (`~/.dsh/profiles/acp/cordis.patch.yml`) points to an **absolute path** for the bwrap runner. If that path is wrong, DSH cannot start the sandbox.
 
 ### Check
 
@@ -22,117 +22,122 @@ Dit is de meest voorkomende oorzaak. Het DSH-profiel (`~/.dsh/profiles/acp/cordi
 grep 'cardine-bwrap' ~/.dsh/profiles/acp/cordis.patch.yml
 ```
 
-**Verwacht:** een regel zoals:
+**Expected:** a line like:
 
 ```yaml
-- /pad/naar/cardine/packages/lab/cardine-bwrap
+- /path/to/cardine/packages/lab/cardine-bwrap
 ```
 
-**Als het pad niet klopt** (bijv. verkeerde mapnaam):
+**If the path is wrong** (for example a renamed directory):
 
 ```bash
-# Fix: vervang het foute pad door het juiste
+# Fix: replace the wrong path with the right one
 INSTALL_LAB_DIR="$(dirname "$(readlink -f "$0")")"
-echo "Gebruik: $INSTALL_LAB_DIR/cardine-bwrap"
-# Werk het DSH-profiel bij met het juiste pad
+echo "Use: $INSTALL_LAB_DIR/cardine-bwrap"
+# Update the DSH profile with the right path
 
-### Waarom gebeurt dit?
+### Why does this happen?
 
-`install-lab.sh` bepaalt `REPO_ROOT` via:
+`install-lab.sh` determines `REPO_ROOT` via:
 
 ```bash
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && git rev-parse --show-toplevel 2>/dev/null || pwd)"
 ```
 
-Dit werkt alleen als:
-1. Het script wordt aangeroepen vanuit de `cardine/` git-repo (niet een subdirectory of parent).
-2. Git beschikbaar is en de repo kent.
+This only works if:
+1. The script is called from inside a git repo (not a subdirectory outside it).
+2. Git is available and knows the repo.
 
-Als je het script draait vanuit een context waar git de root niet kan vinden (bv. een symlink, een verkeerde CWD, of een partial clone), valt het terug op `pwd` — en dat kan een verkeerd pad geven.
+If you run the script from a context where git cannot find the root (a symlink, the wrong CWD, or a partial clone), it falls back to `pwd` — which can give a wrong path.
 
-**Verhelping:** draai `install-lab.sh` altijd vanuit de `cardine/` directory:
+**Remedy:** always run `install-lab.sh` from inside the project directory:
 
 ```bash
-cd ~/Documents/Cardine/cardine
+cd /path/to/your/project
 bash packages/lab/install-lab.sh
 ```
 
-Of gebruik de Makefile:
+Or use the Makefile:
 
 ```bash
 make install-lab
 ```
 
-## 2. bwrap helemaal niet geïnstalleerd
+## 2. bwrap not installed at all
 
 ```bash
 which bwrap
 ```
 
-Als bwrap ontbreekt op Arch Linux:
+If bwrap is missing on Arch Linux:
 
 ```bash
 sudo pacman -S bubblewrap
 ```
 
-Of via `install-lab.sh` (die installeert het automatisch als sudo beschikbaar is):
+Or via `install-lab.sh` (it installs automatically when sudo is available):
 
 ```bash
 make install-lab
 ```
 
-## 3. DSH werkt zonder sandbox (danger-full-access)
+## 3. Sandbox policy of the lab profile
 
-Sinds de laatste configuratiewijziging staat het profiel op `danger-full-access` en `approval: auto`. Dit betekent:
+Since [ADR 0017](../decisions/0017-the-agent-writes-in-the-cage-and-the-fs-write-tools-are-off.md)
+the profile runs `workspace-write` with `approval: never`, and the shell goes
+through `cardine-bwrap`. That means:
 
-- **Geen bwrap-sandbox** voor shell-commando's van de agent.
-- **Geen toestemming vragen** — de agent handelt zelfstandig.
-- **Wel `make check`** aan het einde van elke turn (via slice-check).
+- **The workspace is writable through the cage**; the write lands on the host.
+- **The fs write tools are off** — `write`, `edit` and `apply_patch` do nothing; writing happens through the shell.
+- **No permission dialogue** — inside the workspace the agent acts on its own; a path outside it is not mounted at all.
+- **`make check`** runs at the end of every turn (via the slice check).
 
-Dit is de bedoeling voor het lab: maximale vrijheid voor de agent, minimale frictie. Bij een eventuele product-release kan het beleid worden aangescherpt.
+`DSH_PERMISSION_MODE=danger-full-access` bypasses that boundary. The lab profile
+does not set it, and should not.
 
-De instellingen staan in `~/.dsh/profiles/acp/cordis.patch.yml`:
+The settings live in `~/.dsh/profiles/acp/cordis.patch.yml`:
 
 ```yaml
 - id: sandbox-policy
   config:
-    mode: danger-full-access
+    mode: workspace-write
+    workspaceRoot: !!js process.cwd()
 
 - id: approval
   config:
-    policy: auto
+    policy: never
 ```
 
-Het sjabloon wordt gegenereerd door `packages/lab/install-lab.sh`.
+The template is generated by `packages/lab/install-lab.sh`.
 
-## 4. Slice-check draait in verkeerde directory
+## 4. Slice check runs in the wrong directory
 
-De `cardine-slice-check` (in `packages/lab/cardine-slice-check/index.js`) checkt of `make check` groen is na elke turn. Als de agent in een directory werkt zonder Makefile (bv. `~` of `/tmp`), kreeg je:
+`cardine-slice-check` (in `packages/lab/cardine-slice-check/index.js`) checks whether `make check` is green after every turn. If the agent works in a directory without a Makefile (`~` or `/tmp`), you got:
 
 ```
 make: *** No rule to make target 'check'.  Stop.
 ```
 
-De slice-check zoekt nu zelf naar een Makefile:
-1. Eerst in de agent's CWD.
-2. Dan in parent-directories tot `/`.
-3. Valt terug op de cardine-root (bepaald vanuit het script-pad).
+The slice check now looks for a Makefile itself:
+1. First in the agent's CWD.
+2. Then in parent directories up to `/`.
+3. Falling back to the project root (derived from the script path).
 
-Dit is gefixt in de huidige versie.
+This is fixed in the current version.
 
-## 5. ~/.dsh/ niet persistent in de sandbox
+## 5. ~/.dsh/ not persistent in the sandbox
 
-### Symptoom
+### Symptom
 
-`install-lab.sh` draait zonder fouten, maar na een herstart is `~/.dsh/` leeg of verdwenen. Het DSH-profiel wordt niet geladen.
+`install-lab.sh` runs without errors, but after a restart `~/.dsh/` is empty or gone. The DSH profile is not loaded.
 
-### Oorzaak
+### Cause
 
-`cardine-bwrap` (de bwrap-runner die DSH gebruikt voor shell-commando's) mountte `~/.dsh/` niet. Elke bash-commando kreeg een verse tmpfs voor `~/.dsh/` — writes waren weg na de call.
+`cardine-bwrap` (the bwrap runner DSH uses for shell commands) did not mount `~/.dsh/`. Every bash command got a fresh tmpfs for `~/.dsh/` — writes were gone after the call.
 
 ### Fix
 
-`cardine-bwrap` mount nu `~/.dsh/` als `--bind` (schrijfbaar) in plaats van het weg te laten. Hierdoor blijft het DSH-profiel behouden tussen calls.
+`cardine-bwrap` now mounts `~/.dsh/` as a writable `--bind` instead of leaving it out. The DSH profile therefore survives between calls.
 
 ```bash
 # In packages/lab/cardine-bwrap:
@@ -143,36 +148,36 @@ args=(
 )
 ```
 
-Daarnaast zorgt `cardine-bwrap` ervoor dat `~/.dsh/` bestaat vóór bwrap start (anders faalt `--bind`):
+In addition, `cardine-bwrap` makes sure `~/.dsh/` exists before bwrap starts (otherwise `--bind` fails):
 
 ```bash
 mkdir -p "${HOME_DIR}/.dsh" "${HOME_DIR}/.dsh/profiles" "${HOME_DIR}/.dsh/profiles/acp"
 ```
 
-### Verifiëren
+### Verify
 
 ```bash
-# Check of ~/.dsh persistent is binnen de sandbox
+# Check whether ~/.dsh is persistent inside the sandbox
 bash packages/lab/cardine-status.sh
 ```
 
-Het status-script rapporteert onder "Sandbox / bwrap" of `~/.dsh/` persistent is.
+The status script reports under "Sandbox / bwrap" whether `~/.dsh/` is persistent.
 
-## 6. Nieuwe DSH-sessie nodig na profielwijziging
+## 6. A new DSH session is needed after a profile change
 
-Het DSH-profiel wordt **éénmalig geladen bij het starten van een agent-sessie** (in Zed). Wijzigingen in `cordis.patch.yml` worden pas actief na een **nieuwe thread** in het Agent-paneel.
+The DSH profile is **loaded once, when an agent session starts** (in Zed). Changes to `cordis.patch.yml` only take effect after a **new thread** in the Agent panel.
 
-### Check of het profiel is geladen
+### Check whether the profile is loaded
 
 ```bash
-# Dump de huidige DSH-config
+# Dump the current DSH config
 dsh --profile acp --dump-config 2>&1 | grep -A5 'sandbox-policy\|approval\|bwrap'
 ```
 
-Als de output niet overeenkomt met wat in `cordis.patch.yml` staat: start een nieuwe DeepSeek Harness thread in Zed.
+If the output does not match what is in `cordis.patch.yml`: start a new DeepSeek Harness thread in Zed.
 
-## Zie ook
+## See also
 
-- [zed-dsh.md](zed-dsh.md) — volledige installatiehandleiding
-- [security.md](../architecture/security.md) — approval-policy en secrets
-- [status-jarvis-dsh.md](status-jarvis-dsh.md) — status-check voor de hele omgeving
+- [zed-dsh.md](zed-dsh.md) — the full install guide
+- [security.md](../architecture/security.md) — approval policy and secrets
+- [status-jarvis-dsh.md](status-jarvis-dsh.md) — status check for the whole environment

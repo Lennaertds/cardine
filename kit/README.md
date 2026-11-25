@@ -1,72 +1,72 @@
 # Kit
 
-> **Rol:** De bestanden die je naar een project kopieert. Elke laag is een stukje projectroot: wat in `kern/docs/INDEX.md` staat, belandt in `<project>/docs/INDEX.md`.
-> **Niet hier:** waarom de structuur zo is ([standaard](../standaard/INDEX.md)), hoe je elk bestand invult ([sjablonen](../sjablonen/INDEX.md)).
+> **Role:** The files you copy into a project. Every layer is a slice of the project root: what sits in `kern/docs/INDEX.md` lands in `<project>/docs/INDEX.md`.
+> **Not here:** why the structure is the way it is ([standard](../standard/INDEX.md)), how to fill in each file ([sjablonen](../sjablonen/INDEX.md)).
 
-## Gebruik
+## Usage
 
 ```bash
-kit/new-project.sh <map> [--profile app|research|studie|schoolwerk] [--team] [--modules a,b] [--stacks a,b] [--starter] [--name NAAM] [--dry-run] [--no-git]
+kit/new-project.sh <dir> [--profile app|research|studie|schoolwerk] [--team] [--modules a,b] [--stacks a,b] [--starter] [--name NAME] [--dry-run] [--no-git]
 ```
 
-- **Nieuw project:** volg [nieuw-project](../nieuw-project/INDEX.md). Het script maakt de map aan, kopieert de lagen en doet `git init`.
-- **Bestaand project:** volg [bestaand-project](../bestaand-project/INDEX.md). Begin met `--dry-run`: dat toont wat ontbreekt. Het script overschrijft nooit een bestaand bestand; wat al bestond, staat in de uitvoer met `=`, zodat je het met de hand kan samenvoegen.
-- **Met de hand:** kopieer de inhoud van een laag naar de projectroot (`cp -rn kit/kern/. <project>/`). Vervang dan zelf `{{PROJECT}}` en `{{DATE}}`, en verwijder de blokken `<!-- als: … -->` die niet gelden.
+- **New project:** follow [new-project](../new-project/INDEX.md). The script creates the folder, copies the layers and runs `git init`.
+- **Existing project:** follow [existing-project](../existing-project/INDEX.md). Start with `--dry-run`: it shows what is missing. The script never overwrites an existing file; what was already there appears in the output with `=`, so you can merge it by hand.
+- **By hand:** copy the contents of a layer into the project root (`cp -rn kit/kern/. <project>/`). Then replace `{{PROJECT}}` and `{{DATE}}` yourself, and remove the `<!-- als: … -->` blocks that do not apply.
 
-## Lagen
+## Layers
 
-| Laag | Wanneer | Wat het neerzet |
-|------|---------|-----------------|
-| `kern/` | altijd | `README.md`, `AGENTS.md`, `Makefile`, `.gitignore`, `.editorconfig`, `.pre-commit-config.yaml`, `scripts/check-links.sh`, `docs/` (INDEX, context, rules, architecture, decisions, how-to), `data/` met de vijf vaste lagen, `apps/` |
-| `solo/` | alleen jij werkt eraan (standaard) | `.cursorrules` (dunne persoonlijke laag), `docs/work/BACKLOG.md`, `specs/_template.md`, `logs/_template.md` |
-| `logging/` | altijd (onderwerp-gecentreerd loggen) | `logs/status-log.md`, `logs/onderwerpen/_template.md` |
-| `team/` | met `--team` | `.github/` (CI met `make check`, PR-template, issue-templates); voegt de module `meetings` toe |
-| `modules/<naam>/` | met `--modules`, of later | één map of bestand op zijn vaste plek, zie hieronder |
-| `stacks/<stack>/apps/<app>/` | met `--stacks`, ná de generator | `app.mk`, `AGENTS.md`, `.env.example`, de vaste mappen van de app |
-| `stacks/<stack>/starter/apps/<app>/` | met `--stacks` en `--starter`, alleen bij een nieuwe app | startcode met een test (Python, SQL): `config.py` en `test_config.py` |
-| `profiles/<naam>.profile` | met `--profile` | voorgedefinieerde set modules, stacks en extra bestanden voor een projectsoort |
+| Layer | When | What it installs |
+|-------|------|------------------|
+| `kern/` | always | `README.md`, `AGENTS.md`, `Makefile`, `.gitignore`, `.editorconfig`, `.pre-commit-config.yaml`, `scripts/check-links.sh`, `docs/` (INDEX, context, rules, architecture, decisions, how-to), `data/` with the five fixed layers, `apps/` |
+| `solo/` | only you work on it (default) | `.cursorrules` (thin personal layer), `docs/work/BACKLOG.md`, `specs/_template.md`, `logs/_template.md` |
+| `logging/` | always (topic-centred logging) | `logs/status-log.md`, `logs/topics/_template.md` |
+| `team/` | with `--team` | `.github/` (CI with `make check`, PR template, issue templates); adds the `meetings` module |
+| `modules/<name>/` | with `--modules`, or later | one folder or file in its fixed place, see below |
+| `stacks/<stack>/apps/<app>/` | with `--stacks`, after the generator | `app.mk`, `AGENTS.md`, `.env.example`, the app's fixed folders |
+| `stacks/<stack>/starter/apps/<app>/` | with `--stacks` and `--starter`, new apps only | starter code with a test (Python, SQL): `config.py` and `test_config.py` |
+| `profiles/<name>.profile` | with `--profile` | predefined set of modules, stacks and extra files for a kind of project |
 
-### Profielen
+### Profiles
 
-| Profiel | Voor | Modules | Stacks | Extra |
-|---------|------|---------|--------|-------|
-| `app` | Applicatie (GymFreak, Caddie) | vision, assignment, product, design, research, business, agent, deliverables, meetings, compose, observability | kiest user | — |
-| `research` | Onderzoek met software (Agent Engineering) | assignment, research, agent, deliverables, meetings | python | — |
-| `studie` | Studieplanning | assignment | — | werk/kalender.md, werk/deadlines.md, werk/studielog.md, Makefile |
-| `schoolwerk` | Oefeningen (DL/DB/Python/algo) | assignment, compose | python | containers/, Makefile |
+| Profile | For | Modules | Stacks | Extra |
+|---------|-----|---------|--------|-------|
+| `app` | Application (GymFreak, Caddie) | vision, assignment, product, design, research, business, agent, deliverables, meetings, compose, observability | user chooses | — |
+| `research` | Research with software (Agent Engineering) | assignment, research, agent, deliverables, meetings | python | — |
+| `studie` | Study planning | assignment | — | werk/kalender.md, werk/deadlines.md, werk/studielog.md, local.mk |
+| `schoolwerk` | Exercises (DL/DB/Python/algorithms) | assignment, compose | python | containers/, local.mk |
 
-Zie [profiles/](profiles/README.md) voor details.
+See [profiles/](profiles/README.md) for details.
 
 ### Modules
 
-| Module | Zet neer | Neem hem als |
+| Module | Installs | Take it when |
 |--------|----------|--------------|
-| `vision` | `docs/context/vision.md` | het project langer loopt dan één semester |
-| `assignment` | `docs/context/assignment.md` | er een opdrachtgever is: school of klant |
-| `product` | `docs/product/PRODUCT.md`, `_template.md`, `.cursor/agents/product.md` | er meer dan één domein is |
-| `design` | `docs/design/DESIGN.md`, huisstandaard-craft (`shared/`, `desktop/`, `iphone/`), `.cursor/agents/ui.md` | er een UI is met eigen huisstijl (premium look / PWA) |
-| `research` | `docs/research/` (RESEARCH, wantlist, **radar**, **digest/**, experiments), how-to radar/digest, `data/external/digest/`, `.cursor/agents/research.md` | literatuur/experimenten; tech-radar; digest fetch/propose |
-| `business` | `docs/business/` | er een verdienmodel, prijzen of voorwaarden zijn |
-| `agent` | `docs/agent/` met write-rules, doc-conventions, lessons, `prompts/` | je veel meta-taken door een agent laat doen |
-| `deliverables` | `docs/deliverables/` | je iets indient: verslag, poster, presentatie |
-| `meetings` | `docs/work/meetings/_template.md` | je overlegt met klant, coach of team |
-| `archive` | `docs/archive/` | je oude docs wil bewaren zonder dat ze meetellen |
-| `herordening` | `docs/work/specs/herordening.md` | je een bestaand project herordent |
-| `compose` | `docker-compose.yml` (Postgres 17), `.env.example` | een app een database of andere dienst nodig heeft |
-| `observability` | `docker-compose.observability.yml`, `infra/observability/` (LGTM) | metrics/logs/traces lokaal; docs staan altijd in kern |
-| `packages` | `packages/` | twee apps code delen die niet apart deployt |
-| `infra` | `infra/` | één compose-bestand niet meer volstaat |
-| `runtime` | `data/runtime/README.md` | de app lokaal bestanden schrijft (uploads) |
-| `models` | `data/models/README.md` | je modellen traint |
-| `cursor` | `.cursor/rules/_template.mdc`, `.cursor/agents/{architecture,reviewer,clarify}.md` | je Cursor gebruikt (path-rules en/of subagents); zie [agent-rollen](../standaard/agent-rollen.md) |
-| `claude` | `CLAUDE.md` → `AGENTS.md` (symlink) | je een tool gebruikt die `CLAUDE.md` leest |
+| `vision` | `docs/context/vision.md` | the project runs longer than one semester |
+| `assignment` | `docs/context/assignment.md` | there is a client: school or customer |
+| `product` | `docs/product/PRODUCT.md`, `_template.md`, `.cursor/agents/product.md` | there is more than one domain |
+| `design` | `docs/design/DESIGN.md`, house-standard craft (`shared/`, `desktop/`, `iphone/`), `.cursor/agents/ui.md` | there is a UI with its own house style (premium look / PWA) |
+| `research` | `docs/research/` (RESEARCH, wantlist, **radar**, **digest/**, experiments), how-to radar/digest, `data/external/digest/`, `.cursor/agents/research.md` | literature/experiments; tech radar; digest fetch/propose |
+| `business` | `docs/business/` | there is a revenue model, pricing or terms |
+| `agent` | `docs/agent/` with write-rules, doc-conventions, lessons, `prompts/` | you let an agent do many meta tasks |
+| `deliverables` | `docs/deliverables/` | you submit something: report, poster, presentation |
+| `meetings` | `docs/work/meetings/_template.md` | you consult with client, coach or team |
+| `archive` | `docs/archive/` | you want to keep old docs without them counting |
+| `reorganise` | `docs/work/specs/reorganise.md` | you reorganise an existing project |
+| `compose` | `docker-compose.yml` (Postgres 17), `.env.example` | an app needs a database or another service |
+| `observability` | `docker-compose.observability.yml`, `infra/observability/` (LGTM) | metrics/logs/traces locally; the docs are always in kern |
+| `packages` | `packages/` | two apps share code that does not deploy separately |
+| `infra` | `infra/` | one compose file is no longer enough |
+| `runtime` | `data/runtime/README.md` | the app writes files locally (uploads) |
+| `models` | `data/models/README.md` | you train models |
+| `cursor` | `.cursor/rules/_template.mdc`, `.cursor/agents/{architecture,reviewer,clarify}.md` | you use Cursor (path rules and/or subagents); see [agent-rollen](../standard/agent-rollen.md) |
+| `claude` | `CLAUDE.md` → `AGENTS.md` (symlink) | you use a tool that reads `CLAUDE.md` |
 
 ## Stacks
 
-Elke stack heeft een eigen gids met de generator, de scripts die `app.mk` verwacht en de controle achteraf. De generator komt **eerst**, want hij weigert een map die niet leeg is.
+Every stack has its own guide with the generator, the scripts `app.mk` expects and the check afterwards. The generator comes **first**, because it refuses a folder that is not empty.
 
-| Stack | App | Gids | Belangrijkste targets |
-|-------|-----|------|-----------------------|
+| Stack | App | Guide | Main targets |
+|-------|-----|-------|--------------|
 | `next` | `apps/web` | [stacks/next](stacks/next/README.md) | `dev-web`, `check-web`, `e2e-web`, `clean-web` |
 | `nest` | `apps/api` | [stacks/nest](stacks/nest/README.md) | `dev-api`, `check-api`, `integration-api`, `db-reset-api` |
 | `python` | `apps/analytics` | [stacks/python](stacks/python/README.md) | `check-analytics`, `data-analytics` |
@@ -74,15 +74,15 @@ Elke stack heeft een eigen gids met de generator, de scripts die `app.mk` verwac
 | `rust` | `apps/native` | [stacks/rust](stacks/rust/README.md) | `check-native`, `native-check`, `setup-native` (napi **+** PyO3 via `--starter`) |
 | `c` | `apps/native-c` | [stacks/c](stacks/c/README.md) | `check-native-c`, `native-c-check`, `setup-native-c` (N-API **+** ctypes via `--starter`) |
 
-Een tweede app van dezelfde stack (bv. `apps/admin` met Next) kopieer je met de hand vanuit `stacks/next/apps/web/`. Daarna hernoem je `WEB_` en `-web` in `app.mk`.
+A second app of the same stack (e.g. `apps/admin` with Next) you copy by hand from `stacks/next/apps/web/`. Then rename `WEB_` and `-web` in `app.mk`.
 
-## Afspraken in de kitbestanden
+## Conventions in the kit files
 
-- `{{PROJECT}}` en `{{DATE}}` worden ingevuld; `<…>` vul je zelf in.
-- Een blok tussen `<!-- als: <sleutel>` en `-->` blijft alleen staan als die laag, module of stack gekozen is.
-- Recepten in `Makefile` en `app.mk` springen in met een tab.
-- Een `.gitkeep` houdt een vaste lege map in git. Het script haalt hem weg zodra er iets anders in die map staat.
+- `{{PROJECT}}` and `{{DATE}}` are filled in; `<…>` you fill in yourself.
+- A block between `<!-- als: <key>` and `-->` stays only if that layer, module or stack was chosen.
+- Recipes in `Makefile` and `app.mk` are indented with a tab.
+- A `.gitkeep` keeps a fixed empty folder in git. The script removes it as soon as that folder holds anything else.
 
-## Kit veranderen
+## Changing the kit
 
-Pas een kitbestand aan, en daarna de gids in [sjablonen](../sjablonen/INDEX.md) die erbij hoort. Draai daarna `make check` in de root van deze repo: dat stelt een project met alle lagen samen en test het.
+Change a kit file, and then the guide in [sjablonen](../sjablonen/INDEX.md) that goes with it. Then run `make check` in the root of this repo: it assembles a project with all layers and tests it.

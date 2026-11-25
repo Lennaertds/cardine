@@ -1,26 +1,26 @@
 # Context
 
-> **Rol:** Waarom dit project bestaat, voor wie, en wat succes is.
-> **Niet hier:** techniek ([ARCHITECTURE.md](../architecture/ARCHITECTURE.md)), inhoudelijke grenzen ([RULES.md](../rules/RULES.md)).
+> **Role:** Why this project exists, for whom, and what success is.
+> **Not here:** technical detail ([ARCHITECTURE.md](../architecture/ARCHITECTURE.md)), content boundaries ([RULES.md](../rules/RULES.md)).
 
-## Gebruiker of klant
+## User or client
 
-<Wie gebruikt het, in welke situatie. Eén concrete persona of klant, geen doelgroep van miljoenen.>
+<Who uses it, in which situation. One concrete persona or client, not an audience of millions.>
 
-## Probleem
+## Problem
 
-<Wat er nu misloopt of ontbreekt. Feiten, nog geen oplossing.>
+<What goes wrong or is missing today. Facts, no solution yet.>
 
-## Doel en wat succes is
+## Goal and what success is
 
-- <Toetsbaar, bv. "een student plant zijn trainingsweek in minder dan twee minuten".>
-- <Voor school of klant: wat de opdrachtgever als geslaagd beschouwt.>
+- <Testable, e.g. "a student plans their training week in under two minutes".>
+- <For school or a client: what the client considers success.>
 
 ## Scope
 
-- <Wat erin zit, op het niveau van domeinen of cases.>
-- **Talen:** stack-talen staan in [ARCHITECTURE.md](../architecture/ARCHITECTURE.md). Extra systemstalen (Rust/C, …) voor hot paths: toegestaan na meting + ADR — zie [polyglot.md](../architecture/polyglot.md). Niet aannemen dat native “niet mag”.
+- <What is in, at the level of domains or cases.>
+- **Languages:** stack languages are in [ARCHITECTURE.md](../architecture/ARCHITECTURE.md). Extra system languages (Rust/C, …) for hot paths: allowed after measurement + ADR — see [polyglot.md](../architecture/polyglot.md). Do not assume native is "not allowed".
 
-## Bewust niet
+## Deliberately not
 
-- <Wat je nooit doet, met het waarom in één zin. Met een `product/`-map: verwijs naar PRODUCT.md § Bewust niet.>
+- <What you never do, with the why in one sentence. With a `product/` folder: link to PRODUCT.md § Deliberately not.>

@@ -1,10 +1,10 @@
-# Studielog — {{PROJECT}}
+# Study log — {{PROJECT}}
 
 ## {{DATE}}
 
-**Vak:** —
-**Tijd:** —
-**Wat gedaan:** —
-**Volgende keer:** —
+**Course:** —
+**Time:** —
+**Done:** —
+**Next time:** —
 
 ---

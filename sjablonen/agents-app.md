@@ -1,34 +1,34 @@
-# apps/&lt;app&gt;/AGENTS.md (genest)
+# apps/&lt;app&gt;/AGENTS.md (nested)
 
-> **Rol:** Wat alleen in deze app geldt of afwijkt: indeling, één test draaien, valkuilen. De root blijft ook gelden.
-> **Niet hier:** wat voor het hele project geldt ([agents-root](agents-root.md)).
+> **Role:** What applies only in this app or deviates: layout, running one test, pitfalls. The root still applies.
+> **Not here:** what applies to the whole project ([agents-root](agents-root.md)).
 
-**Kitbestanden:** [next](../kit/stacks/next/apps/web/AGENTS.md) · [nest](../kit/stacks/nest/apps/api/AGENTS.md) · [python](../kit/stacks/python/apps/analytics/AGENTS.md) · [sql](../kit/stacks/sql/apps/pipeline/AGENTS.md) · laag stack · P15
+**Kit files:** [next](../kit/stacks/next/apps/web/AGENTS.md) · [nest](../kit/stacks/nest/apps/api/AGENTS.md) · [python](../kit/stacks/python/apps/analytics/AGENTS.md) · [sql](../kit/stacks/sql/apps/pipeline/AGENTS.md) · layer stack · P15
 
-## Wanneer
+## When
 
-Bij elke app. De kit zet een versie neer met de regels van de stack; jij schrapt wat niet geldt en vult de valkuilen aan. Gebruik je in plaats daarvan een `.cursor/rules/<app>.mdc`, dan niet allebei met dezelfde regels.
+For every app. The kit installs a version with the stack's rules; you delete what does not apply and add the pitfalls. If you use a `.cursor/rules/<app>.mdc` instead, do not keep the same rules in both.
 
-## Invullen
+## Filling in
 
-1. **Indeling:** de regels uit [stacks](../standaard/stacks.md) die de agent het vaakst fout doet. Niet de hele boom.
-2. **Tests:** het commando voor **één** test, met een echt pad.
-3. **Valkuilen:** wat al eens misliep. Elke valkuil die je kan afvangen met een test of script, vang je af; dan blijft hier alleen de verwijzing.
-4. **Geen kopie van de root.** Herhaal geen "Nooit"-regels; verwijs.
+1. **Layout:** the rules from [stacks](../standard/stacks.md) the agent gets wrong most often. Not the whole tree.
+2. **Tests:** the command for **one** test, with a real path.
+3. **Pitfalls:** what has already gone wrong. Every pitfall you can catch with a test or script, you catch; then only the reference stays here.
+4. **No copy of the root.** Do not repeat "Never" rules; link to them.
 
-## Voorbeeld (GymFreak, `apps/web/AGENTS.md`, valkuilen)
+## Example (GymFreak, `apps/web/AGENTS.md`, pitfalls)
 
 ```markdown
-## Valkuilen
+## Pitfalls
 
-- Fout `Cannot find module './NNN.js'` na `make build-web`: eerst `make clean-web`, dan `make dev-web`.
-- 119 componenten staan nog plat in `src/components/`. Nieuwe componenten van een domein gaan naar
-  `src/features/<domein>/components/`; een bestaande verhuist pas als je hem toch aanpast.
-- Thema's zitten in `public/themes/<thema>/`; nieuwe kleuren eerst als token in `src/styles/`.
+- Error `Cannot find module './NNN.js'` after `make build-web`: `make clean-web` first, then `make dev-web`.
+- 119 components still sit flat in `src/components/`. New components of a domain go to
+  `src/features/<domain>/components/`; an existing one moves only when you are changing it anyway.
+- Themes live in `public/themes/<theme>/`; new colours go in as a token in `src/styles/` first.
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Onder de 40 regels.
-- [ ] Elke regel geldt **alleen** voor deze app. Geldt hij voor twee apps, dan hoort hij in de root.
-- [ ] Het één-test-commando werkt als je het letterlijk plakt.
+- [ ] Under 40 lines.
+- [ ] Every line applies **only** to this app. If it applies to two apps, it belongs in the root.
+- [ ] The one-test command works when you paste it literally.

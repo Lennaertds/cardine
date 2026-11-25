@@ -1,66 +1,66 @@
-# Totaalproduct — persoonlijke stack
+# Whole product — personal stack
 
-> **Rol:** Hoe de onderdelen van het **lab-pad** samenkomen: Zed + DeepSeek Harness met een API-key, plus indexing en de structure uit `kit/`. Die stapel op Arch Linux Hyprland is de eerstvolgende voltooiing ([ADR 0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md)). Het is één package uit [ADR 0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md), niet het hele product.
-> **Niet hier:** wat iemand meeneemt ([PRODUCT.md](PRODUCT.md)); detail per onderdeel (`product/<onderdeel>.md`); ADRs.
+> **Role:** how the parts of the **lab path** come together: Zed + DeepSeek Harness with an API key, plus indexing and the structure from `kit/`. That stack on Arch Linux Hyprland is the next completion ([ADR 0012](../decisions/0012-the-next-completion-is-the-personal-stack-on-arch-linux-hyprland.md)). It is one package from [ADR 0010](../decisions/0010-the-meta-package-points-to-separate-packages-for-structure-and-three-zed-paths.md), not the whole product.
+> **Not here:** what someone takes away ([PRODUCT.md](PRODUCT.md)); per-part detail (`product/<part>.md`); ADRs.
 
-Per onderdeel bijhouden → het productbestand in de tabel. Werk/beslissen → de gekoppelde spec.
+Per part follow-up → the product file in the table. Work/decision → the linked spec.
 
-## Waarom dit kan “beter dan Cursor” (voor één gebruiker)
+## Why this can be "better than Cursor" (for one user)
 
-Cursor = VS Code-fork + closed harness + cloud-paden. Overhead zit in Electron, extensie-universum en features die jij niet gebruikt. Jouw voorsprong:
+Cursor = a VS Code fork + closed harness + cloud paths. The overhead lives in Electron, the extension universe and features you do not use. Your advantage:
 
-- **Smaller surface** op Arch/Hyprland (upstream Zed i.p.v. Electron, geen verplichte zware Docker-containers voor de runtime).
-- **Alles lokaal** behalve LLM-API (BYOK via de geïmporteerde harness), met lichte sandbox-isolatie (`bwrap`) voor untrusted agent-shell/package-commando's.
-- **Indexing + structure** op *jouw* repo’s (AE + lab). De agent-loop importeer je (DeepSeek Harness); die bouw je niet na.
-- **Geen** multi-user / SaaS / Cloud Agents, en geen onderhoudslast van een eigen IDE-fork of harness-fork.
+- **Smaller surface** on Arch/Hyprland (upstream Zed instead of Electron, no mandatory heavy Docker containers for the runtime).
+- **Everything local** except the LLM API (BYOK through the imported harness), with light sandbox isolation (`bwrap`) for untrusted agent shell/package commands.
+- **Indexing + structure** over *your* repos. You import the agent loop (DeepSeek Harness); you do not rebuild it.
+- **No** multi-user / SaaS / Cloud Agents, and no maintenance burden of an own IDE fork or harness fork.
 
-Succes = jij productiever en prettiger dan in Cursor (later meetbaar: tokens, turns, keep-rate, friction). Dat is geen feature-race met Zed.
+Success = you more productive and more comfortable than in Cursor (later measurable: tokens, turns, keep rate, friction). That is not a feature race with Zed.
 
 ## Segment
 
-| | Cursor | Zed | Jij |
+| | Cursor | Zed | You |
 |---|--------|-----|-----|
-| Voor wie | Pro-devs en teams, cloud-paden | Snelle lokale IDE, brede groep | Eén gebruiker eerst (later hobbyisten), Arch, eigen repo’s |
-| Wat ze meeslepen | Electron, cloud-index, marketplace, multi-agent cloud | Collaboratie, eigen Zed Agent, grep-tools in dezelfde binary | Niets daarvan bouwen |
-| Waar jij korter zit | — | — | Index + structure op AE + lab; één agent-proces; DeepSeek via BYOK |
+| For whom | Pro devs and teams, cloud paths | Fast local IDE, broad group | One user first (hobbyists later), Arch, own repos |
+| What they drag along | Electron, cloud index, marketplace, multi-agent cloud | Collaboration, its own Zed Agent, grep tools in the same binary | Build none of that |
+| Where you are leaner | — | — | Index + structure over your repos; one agent process; DeepSeek via BYOK |
 
-Multi-user of collaboratie uit de Zed-binary halen zodat de editor sneller wordt, lukt niet zonder fork. Ongebruikte Zed-code blijft in het pakket dat de meta-package downloadt. De winst is die paden **niet starten**: geen Zed Agent, geen tweede index, geen Electron. Korter op de bal = minder product dat jij onderhoudt, niet een gestripte Zed.
+Removing multi-user or collaboration from the Zed binary to make the editor faster does not work without a fork. Unused Zed code stays in the package the meta package downloads. The gain is **not starting** those paths: no Zed Agent, no second index, no Electron. Leaner means less product you maintain, not a stripped-down Zed.
 
-## Een laag vervangen zonder fork
+## Replacing a layer without a fork
 
-Zed blijft de host. De agent-loop is een tweede upstream-proces. Jouw index hangt daaraan als MCP. Zed’s eigen zoek- en agentcode blijft in de binary en draait niet op jouw pad zolang je alleen de External Agent gebruikt.
+Zed stays the host. The agent loop is a second upstream process. Your index hangs off it as MCP. Zed's own search and agent code stays in the binary and does not run on your path as long as you only use the External Agent.
 
 ```mermaid
 flowchart LR
-  zed["Zed binary ongewijzigd"]
+  zed["Zed binary unchanged"]
   panel["Agent Panel"]
-  dormant["Zed Agent plus grep slapend"]
+  dormant["Zed Agent plus grep dormant"]
   dsh["dsh profile acp"]
-  idx["Jouw index MCP"]
+  idx["Your index MCP"]
   zed --> panel
   zed --> dormant
   panel -->|"ACP stdio"| dsh
   dsh -->|"MCP"| idx
 ```
 
-- Indexing van Zed verdwijnt niet uit Zed. Hij draait niet mee als Zed Agent uit staat.
-- Jouw index is een apart proces. Geen dubbele index tenzij je beide agents gebruikt.
-- Onderhoud: Zed-updates en DSH-updates blijven upstream. Jij onderhoudt de verbinding (ACP-start + MCP-contract) en de index.
+- Zed's indexing does not disappear from Zed. It does not run while Zed Agent is off.
+- Your index is a separate process. No double index unless you use both agents.
+- Maintenance: Zed updates and DSH updates stay upstream. You maintain the connection (ACP start + MCP contract) and the index.
 
-Of antwoorden beter zijn dan Zed Agent is nog geen meting. De hypothese: beter voor dit segment als de loop upstream DeepSeek-getuned blijft, jouw index de grep-ronde vervangt, en Zed Agent uit blijft. Risico: DSH is preview en kan breaking wijzigen. Meten = later één smoke (zelfde taak, Zed Agent vs `dsh --profile acp`).
+Whether answers are better than Zed Agent is not yet measured. The hypothesis: better for this segment if the loop stays upstream DeepSeek-tuned, your index replaces the grep round, and Zed Agent stays off. Risk: DSH is preview and may change in breaking ways. Measuring = later one smoke test (same task, Zed Agent vs `dsh --profile acp`).
 
-## Gebruikerssituatie (kort)
+## User situation (brief)
 
-| Aspect | Jouw case |
+| Aspect | Your case |
 |--------|-----------|
-| Wie | Solo (Ventje) eerst, daarna vrienden en mensen die me op github volgen of hobyisten. |
-| Hosts | Arch Linux + Hyprland — laptop én desktop eerst, daarna kijken naar hoe op MAC OS of Windows |
-| Werk | Agent Engineering-standaard + dit lab; veel docs/MD + polyglot later |
-| Must | Code **zien** en editen; agent via API; lage RAM/CPU; reproduceerbare installatie via meta-package; sandboxed agent-exec |
-| Prefer | Non-Electron (Zed); DeepSeek prijs/kwaliteit of Claude hoogste kwaliteit; indexing zelf sturen; native runtime + `bwrap` sandbox |
-| Never | Eigen inference-serving; Electron-shell; IDE of harness zelf forken; zware container-eis voor de IDE zelf; feature-bloat “voor anderen” |
+| Who | Solo (Ventje) first, then friends and people who follow me on GitHub or hobbyists. |
+| Hosts | Arch Linux + Hyprland — laptop and desktop first, then look at macOS or Windows |
+| Work | The agent-engineering standard + this lab; lots of docs/MD + polyglot later |
+| Must | **See** and edit code; agent via API; low RAM/CPU; reproducible install via the meta package; sandboxed agent exec |
+| Prefer | Non-Electron (Zed); DeepSeek price/quality or Claude for highest quality; steer indexing yourself; native runtime + `bwrap` sandbox |
+| Never | Own inference serving; Electron shell; forking the IDE or harness; a heavy container requirement for the IDE itself; feature bloat "for others" |
 
-## Hoe het samenkomt
+## How it comes together
 
 ```mermaid
 flowchart LR
@@ -74,34 +74,34 @@ flowchart LR
   harness --> struct[7_structure]
 ```
 
-| # | Onderdeel | Groep | Product | Spec | Rol |
-|---|-----------|-------|---------|------|-----|
-| 1 | IDE-shell | Host Zed · af | [ide-shell.md](ide-shell.md) | afgerond — [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) | Pinned upstream. Geen fork. |
-| 2 | FS/events | Host Zed · af | [fs-events.md](fs-events.md) | afgerond — geen ADR | Zed houdt de enige OS-watch. Index vers via git-anker + vuile paden. |
-| 8 | Agent-UI | Host Zed · af | [agent-ui.md](agent-ui.md) | afgerond — product-doc volstaat | Zed Agent Panel via ACP. Geen eigen chat-UI. |
-| 5 | Harness | Import · beslist | [harness.md](harness.md) | [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) | DeepSeek Harness, `dsh --profile acp`, geen fork. |
-| 4 | Tools | Volgt import · beslist | [tools.md](tools.md) | [ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) | Workspace-allowlist. Shell en `npm`/`pip` onder `bwrap`. |
-| 6 | LLM | Volgt import · beslist | [llm.md](llm.md) | [ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) | `deepseek-flash`. Claude is de tweede provider. |
-| 3 | Indexing | beslist | [indexing.md](indexing.md) | [ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md) | jarvis via MCP. Alleen het agent-pad. Editor-zoeken en LSP blijven Zed. |
-| 7 | Structure | Ontwerp op harness · beslist | [structure.md](structure.md) | [ADR 0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) | Dunne `AGENTS.md` plus `make check` op DSH. Geen tweede prose-laag naast Zed Instructions. |
-| 9 | Session/spine | overgeslagen | [session-spine.md](session-spine.md) | [ADR 0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md) | Geen repo-spine. Gesprek = Zed-paneel + DSH-sessie. |
+| # | Part | Group | Product | Spec | Role |
+|---|------|-------|---------|------|------|
+| 1 | IDE shell | Host Zed · done | [ide-shell.md](ide-shell.md) | done — [ADR 0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md) | Pinned upstream. No fork. |
+| 2 | FS/events | Host Zed · done | [fs-events.md](fs-events.md) | done — no ADR | Zed holds the only OS watch. Index fresh via git anchor + dirty paths. |
+| 8 | Agent UI | Host Zed · done | [agent-ui.md](agent-ui.md) | done — the product doc suffices | Zed Agent Panel via ACP. No own chat UI. |
+| 5 | Harness | Import · decided | [harness.md](harness.md) | [ADR 0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md) | DeepSeek Harness, `dsh --profile acp`, no fork. |
+| 4 | Tools | Follows import · decided | [tools.md](tools.md) | [ADR 0007](../decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md) | Workspace allowlist. Shell and `npm`/`pip` under `bwrap`. |
+| 6 | LLM | Follows import · decided | [llm.md](llm.md) | [ADR 0008](../decisions/0008-the-coding-model-is-deepseek-flash-and-claude-is-the-second-provider.md) | `deepseek-flash`. Claude is the second provider. |
+| 3 | Indexing | decided | [indexing.md](indexing.md) | [ADR 0006](../decisions/0006-the-agent-searches-via-jarvis-as-mcp-zed-search-and-lsp-stay-with-the-editor.md) | jarvis via MCP. Agent path only. Editor search and LSP stay with Zed. |
+| 7 | Structure | Design on harness · decided | [structure.md](structure.md) | [ADR 0004](../decisions/0004-the-project-standard-is-dual-a-thin-agents-md-and-a-hard-make-check.md) | A thin `AGENTS.md` plus `make check` on DSH. No second prose layer beside Zed Instructions. |
+| 9 | Session/spine | skipped | [session-spine.md](session-spine.md) | [ADR 0005](../decisions/0005-the-conversation-remains-the-zed-and-dsh-session-without-repo-spine.md) | No repo spine. The conversation = Zed panel + DSH session. |
 
-**Distributie van dit pad:**
+**Distribution of this path:**
 
-- **Package “Zed + DeepSeek Harness”:** installer + versie-manifest. Haalt Zed en DeepSeek Harness rechtstreeks van upstream (geen forks). De andere packages staan in [ADR 0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md).
-- **Eigen werk:** de index als apart proces, plus later de structure-haak. Niet de IDE, niet de agent-loop, geen repo-spine.
-- **Isolatie:** Zed en `dsh` draaien als upstream-processen. Shell en package-install (`npm` / `pip`) lopen onder `bwrap` met alleen de workspace ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)).
+- **Package "Zed + DeepSeek Harness":** installer + version manifest. Pulls Zed and DeepSeek Harness straight from upstream (no forks). The other packages are in [ADR 0010](../decisions/0010-the-meta-package-points-to-separate-packages-for-structure-and-three-zed-paths.md).
+- **Your own work:** the index as a separate process, plus later the structure hook. Not the IDE, not the agent loop, no repo spine.
+- **Isolation:** Zed and `dsh` run as upstream processes. Shell and package install (`npm` / `pip`) run under `bwrap` with only the workspace ([ADR 0007](../decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md)).
 
-**Dataflow (één zin):** jij werkt in Zed → het Agent Panel praat ACP met DSH → DSH gebruikt zijn tools en LLM, bevraagt jouw index via MCP, en (later) structure → diffs zie je in Zed. Het gesprek blijft die DSH-sessie.
+**Dataflow (one sentence):** you work in Zed → the Agent Panel talks ACP to DSH → DSH uses its tools and LLM, queries your index via MCP, and (later) structure → you see the diffs in Zed. The conversation stays that DSH session.
 
-**Kern vs host:** waarde = indexing + structure. Host = Zed (shell, watch, panel). Loop = geïmporteerde DSH. Zed Agent en zijn grep blijven in de binary en horen uit te staan op dit pad.
+**Core vs host:** value = indexing + structure. Host = Zed (shell, watch, panel). Loop = imported DSH. Zed Agent and its grep stay in the binary and should be off on this path.
 
-**Niet in v1:** obs-dashboard, Cloud Agents, multi-user, inference-serving, extensie-marktplaats, eigen Zed- of DSH-fork, zware container-runtime voor de IDE zelf, een tweede chat-UI, een repo-spine.
+**Not in v1:** obs dashboard, Cloud Agents, multi-user, inference serving, extension marketplace, an own Zed or DSH fork, a heavy container runtime for the IDE itself, a second chat UI, a repo spine.
 
-A4-shortlist IDE en parent-plan: weg — besluiten in [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) en de product-docs.
+The A4 shortlist for the IDE and the parent plan: gone — decisions in [ADR 0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md) and the product docs.
 
-## Volgorde van beslissen (geen code tot ADR)
+## Order of deciding (no code before an ADR)
 
-Canonieke stappenlijst + status: [BACKLOG.md § Volgorde](../work/BACKLOG.md#volgorde-totaalproduct).
+Canonical step list + status: [BACKLOG.md § Order](../work/BACKLOG.md#order-whole-product).
 
-1. [ide-shell](ide-shell.md) *(Zed)* → 2. [fs-events](fs-events.md) *(Zed)* → 3. [agent-ui](agent-ui.md) *(Zed-panel via ACP)* → 4. [harness](harness.md) *([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md))* → 5. [llm](llm.md) + [tools](tools.md) *(whitelist in 0003; allowlist en `bwrap` in [0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md); `deepseek-flash` en Claude in [0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md))* → 6. [indexing](indexing.md) *([ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md); alleen agent-pad)* → 7. [structure](structure.md) *([ADR 0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md))* → 8. [session-spine](session-spine.md) *(overgeslagen, [ADR 0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md))*.
+1. [ide-shell](ide-shell.md) *(Zed)* → 2. [fs-events](fs-events.md) *(Zed)* → 3. [agent-ui](agent-ui.md) *(Zed panel via ACP)* → 4. [harness](harness.md) *([ADR 0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md))* → 5. [llm](llm.md) + [tools](tools.md) *(allowlist in 0003; allowlist and `bwrap` in [0007](../decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md); `deepseek-flash` and Claude in [0008](../decisions/0008-the-coding-model-is-deepseek-flash-and-claude-is-the-second-provider.md))* → 6. [indexing](indexing.md) *([ADR 0006](../decisions/0006-the-agent-searches-via-jarvis-as-mcp-zed-search-and-lsp-stay-with-the-editor.md); agent path only)* → 7. [structure](structure.md) *([ADR 0004](../decisions/0004-the-project-standard-is-dual-a-thin-agents-md-and-a-hard-make-check.md))* → 8. [session-spine](session-spine.md) *(skipped, [ADR 0005](../decisions/0005-the-conversation-remains-the-zed-and-dsh-session-without-repo-spine.md))*.

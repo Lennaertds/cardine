@@ -1,5 +1,5 @@
 # Deadlines — {{PROJECT}}
 
-| Datum | Taak | Vak | Status | Notities |
-|-------|------|-----|--------|----------|
+| Date | Task | Course | Status | Notes |
+|------|------|--------|--------|-------|
 | — | — | — | — | — |

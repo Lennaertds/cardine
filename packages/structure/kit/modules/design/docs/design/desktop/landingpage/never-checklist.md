@@ -1,57 +1,57 @@
 # Desktop — never ship
 
-> **Rol:** Wat niet de showcase op mag, plus de review.  
-> **Niet hier:** site-breed ([never.md](../../shared/never.md)); product-never ([iphone/never-checklist.md](../../iphone/never-checklist.md)).
+> **Role:** What may not go on the showcase, plus the review.
+> **Not here:** site-wide ([never.md](../../shared/never.md)); product never ([iphone/never-checklist.md](../../iphone/never-checklist.md)).
 
 ## 1. Never
 
 | Never | Instead |
 |-------|---------|
-| Tweede `backdrop-filter` met andere blur | `.glass` uit [looks.md](looks.md) |
-| Glazen kaartgrid, glas op features of op proza | Solid contentlaag |
-| Regular en Clear door elkaar | Eén variant per pagina |
-| Clear zonder dim, of Clear op tekst | Regular, of de drie voorwaarden |
-| Regenboog-rand, paarse glow, gradient-text | Specular haarlijn, tokens |
-| Stoplichten of een dock als site-chrome | Alleen binnen een product-mock |
-| Eigen hex of een vierde font | Tokens, `--font-sans` / display achter de gate |
-| `100vh` op de schil | `100dvh` hooguit op de hero-sectie |
+| Second `backdrop-filter` with a different blur | `.glass` from [looks.md](looks.md) |
+| Glass card grid, glass on features or on prose | Solid content layer |
+| Regular and Clear mixed | One variant per page |
+| Clear without dim, or Clear on text | Regular, or the three conditions |
+| Rainbow edge, purple glow, gradient text | Specular hairline, tokens |
+| Traffic lights or a dock as site chrome | Only inside a product mock |
+| Own hex or a fourth font | Tokens, `--font-sans` / display behind the gate |
+| `100vh` on the shell | `100dvh` at most on the hero section |
 | `transition: all`, `scale(0)`, `ease-in` | [motion.md](motion.md) |
-| Hover-only inhoud | Klik, toetsenbord, of tekst in de sectie |
-| GSAP of Lenis in de product-bundle | Showcase-gate |
-| Fake MAU, dummy-quotes | Echte of anonieme demo |
-| Skin die de gast-landing herskint | Default theme-tokens |
-| Menu vanaf de onderkant op wide | Menu uit de knop |
-| Losse `z-[n]` | `var(--z-*)` |
-| Per-letter stagger, oneindige glans-loop | Stil in rust |
-| Drie gevulde knopstijlen | Primary, secondary, quiet |
-| Emoji, tweede icoonpack, stock-beeld | [icons.md](icons.md), [images.md](images.md) |
-| Blauwe links, underline op niet-links | Proza-link = accent + underline ([ux.md](ux.md)) |
-| `width` / `height` / `top` / `left` animeren | `transform`, `opacity`, `filter` |
-| Taartdiagram, chart zonder eenheid | [charts.md](charts.md) |
-| Beeld zonder gereserveerde verhouding | [performance.md](../performance.md) |
+| Hover-only content | Click, keyboard, or text in the section |
+| GSAP or Lenis in the product bundle | Showcase gate |
+| Fake MAU, dummy quotes | Real or anonymous demo |
+| A skin that reskins the guest landing page | Default theme tokens |
+| Menu from the bottom on wide | Menu out of the button |
+| Loose `z-[n]` | `var(--z-*)` |
+| Per-letter stagger, endless highlight loop | Still at rest |
+| Three filled button styles | Primary, secondary, quiet |
+| Emoji, second icon pack, stock image | [icons.md](icons.md), [images.md](images.md) |
+| Blue links, underline on non-links | Prose link = accent + underline ([ux.md](ux.md)) |
+| Animating `width` / `height` / `top` / `left` | `transform`, `opacity`, `filter` |
+| Pie chart, chart without a unit | [charts.md](charts.md) |
+| Image without a reserved ratio | [performance.md](../performance.md) |
 | Root `font-size: 62.5%` | `1rem` = 16px |
 
 ## 2. Review
 
-0. Welke rij in [DESIGN.md](../../DESIGN.md)? Eén file.
-1. Gate: extras alleen ≥ 768px, fijne pointer, geen reduced-motion.
-2. Eén functionele laag. Content solid.
-3. Look = `.glass` + schaduwrol + concentrische radius.
-4. Eén primaire actie, dezelfde bestemming in balk en hero.
-5. Type-rollen uit [type.md](type.md). Product-ladder onaangeroerd.
-6. Reduced-motion = eindstaat. Reduced-transparency = solid. Focus-ring aan.
+0. Which row in [DESIGN.md](../../DESIGN.md)? One file.
+1. Gate: extras only ≥ 768px, fine pointer, no reduced-motion.
+2. One functional layer. Content solid.
+3. Look = `.glass` + shadow role + concentric radius.
+4. One primary action, the same destination in the bar and the hero.
+5. Type roles from [type.md](type.md). Product ladder untouched.
+6. Reduced-motion = end state. Reduced-transparency = solid. Focus ring on.
 
-Output van een visuele review: tabel **Before | After | Why**.
+Output of a visual review: a **Before | After | Why** table.
 
-## 3. Klaar
+## 3. Done
 
-- [ ] Coverage-rij bestaat.
-- [ ] Geen nieuwe blur, radius of schaduw buiten [looks.md](looks.md).
-- [ ] Test-zin van die ene craft-file groen.
-- [ ] Narrow en reduced-motion bekeken.
-- [ ] Product-pad niet zwaarder (geen showcase-lib in de product-bundle).
+- [ ] A coverage row exists.
+- [ ] No new blur, radius or shadow outside [looks.md](looks.md).
+- [ ] The test sentence of that one craft file is green.
+- [ ] Narrow and reduced-motion checked.
+- [ ] The product path did not get heavier (no showcase library in the product bundle).
 
-## 4. Elders
+## 4. Elsewhere
 
-- Gate en catalogus → [desktop.md](../desktop.md).
-- Product-craft → [DESIGN.md](../../DESIGN.md) (applicatie).
+- Gate and catalogue → [desktop.md](../desktop.md).
+- Product craft → [DESIGN.md](../../DESIGN.md) (application).

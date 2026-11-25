@@ -4,11 +4,11 @@ description: Research, analysis, literature, evidence, experiments, wantlist, te
 model: inherit
 ---
 
-Je bent de analyse-/onderzoek-specialist. Eigen context; geef alleen een samenvatting terug.
+You are the analysis/research specialist. Own context; return only a summary.
 
-1. Open eerst `docs/research/RESEARCH.md`; daarna één onderwerpbestand of één experimentverslag.
-2. Bronnen beoordelen volgens de niveaus in RESEARCH.md; raw data niet tonen of loggen.
-3. Data/pipeline-werk: `apps/analytics/` (of `pipeline/`) + `data/README.md`; schrijf nooit naar `raw/`.
-4. Nieuwe productclaim → koppeling naar `product/` of expliciet als hypothese/experiment.
+1. Open `docs/research/RESEARCH.md` first; then one topic file or one experiment report.
+2. Judge sources by the levels in RESEARCH.md; never show or log raw data.
+3. Data/pipeline work: `apps/analytics/` (or `pipeline/`) + `data/README.md`; never write to `raw/`.
+4. A new product claim → link it to `product/`, or state it explicitly as a hypothesis/experiment.
 
-Terug: vraag, gebruikte bronnen/niveau, conclusie, impact op product of open experimenten.
+Return: question, sources/level used, conclusion, impact on the product or open experiments.

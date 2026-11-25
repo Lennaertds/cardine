@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Dependency-hygiëne: docs-structuur + CVE-audits per stack. In check-full, niet in check.
+# Dependency hygiene: docs structure + CVE audits per stack. In check-full, not in check.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -9,19 +9,19 @@ file=docs/architecture/dependencies.md
 die() { echo "deps-audit: $*" >&2; exit 1; }
 warn() { echo "deps-audit: waarschuwing — $*" >&2; }
 
-[[ -f "$file" ]] || die "ontbreekt $file (kit: kern)."
+[[ -f "$file" ]] || die "missing $file (kit: kern)."
 
-for heading in "## Relatie tot andere docs" "## Audits per stack" "## Ritueel" "## Snellere / veiligere alternatieven" "## Commando's" "## Bewust later"; do
-  grep -qF "$heading" "$file" || die "sectie ontbreekt in $file: $heading"
+for heading in "## Relation to other docs" "## Audits per stack" "## Ritual" "## Faster / safer alternatives" "## Commands" "## Deliberately later"; do
+  grep -qF "$heading" "$file" || die "section missing in $file: $heading"
 done
-# P28: minstens één uitbreidingsrij in de Bewust later-tabel.
+# P28: at least one extension row in the Deliberately later table.
 awk '
-  /^## Bewust later$/ { in_sec=1; next }
+  /^## Deliberately later$/ { in_sec=1; next }
   in_sec && /^## / { exit found ? 0 : 1 }
-  in_sec && /^\|/ && $0 !~ /^\|[[:space:]:|-]+\|$/ && $0 !~ /Uitbreiding/ { found=1 }
+  in_sec && /^\|/ && $0 !~ /^\|[[:space:]:|-]+\|$/ && $0 !~ /Extension/ { found=1 }
   END { exit found ? 0 : 1 }
-' "$file" || die "tabel onder ## Bewust later mist uitbreidingsrijen (P28)"
-echo "ok    $file (vaste secties aanwezig, incl. Bewust later)"
+' "$file" || die "table under ## Deliberately later has no extension rows (P28)"
+echo "ok    $file (fixed sections present, incl. Deliberately later)"
 
 failed=0
 ran=0
@@ -37,7 +37,7 @@ if ((${#pkg_jsons[@]} > 0)); then
     js_tool=npm
   fi
   if [[ -z "$js_tool" ]]; then
-    warn "package.json gevonden maar geen pnpm/npm in PATH — JS-audit overgeslagen."
+    warn "package.json found but no pnpm/npm in PATH — JS audit skipped."
     skipped=$((skipped + 1))
   else
     for pkg in "${pkg_jsons[@]}"; do
@@ -53,7 +53,7 @@ if ((${#pkg_jsons[@]} > 0)); then
       rc=$?
       set -e
       if [[ $rc -ne 0 ]]; then
-        warn "JS-audit faalde in $dir (exit $rc) — high/critical of registry-fout."
+        warn "JS audit failed in $dir (exit $rc) — high/critical or registry error."
         failed=1
       else
         echo "ok    JS-audit $dir"
@@ -76,7 +76,7 @@ if ((${#py_roots[@]} > 0)); then
     py_tool=uv
   fi
   if [[ -z "$py_tool" ]]; then
-    warn "Python-manifest gevonden maar geen pip-audit/uv — Python-audit overgeslagen. Tip: pipx install pip-audit"
+    warn "Python manifest found but no pip-audit/uv — Python audit skipped. Tip: pipx install pip-audit"
     skipped=$((skipped + 1))
   else
     for dir in "${py_roots[@]}"; do
@@ -129,17 +129,17 @@ if ((${#cargos[@]} > 0)); then
       fi
     done
   else
-    warn "Cargo.toml gevonden; cargo-audit niet geïnstalleerd — stub. Tip: cargo install cargo-audit"
+    warn "Cargo.toml found; cargo-audit not installed — stub. Tip: cargo install cargo-audit"
     skipped=$((skipped + 1))
   fi
 fi
 
 if ((ran == 0 && skipped == 0)); then
-  echo "Tip: geen package.json / pyproject / requirements / Cargo.toml gevonden — alleen docs-check."
+  echo "Tip: no package.json / pyproject / requirements / Cargo.toml found — docs check only."
 fi
 
 if ((failed != 0)); then
-  die "een of meer audits faalden. Zie docs/architecture/dependencies.md en docs/how-to/deps-audit.md"
+  die "one or more audits failed. See docs/architecture/dependencies.md and docs/how-to/deps-audit.md"
 fi
 
 echo "deps-audit: groen"

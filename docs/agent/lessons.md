@@ -1,8 +1,8 @@
-# Lessen
+# Lessons
 
-> **Rol:** Wat bij meta-taken (docs herschrijven, refactors over het hele project) misliep, en hoe het nu moet.
-> **Niet hier:** lessen die bij elke taak gelden: die worden een regel in [AGENTS.md](../../AGENTS.md) of een test.
+> **Role:** what went wrong in meta tasks (rewriting docs, refactors across the whole project), and how it must go now.
+> **Not here:** lessons that apply to every task: those become a rule in [AGENTS.md](../../AGENTS.md) or a test.
 
-| Datum | Wat misliep | Les |
-|-------|-------------|-----|
-| 2026-11-17 | Uitgesproken keuzes bleven in de chat of in productproza (“geen ADR”) | Een uitgesproken keuze wordt in dezelfde beurt een ADR. Staat in [AGENTS.md](../../AGENTS.md) § Werken |
+| Date | What went wrong | Lesson |
+|------|-----------------|--------|
+| 2026-11-17 | Decisions that were spoken aloud stayed in the chat or in product prose ("no ADR") | A decision that is spoken aloud becomes an ADR in the same turn. Recorded in [AGENTS.md](../../AGENTS.md) § Working |

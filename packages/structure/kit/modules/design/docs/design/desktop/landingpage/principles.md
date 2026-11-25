@@ -1,61 +1,61 @@
 # Desktop — principles
 
-> **Rol:** Waarom de showcase er zo uitziet, en wat we bewust niet overnemen.  
-> **Niet hier:** gate ([desktop.md](../desktop.md)).
+> **Role:** Why the showcase looks the way it does, and what we deliberately do not adopt.
+> **Not here:** gate ([desktop.md](../desktop.md)).
 
-Drie principes, in deze volgorde. Een effect dat het onderliggende verhaal wegduwt, gaat eruit.
+Three principles, in this order. An effect that pushes the underlying story aside goes out.
 
-## 1. Hiërarchie
+## 1. Hierarchy
 
-Twee lagen, altijd:
+Two layers, always:
 
-| Laag | Wat | Materiaal |
-|------|-----|-----------|
-| **Content** | Tekst, features, bewijs, foto, device-mock | Solid `--card` / `--background`, of het beeld zelf |
-| **Functioneel** | Nav, toolbar, menu, één zwevend paneel | [`.glass`](looks.md) |
+| Layer | What | Material |
+|-------|------|----------|
+| **Content** | Text, features, proof, photo, device mock | Solid `--card` / `--background`, or the image itself |
+| **Functional** | Nav, toolbar, menu, one floating panel | [`.glass`](looks.md) |
 
-Glas trekt de aandacht naar de content eronder. Het is geen textuur voor kaarten.
+Glass draws attention to the content underneath. It is not a texture for cards.
 
-- Eén functionele laag per viewport. Een tweede glasvlak erboven is verboden ([liquid-glass.md](liquid-glass.md)).
-- In rust raken content en glas elkaar niet: de eerste viewport houdt titel en CTA uit de balk. Tijdens scroll mag content eronder door; dan geldt de scroll-edge.
-- Kleur in de content. Tint op glas alleen voor de ene primaire actie.
+- One functional layer per viewport. A second glass surface on top is forbidden ([liquid-glass.md](liquid-glass.md)).
+- At rest, content and glass do not touch: the first viewport keeps the title and CTA out of the bar. While scrolling, content may pass underneath; then the scroll edge applies.
+- Colour in the content. Tint on glass only for the one primary action.
 
-## 2. Harmonie
+## 2. Harmony
 
-Eén materiaal, overal dezelfde look. [looks.md](looks.md) is de enige receptuur.
+One material, the same look everywhere. [looks.md](looks.md) is the only recipe.
 
-- Zelfde blur, glans, schaduwrol en concentrische radius op elke showcase-route.
-- Controls in een groep delen één vorm: alles capsule, of alles afgeronde rechthoek. Niet mengen in één balk.
-- Een menu groeit uit zijn knop. Het is hetzelfde vlak dat dikker wordt, geen losse kaart uit een hoek.
-- Groter vlak = dikker: diepere schaduw, zachtere rand. De blur-familie blijft die van `.glass`.
+- Same blur, highlight, shadow role and concentric radius on every showcase route.
+- Controls in a group share one shape: all capsule, or all rounded rectangle. Do not mix within one bar.
+- A menu grows out of its button. It is the same surface getting thicker, not a separate card from a corner.
+- Bigger surface = thicker: deeper shadow, softer edge. The blur family stays that of `.glass`.
 
-## 3. Consistentie
+## 3. Consistency
 
-Zelfde plek, zelfde gedrag.
+Same place, same behaviour.
 
-- Chrome op elke showcase-route: merk links, lokale links midden of daarnaast, primaire actie rechts. [chrome.md](chrome.md).
-- Type-rollen staan vast. [type.md](type.md). Geen pagina met een eigen H1-grootte.
-- Hover is extra. Klik, toetsenbord en de smalle fallback doen hetzelfde werk. [a11y.md](../a11y.md).
+- Chrome on every showcase route: brand left, local links in the middle or next to it, primary action right. [chrome.md](chrome.md).
+- Type roles are fixed. [type.md](type.md). No page with its own H1 size.
+- Hover is extra. Click, keyboard and the narrow fallback do the same work. [a11y.md](../a11y.md).
 
 ## 4. Native Liquid Glass → web
 
-Native Liquid Glass flitst van licht naar donker per pixel, en buigt licht via het systeem. Op het web doen we dat niet na met een eigen engine.
+Native Liquid Glass shifts from light to dark per pixel, and bends light through the system. On the web we do not imitate that with our own engine.
 
-| Native gedrag | Bij ons |
-|---------------|---------|
-| Regular-glas past zich aan | `.glass` op de theme-tokens (`theme-dark` / `theme-light`) |
-| Kleine controls flippen light/dark | Tekst op glas = `--foreground`, weight ≥ 600. Geen per-pixel flip |
-| Clear over media | Alleen `.glass-clear`, drie voorwaarden in [liquid-glass.md](liquid-glass.md) |
-| Lensing | Suggestie: blur + saturate + inset-glans + schaduw. Geen SVG-displacement als basis |
+| Native behaviour | Ours |
+|------------------|------|
+| Regular glass adapts | `.glass` on the theme tokens (`theme-dark` / `theme-light`) |
+| Small controls flip light/dark | Text on glass = `--foreground`, weight ≥ 600. No per-pixel flip |
+| Clear over media | Only `.glass-clear`, three conditions in [liquid-glass.md](liquid-glass.md) |
+| Lensing | Suggestion: blur + saturate + inset highlight + shadow. No SVG displacement as a base |
 | Reduced transparency / contrast / motion | [a11y.md](../a11y.md) |
 
-Publieke pagina’s gebruiken de default theme-tokens. Een product-skin mag de landing niet naar een andere radius, uppercase-titel of neon-accent trekken.
+Public pages use the default theme tokens. A product skin may not drag the landing page to a different radius, uppercase title or neon accent.
 
-## 5. Wat we niet importeren
+## 5. What we do not import
 
-- Geen LiquidKit, glass-refraction, of `@glass-sdk/liquid-glass`. WebGPU-glas valt af: Safari, batterij, en de gate “gsm wint”.
-- Geen regenboog-rand, chromatic aberration, of paarse glow. Dat is kit-stijl, niet deze look.
-- Geen nepdock, menu-balk of stoplichten als site-chrome. Een vensterframe mag alleen binnen een expliciete product-mock.
-- Geen vierde webfont. [materials-type](../../iphone/materials-type.md).
+- No LiquidKit, glass-refraction, or `@glass-sdk/liquid-glass`. WebGPU glass is out: Safari, battery, and the gate "the phone wins".
+- No rainbow edge, chromatic aberration, or purple glow. That is kit style, not this look.
+- No fake dock, menu bar or traffic lights as site chrome. A window frame is allowed only inside an explicit product mock.
+- No fourth webfont. [materials-type](../../iphone/materials-type.md).
 
-**Test:** een nieuwe showcase-sectie kan wijzen naar één laag (content of functioneel) en gebruikt `.glass` of solid, niet een derde materiaal.
+**Test:** a new showcase section can point to one layer (content or functional) and uses `.glass` or solid, not a third material.

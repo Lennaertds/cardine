@@ -1,35 +1,35 @@
 # data/README.md
 
-> **Rol:** De catalogus van alle data: welke dataset waar staat, herkomst, licentie, persoonsgegevens, en hoe je hem opnieuw maakt.
-> **Niet hier:** de regels van de lagen ([data](../standaard/data.md)), de pipeline (`docs/architecture/`).
+> **Role:** The catalogue of all data: which dataset sits where, origin, licence, personal data, and how to recreate it.
+> **Not here:** the rules of the layers ([data](../standard/data.md)), the pipeline (`docs/architecture/`).
 
-**Kitbestand:** [kit/kern/data/README.md](../kit/kern/data/README.md) · laag kern
+**Kit file:** [kit/kern/data/README.md](../kit/kern/data/README.md) · layer kern
 
-## Wanneer
+## When
 
-Bij de eerste dataset, en bij elke nieuwe. Een dataset die er staat zonder rij in de catalogus, mag weg.
+With the first dataset, and with every new one. A dataset that sits there without a row in the catalogue may go.
 
-## Invullen
+## Filling in
 
-1. De **tabel van de lagen** laat je staan; ze komt uit de standaard.
-2. **Per dataset een rij:** pad, herkomst, licentie, persoonsgegevens (ja/nee en welke), en hoe je hem opnieuw maakt. Dat laatste is wat een teamgenoot of een nieuwe laptop nodig heeft.
-3. `raw/` krijgt een datum per export (`raw/hevy/2026-10-01/`). Een nieuwe export is een nieuwe map; je overschrijft nooit.
-4. `external/<bron>/` krijgt een eigen `README.md` met de licentie en de downloadlink, want de data zelf staat niet in git.
+1. Keep the **table of the layers**; it comes from the standard.
+2. **One row per dataset:** path, origin, licence, personal data (yes/no and which), and how to recreate it. That last one is what a teammate or a new laptop needs.
+3. `raw/` gets a date per export (`raw/hevy/2026-10-01/`). A new export is a new folder; you never overwrite.
+4. `external/<source>/` gets its own `README.md` with the licence and the download link, because the data itself is not in git.
 
-## Voorbeeld (GymFreak)
+## Example (GymFreak)
 
 ```markdown
-| Pad | Herkomst | Licentie | Persoonsgegevens | Opnieuw maken |
-|-----|----------|----------|------------------|---------------|
-| `raw/apple-health/2026-10-01/` | export uit de Health-app | eigen data | ja: slaap, hartslag | opnieuw exporteren op de iPhone |
-| `external/evidence-pdfs/` | papers | per paper, zie README | nee | downloadlinks in de README |
-| `interim/evidence/` | tekst en index uit de pdf's | — | nee | `make data` |
-| `reference/evidence/` | met de hand: bronnen, passages, priors | eigen | nee | in git |
-| `processed/demo/` | geanonimiseerde aggregaten | eigen | nee (gecontroleerd) | `make data` |
+| Path | Origin | Licence | Personal data | Recreate |
+|------|--------|---------|---------------|----------|
+| `raw/apple-health/2026-10-01/` | export from the Health app | own data | yes: sleep, heart rate | export again on the iPhone |
+| `external/evidence-pdfs/` | papers | per paper, see README | no | download links in the README |
+| `interim/evidence/` | text and index from the pdfs | — | no | `make data` |
+| `reference/evidence/` | by hand: sources, passages, priors | own | no | in git |
+| `processed/demo/` | anonymised aggregates | own | no (checked) | `make data` |
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Elke map onder `data/` heeft een rij.
-- [ ] Elke rij met persoonsgegevens staat in een laag die nooit in git komt.
-- [ ] "Opnieuw maken" is voor elke rij ingevuld.
+- [ ] Every folder under `data/` has a row.
+- [ ] Every row with personal data sits in a layer that never goes into git.
+- [ ] "Recreate" is filled in for every row.

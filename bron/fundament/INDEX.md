@@ -1,7 +1,7 @@
 # Fundament — diepe technische kennis
 
 > **Rol:** Curriculum over LLMs, agents en AI Engineering: mechanisme → trade-off → link naar Agent Engineering. Opt-in; nooit always-on.
-> **Niet hier:** samenvattingen van bronnen ([bronnen.md](../bronnen.md)), afgeleide regels ([principes.md](../principes.md)), of wat je in een project *doet* ([standaard](../../standaard/INDEX.md)).
+> **Niet hier:** samenvattingen van bronnen ([bronnen.md](../bronnen.md)), afgeleide regels ([principes.md](../principes.md)), of wat je in een project *doet* ([standaard](../../standard/INDEX.md)).
 
 **Nooit kopiëren naar een project.** Agents: begin bij [bron/INDEX.md](../INDEX.md); open hier alleen wat de taak vraagt (P25).
 

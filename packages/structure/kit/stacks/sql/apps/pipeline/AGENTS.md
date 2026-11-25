@@ -1,21 +1,21 @@
-# apps/pipeline — SQL en Python
+# apps/pipeline — SQL and Python
 
-Geldt naast de [root-AGENTS.md](../../AGENTS.md). Alleen wat specifiek is voor deze app.
+Applies on top of the [root AGENTS.md](../../AGENTS.md). Only what is specific to this app.
 
-## Indeling
+## Layout
 
-- `sql/migrations/NNNN-<slug>.sql`: schema (DDL). Nooit wijzigen na merge, altijd een nieuwe. Vraag eerst toestemming.
-- `sql/staging/<bron>__<tabel>.sql`: één-op-één opgekuiste brontabellen. Herhaalbaar: `CREATE OR REPLACE` of `DROP … IF EXISTS`.
-- `sql/marts/<onderwerp>.sql`: wat apps en rapporten lezen. Alleen lezen uit `staging`.
-- `sql/checks/<naam>.sql`: geeft de foute rijen terug; nul rijen = groen.
-- `src/pipeline/`: Python voor extract, load en orkestratie. Eén module per bron.
+- `sql/migrations/NNNN-<slug>.sql`: schema (DDL). Never change after merge, always add a new one. Ask permission first.
+- `sql/staging/<source>__<table>.sql`: one-to-one cleaned source tables. Repeatable: `CREATE OR REPLACE` or `DROP … IF EXISTS`.
+- `sql/marts/<topic>.sql`: what apps and reports read. Read from `staging` only.
+- `sql/checks/<name>.sql`: returns the bad rows; zero rows = green.
+- `src/pipeline/`: Python for extract, load and orchestration. One module per source.
 
 ## Data
 
-- Lees uit `data/raw/`, `external/` en `reference/`; nooit schrijven naar `raw/`. Zie [data/README.md](../../data/README.md).
-- Toon of log nooit rijen met persoonsgegevens. Tellingen en schema's mogen.
+- Read from `data/raw/`, `external/` and `reference/`; never write to `raw/`. See [data/README.md](../../data/README.md).
+- Never show or log rows with personal data. Counts and schemas are fine.
 
-## Commando's
+## Commands
 
-- `make data-pipeline` bouwt alles opnieuw; `make checks-pipeline` controleert de datakwaliteit.
-- Eén SQL-bestand testen: `psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -1 -f <pad>`.
+- `make data-pipeline` rebuilds everything; `make checks-pipeline` checks data quality.
+- Test one SQL file: `psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -1 -f <path>`.

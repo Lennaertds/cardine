@@ -1,66 +1,72 @@
-# Architectuur
+# Architecture
 
-> **Rol:** Hoe het systeem in elkaar zit op containerniveau. Diepte per subsysteem: zie de links onderaan.
-> **Niet hier:** mappenboom (`ls`), codedetails (de code), het waarom (`decisions/`), PWA/offline/push/chrome-poll, auth-flows en feature-catalogus — die horen in `architecture/<subsysteem>.md` (bv. `runtime-client.md`, `auth.md`).
+> **Role:** how the system fits together at container level. Depth per subsystem: see the links at the bottom.
+> **Not here:** the directory tree (`ls`), code details (the code), the why (`decisions/`), PWA/offline/push/chrome-poll, auth flows and the feature catalogue — those belong in `architecture/<subsystem>.md` (e.g. `runtime-client.md`, `auth.md`).
 
-## Systeemcontext
+## System context
 
-<Eén alinea: wie het gebruikt, wat het systeem doet, met welke externe systemen het praat.>
+<One paragraph: what the system is, who uses it, and which external systems it talks to.> No prod hosting yet.
 
 ## Containers
 
+No app stack yet. After the runtime choice, replace this with the real containers:
+
 ```mermaid
 flowchart LR
-  user[Gebruiker] --> web[Web app]
-  web -->|/api| api[API]
-  api --> db[(Postgres)]
-  batch[Python batch] --> db
+  dev[Developer] --> web[web]
+  web --> api[api]
+  api --> db[(db)]
 ```
 
-| Container | Pad | Taak | Poort lokaal | Host in productie |
-|-----------|-----|------|--------------|-------------------|
-| <web> | `apps/web` | <…> | <:3000> | <domein> |
+| Container | Path | Task | Port locally | Host in production |
+|-----------|------|------|--------------|--------------------|
+| web | `apps/web` | <task> | <port> | <host> |
+| api | `apps/api` | <task> | <port> | <host> |
+| db | docker compose | <task> | <port> | <host> |
+
+Every container in the diagram also has a row in the table, with port and host.
 
 ## Stack
 
-| Laag | Keuze | Waarom (ADR) |
-|------|-------|--------------|
-| <Frontend> | <Next.js> | <0002> |
+| Layer | Choice | Why (ADR) |
+|-------|--------|-----------|
+| Runtime / apps | <choice or "open"> | <ADR link, or "no ADR yet"> |
+| Database | <choice or "none"> | |
+| Hosting | <choice> | |
+| LLM | <choice or "none"> | |
 
-Extra taal / native hot path (Rust, C, …): niet in deze tabel zetten zonder ADR. Beslisboom en grenzen: [polyglot.md](polyglot.md). Voorbeeld-ADR: [0000-voorbeeld-native-module-na-budget-breuk.md](../decisions/0000-voorbeeld-native-module-na-budget-breuk.md). Native-mappen bestaan alleen met die stack — zie polyglot.
+An extra language / native hot path (Rust, C, …): do not put it in this table without an ADR. Decision tree: [polyglot.md](polyglot.md).
 
-## Dataflow en eigenaarschap
+## Dataflow and ownership
 
-- <Wie schrijft waar: "Postgres is de enige writer van user-data; de batch leest alleen.">
-- <Waar data vandaan komt en heen gaat; de lagen in `data/` staan in [data/README.md](../../data/README.md).>
+- Who writes where: every database, every data folder, and who may write it. This is the section that prevents most mistakes.
+- Lab artefacts (experiment output, index cache): under `data/` per [data/README.md](../../data/README.md); raw/runtime never in git or in answers.
 
-## Hosting en poorten
+## Hosting and ports
 
-- <Waar elke container draait, welke domeinen, hoe er gedeployd wordt.>
+<Hosting, domains and ports. Ports follow from `apps/*/app.mk` once there is a stack.>
 
-## Wat in git staat
+## What is in git
 
-- <Alleen wat afwijkt van de standaard, bv. "`data/processed/demo/` staat in git en wordt door de web-app gelezen".>
+Nothing deviating from the standard until there are demo/reference datasets. No secrets, no `data/raw` or `data/runtime`.
 
-## Invarianten
+## Invariants
 
-- <Wat altijd waar moet zijn, met een link naar de ADR of test die het bewaakt.>
+- <What must always be true, each with the test or ADR that guards it.>
+- Lessons from the project → first a line in `docs/work/logs/`, then a rule or a test; do not duplicate them here.
 
-## Seams (naden)
+## Seams
 
-Waar containers of modules op elkaar aansluiten. Hier horen de integratietests; hier mag AI veilig raken zodra die tests bestaan.
+| Seam | What passes over it | Guarded by |
+|------|---------------------|------------|
+| web → api | <what passes over it> | <test, or "still to be secured"> |
+| api → db | <what passes over it> | <test, or "still to be secured"> |
 
-| Seam | Wat erover gaat | Bewaakt door |
-|------|-----------------|--------------|
-| <web → api> | <HTTP-contract / gedeelde types> | <integratietest of contracttest> |
-| <api → db> | <wie schrijft welke tabellen> | <migratie + repository-test> |
+- **An agent may without approval:** fill in docs within existing files; code *inside* an existing domain module behind a stable interface.
+- **Ask first or file an ADR:** runtime/stack choice, a new app directory, a database, shared `utils/`, moving a seam, prod-like hosting.
 
-- **Mag een agent zonder akkoord:** code *binnen* een bestaande domeinmodule, achter een stabiele interface.
-- **Eerst vragen of ADR:** nieuwe map/module, nieuwe writer, gedeelde `utils/`, of een seam die verplaatst.
+## Subsystems
 
-## Subsystemen
-
-- [polyglot.md](polyglot.md) — Wanneer native/extra taal mag; FFI vs sidecar; wat de agent mag.
-- [security.md](security.md) — Secrets, auth-principes, Strix; detail-flows → `auth.md` of data-model.
-- [observability.md](observability.md) · [performance.md](performance.md) · [dependencies.md](dependencies.md) — alleen bij die opdracht (via INDEX).
-- [<subsysteem>.md](<subsysteem>.md) — <één zin; bv. runtime-client, auth, data-model, engine>
+- [polyglot.md](polyglot.md) — when native/an extra language is allowed; FFI vs sidecar; what the agent may do.
+- [security.md](security.md) — secrets, auth principles, Strix.
+- [observability.md](observability.md) · [performance.md](performance.md) · [dependencies.md](dependencies.md) — only for that task (via INDEX). Budgets/tooling: BACKLOG until there is an app.

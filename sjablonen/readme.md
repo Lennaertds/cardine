@@ -1,44 +1,44 @@
 # README.md
 
-> **Rol:** De voorpagina voor mensen: wat het is, waarom, en hoe je het in twee minuten draait.
-> **Niet hier:** werkwijze voor de agent ([agents-root](agents-root.md)), architectuur ([architecture](architecture.md)).
+> **Role:** The front page for humans: what it is, why, and how to run it in two minutes.
+> **Not here:** working method for the agent ([agents-root](agents-root.md)), architecture ([architecture](architecture.md)).
 
-**Kitbestand:** [kit/kern/README.md](../kit/kern/README.md) · laag kern
+**Kit file:** [kit/kern/README.md](../kit/kern/README.md) · layer kern
 
-## Wanneer
+## When
 
-Altijd. Dag 0 met de quickstart uit de kit; aanvullen zodra er een demo of een eerste gebruiker is.
+Always. Day 0 with the quickstart from the kit; extend it once there is a demo or a first user.
 
-## Invullen
+## Filling in
 
-1. **Titel en één zin:** wat het is en voor wie. Geen marketing.
-2. **Waarom:** het probleem in twee à drie zinnen. De volledige context staat in `CONTEXT.md`; verwijs ernaar.
-3. **Demo:** link en, als het mag, een testaccount zonder echte data.
-4. **Snel starten:** de drie make-commando's uit de kit. Wat je extra nodig hebt (Docker, uv), staat in `make doctor`.
-5. **Meer:** links naar `docs/INDEX.md` en `AGENTS.md`. Niet de inhoud ervan herhalen.
+1. **Title and one sentence:** what it is and for whom. No marketing.
+2. **Why:** the problem in two or three sentences. The full context lives in `CONTEXT.md`; link to it.
+3. **Demo:** a link and, if allowed, a test account without real data.
+4. **Quickstart:** the three make commands from the kit. What else you need (Docker, uv) is shown by `make doctor`.
+5. **More:** links to `docs/INDEX.md` and `AGENTS.md`. Do not repeat their content.
 
-## Voorbeeld (GymFreak)
+## Example (GymFreak)
 
 ```markdown
 # GymFreak
 
-Trainingsplanner als PWA voor wie zelf zijn schema's maakt: plannen, loggen, en trends in kracht, slaap en voeding.
+Training planner as a PWA for people who build their own programmes: plan, log, and trends in strength, sleep and nutrition.
 
-Demo: https://gymfreak.be · testaccount `test@gymfreak.be` (alleen demo-data)
+Demo: https://gymfreak.be · test account `test@gymfreak.be` (demo data only)
 
-## Snel starten
+## Quickstart
 
-    make setup   # .env, dependencies, git-hooks
-    make up      # Postgres op :5433
+    make setup   # .env, dependencies, git hooks
+    make up      # Postgres on :5433
     make dev     # web :3002, api :3003
 
-## Meer
+## More
 
-Docs: [docs/INDEX.md](docs/INDEX.md) · Werkwijze met een agent: [AGENTS.md](AGENTS.md)
+Docs: [docs/INDEX.md](docs/INDEX.md) · Working with an agent: [AGENTS.md](AGENTS.md)
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Iemand zonder voorkennis draait het project met alleen dit bestand en `make doctor`.
-- [ ] Geen mappenboom, geen lijst van features die in `PRODUCT.md` hoort, geen status.
-- [ ] Code privé? Dan staat de publieke uitleg in een aparte repo, niet hier.
+- [ ] Someone with no prior knowledge runs the project using only this file and `make doctor`.
+- [ ] No folder tree, no list of features that belongs in `PRODUCT.md`, no status.
+- [ ] Code private? Then the public explanation lives in a separate repo, not here.

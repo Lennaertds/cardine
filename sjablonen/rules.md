@@ -1,39 +1,39 @@
 # docs/rules/RULES.md
 
-> **Rol:** De inhoudelijke grenzen van het project: wat het nooit doet, en wat altijd moet.
-> **Niet hier:** codestijl (de linter), werkwijze van de agent ([agents-root](agents-root.md)), technische maatregelen ([security](security.md)).
+> **Role:** The content boundaries of the project: what it never does, and what always has to be true.
+> **Not here:** code style (the linter), the agent's working method ([agents-root](agents-root.md)), technical measures ([security](security.md)).
 
-**Kitbestand:** [kit/kern/docs/rules/RULES.md](../kit/kern/docs/rules/RULES.md) · laag kern · P6, P14, P22
+**Kit file:** [kit/kern/docs/rules/RULES.md](../kit/kern/docs/rules/RULES.md) · layer kern · P6, P14, P22
 
-## Wanneer
+## When
 
-Dag 0 met de drie à vijf grenzen die je al kent. Elke nieuwe grens die een klant, docent of jijzelf stelt, komt er meteen bij.
+Day 0 with the three to five boundaries you already know. Every new boundary set by a client, a teacher or yourself goes in straight away.
 
-## Invullen
+## Filling in
 
-1. **Eén zin per regel, met het waarom erbij.** Zonder waarom kan niemand een randgeval beslissen.
-2. **Nooit** voor wat het product niet mag doen; **Altijd** voor wat in elke feature moet zitten.
-3. **Afdwingbaar?** Schrijf de test, hook of CI-check, en verwijs ernaar. Een regel die alleen hier staat, wordt vroeg of laat gebroken. De test moet de **intentie** bewaren: groen door de regel af te zwakken telt niet (P22).
-4. Werkwijze ("niet committen") hoort in `AGENTS.md`, niet hier. Hier staat wat het **product** mag.
+1. **One sentence per rule, with the why.** Without the why, nobody can decide an edge case.
+2. **Never** for what the product may not do; **Always** for what has to be in every feature.
+3. **Enforceable?** Write the test, hook or CI check, and link to it. A rule that lives only here will be broken sooner or later. The test must preserve the **intent**: passing by weakening the rule does not count (P22).
+4. Working method ("do not commit") belongs in `AGENTS.md`, not here. Here goes what the **product** may do.
 
-## Voorbeeld (GymFreak)
+## Example (GymFreak)
 
 ```markdown
-## Nooit
+## Never
 
-- Geen medisch advies: de app toont trends en bronnen, geen diagnoses of behandelingen.
-- Geen gezondheidsdata naar een externe LLM zonder dat de gebruiker het per keer toestaat.
-  Bewaakt door `apps/api/src/llm/consent.guard.spec.ts`.
-- Geen dark patterns om de streak te houden.
+- No medical advice: the app shows trends and sources, no diagnoses or treatments.
+- No health data to an external LLM unless the user allows it each time.
+  Enforced by `apps/api/src/llm/consent.guard.spec.ts`.
+- No dark patterns to keep the streak.
 
-## Altijd
+## Always
 
-- Elke aanbeveling toont haar bron (paper uit `data/reference/evidence/` of een eigen regel).
-- Een gebruiker kan al zijn data exporteren en verwijderen.
+- Every recommendation shows its source (a paper from `data/reference/evidence/` or one of our own rules).
+- A user can export and delete all of their data.
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Elke regel heeft een waarom.
-- [ ] Geen regel over code of tools; die horen in `AGENTS.md` of de linter.
-- [ ] Wat afdwingbaar is, verwijst naar zijn test of hook — en die test omzeilt de regel niet.
+- [ ] Every rule has a why.
+- [ ] No rule about code or tools; those belong in `AGENTS.md` or the linter.
+- [ ] What is enforceable links to its test or hook — and that test does not bypass the rule.

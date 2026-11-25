@@ -1,42 +1,42 @@
 # Desktop — charts
 
-> **Rol:** Een demo-chart op de showcase.  
-> **Niet hier:** product-charts ([charts.md](../../iphone/application/charts.md)).
+> **Role:** One demo chart on the showcase.
+> **Not here:** product charts ([charts.md](../../iphone/application/charts.md)).
 
-Eén chart, als het bewijs er beter van wordt. Geen dashboard op de landing.
+One chart, if the proof gets better with it. No dashboard on the landing page.
 
-## 1. Welk type
+## 1. Which type
 
 | Data | Chart |
 |------|-------|
-| Verloop | Lijn |
-| Vergelijking van een paar staven | Staaf |
-| Aandeel van meer dan vijf delen | Staaf, geen taart |
+| Change over time | Line |
+| Comparing a few bars | Bar |
+| Share of more than five parts | Bar, not pie |
 
-Directe labels als er weinig punten zijn. Een legenda alleen als de lijn niet naast zichzelf gelabeld kan worden, en dan pal bij de chart.
+Direct labels when there are few points. A legend only if the line cannot be labelled next to itself, and then right by the chart.
 
-## 2. Lezen
+## 2. Reading
 
-- Assen hebben eenheid en een leesbare schaal. Op smal minder ticks, geen gedraaide labels.
-- Raster: `--stroke` op lage mix, zodat de lijn wint.
-- Lijn en staaf tegen de bodem ≥ 3:1. Labels ≥ 4.5:1.
-- Kleur is niet de enige onderscheiding: naam bij de reeks, of een streeppatroon.
-- Tooltip toont de exacte waarde, op hover én via toetsenbord. Geen hover-only cijfer.
-- Scrub mag, met anonieme of echte demo-data ([desktop.md](../desktop.md)).
-- Cijfers: `.type-numeric`, locale van de pagina.
+- Axes have a unit and a readable scale. On narrow, fewer ticks, no rotated labels.
+- Grid: `--stroke` at a low mix, so the line wins.
+- Line and bar against the base ≥ 3:1. Labels ≥ 4.5:1.
+- Colour is not the only distinction: a name by the series, or a dashed pattern.
+- Tooltip shows the exact value, on hover **and** by keyboard. No hover-only number.
+- Scrub is allowed, with anonymous or real demo data ([desktop.md](../desktop.md)).
+- Numbers: `.type-numeric`, the page's locale.
 
-## 3. Staten
+## 3. States
 
-- Laden: gereserveerde hoogte, solid vlak. Geen lege assen.
-- Leeg: één zin, geen chart-frame.
-- Fout: één zin plus opnieuw proberen.
-- Reduced-motion: de data staat er meteen. Geen inteken-animatie.
-- Een zin of `aria-label` vat de conclusie samen voor een screenreader. De chart is niet de enige vorm.
+- Loading: reserved height, solid surface. No empty axes.
+- Empty: one sentence, no chart frame.
+- Error: one sentence plus try again.
+- Reduced-motion: the data is there immediately. No drawing animation.
+- One sentence or `aria-label` summarises the conclusion for a screen reader. The chart is not the only form.
 
-## 4. Dichtheid
+## 4. Density
 
-Eén inzicht per chart. Een tweede reeks alleen als de vergelijking de sectie is. Geen vulling, schaduw of gradient op de lijn.
+One insight per chart. A second series only if the comparison is the section. No fill, shadow or gradient on the line.
 
-Interactieve punten: hit minstens 24×24, liever de hele kolom als treffer. Op touch de product-regel van 44px als dezelfde chart daar staat.
+Interactive points: a hit of at least 24×24, preferably the whole column as the target. On touch, the product rule of 44px if the same chart sits there.
 
-**Test:** de demo-chart is een lijn of staaf, heeft een eenheid, blijft leesbaar zonder hover, en gebruikt geen privé-data.
+**Test:** the demo chart is a line or a bar, has a unit, stays readable without hover, and uses no private data.

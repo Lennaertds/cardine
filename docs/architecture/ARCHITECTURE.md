@@ -1,78 +1,78 @@
-# Architectuur
+# Architecture
 
-> **Rol:** Hoe het systeem in elkaar zit op containerniveau. Diepte per subsysteem: zie de links onderaan.
-> **Niet hier:** mappenboom (`ls`), codedetails (de code), het waarom (`decisions/`), PWA/offline/push/chrome-poll, auth-flows en feature-catalogus — die horen in `architecture/<subsysteem>.md` (bv. `runtime-client.md`, `auth.md`).
+> **Role:** how the system fits together at container level. Depth per subsystem: see the links at the bottom.
+> **Not here:** the directory tree (`ls`), code details (the code), the why (`decisions/`), PWA/offline/push/chrome-poll, auth flows and the feature catalogue — those belong in `architecture/<subsystem>.md` (e.g. `runtime-client.md`, `auth.md`).
 
-## Systeemcontext
+## System context
 
-Het product is de projectstructuur plus een gids ([PRODUCT.md](../product/PRODUCT.md), [ADR 0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md)). Deze pagina beschrijft de containers van het lab-pad: Zed + DeepSeek Harness met een API-key ([totaalproduct.md](../product/totaalproduct.md)). Externe systemen: `kit/` (kit + bron, alleen lezen en verwijzen) en, op dit pad, LLM-providers via eigen API-keys. Geen prod-hosting in de labfase.
+The product is the project structure plus a guide ([PRODUCT.md](../product/PRODUCT.md), [ADR 0009](../decisions/0009-the-product-is-the-free-project-structure-and-a-guide-to-the-agent-paths.md)). This page describes the containers of the lab path: Zed + DeepSeek Harness with an API key ([totaalproduct.md](../product/totaalproduct.md)). External systems: `kit/` (kit + sources, read and reference only) and, on this path, LLM providers through your own API keys. No prod hosting in the lab phase.
 
 ## Containers
 
-Nog geen app-stack. Geplande containernamen (pad/poort na runtime-keuze):
+No app stack yet. Planned container names (path/port after the runtime choice):
 
 ```mermaid
 flowchart LR
-  dev[Ontwikkelaar] --> harness[Harness]
+  dev[Developer] --> harness[Harness]
   harness --> structure[Structure]
   harness --> indexing[Indexing]
-  structure -.->|leest standaard| ae[`kit/`]
+  structure -.->|reads the standard| ae[`kit/`]
   harness -.->|later LLM| llm[LLM_provider]
 ```
 
-| Container | Pad | Taak | Poort lokaal | Host in productie |
-|-----------|-----|------|--------------|-------------------|
-| harness | `apps/…` (na runtime-keuze) | Agent-loop, metingen, experiment-entry | n.n.b. | geen (lokaal lab) |
-| structure | zelfde app of module | Standaard lezen/afdwingen | — | — |
-| indexing | zelfde app of module | Code-/context-index | — | — |
+| Container | Path | Task | Port locally | Host in production |
+|-----------|------|------|--------------|--------------------|
+| harness | `apps/…` (after the runtime choice) | Agent loop, measurements, experiment entry | t.b.d. | none (local lab) |
+| structure | same app or module | Read/enforce the standard | — | — |
+| indexing | same app or module | Code/context index | — | — |
 
-Geen database tot een ADR dat nodig acht. `structure` en `indexing` zijn **domeinen**, geen aparte deployables tenzij later besloten.
+No database until an ADR calls for one. `structure` and `indexing` are **domains**, not separate deployables unless decided later.
 
 ## Stack
 
-| Laag | Keuze | Waarom (ADR) |
-|------|-------|--------------|
-| Runtime / apps | *open* | [0001](../decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) |
-| Database | geen | Lab heeft geen user-data-writer tot ADR anders zegt |
-| Hosting | lokaal (lab) | Prod/portfolio-deploy pas na productisatie ([RULES.md](../rules/RULES.md)) |
-| LLM | eigen keys; DeepSeek-richting | Goedkoop voor lab; andere providers via config, geen lock zonder ADR |
+| Layer | Choice | Why (ADR) |
+|-------|--------|-----------|
+| Runtime / apps | *open* | [0001](../decisions/0001-runtime-stack-deliberately-deferred-until-an-explicit-pi-or-ts-choice.md) |
+| Database | none | The lab has no user-data writer until an ADR says otherwise |
+| Hosting | local (lab) | Prod/portfolio deploy only after productisation ([RULES.md](../rules/RULES.md)) |
+| LLM | own keys; DeepSeek direction | Cheap for the lab; other providers via config, no lock without an ADR |
 
-Extra taal / native hot path (Rust, C, …): niet in deze tabel zetten zonder ADR. Beslisboom: [polyglot.md](polyglot.md). Voorbeeld-ADR: [0000-voorbeeld-native-module-na-budget-breuk.md](../decisions/0000-voorbeeld-native-module-na-budget-breuk.md).
+An extra language / native hot path (Rust, C, …): do not put it in this table without an ADR. Decision tree: [polyglot.md](polyglot.md). Example ADR: [0000-example-native-module-after-budget-breach.md](../decisions/0000-example-native-module-after-budget-breach.md).
 
-## Dataflow en eigenaarschap
+## Dataflow and ownership
 
-- Geen overname van data/secrets uit andere projecten.
-- Lab-artefacten (experimentoutput, index-cache): onder `data/` volgens [data/README.md](../../data/README.md); raw/runtime nooit in git of antwoorden.
-- `kit/`: alleen lezen/verwijzen; deze repo schrijft daar niet naartoe via de harness (mens commit §’s in bron). De publieke structure-package pullt die bron en kopieert de standaard niet ([ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)).
+- No taking over data/secrets from other projects.
+- Lab artefacts (experiment output, index cache): under `data/` per [data/README.md](../../data/README.md); raw/runtime never in git or in answers.
+- `kit/`: read/reference only; this repo does not write there through the harness (a human commits §s into the sources). The public structure package mirrors that source and does not copy the standard ([ADR 0013](../decisions/0013-cardine-is-the-public-shop-window-and-pulls-the-structure-from-agent-engineering.md)).
 
-## Hosting en poorten
+## Hosting and ports
 
-Alles lokaal. Geen productiedomeinen. Poorten volgen uit `apps/*/app.mk` zodra er een stack is.
+Everything local. No production domains. Ports follow from `apps/*/app.mk` once there is a stack.
 
-## Wat in git staat
+## What is in git
 
-Niets afwijkends van de standaard tot er demo-/reference-datasets zijn. Geen secrets, geen `data/raw` of `data/runtime`.
+Nothing deviating from the standard until there are demo/reference datasets. No secrets, no `data/raw` or `data/runtime`.
 
-## Invarianten
+## Invariants
 
-- Geen stack-generators of stack-ADR tot expliciete runtime-keuze (BACKLOG + deze sectie).
-- Domeingrenzen `harness` / `structure` / `indexing` blijven de enige productdomeinen tot PRODUCT.md wijzigt.
-- Lessen uit het lab → eerst § in `bron/`, niet hier dupliceren.
+- No stack generators or stack ADRs until an explicit runtime choice (BACKLOG + this section).
+- Domain boundaries `harness` / `structure` / `indexing` remain the only product domains until PRODUCT.md changes.
+- Lessons from the lab → first a § in `bron/`, do not duplicate them here.
 
-## Seams (naden)
+## Seams
 
-| Seam | Wat erover gaat | Bewaakt door |
-|------|-----------------|--------------|
-| harness → structure | Welke standaardpaden/regels de loop mag lezen of afdwingen | nog te beveiligen (contracttest na stack) |
-| harness → indexing | Welke indexqueries de loop mag doen; geen raw secrets in index | nog te beveiligen |
-| structure → `kit/` | Read-only paden (kit/bron); geen write vanuit lab-code | conventie + RULES; later pad-allowlist-test |
-| harness → LLM | Prompts/context via eigen API-key (DeepSeek e.d.); geen keys of vreemde projectdata in logs/index | nog te beveiligen (redaction + `.env`) |
+| Seam | What passes over it | Guarded by |
+|------|---------------------|------------|
+| harness → structure | Which standard paths/rules the loop may read or enforce | still to be secured (contract test after the stack) |
+| harness → indexing | Which index queries the loop may run; no raw secrets in the index | still to be secured |
+| structure → `kit/` | Read-only paths (kit/sources); no writes from lab code | convention + RULES; later a path allowlist test |
+| harness → LLM | Prompts/context via your own API key (DeepSeek etc.); no keys or foreign project data in logs/index | still to be secured (redaction + `.env`) |
 
-- **Mag een agent zonder akkoord:** docs invullen binnen bestaande bestanden; code *binnen* een bestaande domeinmodule achter een stabiele interface (pas na stack).
-- **Eerst vragen of ADR:** runtime/stack-keuze, nieuwe app-map, database, gedeelde `utils/`, seam verplaatsen, prod-achtige hosting.
+- **An agent may without approval:** fill in docs within existing files; code *inside* an existing domain module behind a stable interface (only after the stack).
+- **Ask first or file an ADR:** runtime/stack choice, a new app directory, a database, shared `utils/`, moving a seam, prod-like hosting.
 
-## Subsystemen
+## Subsystems
 
-- [polyglot.md](polyglot.md) — Wanneer native/extra taal mag; FFI vs sidecar; wat de agent mag.
-- [security.md](security.md) — Secrets, auth-principes, Strix; lab heeft nu minimale PII.
-- [observability.md](observability.md) · [performance.md](performance.md) · [dependencies.md](dependencies.md) — alleen bij die opdracht (via INDEX). Budgets/tooling: BACKLOG tot er een app is.
+- [polyglot.md](polyglot.md) — when native/an extra language is allowed; FFI vs sidecar; what the agent may do.
+- [security.md](security.md) — secrets, auth principles, Strix; the lab currently has minimal PII.
+- [observability.md](observability.md) · [performance.md](performance.md) · [dependencies.md](dependencies.md) — only for that task (via INDEX). Budgets/tooling: BACKLOG until there is an app.

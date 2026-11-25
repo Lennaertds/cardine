@@ -1,24 +1,24 @@
-# <Domein>
+# <Domain>
 
-> **Rol:** Gedrag, regels en randgevallen van het domein <domein>.
-> **Niet hier:** schermen (`design/`), tabellen en endpoints (`architecture/`), het onderzoek waarop het steunt (`research/`).
+> **Role:** behaviour, rules and edge cases of the <domain> domain.
+> **Not here:** screens (`design/`), tables and endpoints (`architecture/`), the research it rests on (`research/`).
 
-## Wat de gebruiker kan
+## What the user can do
 
-- <Als gebruiker wil ik … zodat …>
+- <As a user I want … so that …>
 
-## Regels
+## Rules
 
-Elke regel is **intentie**: een test die slaagt door de regel te omzeilen of af te zwakken, faalt op intentie.
+Every rule is **intent**: a test that passes by bypassing or weakening the rule fails on intent.
 
-| Regel | Waarom | Bewaakt door |
-|-------|--------|--------------|
-| <Een training telt pas mee als hij ≥ 10 minuten duurt> | <korte sessies vertekenen het volume> | <test `volume.spec.ts`> |
+| Rule | Why | Guarded by |
+|------|-----|------------|
+| <A training only counts if it lasts ≥ 10 minutes> | <short sessions distort the volume> | <test `volume.spec.ts`> |
 
-## Randgevallen
+## Edge cases
 
-- <Lege import, dubbele dag, tijdzone, eenheid kg/lb.>
+- <Empty import, duplicate day, time zone, unit kg/lb.>
 
-## Bewust niet
+## Deliberately not
 
 - <…>

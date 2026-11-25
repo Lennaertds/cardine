@@ -1,19 +1,19 @@
 # YYYY-MM-DD — <slug>
 
-- **Vraag:** <Wat wil je weten, zo dat het antwoord ja, nee of een getal is.>
+- **Question:** <What you want to know, such that the answer is yes, no or a number.>
 - **Code:** `apps/<app>/experiments/<slug>/`
-- **Data:** <dataset en versie uit data/README.md; nooit ruwe persoonsgegevens in dit verslag>
+- **Data:** <dataset and version from data/README.md; never raw personal data in this report>
 
-## Opzet
+## Setup
 
-<Wat je vergelijkt, met welke parameters, hoe vaak.>
+<What you compare, with which parameters, how often.>
 
-## Resultaat
+## Result
 
-| Variant | Metriek | Waarde |
-|---------|---------|--------|
+| Variant | Metric | Value |
+|---------|--------|-------|
 | <baseline> | <MAE> | <…> |
 
-## Conclusie
+## Conclusion
 
-<Wat het betekent, en wat je ermee doet: een productregel, een ADR, of niets.>
+<What it means, and what you do with it: a product rule, an ADR, or nothing.>

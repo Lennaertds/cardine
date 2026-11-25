@@ -1,72 +1,72 @@
 # Performance
 
-> **Rol:** Budgets en anti-patronen zodat performance vanaf dag 1 meespeelt bij ontwerp en code — niet pas na een incident.
-> **Niet hier:** hoe je metrics/traces ziet ([observability.md](observability.md)); security ([security.md](security.md)).
+> **Role:** budgets and anti-patterns so that performance counts from day one in design and code — not only after an incident.
+> **Not here:** how to see metrics/traces ([observability.md](observability.md)); security ([security.md](security.md)).
 
-Meten (latency, saturatie, profiles) gebeurt via de LGTM-stack in [observability.md](observability.md) (als die module aanstaat). **Beslissen wat “goed genoeg” is** staat hier.
+Measuring (latency, saturation, profiles) happens through the LGTM stack in [observability.md](observability.md) (if that module is on). **Deciding what "good enough" is** happens here.
 
-## Relatie tot observability
+## Relation to observability
 
-| Hier | Elders |
-|------|--------|
-| Budgets, verboden patronen | `observability.md` — signalen, OTel, Grafana, alerts/SLO’s |
-| Wanneer native (Rust/C) na budget-breuk | [polyglot.md](polyglot.md) |
+| Here | Elsewhere |
+|------|-----------|
+| Budgets, forbidden patterns | `observability.md` — signals, OTel, Grafana, alerts/SLOs |
+| When native (Rust/C) after a budget breach | [polyglot.md](polyglot.md) |
 | `make bench` / `make perf-check` | `make obs-up`, dashboards |
 
-## Lagen (prioriteit)
+## Layers (priority)
 
-Budgetteer en bench in deze volgorde (grootste impact / makkelijkst te meten eerst):
+Budget and bench in this order (largest impact / easiest to measure first):
 
-1. **API** — request p95, N+1, blocking I/O op het request-pad  
-2. **Web** — TTFB / LCP of bundle-grootte (smoke)  
-3. **Batch / analytics** — job-duur of rijen/s op een vaste fixture  
+1. **API** — request p95, N+1, blocking I/O on the request path
+2. **Web** — TTFB / LCP or bundle size (smoke)
+3. **Batch / analytics** — job duration or rows/s on a fixed fixture
 
-SQL-pipeline: datakwaliteit blijft `checks-pipeline`; perf alleen als een mart aantoonbaar traag is (ADR). Pas de lagen aan op de stacks van dit project.
+SQL pipeline: data quality stays with `checks-pipeline`; perf only when a mart is demonstrably slow (ADR). Adapt the layers to this project's stacks.
 
 ## Budgets
 
-Vervang de voorbeelden door projectcijfers. Lege of verouderde budgets → BACKLOG, niet stilzwijgend negeren.
+Replace the examples with project numbers. Empty or outdated budgets → BACKLOG, never silently ignored.
 
-| Laag | Metric | Budget (voorbeeld — pas aan) | Meet met |
-|------|--------|------------------------------|----------|
-| API | p95 latency `GET /health` (lokaal, warm) | &lt; 50 ms | `make bench-api` |
-| API | p95 latency typische read-endpoint | &lt; 200 ms | `make bench-api` + obs |
-| Web | JS bundle main (gzip), of LCP op landing | &lt; 250 KiB / &lt; 2.5 s | `make bench-web` |
-| Analytics | Duur `make data-analytics` op demo-fixture | &lt; 60 s | `make bench-analytics` |
+| Layer | Metric | Budget (example — change this) | Measure with |
+|-------|--------|--------------------------------|--------------|
+| API | p95 latency `GET /health` (local, warm) | &lt; 50 ms | `make bench-api` |
+| API | p95 latency typical read endpoint | &lt; 200 ms | `make bench-api` + obs |
+| Web | JS bundle main (gzip), or LCP on landing | &lt; 250 KiB / &lt; 2.5 s | `make bench-web` |
+| Analytics | Duration `make data-analytics` on demo fixture | &lt; 60 s | `make bench-analytics` |
 
-SLO’s die users raken horen ook in observability (error budget); dit bestand houdt de **engineering-budgets** scherp.
+SLOs that affect users also belong in observability (error budget); this file keeps the **engineering budgets** sharp.
 
-## Anti-patronen (dag 1)
+## Anti-patterns (day one)
 
-| Niet | Wel |
-|------|-----|
-| N+1 queries / `await` in een lus naar de DB | Batch, join, of DataLoader-patroon |
-| Zwaar CPU/sync werk op het HTTP-request-pad | Queue, worker, of native module (Rust/C) na meting |
-| Onbegrensde `SELECT *` / full table scan in hot path | Index + begrensde query; uitleg in ADR als uitzondering |
-| Nieuwe dependency “voor snelheid” zonder bench | Eerst meten (`bench` of obs), dan ADR |
-| Agent neemt aan dat Rust/C “niet mag” | Mag wél na budget-breuk + ADR; zie [polyglot.md](polyglot.md) |
+| Not this | But this |
+|----------|----------|
+| N+1 queries / `await` in a loop to the DB | Batch, join, or the DataLoader pattern |
+| Heavy CPU/sync work on the HTTP request path | Queue, worker, or a native module (Rust/C) after measuring |
+| Unbounded `SELECT *` / full table scan in a hot path | Index + bounded query; explanation in an ADR if it is an exception |
+| A new dependency "for speed" without a bench | Measure first (`bench` or obs), then an ADR |
+| The agent assuming Rust/C "is not allowed" | It is allowed after a budget breach + ADR; see [polyglot.md](polyglot.md) |
 
-## Commando's
+## Commands
 
 ```bash
-make perf-check    # structuur budgets/anti-patronen; niet in make check
-make bench         # alle bench-<app>
-make bench-api     # één laag
+make perf-check    # structure of budgets/anti-patterns; not in make check
+make bench         # every bench-<app>
+make bench-api     # a single layer
 ```
 
-Ontbreekt `apps/<app>/scripts/bench.sh`: het Make-target faalt met uitleg — zie [how-to/perf-bench.md](../how-to/perf-bench.md). Bewuste weglatingen: [Bewust later](#bewust-later) (P28).
+Missing `apps/<app>/scripts/bench.sh`: the Make target fails with an explanation — see [how-to/perf-bench.md](../how-to/perf-bench.md). Deliberate omissions: [Deliberately later](#deliberately-later) (P28).
 
-## Productie
+## Production
 
-<Hosting-limieten, autoscaling, CDN, read-replica’s — kort, of ADR.>
+<Hosting limits, autoscaling, CDN, read replicas — brief, or an ADR.>
 
-## Bewust later
+## Deliberately later
 
-Vaste kop (P28): vraag ernaar of BACKLOG als dit nodig wordt.
+Fixed heading (P28): ask about it or file a BACKLOG item when this becomes needed.
 
-| Uitbreiding | Waarom later | Vraag als |
-|-------------|--------------|-----------|
-| Heuristische code-scan op anti-patronen | v1 = docs + bench-stubs | Agent/CI moet N+1 e.d. automatisch vlaggen |
-| Echte `apps/<app>/scripts/bench.sh` per stack | Project vult in na eerste meting | Budgets zonder meetpad |
-| Load / stress / chaos (`k6`, Locust, …) | Geen vaste tool in kern | Release-gate of capaciteitsvraag |
-| Heuristische latency-regressie op CI-artifact | Soft bench stubs; STRICT native is apart (`native-ci.md`) | PR faalt bij p95-regressie zonder handmatige bench |
+| Extension | Why later | Ask when |
+|-----------|-----------|----------|
+| Heuristic code scan for anti-patterns | v1 = docs + bench stubs | Agent/CI must flag N+1 etc. automatically |
+| A real `apps/<app>/scripts/bench.sh` per stack | The project fills it in after the first measurement | Budgets without a measurement path |
+| Load / stress / chaos (`k6`, Locust, …) | No fixed tool in the core | Release gate or capacity question |
+| Heuristic latency regression on CI artefacts | Soft bench stubs; native STRICT is separate (`native-ci.md`) | A PR fails on a p95 regression without a manual bench |

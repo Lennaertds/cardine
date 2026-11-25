@@ -1,42 +1,42 @@
 # docs/work/logs/YYYY-MM-DD.md
 
-> **Rol:** Wat er die dag gebeurde, wat misliep, en waar je morgen begint.
-> **Niet hier:** besluiten ([adr](adr.md)), open werk ([backlog](backlog.md)).
+> **Role:** What happened that day, what went wrong, and where you start tomorrow.
+> **Not here:** decisions ([adr](adr.md)), open work ([backlog](backlog.md)).
 
-**Kitbestand:** [kit/solo/docs/work/logs/_template.md](../kit/solo/docs/work/logs/_template.md) · laag solo · P8, P20, P27. Team: de PR's zijn de log. Samen met BACKLOG de *spine* van lopend werk — niet de chatgeschiedenis.
+**Kit file:** [kit/solo/docs/work/logs/_template.md](../kit/solo/docs/work/logs/_template.md) · layer solo · P8, P20, P27. Team: the PRs are the log. Together with BACKLOG, the *spine* of ongoing work — not the chat history.
 
-## Wanneer
+## When
 
-Elke beurt met repo-wijziging, bij het afronden — zonder dat de gebruiker “log” vraagt. `make log` maakt het bestand van vandaag als het nog niet bestaat en toont het pad; de agent vult daarna een entry bovenaan onder `## Gedaan`.
+Every turn with a repo change, when finishing — without the user asking for "log". `make log` creates today's file if it does not exist yet and shows the path; the agent then adds an entry at the top under `## Done`.
 
-## Invullen
+## Filling in
 
-1. **Gedaan:** met het backlog-item of de commit. Kort; de diff zegt de rest.
-2. **Misliep:** wat niet werkte en wat je eruit leerde. **Dit is de waardevolste sectie**: een fout die twee keer in de log staat, wordt een regel in `AGENTS.md` of een test.
-3. **Volgende:** waar je morgen begint, zodat een nieuwe sessie meteen weet waar.
+1. **Done:** with the backlog item or the commit. Short; the diff says the rest.
+2. **Went wrong:** what did not work and what you learned from it. **This is the most valuable section**: a mistake that appears twice in the log becomes a line in `AGENTS.md` or a test.
+3. **Next:** where you start tomorrow, so a new session knows straight away.
 
-Logs lees je niet vooraf. Zoeken: `rg -n 'clean-web' docs/work/logs`.
+You do not read logs up front. Search: `rg -n 'clean-web' docs/work/logs`.
 
-## Voorbeeld (GymFreak)
+## Example (GymFreak)
 
 ```markdown
 # 2026-10-19
 
-## Gedaan
+## Done
 
-- diet-budget slice 1: `diet-engine.ts` met 6 tests (feat/diet-budget).
+- diet-budget slice 1: `diet-engine.ts` with 6 tests (feat/diet-budget).
 
-## Misliep
+## Went wrong
 
-- Agent startte `make dev-web` na een build en kreeg `Cannot find module './812.js'`. Tweede keer deze maand
-  → valkuil toegevoegd aan `apps/web/AGENTS.md`.
+- The agent started `make dev-web` after a build and got `Cannot find module './812.js'`. Second time this month
+  → pitfall added to `apps/web/AGENTS.md`.
 
-## Volgende
+## Next
 
-- Slice 2: endpoint `GET /diet/budget`, integratietest naar het voorbeeld van sleep.
+- Slice 2: endpoint `GET /diet/budget`, integration test following the sleep example.
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] "Misliep" is ingevuld, of bewust leeg.
-- [ ] Geen besluit dat alleen hier staat.
+- [ ] "Went wrong" is filled in, or deliberately empty.
+- [ ] No decision lives only here.

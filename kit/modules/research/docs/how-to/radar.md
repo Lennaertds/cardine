@@ -1,11 +1,11 @@
-# How-to — tech-radar
+# How-to — tech radar
 
-> **Rol:** Maandelijks de tech-radar herzien en `make radar-check` / `radar-reminder` gebruiken.
-> **Niet hier:** ring-inhoud zelf ([radar.md](../research/radar.md)).
+> **Role:** Revise the tech radar monthly and use `make radar-check` / `radar-reminder`.
+> **Not here:** the ring content itself ([radar.md](../research/radar.md)).
 
-## Vereiste
+## Requirement
 
-Module `research` (`docs/research/radar.md`). Zonder: `make radar-check` zegt hoe je de module toevoegt.
+Module `research` (`docs/research/radar.md`). Without it: `make radar-check` tells you how to add the module.
 
 ## Reminder
 
@@ -13,7 +13,7 @@ Module `research` (`docs/research/radar.md`). Zonder: `make radar-check` zegt ho
 make radar-reminder
 ```
 
-Toont de `Laatst herzien:`-datum en tip om te herzien als die ouder is dan ~30 dagen (of ontbreekt).
+Shows the `Last reviewed:` date and a hint to revise when it is older than ~30 days (or missing).
 
 ## Check
 
@@ -21,14 +21,14 @@ Toont de `Laatst herzien:`-datum en tip om te herzien als die ouder is dan ~30 d
 make radar-check
 ```
 
-Controleert vaste secties, ringen/categorieën, `## Bewust later` (P28). Niet in `make check`.
+Checks the fixed sections, rings/categories and `## Deliberately later` (P28). Not in `make check`.
 
-## Herzien (maandelijks)
+## Revise (monthly)
 
-1. `make radar-reminder` — beslis of je nu herziet.
-2. Loop rijen: nog terecht in Adopt/Trial/Assess/Hold?
-3. Nieuwe hit → eerst Trial/Assess of wantlist; Adopt/Hold met impact → `make adr`.
-4. Zet `Laatst herzien:` op vandaag.
+1. `make radar-reminder` — decide whether to revise now.
+2. Walk the rows: still justified in Adopt/Trial/Assess/Hold?
+3. New hit → Trial/Assess or the wantlist first; Adopt/Hold with impact → `make adr`.
+4. Set `Last reviewed:` to today.
 5. `make radar-check`.
 
-Geen scrapers: handmatig of via je eigen §/brug-proces (Agent Engineering). Dump van feeds hoort niet in deze file (P5).
+No scrapers: by hand or via your own §/bridge process (Agent Engineering). A feed dump does not belong in this file (P5).

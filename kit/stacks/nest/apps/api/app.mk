@@ -1,4 +1,4 @@
-# api (apps/api) — make-targets van deze app. De root-Makefile neemt dit bestand automatisch op.
+# api (apps/api) — make targets of this app. The root Makefile picks this file up automatically.
 API_DIR := apps/api
 API_PORT ?= 3001
 API_ENV := $(API_DIR)/.env
@@ -49,15 +49,15 @@ bench-api: ## api: latency-bench; vereist apps/api/scripts/bench.sh
 	  echo "bench-api: voeg uitvoerbaar $(API_DIR)/scripts/bench.sh toe (docs/how-to/perf-bench.md)." >&2; exit 1; }
 	@$(API_DIR)/scripts/bench.sh
 
-seed-api: ## api: testgebruikers en demo-data laden
+seed-api: ## api: load test users and demo data
 	pnpm --dir $(API_DIR) run seed
 
-db-reset-api: ## api: lokale database leegmaken, migreren en seeden; weigert buiten localhost
-	@test -f $(API_ENV) || { echo "Geen $(API_ENV). Draai make env." >&2; exit 1; }
+db-reset-api: ## api: empty, migrate and seed the local database; refuses outside localhost
+	@test -f $(API_ENV) || { echo "No $(API_ENV). Run make env." >&2; exit 1; }
 	@set -a; . ./$(API_ENV); set +a; \
 	case "$${DATABASE_URL:-}" in \
 	  *@localhost[:/]*|*@127.0.0.1[:/]*) ;; \
-	  *) echo "db-reset weigert: DATABASE_URL in $(API_ENV) wijst niet naar localhost." >&2; exit 1 ;; \
+	  *) echo "db-reset refuses: DATABASE_URL in $(API_ENV) does not point at localhost." >&2; exit 1 ;; \
 	esac
 	pnpm --dir $(API_DIR) run db:reset
 	$(MAKE) seed-api

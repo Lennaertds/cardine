@@ -1,76 +1,76 @@
 # AGENTS.md (root)
 
-> **Rol:** Wat elke agent bij elke taak moet weten: grenzen, commando's, werkwijze, afronden, en waar de rest staat.
-> **Niet hier:** regels voor één app ([agents-app](agents-app.md)), de kaart van de docs ([docs-index](docs-index.md)).
+> **Role:** What every agent must know on every task: boundaries, commands, working method, finishing, and where the rest lives.
+> **Not here:** rules for one app ([agents-app](agents-app.md)), the map of the docs ([docs-index](docs-index.md)).
 
-**Kitbestand:** [kit/kern/AGENTS.md](../kit/kern/AGENTS.md) · laag kern · P1–P3, P6, P13, P17, P20, P22–P25, P28
+**Kit file:** [kit/kern/AGENTS.md](../kit/kern/AGENTS.md) · layer kern · P1–P3, P6, P13, P17, P20, P22–P25, P28
 
-## Wanneer
+## When
 
-Altijd, dag 1, met alleen wat dan al waar is. Het groeit op fouten: elke regel erbij is een fout die de agent anders herhaalt. Elke regel kost tokens bij *elke* taak (harness tax, P25): liever een hook/test dan een zin. Richtlengte ~35–70 regels — dichter bij de Agent Engineering-root dan bij een operations manual.
+Always, day 1, with only what is already true then. It grows on mistakes: every added line is a mistake the agent would otherwise repeat. Every line costs tokens on *every* task (harness tax, P25): prefer a hook/test over a sentence. Target length ~35–70 lines — closer to the Agent Engineering root than to an operations manual.
 
-## Invullen
+## Filling in
 
-De volgorde is vast, met het belangrijkste vooraan (P3):
+The order is fixed, with the most important first (P3):
 
-1. **Eén zin** wat het project is, en de link naar `README.md`.
-2. **Nooit.** De kit heeft er al: secrets, ruwe data, git, geen nieuwe mappen, RULES + security (live), rest via INDEX. Voeg toe wat **destructief** of **onomkeerbaar** is in dit project, met het waarom in dezelfde zin. Obs/perf/deps/polyglot/radar: **geen** always-on-links en **geen** keyword-catalogus in dit bestand.
-3. **Commando's.** Alleen dagelijkse targets in de tabel (`check`, `check-full`, `dev`, één test, dependency toevoegen, `make help`; solo: `make spec s=<slug>`). Opt-in = één zin onder de tabel + INDEX/`make help`, niet acht rijen en niet een tabel met doc-paden.
-4. **Werken.** Harde leesroutes alleen voor wat bij *dat type* taak altijd geldt: INDEX → één bestand; met modules: UI → `DESIGN.md`, feature → `PRODUCT.md`, research → `RESEARCH.md`; architectuur → `ARCHITECTURE.md` staat altijd. Solo: nieuw open werk → `make spec` (BACKLOG = index, plan in spec). Opt-in engineering: opdracht noemt het → INDEX (geen catalogus hier). Rollen en subagents: [agent-rollen](../standaard/agent-rollen.md). De kit heeft ook, in **korte** vorm:
-   - **intent** boven groene tests (P22);
-   - **geen nieuwe modulegrenzen** zonder te vragen (P23);
-   - **één slice** per sessie + review in frisse context (P1, P19, P24);
-   - met module `cursor`: *subagents* / *delegeer* / *parallel* → `.cursor/agents/` ([cursor-agents](cursor-agents.md));
-   - **uitvoeren wint van praten**;
-   - **rapporteren beknopt** (`make check`-output wél tonen).
-5. **Afronden.** Solo: check → docs → **dag-log entry** (`make log`, velden: aanleiding/bestanden/test/mislukt/item) → ADR alleen bij keuze met waarom → BACKLOG/spec. Team: check → docs → ADR-bij-keuze → PR. Explicit: **zonder te vragen** na repo-wijziging; pure Q&A overslaan. BACKLOG + log = spine (P27), niet de chat.
+1. **One sentence** on what the project is, and the link to `README.md`.
+2. **Never.** The kit already has: secrets, raw data, git, no new folders, RULES + security (live), the rest via INDEX. Add what is **destructive** or **irreversible** in this project, with the why in the same sentence. Obs/perf/deps/polyglot/radar: **no** always-on links and **no** keyword catalogue in this file.
+3. **Commands.** Only daily targets in the table (`check`, `check-full`, `dev`, one test, adding a dependency, `make help`; solo: `make spec s=<slug>`). Opt-in = one sentence under the table + INDEX/`make help`, not eight rows and not a table with doc paths.
+4. **Working.** Hard read routes only for what always applies to *that kind* of task: INDEX → one file; with modules: UI → `DESIGN.md`, feature → `PRODUCT.md`, research → `RESEARCH.md`; architecture → `ARCHITECTURE.md` always applies. Solo: new open work → `make spec` (BACKLOG = index, plan in the spec). Opt-in engineering: the task names it → INDEX (no catalogue here). Roles and subagents: [agent-rollen](../standard/agent-rollen.md). The kit also has, in **short** form:
+   - **intent** above green tests (P22);
+   - **no new module boundaries** without asking (P23);
+   - **one slice** per session + review in a fresh context (P1, P19, P24);
+   - with module `cursor`: *subagents* / *delegate* / *parallel* → `.cursor/agents/` ([cursor-agents](cursor-agents.md));
+   - **doing beats talking**;
+   - **report briefly** (but do show `make check` output).
+5. **Finishing.** Solo: check → docs → **daily log entry** (`make log`, fields: motivation/files/test/failed/item) → an ADR only for a choice with a why → BACKLOG/spec. Team: check → docs → ADR on a choice → PR. Explicit: **without asking** after a repo change; skip pure Q&A. BACKLOG + log = the spine (P27), not the chat.
 
-Optioneel, alleen als het team het echt afspreekt: één regel over welk model voor routinetaken vs. open redeneerwerk (P26).
+Optional, only if the team really agrees on it: one line on which model for routine tasks vs. open reasoning work (P26).
 
-## Voorbeeld (GymFreak, alleen wat de kit niet al heeft)
+## Example (GymFreak, only what the kit does not already have)
 
 ```markdown
-## Nooit
+## Never
 
-- Geen gezondheidsdata uit `data/runtime/user/` of Health-exports lezen, loggen of in een antwoord tonen.
-- Geen code of assets overnemen uit `Caddie/`: aparte projecten, aparte merken.
-- Bestanden met "Schrijven: na toestemming" in de kop pas wijzigen na een uitdrukkelijk ja.
-- Pad niet zeker of je het mag schrijven: [write-rules.md](docs/agent/write-rules.md).
+- Do not read, log or show in an answer any health data from `data/runtime/user/` or Health exports.
+- Do not take code or assets from `Caddie/`: separate projects, separate brands.
+- Only change files with "Writing: after permission" in the header after an explicit yes.
+- Not sure whether you may write a path: [write-rules.md](docs/agent/write-rules.md).
 
-## Werken
+## Working
 
-- Voorbeeld van een goed domein: `apps/api/src/sleep/` (module, service, `sleep-engine.ts` met tests).
-- Postgres is de enige writer van user-data; de analytics-batch leest alleen.
-- Start van een taak: RULES → het backlog-item → de kaart.
-- Opdracht over UI, scherm, layout, PWA, look of craft: eerst [DESIGN.md](docs/design/DESIGN.md); daarna alleen het ene craft-bestand dat die kaart aanwijst.
-- Uitvoeren wint van praten: *implementeer* / *bouw* / *ja* → deze beurt code, geen "zal ik beginnen?".
+- Example of a good domain: `apps/api/src/sleep/` (module, service, `sleep-engine.ts` with tests).
+- Postgres is the only writer of user data; the analytics batch only reads.
+- Start of a task: RULES → the backlog item → the map.
+- Task about UI, screen, layout, PWA, look or craft: `DESIGN.md` first; then only the one craft file that map points to.
+- Doing beats talking: *implement* / *build* / *yes* → code this turn, not "shall I start?".
 ```
 
-Een volledig ingevulde versie voor een teamproject staat bij [DEP2, stap D-3](../bestaand-project/voorbeelden/dep2.md#stap-d-3--agentsmd-d1-d9).
+A fully filled-in version for a team project is in [DEP2, step D-3](../existing-project/examples/dep2.md#step-d-3-agentsmd-d1-d9).
 
-## Snelle toets
+## Quick check
 
-- [ ] Onder de 70 regels (`make docs-health`). Langer = harness tax (P25); streef ~50.
-- [ ] Deletion test per regel: zou de agent zonder deze regel een fout maken? Zo niet, schrappen (P20).
-- [ ] Geen mappenboom, geen keyword-catalogus van docs, geen stijlregels die de linter al afdwingt, geen status.
-- [ ] Opt-in engineering (obs/perf/deps/polyglot/radar) alleen via INDEX/`make help`, **niet** als genummerde always-on Werken-stappen of als pad-tabel in AGENTS.
-- [ ] Commandotabel heeft geen acht rijen voor zelden-gebruikte kit-targets; die staan onder `make help`.
-- [ ] Een regel die afdwingbaar is, is ook afgedwongen (hook, test, CI) en staat hier hooguit als verwijzing (P14).
-- [ ] Intent- en seam-regels uit de kit staan er (kort), niet weggeknipt.
-- [ ] Rapportage: beknopte-rapportageregel staat er; geen lange narratieve statusupdates verwacht.
-- [ ] Frisse agent: draait hij uit zichzelf `make check` en opent hij de kaart? Bij een UI-taak: eerst `DESIGN.md`? Bij "gebruik subagents": kijkt hij in `.cursor/agents/`? ([toets](../nieuw-project/4-agent.md#toets-met-een-frisse-agent))
+- [ ] Under 70 lines (`make docs-health`). Longer = harness tax (P25); aim for ~50.
+- [ ] Deletion test per line: would the agent make a mistake without this line? If not, cut it (P20).
+- [ ] No folder tree, no keyword catalogue of docs, no style rules the linter already enforces, no status.
+- [ ] Opt-in engineering (obs/perf/deps/polyglot/radar) only via INDEX/`make help`, **not** as numbered always-on Working steps or as a path table in AGENTS.
+- [ ] The command table has no eight rows for rarely used kit targets; those live under `make help`.
+- [ ] A rule that can be enforced is also enforced (hook, test, CI) and appears here at most as a reference (P14).
+- [ ] The kit's intent and seam rules are there (briefly), not cut out.
+- [ ] Reporting: the brief-reporting line is there; no long narrative status updates expected.
+- [ ] Fresh agent: does it run `make check` on its own and open the map? On a UI task: `DESIGN.md` first? On "use subagents": does it look in `.cursor/agents/`? ([test](../new-project/4-agent.md#test-with-a-fresh-agent))
 
-### Dekking (Coldtea, bron §34)
+### Coverage (Coldtea, source §34)
 
-Acht thema's die top-repos vaak in `AGENTS.md` zetten. Vink = de agent vindt het in dit *systeem* (niet per se inline hier). Structure/style hoort elders (P5).
+Eight themes top repos often put in `AGENTS.md`. A tick means the agent finds it in this *system* (not necessarily inline here). Structure/style belongs elsewhere (P5).
 
-| Thema | Afgedekt door | ✓ |
-|-------|---------------|---|
-| Don’t-rules | `AGENTS.md` § Nooit + RULES/security | |
-| Commit / PR | Nooit committen zonder vraag; team: PR in Afronden | |
-| Testing / validatie | `make check` (+ single-test in Commando’s) | |
-| Code style | linter/formatter (niet in AGENTS) | |
-| Links naar docs | kaart `docs/INDEX.md` (opt-in via opdracht + INDEX) | |
-| CI / pre-commit | `make check` / hooks (verwijzing genoeg) | |
-| Build & setup | commandotabel (dagelijks) + `make help` | |
-| Project structure | *niet* in AGENTS; via INDEX / code (P5) | |
+| Theme | Covered by | ✓ |
+|-------|------------|---|
+| Don't-rules | `AGENTS.md` § Never + RULES/security | |
+| Commit / PR | Never commit without asking; team: PR in Finishing | |
+| Testing / validation | `make check` (+ single test in Commands) | |
+| Code style | linter/formatter (not in AGENTS) | |
+| Links to docs | the map `docs/INDEX.md` (opt-in via task + INDEX) | |
+| CI / pre-commit | `make check` / hooks (a reference is enough) | |
+| Build & setup | command table (daily) + `make help` | |
+| Project structure | *not* in AGENTS; via INDEX / code (P5) | |

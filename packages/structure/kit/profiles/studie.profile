@@ -1,6 +1,6 @@
-# kit/profiles/studie.profile — voor studieplanning
+# kit/profiles/studie.profile — for study planning
 PROFILE_NAME="studie"
-PROFILE_DESCRIPTION="Studieplanning — kalender, deadlines, studielog"
+PROFILE_DESCRIPTION="Study planning — calendar, deadlines, study log"
 MODULES="assignment"
 STACKS=""
 STARTER=false

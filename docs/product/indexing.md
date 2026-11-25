@@ -1,180 +1,180 @@
 # Indexing / Project-Understanding
 
-> **Rol:** Bijhouden van domein **indexing** — snelle, gerichte projectcontext voor de agent.
-> **Niet hier:** FS-bus ([fs-events.md](fs-events.md)); samenhang ([totaalproduct.md](totaalproduct.md)); ADRs.
+> **Role:** maintaining the **indexing** domain — fast, targeted project context for the agent.
+> **Not here:** the FS bus ([fs-events.md](fs-events.md)); relations ([totaalproduct.md](totaalproduct.md)); ADRs.
 
-**Stand:** beslist, alleen agent-pad · **ADR:** [0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md) · **Spec weg** — besluit in ADR, vorm in product-doc
+**State:** decided, agent path only · **ADR:** [0006](../decisions/0006-the-agent-searches-via-jarvis-as-mcp-zed-search-and-lsp-stay-with-the-editor.md) · **Spec gone** — decision in the ADR, shape in the product doc
 
-## Wat de gebruiker kan
+## What the user can do
 
-- Als solo-dev wil ik dat de agent **snel de juiste bestanden/symbolen** vindt in *mijn* repo’s (AE + lab), lokaal, lexical/symbol-first — beter *op mijn workflow* dan Cursor, niet feature-pariteit.
+- As a solo dev I want the agent to quickly find **the right files/symbols** in *my* repos, locally, lexical/symbol-first — better *for my workflow* than Cursor, not feature parity.
 
-## Jouw use-case (fit)
+## Your use case (fit)
 
-| Dimensie | Situatie | Gevolg |
+| Dimension | Situation | Consequence |
 |----------|----------|--------|
-| Schaal | Enkele repo’s | Kleine index; agressieve ignore |
-| Talen nu | Veel MD/docs + Make; code later | Docs-first + later SCIP per taal |
-| Workflow | AGENTS / `make check` / slices | Structure-paden prioriteren |
-| Host | Arch, lokaal; Zed als IDE-host | Index als **aparte** dienst (MCP/daemon) ↔ harness/ACP |
-| Model | DeepSeek BYOK | Tools > embeddings-lock-in |
+| Scale | A few repos | Small index; aggressive ignore |
+| Languages now | Lots of MD/docs + Make; code later | Docs-first + SCIP per language later |
+| Workflow | AGENTS / `make check` / slices | Prioritise structure paths |
+| Host | Arch, local; Zed as IDE host | Index as a **separate** service (MCP/daemon) ↔ harness/ACP |
+| Model | DeepSeek BYOK | Tools over embeddings lock-in |
 
-Hypothese (§69): **exact/lexical-first**; semantic later meten.
+Hypothesis (§69): **exact/lexical-first**; measure semantic later.
 
-## Lagen (wat “indexing” is)
+## Layers (what "indexing" is)
 
 ```text
-1. Discovery   — paden + ignore + git
-2. Lexical     — tekst/regex (Zoekt / Instant-Grep-achtig)
+1. Discovery   — paths + ignore + git
+2. Lexical     — text/regex (Zoekt / Instant-Grep-like)
 3. Structural  — defs/refs/symbols (SCIP / tree-sitter / LSP)
-4. Map         — compacte repo-kaart (§16 Aider)
-5. (Later) Semantic — embeddings alleen na baseline
+4. Map         — compact repo map (§16 Aider)
+5. (Later) Semantic — embeddings only after a baseline
 ```
 
 ---
 
-## Open source — bouwstenen & producten
+## Open source — building blocks and products
 
-### A. Engines (forken zelden nodig — als binary gebruiken)
+### A. Engines (forking is rarely needed — use as a binary)
 
-| Stuk | Licentie | Wat | URL / anker |
+| Piece | Licence | What | URL / anchor |
 |------|----------|-----|-------------|
-| **Zoekt** | Apache-2.0 | Trigram code-search (regex/substring, multi-repo) | [sourcegraph/zoekt](https://github.com/sourcegraph/zoekt) |
-| **SCIP** (+ `scip` CLI) | Apache-2.0 | Protocol + tool voor defs/refs/implementations | [sourcegraph/scip](https://github.com/sourcegraph/scip) · [scip-code.org](https://scip-code.org) |
-| **scip-typescript / -python / -java / …** | meestal Apache | Per-taal indexers → `.scip` | Sourcegraph indexer-docs |
-| **tree-sitter** | MIT | Incrementele AST; highlight + lichte outline | tree-sitter.github.io |
-| **ripgrep** | MIT/Unlicense | Baseline zonder index; altijd fallback | BurntSushi/ripgrep |
+| **Zoekt** | Apache-2.0 | Trigram code search (regex/substring, multi-repo) | [sourcegraph/zoekt](https://github.com/sourcegraph/zoekt) |
+| **SCIP** (+ `scip` CLI) | Apache-2.0 | Protocol and tool for defs/refs/implementations | [sourcegraph/scip](https://github.com/sourcegraph/scip) · [scip-code.org](https://scip-code.org) |
+| **scip-typescript / -python / -java / …** | usually Apache | Per-language indexers → `.scip` | Sourcegraph indexer docs |
+| **tree-sitter** | MIT | Incremental AST; highlighting plus a light outline | tree-sitter.github.io |
+| **ripgrep** | MIT/Unlicense | Baseline without an index; always the fallback | BurntSushi/ripgrep |
 
-**Niet gebruiken als OSS-basis:** Sourcegraph *product* code-search (enterprise-license sinds ~2023). Zoekt + SCIP blijven open.
+**Not to be used as an OSS base:** Sourcegraph *product* code search (enterprise licence since ~2023). Zoekt + SCIP stay open.
 
-### B. Agent-facing lagen (MCP / CLI — compose-kandidaten)
+### B. Agent-facing layers (MCP / CLI — composition candidates)
 
-| Stuk | Licentie | Wat | Fork? |
+| Piece | Licence | What | Fork? |
 |------|----------|-----|-------|
-| **jarvis** | MIT (claim) | Lokale SCIP-nav + Zoekt-search als **MCP-tools**; tree-sitter baseline; indexes op disk | Eerst **gebruiken**; fork alleen als tool-API/fit faalt |
-| **Gortex** | Apache-2.0 | Zware code-graph + veel MCP-tools; single binary | Trial/Assess — breed; mogelijk overkill v1 |
-| **polyglot-indexer-mcp** | checken | tree-sitter + SQLite ± SCIP | Leer/kleinere compose |
-| **mcp-zoekt** | Apache | Dunne Zoekt↔MCP-brug | Goed als je Zoekt alleen wilt |
-| **Aider** (repo map) | Apache-2.0 (Aider) | tree-sitter + dependency-graaf → tokenbudget-kaart | **Concept** stelen (§16); niet hele Aider forken |
-| **DSH community** (code-intel / codegraph / rag) | wisselend | Indexing als harness-plugin | Observeren naast DSH-keuze |
-| **Serena** | (complement) | Refactor/rename-half — **niet** retrieval | Pair met jarvis-achtig; niet indexing-kern |
+| **jarvis** | MIT (claimed) | Local SCIP navigation + Zoekt search as **MCP tools**; tree-sitter baseline; indexes on disk | **Use** it first; fork only if the tool API or fit fails |
+| **Gortex** | Apache-2.0 | Heavy code graph plus many MCP tools; single binary | Trial/Assess — broad; possibly overkill for v1 |
+| **polyglot-indexer-mcp** | check | tree-sitter + SQLite ± SCIP | Learn from / smaller composition |
+| **mcp-zoekt** | Apache | Thin Zoekt↔MCP bridge | Good if you want Zoekt alone |
+| **Aider** (repo map) | Apache-2.0 (Aider) | tree-sitter + dependency graph → token-budget map | **Borrow the concept** (§16); do not fork all of Aider |
+| **DSH community** (code-intel / codegraph / rag) | varies | Indexing as a harness plugin | Observe alongside the DSH choice |
+| **Serena** | (complement) | Refactor/rename side — **not** retrieval | Pair with something jarvis-like; not the indexing core |
 
-### C. Leerbronnen (closed of deels open — mechanisme, geen code stelen)
+### C. Learning sources (closed or partly open — the mechanism, not stolen code)
 
-| Bron | Type | Wat leren | Lab-anker |
+| Source | Type | What to learn | Lab anchor |
 |------|------|-----------|-----------|
-| Cursor Instant Grep blog + docs | closed product + engineering | Lokale lexical index, versheid, waarom embeddings voor search afgebouwd | **§69** |
-| Cursor semantic search / secure indexing | closed / historisch | Embeddings + Merkle — context, niet v1-pad | **§70–§71** |
-| Aider Repository Map docs | open docs | Graaf + ranking binnen tokenbudget | **§16** |
-| Zoekt README + query language | OSS docs | Indexeren, zoeken, ranking-signalen | wantlist |
-| SCIP schema + indexer docs | OSS docs | Wat een “symbol index” is | wantlist |
-| jarvis install/MCP docs | OSS docs | Tool-surface voor agents | wantlist |
-| PKU Harness-Bench e.d. | papers | H×M meten — indexing is deel van H | §133 e.a. |
+| Cursor Instant Grep blog + docs | closed product + engineering | Local lexical index, freshness, why embeddings were dropped for search | **§69** |
+| Cursor semantic search / secure indexing | closed / historical | Embeddings + Merkle — context, not the v1 path | **§70–§71** |
+| Aider Repository Map docs | open docs | Graph + ranking within a token budget | **§16** |
+| Zoekt README + query language | OSS docs | Indexing, searching, ranking signals | wantlist |
+| SCIP schema + indexer docs | OSS docs | What a "symbol index" is | wantlist |
+| jarvis install/MCP docs | OSS docs | Tool surface for agents | wantlist |
+| PKU Harness-Bench etc. | papers | Measuring H×M — indexing is part of H | §133 etc. |
 
 ---
 
-## Besluit
+## Decision
 
-Alleen het agent-pad ([ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md)). jarvis (Zoekt + SCIP) is de MCP die DSH mount. Zed Agent blijft uit. Project-zoeken en de LSP in Zed blijven voor de mens.
+Agent path only ([ADR 0006](../decisions/0006-the-agent-searches-via-jarvis-as-mcp-zed-search-and-lsp-stay-with-the-editor.md)). jarvis (Zoekt + SCIP) is the MCP that DSH mounts. Zed Agent stays off. Project search and the LSP in Zed remain for the human.
 
-## Wat past het best? (keuze, gedragen door de smoke)
+## What fits best? (the choice, carried by the smoke test)
 
-Zelfde logica als Zed: **niet Instant Grep zelf bouwen**; **composeren** en personaliseren op AE/lab.
+The same logic as for Zed: **do not build Instant Grep yourself**; **compose** and personalise for this repo.
 
-| Optie | Fit voor jou | Oordeel |
+| Option | Fit for you | Verdict |
 |-------|--------------|---------|
-| **jarvis (of gelijkwaardige MCP: Zoekt+SCIP)** als index-daemon | Agent-tools klaar; lokaal; past bij Zed/harness via MCP | **Primaire trial** |
-| Zoekt alleen + eigen dunne MCP | Meer controle, minder symbol-nav | Fallback / tussenstap |
-| Gortex | Krachtig, breed | Assess — pas als jarvis tekort + je graph wilt |
-| Alleen `rg` + file reads | Te zwak als einddoel; OK als dag-0 baseline | Meetbaseline |
-| Eigen engine van nul | Geen voorsprong vs Zoekt | **Nee** |
-| Cursor-pariteit embeddings | Cloud/lock-in; §69 zegt lexical eerst | **Nee v1** |
+| **jarvis (or an equivalent MCP: Zoekt+SCIP)** as the index daemon | Agent tools ready; local; fits Zed/harness via MCP | **Primary trial** |
+| Zoekt alone + a thin MCP of our own | More control, less symbol navigation | Fallback / intermediate step |
+| Gortex | Powerful, broad | Assess — only if jarvis falls short and you want a graph |
+| `rg` alone + file reads | Too weak as an end goal; fine as a day-0 baseline | Measurement baseline |
+| An own engine from scratch | No advantage over Zoekt | **No** |
+| Cursor-parity embeddings | Cloud/lock-in; §69 says lexical first | **No v1** |
 
-### Personaliseren (jouw “beter dan Cursor”):
+### Personalising (your "better than Cursor"):
 
-1. Ignore + **docs/MD/structure-paden** zwaarder wegen (AE).  
+1. Weight ignore + **docs/MD/structure paths** more heavily.  
 2. Multi-root AE + lab.  
-3. Versheid via [fs-events](fs-events.md) (git-anker + dirty).  
-4. Tool-namen/contract als MCP die DSH mount (`dsh --profile acp`). Pi alleen als die smoke faalt.  
-5. Optioneel: dunne **repo-map** (§16) naast search-tools.
+3. Freshness via [fs-events](fs-events.md) (git anchor + dirty).  
+4. Tool names/contract as an MCP that DSH mounts (`dsh --profile acp`). Pi only if that smoke test fails.  
+5. Optional: a thin **repo map** (§16) next to the search tools.
 
-### Is een fork nodig?
+### Is a fork needed?
 
-| Laag | Fork? |
+| Layer | Fork? |
 |------|-------|
-| Zoekt / SCIP / tree-sitter | **Nee** — binaries/upstream |
-| jarvis / MCP-wrapper | **Eerst niet** — draaien + meten; fork/wrapper alleen als API of Arch-packaging structureel knelt |
-| Aider | **Nee** — idee overnemen in klein eigen stukje |
-| “Één app” | Index = **aparte dienst** naast Zed (zoals harness) — zelfde model als IDE-shell |
+| Zoekt / SCIP / tree-sitter | **No** — binaries/upstream |
+| jarvis / MCP wrapper | **Not yet** — run it and measure; fork or wrap only if the API or Arch packaging structurally chafes |
+| Aider | **No** — take the idea into a small piece of our own |
+| "One app" | Index = a **separate service** beside Zed (like the harness) — the same model as the IDE shell |
 
 ```text
 Zed (host, Agent Panel) ──ACP──► DSH ──MCP──► indexing (jarvis/Zoekt+…)
                                   │
                                   └── tools / LLM / structure
-Zed Agent + grep: in de binary, niet starten.
+Zed Agent + grep: in the binary, do not start it.
 ```
 
 ---
 
-## Regels (intentie)
+## Rules (intent)
 
-| Regel | Waarom |
+| Rule | Why |
 |-------|--------|
-| Index lokaal; geen codebase-upload voor search | §69 / privacy |
-| Default = lexical/symbol; embeddings expliciet | Geen stille semantic |
-| `.gitignore` + project-ignore | Tokens/ruis |
-| Vers op het zoekmoment | [fs-events](fs-events.md) — git-anker + vuile paden; geen eigen watcher |
+| Index locally; no codebase upload for search | §69 / privacy |
+| Default = lexical/symbol; embeddings explicit | No silent semantic |
+| `.gitignore` + project ignore | Tokens/noise |
+| Fresh at the search moment | [fs-events](fs-events.md) — git anchor + dirty paths; no own watcher |
 
-## Arch-install (smoke 2026-11-16)
+## Arch install (smoke test 2026-11-16)
 
-Machine: Arch Linux x86_64 (`arch-desktop`). Geen inhoud uit AE/`data/raw/` naar deze repo gekopieerd.
+Machine: Arch Linux x86_64 (`arch-desktop`). No content from `data/raw/` was copied into this repo.
 
-| Stuk | Pad / versie |
+| Piece | Path / version |
 |------|----------------|
 | CLI + MCP | `uv tool install --python 3.13 jarvis-mcp` → **jarvis-mcp 0.10.0** (`jarvis`, `jarvis-server` in `~/.local/bin`) |
-| Zoekt + scip | `setup.sh --only zoekt` / `--only scip` → `~/.jarvis/bin` (Zoekt-pin `33f1f18af292`; scip fork `v0.9.0-dev` / `56791658a873`) |
-| scip-python | `npm install -g --prefix ~/.jarvis @sourcegraph/scip-python` → **0.6.8** (globale npm faalde op EACCES) |
-| PATH | `~/.local/bin` + `~/.jarvis/bin` (setup.sh appendt aan `~/.zshrc`) |
-| Index roots | `jarvis index <lab>` en apart `jarvis index <AE>` — twee slugs, één MCP-server |
+| Zoekt + scip | `setup.sh --only zoekt` / `--only scip` → `~/.jarvis/bin` (Zoekt pin `33f1f18af292`; scip fork `v0.9.0-dev` / `56791658a873`) |
+| scip-python | `npm install -g --prefix ~/.jarvis @sourcegraph/scip-python` → **0.6.8** (the global npm install failed on EACCES) |
+| PATH | `~/.local/bin` + `~/.jarvis/bin` (setup.sh appends to `~/.zshrc`) |
+| Index roots | `jarvis index <lab>` and separately `jarvis index <other-repo>` — two slugs, one MCP server |
 
-Eerste `searchCode` na koude start ~2 s (Zoekt-webserver op :6070); daarna ~7–10 ms.
+The first `searchCode` after a cold start takes ~2 s (Zoekt web server on :6070); after that ~7–10 ms.
 
-## Smoke-resultaat (lab `cardine`)
+## Smoke result (lab `cardine`)
 
-Vaste vragen via MCP (`jarvis-server`). Warm Zoekt.
+Fixed questions via MCP (`jarvis-server`). Warm Zoekt.
 
-| # | Vraag | Tool | Eerste treffer | Klopt? |
+| # | Question | Tool | First hit | Correct? |
 |---|-------|------|----------------|--------|
-| Q1 | Definitie `parse_items_xml` | `goToDefinition` | 3.2 ms → `scripts/digest-rss.py:38` (SCIP) | ja |
-| Q2 | Refs `parse_items_xml` | `findReferences` | 1.9 ms → 2 locaties in `digest-rss.py` | ja |
-| Q3 | MD-fragment `Project-Understanding` | `searchCode` | 7.6 ms → o.a. `docs/product/indexing.md` | ja |
-| Q4 | Token in `data/runtime/` (gitignore) | `searchCode` | 7.3 ms → 0 hits | ja (ontbreekt) |
-| Q5 | Net gewijzigd tracked bestand (niet geherindexeerd) | `searchCode` + `getIndexStatus` | 7.4 ms → 0 hits; `stale: false` / `freshness: fresh` | index mist dirty (verwacht); status liegt “fresh” — overlay blijft [fs-events](fs-events.md) |
+| Q1 | Definition of `parse_items_xml` | `goToDefinition` | 3.2 ms → `scripts/digest-rss.py:38` (SCIP) | yes |
+| Q2 | References to `parse_items_xml` | `findReferences` | 1.9 ms → 2 locaties in `digest-rss.py` | yes |
+| Q3 | MD fragment `Project-Understanding` | `searchCode` | 7.6 ms → o.a. `docs/product/indexing.md` | yes |
+| Q4 | Token in `data/runtime/` (gitignored) | `searchCode` | 7.3 ms → 0 hits | yes (absent) |
+| Q5 | Just-changed tracked file (not reindexed) | `searchCode` + `getIndexStatus` | 7.4 ms → 0 hits; `stale: false` / `freshness: fresh` | the index misses dirty paths (expected); the status claims "fresh" — the overlay stays with [fs-events](fs-events.md) |
 
-Fallback Zoekt-only: **niet nodig**. SCIP-refs werkten na scip-python. Semantic extra niet geïnstalleerd (bewust buiten smoke).
+Zoekt-only fallback: **not needed**. SCIP references worked after scip-python. The semantic extra is not installed (deliberately outside the smoke test).
 
-**X5 (waarneming):** tweede root AE indexeert als aparte slug (`agent_engineering`); `searchCode` zonder `repo`-filter raakt beide (smoke: 140 hits / 2 repos). Geen AE-inhoud in deze repo.
+**X5 (observation):** a second index root indexes as a separate slug; `searchCode` without a `repo` filter touches both (smoke: 140 hits / 2 repos). No foreign content in this repo.
 
-## Stand van zaken
+## Current state
 
-| Onderwerp | Status | Notitie |
+| Topic | Status | Note |
 |-----------|--------|---------|
-| X1 Compose-set | beslist | jarvis (Zoekt+SCIP via MCP) — [ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md) |
-| X2 Process-model | beslist | MCP die DSH mount. Alleen agent-pad. Zed Agent uit. Editor-zoeken en LSP blijven |
-| X3 Repo-map | open | later klein eigen (§16) |
-| X4 Docs-weging | open | AE-fit |
-| X5 Multi-root | **waarneming** | Twee `jarvis index`-aanroepen; cross-repo search werkt |
-| X6 Embeddings | **nee v1** | semantic extra niet in smoke |
-| X7 Fork | **nee default** | Arch-pad: uv + setup.sh + npm-prefix; geen fork-blocker |
-| Smoke jarvis op Arch | **gedaan** | zie tabel hierboven |
-| Mount op `dsh --profile acp` | staat | `mcp__jarvis__*`. Verse ACP-start ziet de tools. Een al open Zed-thread niet. How-to: [zed-dsh](../how-to/zed-dsh.md) |
+| X1 Composition set | decided | jarvis (Zoekt+SCIP via MCP) — [ADR 0006](../decisions/0006-the-agent-searches-via-jarvis-as-mcp-zed-search-and-lsp-stay-with-the-editor.md) |
+| X2 Process model | decided | MCP that DSH mounts. Agent path only. Zed Agent off. Editor search and LSP stay |
+| X3 Repo map | open | a small own one later (§16) |
+| X4 Doc weighting | open | fit for this repo |
+| X5 Multi-root | **observation** | Two `jarvis index` calls; cross-repo search works |
+| X6 Embeddings | **no v1** | semantic extra not in the smoke test |
+| X7 Fork | **no by default** | Arch path: uv + setup.sh + npm prefix; no fork blocker |
+| Smoke test of jarvis on Arch | **done** | see the table above |
+| Mount on `dsh --profile acp` | stands | `mcp__jarvis__*`. A fresh ACP start sees the tools. An already open Zed thread does not. How-to: [zed-dsh](../how-to/zed-dsh.md) |
 
-## Raakvlakken
+## Interfaces
 
-- [ide-shell.md](ide-shell.md) (Zed-host) · [harness.md](harness.md) · [fs-events.md](fs-events.md) · [tools.md](tools.md)
+- [ide-shell.md](ide-shell.md) (Zed host) · [harness.md](harness.md) · [fs-events.md](fs-events.md) · [tools.md](tools.md)
 
-## Bewust niet
+## Deliberately not
 
-- Eigen search-engine / embedding-farm.
-- Sourcegraph enterprise als dependency.
-- Thesis-outline hier.
+- An own search engine / embedding farm.
+- Sourcegraph enterprise as a dependency.
+- Thesis outline here.

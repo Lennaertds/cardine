@@ -1,10 +1,10 @@
 # Wantlist
 
-> **Rol:** Bronnen die we nog willen lezen of verwerven, en waarom.
-> **Niet hier:** verwerkte bronnen (die staan in het onderwerp-bestand), de pdf's zelf (`data/external/`); stack-keuzes ([radar.md](radar.md)).
+> **Role:** Sources we still want to read or acquire, and why.
+> **Not here:** processed sources (those live in the topic file), the pdfs themselves (`data/external/`); stack choices ([radar.md](radar.md)).
 
-| Bron | Waarom | Voor vraag | Status |
-|------|--------|------------|--------|
-| <Schoenfeld 2017, meta-analyse volume> | <onderbouwt de set-aanbeveling> | <1> | <gezocht> |
+| Source | Why | For question | Status |
+|--------|-----|--------------|--------|
+| <Schoenfeld 2017, meta-analysis on volume> | <underpins the set recommendation> | <1> | <sought> |
 
-Tech-/tooling-hits die je nog wilt *beoordelen* (niet meteen Adopt): kort hier of direct als Trial/Assess op [radar.md](radar.md).
+Tech/tooling hits you still want to *judge* (not Adopt straight away): briefly here, or straight away as Trial/Assess on [radar.md](radar.md).

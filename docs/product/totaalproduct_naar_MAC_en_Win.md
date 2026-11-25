@@ -1,43 +1,43 @@
-# Totaalproduct naar andere OS'en (Linux-distro's, macOS en Windows)
+# Whole product on other OSes (Linux distros, macOS and Windows)
 
-> **Rol:** Gedrag, regels, opties en randgevallen voor het porten en geautomatiseerd distribueren van de persoonlijke stack (`Cardine`) naar andere Linux-distro's, macOS en Windows na Arch Linux v1.
-> **Niet hier:** de Arch-basisarchitectuur ([totaalproduct.md](totaalproduct.md)); tool-details ([tools.md](tools.md)); specifieke platform-specs (`docs/work/specs/`).
+> **Role:** behaviour, rules, options and edge cases for porting and automatically distributing the personal stack (`Cardine`) to other Linux distros, macOS and Windows after Arch Linux v1.
+> **Not here:** the Arch base architecture ([totaalproduct.md](totaalproduct.md)); tool details ([tools.md](tools.md)); platform-specific specs (`docs/work/specs/`).
 
-De stack die je porteert is upstream Zed + upstream DSH + jouw index-proces. Een eigen `cardine-core` die de loop bevat, is geen huidig besluit meer — zie [totaalproduct](totaalproduct.md). De tabellen hieronder die nog `cardine-core` zeggen, zijn daardoor achterhaald tot een aparte port-slice. De agent-shell op Linux zit onder `bwrap` ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)), niet in de sandbox van DSH.
+The stack you port is upstream Zed + upstream DSH + your index process. An own `cardine-core` that contains the loop is no longer a current decision — see [totaalproduct](totaalproduct.md). The tables below that still say `cardine-core` are therefore outdated until a separate port slice. The agent shell on Linux runs under `bwrap` ([ADR 0007](../decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md)), not in DSH's own sandbox.
 
-## Wat de gebruiker kan
+## What the user can do
 
-- Als gebruiker op een andere Linux-distro (Debian/Ubuntu, Fedora), macOS of Windows wil ik via één commando in een gangbare package manager of installer dezelfde geversioneerde stack (Zed + `cardine-core`) installeren en updaten als op Arch Linux, zodat ik zonder handmatig bouwen direct kan werken.
-- Als developer/beheerder wil ik bij elke nieuwe release-tag (`git tag`) automatisch binaries, SHA256-checksums en package-manifests voor alle ondersteunde platformen genereren, zodat multi-platform onderhoud geen handmatige controle per OS kost.
+- As a user on another Linux distro (Debian/Ubuntu, Fedora), macOS or Windows I want, with one command in a common package manager or installer, to install and update the same versioned stack as on Arch Linux, so that I can start working immediately without building by hand.
+- As a developer/administrator I want every new release tag (`git tag`) to generate binaries, SHA256 checksums and package manifests for all supported platforms automatically, so that multi-platform maintenance costs no manual check per OS.
 
-## Regels
+## Rules
 
-Elke regel is **intentie**: een test die slaagt door de regel te omzeilen of af te zwakken, faalt op intentie.
+Every rule is **intent**: a test that passes by bypassing or weakening the rule fails on intent.
 
-| Regel | Waarom | Bewaakt door |
-|-------|--------|--------------|
-| OS-specifieke implementaties (`sandbox`, `fs-events`, paden) zitten achter een abstracte interface (`Trait`) in `cardine-core`. | Voorkomt dat macOS/Windows-ondersteuning de kernlogica (`indexing`, `harness`, `structure`, `llm`, `session-spine`) vervuilt of breekt. | Compiler-checks (`cargo check` op target triples `x86_64-unknown-linux-musl`, `aarch64-apple-darwin` & `x86_64-pc-windows-msvc`) |
-| Geen verplichte zware container-runtime (Docker Desktop) om Zed of `cardine-core` zelf te starten op welk OS dan ook. | Behoudt het lage RAM/CPU-profiel en native gebruikservaring; containers/VMs (zoals Docker of Podman) zijn hooguit een optionele backend voor `4_tools` sandbox-exec. | Installatie- en opstarttest op schone omgeving zonder Docker |
-| Eén centraal `release-manifest` + CI/CD-pipeline (`cargo-dist` / `GoReleaser`) stuurt alle OS-packages aan vanuit één versie-tag. | Voorkomt versie-drift tussen Arch (`PKGBUILD`), overige Linux, macOS en Windows en elimineert handmatig release-werk. | GitHub Actions release-matrix met geautomatiseerde SHA256-verificatie |
-| Externe binaries (zoals Zed) worden op elk OS rechtstreeks van de officiële platform-release opgehaald, nooit geforkt of gehost. | Voorkomt licentieproblemen en houdt de meta-package transparant en onderhoudsarm op alle platformen. | Manifest-linter op toegestane upstream-domeinen |
+| Rule | Why | Guarded by |
+|------|-----|------------|
+| OS-specific implementations (`sandbox`, `fs-events`, paths) sit behind an abstract interface (a trait) in `cardine-core`. | Prevents macOS/Windows support from polluting or breaking the core logic (`indexing`, `harness`, `structure`, `llm`, `session-spine`). | Compiler checks (`cargo check` on the target triples `x86_64-unknown-linux-musl`, `aarch64-apple-darwin` and `x86_64-pc-windows-msvc`) |
+| No mandatory heavy container runtime (Docker Desktop) to start Zed itself on any OS. | Preserves the low RAM/CPU profile and the native experience; containers/VMs (Docker or Podman) are at most an optional backend for `4_tools` sandbox exec. | Install and start test on a clean environment without Docker |
+| One central release manifest + CI/CD pipeline (`cargo-dist` / `GoReleaser`) drives all OS packages from one version tag. | Prevents version drift between Arch (`PKGBUILD`), other Linux, macOS and Windows and removes manual release work. | GitHub Actions release matrix with automated SHA256 verification |
+| External binaries (such as Zed) are pulled on each OS straight from the official platform release, never forked or hosted by us. | Avoids licence problems and keeps the meta package transparent and low-maintenance on every platform. | Manifest linter on allowed upstream domains |
 
-## Opties per OS (later te kiezen)
+## Options per OS (to be chosen later)
 
-| Platform | Opties voor Meta-Package / Distributie | Opties voor `cardine-core` Binary | Opties voor `4_tools` Sandbox-isolatie |
-|----------|----------------------------------------|-----------------------------------|----------------------------------------|
-| **Overige Linux** *(Ubuntu, Debian, Fedora, Nix)* | 1. Universeel install-script (`curl \| sh`) + tarball<br>2. Linuxbrew (Homebrew op Linux)<br>3. Native `.deb` & `.rpm` (auto-generated via CI)<br>4. Nix Flake | **Eén static `musl`-binary** (`x86_64-unknown-linux-musl`) — draait ongewijzigd op elke distro zonder `glibc`-conflicten. | 1. **`bwrap` (Bubblewrap)** — standaard (identiek aan Arch)<br>2. Rootless Podman / Docker (als fallback bij strenge AppArmor-regels) |
-| **macOS** *(Apple Silicon & Intel)* | 1. **Homebrew Tap** (`brew install ...` via Formula/Cask — meest standaard)<br>2. Install-script (`curl \| sh`) naar `~/.local/bin` + `/Applications` | Cross-compiled native Mach-O binaries (`aarch64-apple-darwin` & `x86_64-apple-darwin`). | 1. **`sandbox-exec` (Apple Seatbelt)** — lichtgewicht, ingebouwd in macOS<br>2. **Docker / OrbStack / Colima** — universele Linux-container voor agent-exec<br>3. Strikte pad-allowlist in `4_tools` (zonder OS-sandbox) |
-| **Windows** | 1. **Scoop** (JSON-manifest in eigen Git-bucket — makkelijkst te automatiseren)<br>2. **Winget** (officiële Windows Package Manager)<br>3. PowerShell install-script (`irm ... \| iex`) + `.msi`/`.zip` | Cross-compiled native PE-binary (`x86_64-pc-windows-msvc`). | 1. **WSL2** (delegeer agent-shell naar Linux `bwrap` in WSL)<br>2. **Docker Desktop / Podman** — container-isolatie voor agent-exec<br>3. **Windows AppContainer / Job Objects** of strikte pad-allowlist fallback |
+| Platform | Options for the meta package / distribution | Options for the index binary | Options for `4_tools` sandbox isolation |
+|----------|---------------------------------------------|------------------------------|------------------------------------------|
+| **Other Linux** *(Ubuntu, Debian, Fedora, Nix)* | 1. Universal install script (`curl \| sh`) + tarball<br>2. Linuxbrew (Homebrew on Linux)<br>3. Native `.deb` & `.rpm` (auto-generated via CI)<br>4. Nix flake | **One static `musl` binary** (`x86_64-unknown-linux-musl`) — runs unchanged on any distro without `glibc` conflicts. | 1. **`bwrap` (Bubblewrap)** — default (identical to Arch)<br>2. Rootless Podman / Docker (fallback under strict AppArmor rules) |
+| **macOS** *(Apple Silicon & Intel)* | 1. **Homebrew tap** (`brew install ...` via formula/cask — most standard)<br>2. Install script (`curl \| sh`) into `~/.local/bin` + `/Applications` | Cross-compiled native Mach-O binaries (`aarch64-apple-darwin` & `x86_64-apple-darwin`). | 1. **`sandbox-exec` (Apple Seatbelt)** — lightweight, built into macOS<br>2. **Docker / OrbStack / Colima** — a universal Linux container for agent exec<br>3. Strict path allowlist in `4_tools` (without an OS sandbox) |
+| **Windows** | 1. **Scoop** (JSON manifest in our own git bucket — easiest to automate)<br>2. **Winget** (the official Windows Package Manager)<br>3. PowerShell install script (`irm ... \| iex`) + `.msi`/`.zip` | Cross-compiled native PE binary (`x86_64-pc-windows-msvc`). | 1. **WSL2** (delegate the agent shell to Linux `bwrap` inside WSL)<br>2. **Docker Desktop / Podman** — container isolation for agent exec<br>3. **Windows AppContainer / Job Objects** or a strict path allowlist fallback |
 
-## Randgevallen
+## Edge cases
 
-- **Linux AppArmor op recente distro's (Ubuntu 24.04+):** Unprivileged user namespaces kunnen standaard geblokkeerd zijn voor `bwrap`; opvangen met een duidelijke foutmelding, AppArmor-profiel of fallback naar Podman/Docker.
-- **Bestandspaden & regel-eindes op Windows:** Backslashes (`\`), drive-letters (`C:\`), symlinks en `CRLF` vs. `LF` mogen `2_fs_events`, `3_indexing` en `9_session_spine` niet breken (altijd `PathBuf` en genormaliseerde paden gebruiken).
-- **Apple Silicon vs. Intel & Gatekeeper:** macOS-binaries uit GitHub Releases kunnen geblokkeerd worden door macOS Gatekeeper / quarantine-flags (`com.apple.quarantine`) als ze niet door Apple zijn genotariseerd; documenteer `xattr -d` of configureer code-signing in CI.
-- **File-watching limieten (`2_fs_events`):** `FSEvents` (macOS) en `ReadDirectoryChangesW` (Windows) gedragen zich anders bij bulk-wijzigingen (zoals `git checkout`) dan Linux `inotify` (debouncing nodig per platform).
+- **Linux AppArmor on recent distros (Ubuntu 24.04+):** unprivileged user namespaces may be blocked by default for `bwrap`; catch this with a clear error message, an AppArmor profile, or a fallback to Podman/Docker.
+- **File paths and line endings on Windows:** backslashes (`\`), drive letters (`C:\`), symlinks and `CRLF` vs `LF` must not break `2_fs_events`, `3_indexing` and `9_session_spine` (always use normalised paths).
+- **Apple Silicon vs Intel & Gatekeeper:** macOS binaries from GitHub Releases may be blocked by Gatekeeper / quarantine flags (`com.apple.quarantine`) unless notarised by Apple; document `xattr -d` or configure code signing in CI.
+- **File-watching limits (`2_fs_events`):** `FSEvents` (macOS) and `ReadDirectoryChangesW` (Windows) behave differently on bulk changes (such as `git checkout`) than Linux `inotify` (debouncing per platform).
 
-## Bewust niet
+## Deliberately not
 
-- Multi-platform support bouwen vóórdat Arch Linux + Hyprland v1 stabiel en dagelijks bruikbaar is.
-- Electron-wrappers of web-apps bouwen om cross-platform UI-werk te ontwijken.
-- Handmatig losse releases compileren, testen en uploaden bij elke update.
+- Building multi-platform support before Arch Linux + Hyprland v1 is stable and usable day to day.
+- Building Electron wrappers or web apps to dodge cross-platform UI work.
+- Manually compiling, testing and uploading separate releases on every update.

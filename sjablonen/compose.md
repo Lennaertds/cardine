@@ -1,22 +1,22 @@
-# docker-compose.yml en .env.example (root)
+# docker-compose.yml and .env.example (root)
 
-> **Rol:** De lokale diensten (Postgres, Redis, …) waar de apps op draaien.
-> **Niet hier:** productie-hosting ([architecture](architecture.md)), de env-variabelen van een app (`apps/<app>/.env.example`).
+> **Role:** The local services (Postgres, Redis, …) the apps run on.
+> **Not here:** production hosting ([architecture](architecture.md)), an app's env variables (`apps/<app>/.env.example`).
 
-**Kitbestanden:** [docker-compose.yml](../kit/modules/compose/docker-compose.yml), [.env.example](../kit/modules/compose/.env.example) · module `compose`
+**Kit files:** [docker-compose.yml](../kit/modules/compose/docker-compose.yml), [.env.example](../kit/modules/compose/.env.example) · module `compose`
 
-## Wanneer
+## When
 
-Zodra een app een database of andere dienst nodig heeft. `make up` start alles en wacht op de healthchecks; `make dev-api` doet `make up` eerst.
+As soon as an app needs a database or another service. `make up` starts everything and waits for the health checks; `make dev-api` runs `make up` first.
 
-## Invullen
+## Filling in
 
-1. **Eén service per dienst**, met een **healthcheck**: zonder healthcheck wacht `docker compose up --wait` niet, en start de API tegen een database die nog niet klaar is.
-2. **Poorten en wachtwoorden via variabelen** met een default (`${POSTGRES_PORT:-5432}`), zodat twee projecten naast elkaar kunnen draaien.
-3. **Een volume per dienst** met data, zodat `make down` niets wist. Wissen doe je met `make db-reset`.
-4. Root-`.env.example` alleen voor compose. Elke app heeft zijn eigen `.env.example` met `DATABASE_URL`, die naar dezelfde poort wijst.
+1. **One service per service**, with a **health check**: without one, `docker compose up --wait` does not wait, and the API starts against a database that is not ready yet.
+2. **Ports and passwords via variables** with a default (`${POSTGRES_PORT:-5432}`), so two projects can run side by side.
+3. **One volume per service** with data, so `make down` deletes nothing. Deleting is done with `make db-reset`.
+4. Root `.env.example` only for compose. Every app has its own `.env.example` with `DATABASE_URL`, pointing at the same port.
 
-## Voorbeeld (GymFreak)
+## Example (GymFreak)
 
 ```yaml
 services:
@@ -30,10 +30,10 @@ services:
       - "${POSTGRES_PORT:-5433}:5432"
 ```
 
-met in `apps/api/.env.example`: `DATABASE_URL=postgres://gymfreak:gymfreak@localhost:5433/gymfreak`.
+with in `apps/api/.env.example`: `DATABASE_URL=postgres://gymfreak:gymfreak@localhost:5433/gymfreak`.
 
-## Snelle toets
+## Quick check
 
-- [ ] `make up` eindigt pas als elke dienst gezond is.
-- [ ] Geen echt wachtwoord in een `.env.example`.
-- [ ] De poort in `docker-compose.yml`, de `.env.example` van de app en `ARCHITECTURE.md` is dezelfde.
+- [ ] `make up` only finishes once every service is healthy.
+- [ ] No real password in a `.env.example`.
+- [ ] The port in `docker-compose.yml`, the app's `.env.example` and `ARCHITECTURE.md` is the same.

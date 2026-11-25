@@ -1,33 +1,33 @@
-# Packages — overzicht
+# Packages — overview
 
-> Dit is de centrale index voor alle Cardine-packages.
-> Elk package heeft een eigen document met doel, inhoud, structuur en installatie.
+> The central index for all Cardine packages.
+> Each package has its own document covering purpose, contents, structure and install.
 
 ## Packages
 
-| # | Package | Doc | Doelgroep | Installatievorm |
-|---|---------|-----|-----------|-----------------|
-| 1 | **`cardine-lab`** | [cardine-lab.md](cardine-lab.md) | Arch/Hyprland AI-agent-werkstation | `npm i -g @lennaertds/cardine-lab` → `cardine-lab install` |
-| 2 | **`cardine-structure`** | [cardine-structure.md](cardine-structure.md) | Iedereen met een project (elke editor) | `npx @lennaertds/cardine-structure <map>` |
-| — | **`cardine`** (meta) | [cardine-meta.md](cardine-meta.md) | Iedereen op de GitHub-repo | verwijst naar 1, 2 |
+| # | Package | Doc | Audience | Install |
+|---|---------|-----|----------|---------|
+| 1 | **`cardine-lab`** | [cardine-lab.md](cardine-lab.md) | Arch/Hyprland AI-agent workstation | `npm i -g @lennaertds/cardine-lab` → `cardine-lab install` |
+| 2 | **`cardine-structure`** | [cardine-structure.md](cardine-structure.md) | Anyone with a project (any editor) | `npx @lennaertds/cardine-structure <dir>` |
+| — | **`cardine`** (meta) | [cardine-meta.md](cardine-meta.md) | Anyone on the GitHub repo | refers to 1 and 2 |
 
-### Later (optioneel)
+### Later (optional)
 
-| Package | Doc | Doelgroep |
-|---------|------|-----------|
-| `cardine-zed-claude` | — | Wie Claude Pro/Max in Zed wil |
-| `cardine-zed-chatgpt` | — | Wie ChatGPT Plus/Pro in Zed wil |
+| Package | Doc | Audience |
+|---------|-----|----------|
+| `cardine-zed-claude` | — | Anyone who wants Claude Pro/Max in Zed |
+| `cardine-zed-chatgpt` | — | Anyone who wants ChatGPT Plus/Pro in Zed |
 
-## Meer
+## More
 
-- [Versiebeheer](VERSIONING.md) — hoe we versies bijhouden, changelogs en git-tags
-- [Implementatieplan](IMPLEMENTATION.md) — fasering en planning
-- [INDEX.md](../../docs/INDEX.md) — volledige docs-kaart
+- [Versioning](VERSIONING.md) — how we version, changelogs and git tags
+- [Implementation plan](IMPLEMENTATION.md) — phasing and planning
+- [INDEX.md](../../docs/INDEX.md) — full docs map
 
 ## Status
 
-| Fase | Status |
-|------|--------|
-| Ontwerp | ✅ in uitvoer |
-| Goedkeuring | ⏳ wacht op review |
-| Implementatie | ⏳ nog niet gestart |
+| Phase | Status |
+|-------|--------|
+| Design | ✅ in progress |
+| Approval | ⏳ awaiting review |
+| Implementation | ⏳ not started |

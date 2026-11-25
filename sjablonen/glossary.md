@@ -1,43 +1,43 @@
 # docs/context/GLOSSARY.md
 
-> **Rol:** Eén term per begrip, met de naam in de code. Ook de lijst van domeinen en de projectcodes.
-> **Niet hier:** uitleg van algemene begrippen (REST, ETL, JWT).
+> **Role:** One term per concept, with the name in the code. Also the list of domains and the project codes.
+> **Not here:** explanations of general concepts (REST, ETL, JWT).
 
-**Kitbestand:** [kit/kern/docs/context/GLOSSARY.md](../kit/kern/docs/context/GLOSSARY.md) · laag kern · P10
+**Kit file:** [kit/kern/docs/context/GLOSSARY.md](../kit/kern/docs/context/GLOSSARY.md) · layer kern · P10
 
-## Wanneer
+## When
 
-Dag 0 met de eerste vijf termen. Daarna elke keer dat een term in een gesprek, issue of prompt opduikt die een frisse lezer niet kent, en elke keer dat een code of afkorting in een bestandsnaam komt.
+Day 0 with the first five terms. After that, every time a term shows up in a conversation, issue or prompt that a fresh reader does not know, and every time a code or abbreviation ends up in a filename.
 
-## Invullen
+## Filling in
 
-1. **Domeinen:** de namen die ook de mappen worden (`features/<domein>/`, `src/<domein>/`, `product/<domein>.md`). Eén woord, Engels als de code Engels is.
-2. **Termen:** term, betekenis, naam in de code, en waarmee je hem niet verwart. De laatste kolom vangt de meeste fouten.
-3. **Codes en afkortingen:** elke code die in een bestandsnaam, een doc-kop of een commit voorkomt.
-4. Gemengd Nederlands en Engels: de Nederlandse term in de eerste kolom, de code-naam in de derde.
+1. **Domains:** the names that also become the folders (`features/<domain>/`, `src/<domain>/`, `product/<domain>.md`). One word, English if the code is English.
+2. **Terms:** term, meaning, name in the code, and what not to confuse it with. The last column catches most mistakes.
+3. **Codes and abbreviations:** every code that appears in a filename, a doc header or a commit.
+4. Mixed Dutch and English: the local-language term in the first column, the code name in the third.
 
-## Voorbeeld (GymFreak en DEP2)
+## Example (GymFreak and DEP2)
 
 ```markdown
-## Domeinen
+## Domains
 
-| Domein | Eén zin | Code |
-|--------|---------|------|
-| gym | Schema's, sessies en sets | H |
-| sleep | Slaapdata importeren en trends tonen | S |
-| diet | Macro's en budget per dag | D |
+| Domain | One sentence | Code |
+|--------|--------------|------|
+| gym | Programmes, sessions and sets | H |
+| sleep | Import sleep data and show trends | S |
+| diet | Macros and budget per day | D |
 
-## Termen
+## Terms
 
-| Term | Betekenis | In de code | Niet verwarren met |
-|------|-----------|------------|--------------------|
-| Split | De verdeling van spiergroepen over de week | `Split`, `proposeSplit()` | slot (één dag in de split) |
-| Plot | Proefveldje met één ras en één behandeling | `DimPlot`, `plot_id` | object (de hele proefopzet) |
-| Vlucht | Eén dronevlucht met zijn orthomosaic | `flight_id` | campagne (alle vluchten van één datum) |
+| Term | Meaning | In the code | Do not confuse with |
+|------|---------|-------------|---------------------|
+| Split | The distribution of muscle groups across the week | `Split`, `proposeSplit()` | slot (one day in the split) |
+| Plot | A trial field with one variety and one treatment | `DimPlot`, `plot_id` | object (the whole trial design) |
+| Flight | One drone flight with its orthomosaic | `flight_id` | campaign (all flights of one date) |
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Elke code uit een bestandsnaam staat erin (`H-gym.md` → H).
-- [ ] Elke domeinnaam is ook een map in de code, met dezelfde spelling.
-- [ ] Geen term heeft twee namen in de code.
+- [ ] Every code from a filename is in there (`H-gym.md` → H).
+- [ ] Every domain name is also a folder in the code, spelled the same way.
+- [ ] No term has two names in the code.

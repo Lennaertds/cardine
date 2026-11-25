@@ -1,9 +1,9 @@
-# Glas — de ene klasse
+# Glass — the one class
 
-> **Rol:** De implementatie van `.glass` voor alle vlakken. Waar glas mag, staat per craft-bestand.  
-> **Niet hier:** waar glas mag per vlak ([liquid-glass.md](../desktop/landingpage/liquid-glass.md), [materials-depth](../iphone/materials-depth.md)).
+> **Role:** The implementation of `.glass` for all surfaces. Where glass is allowed is described per craft file.
+> **Not here:** where glass is allowed per surface ([liquid-glass.md](../desktop/landingpage/liquid-glass.md), [materials-depth](../iphone/materials-depth.md)).
 
-Eén class. Geen tweede blur, geen mesh-gradient, geen vaste witte rand uit een kit.
+One class. No second blur, no mesh gradient, no fixed white border from a kit.
 
 ## 1. `.glass`
 
@@ -18,27 +18,27 @@ Eén class. Geen tweede blur, geen mesh-gradient, geen vaste witte rand uit een 
 }
 ```
 
-Donker theme: buitenste schaduw 35% zwart, inset-glans 18% wit. Die override blijft in `globals.css` bij `.glass`.
+Dark theme: outer shadow 35% black, inset highlight 18% white. That override stays in `globals.css` next to `.glass`.
 
-Haarlijn op een vlakke bodem:
+Hairline on a flat base:
 
 ```css
 border: 1px solid color-mix(in oklab, var(--stroke) 55%, transparent);
 ```
 
-`prefers-reduced-transparency: reduce` maakt dit bijna solid: `--card` op ≥ 92%, blur uit. De haarlijn blijft. [a11y.md](a11y.md).
+`prefers-reduced-transparency: reduce` makes this almost solid: `--card` at ≥ 92%, blur off. The hairline stays. [a11y.md](a11y.md).
 
 ## 2. Clear
 
-`.glass-clear` bestaat pas als de voorwaarden in [liquid-glass](../desktop/landingpage/liquid-glass.md) §1 slagen, en alleen als class in `globals.css`. Tint richting 18–24% `--card`, dezelfde blur-familie, dim eronder. Tot die class er is: Regular.
+`.glass-clear` exists only once the conditions in [liquid-glass](../desktop/landingpage/liquid-glass.md) §1 are met, and only as a class in `globals.css`. Tint towards 18–24% `--card`, the same blur family, a dim underneath. Until that class exists: Regular.
 
-## 3. Waar de class zit
+## 3. Where the class lives
 
-Glas = **functionele chrome**, niet content.
+Glass = **functional chrome**, not content.
 
-| Laag | Glas op | Niet op |
-|------|---------|---------|
-| Showcase / landingspagina | Nav, menu, hoogstens één functioneel paneel. [liquid-glass](../desktop/landingpage/liquid-glass.md) | Proza, kaartgrids, hero-copy |
-| Applicatie | Header, tabbar / top-nav, sheet-chrome, gepinde titel. [materials-depth](../iphone/materials-depth.md) | Kaarten, tabellen, dichte content |
+| Layer | Glass on | Not on |
+|-------|----------|--------|
+| Showcase / landing page | Nav, menu, at most one functional panel. [liquid-glass](../desktop/landingpage/liquid-glass.md) | Prose, card grids, hero copy |
+| Application | Header, tabbar / top nav, sheet chrome, pinned title. [materials-depth](../iphone/materials-depth.md) | Cards, tables, dense content |
 
-**Test:** elke glazen balk gebruikt deze class. Nergens een tweede `backdrop-filter` met een ander blur-getal.
+**Test:** every glass bar uses this class. Nowhere a second `backdrop-filter` with a different blur value.

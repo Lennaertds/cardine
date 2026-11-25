@@ -1,5 +1,18 @@
 # Changelog — cardine-lab
 
+## [0.5.2] — 2026-11-24
+
+### Changed
+- The whole package is in English now (ADR 0018): README, package docs, CLI
+  help and comments. `cardine-lab --help` and every error message are English;
+  `new-project.sh` output too.
+- `check-language.sh` added to `scripts/`: fails when Dutch text appears outside
+  `bron/` and the historical logs.
+
+### Fixed
+- `docs/cardine-lab.md` in the published package still described the GitHub
+  release route. It now documents the npm route only.
+
 ## [0.5.1] — 2026-11-24
 
 ### Fixed
@@ -65,7 +78,7 @@
 ## [0.4.0] — 2026-11-23
 
 ### Changed
-- **De kooi is de schrijfrechter** ([ADR 0017](../../docs/decisions/0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md)). `cardine-bwrap` bindt de workspace; shell-writes staan meteen op de host. De tmp-overlay is weg.
+- **De kooi is de schrijfrechter** ([ADR 0017](../../docs/decisions/0017-the-agent-writes-in-the-cage-and-the-fs-write-tools-are-off.md)). `cardine-bwrap` bindt de workspace; shell-writes staan meteen op de host. De tmp-overlay is weg.
 - `/tmp` is een gedeelde host-map (mode 700), geen tmpfs, zodat `make` en `node` een tijdelijk bestand kunnen afgeven.
 - De shell-kooi draait in een user-namespace. Het netwerk blijft open; `make sandbox-check` eist een geslaagde TCP-connect vanuit de shell en wordt rood als de kooi het netwerk afsnijdt.
 - Het lab-profiel uit `install-lab.sh`: `workspace-write` op de repo, `approval: never`, `write`/`edit`/`apply_patch` uit, `glob`/`grep` aan. `cardine-strict.patch.yml` is geen tweede profiel meer.

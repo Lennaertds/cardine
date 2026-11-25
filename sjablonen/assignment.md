@@ -1,41 +1,41 @@
 # docs/context/assignment.md
 
-> **Rol:** Wat de school of klant vraagt, hoe het beoordeeld wordt, en tegen wanneer.
-> **Niet hier:** hoe je het oplost ([architecture](architecture.md)), wat je indiende (`docs/deliverables/`).
+> **Role:** What the school or client asks for, how it is assessed, and by when.
+> **Not here:** how you solve it ([architecture](architecture.md)), what you submitted (`docs/deliverables/`).
 
-**Kitbestand:** [kit/modules/assignment/docs/context/assignment.md](../kit/modules/assignment/docs/context/assignment.md) · module `assignment`
+**Kit file:** [kit/modules/assignment/docs/context/assignment.md](../kit/modules/assignment/docs/context/assignment.md) · module `assignment`
 
-## Wanneer
+## When
 
-Bij elk project met een opdrachtgever: een vak, een stage, een klant. Dag 0, zodra je de opdracht hebt.
+For every project with a client: a course, an internship, a customer. Day 0, as soon as you have the assignment.
 
-## Invullen
+## Filling in
 
-1. **Opdrachtgever en contact:** vak of klant, naam en kanaal. Geen privénummers in git.
-2. **Opdracht in eigen woorden:** drie à vijf zinnen; citeer letterlijk waar het ertoe doet. Het brondocument zelf gaat naar `deliverables/` of blijft in de leeromgeving.
-3. **Beoordelingscriteria:** met het gewicht en **waar je het aantoont**. Die laatste kolom is je checklist voor de oplevering.
-4. **Deadlines:** datum, wat, status.
-5. **Randvoorwaarden:** verplichte technologie, wat niet mag.
+1. **Client and contact:** course or client, name and channel. No private phone numbers in git.
+2. **Assignment in your own words:** three to five sentences; quote literally where it matters. The source document itself goes to `deliverables/` or stays in the learning environment.
+3. **Assessment criteria:** with the weight and **where you demonstrate it**. That last column is your checklist for the delivery.
+4. **Deadlines:** date, what, status.
+5. **Preconditions:** mandatory technology, what is not allowed.
 
-## Voorbeeld (DEP2)
+## Example (DEP2)
 
 ```markdown
-## Beoordelingscriteria
+## Assessment criteria
 
-| Criterium | Gewicht | Waar we het aantonen |
-|-----------|---------|----------------------|
-| Sterschema en ETL | 30 % | `docs/architecture/database.md`, demo stap 2 |
-| Datakwaliteit | 20 % | `make check-full` (checks op lege en dubbele metingen) |
-| Samenwerking | 20 % | PR's met review, sprintverslagen in `docs/work/meetings/` |
+| Criterion | Weight | Where we demonstrate it |
+|-----------|--------|-------------------------|
+| Star schema and ETL | 30 % | `docs/architecture/database.md`, demo step 2 |
+| Data quality | 20 % | `make check-full` (checks on empty and duplicate measurements) |
+| Collaboration | 20 % | PRs with review, sprint reports in `docs/work/meetings/` |
 
-## Randvoorwaarden
+## Preconditions
 
-- Database: MSSQL van de school; geen cloud-diensten buiten de EU.
-- Groep van vijf; elk lid heeft PR's in de geschiedenis.
+- Database: the school's MSSQL; no cloud services outside the EU.
+- Group of five; every member has PRs in the history.
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Elk criterium heeft een plek waar je het aantoont.
-- [ ] De deadlines staan er met datum.
-- [ ] Geen persoonsgegevens van docenten of klanten buiten naam en werkkanaal.
+- [ ] Every criterion has a place where you demonstrate it.
+- [ ] The deadlines are in there with a date.
+- [ ] No personal data of teachers or clients beyond name and work channel.

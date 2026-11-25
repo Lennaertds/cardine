@@ -1,26 +1,26 @@
 # UI iPhone — materials · a11y
 
-> **Rol:** Multimodal feedback + reduced motion/a11y.  
-> **Niet hier:** vloer voor alle vlakken ([a11y.md](../shared/a11y.md)).
+> **Role:** Multimodal feedback + reduced motion/a11y.
+> **Not here:** the floor for all surfaces ([a11y.md](../shared/a11y.md)).
 
 ## 1. Multimodal feedback
 
-1. **Causality** — feedback op het echte causale moment.
-2. **Harmony** — visual (+ haptic/sound indien ooit) op **hetzelfde frame**.
-3. **Utility** — alleen meaningful moments (success, error, commit, snap). Over-feedback = genegeerd.
+1. **Causality** — feedback at the real causal moment.
+2. **Harmony** — visual (+ haptic/sound if ever) on **the same frame**.
+3. **Utility** — meaningful moments only (success, error, commit, snap). Over-feedback = ignored.
 
-Vibration API spaarzaam; PWA-haptics waar platform het toelaat. [touch-haptics](touch-haptics.md).
+Use the Vibration API sparingly; PWA haptics where the platform allows it. [touch-haptics](touch-haptics.md).
 
 ## 2. Reduced motion & a11y
 
-Reduced motion ≠ geen feedback.
+Reduced motion ≠ no feedback.
 
-| Signal | Gedrag |
-|--------|--------|
-| `prefers-reduced-motion: reduce` | Geen slides/springs/parallax; korte opacity cross-fade; geen overshoot |
-| `prefers-reduced-transparency: reduce` | Frostiger/solide chrome; blur uit |
-| `prefers-contrast: more` | Near-solid + duidelijke border |
+| Signal | Behaviour |
+|--------|-----------|
+| `prefers-reduced-motion: reduce` | No slides/springs/parallax; short opacity cross-fade; no overshoot |
+| `prefers-reduced-transparency: reduce` | Frostier/solid chrome; blur off |
+| `prefers-contrast: more` | Near-solid + a clear border |
 
-Vermijd full-viewport moving backgrounds, langzame loops (~0.2 Hz), abrupte brightness jumps. Grote moving objects semi-transparent tijdens travel.
+Avoid full-viewport moving backgrounds, slow loops (~0.2 Hz), abrupt brightness jumps. Large moving objects semi-transparent while travelling.
 
-Focus-ringen blijven. Geen info alleen in hover.
+Focus rings stay. No information in hover only.

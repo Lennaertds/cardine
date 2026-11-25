@@ -1,4 +1,4 @@
-# Lokale diensten voor make up / make dev. Productie draait elders (zie docs/architecture/ARCHITECTURE.md).
+# Local services for make up / make dev. Production runs elsewhere (see docs/architecture/ARCHITECTURE.md).
 services:
   db:
     image: postgres:17

@@ -1,8 +1,8 @@
-# {{PROJECT}} — Cursor, persoonlijk
+# {{PROJECT}} — Cursor, personal
 
-Volg [AGENTS.md](AGENTS.md): daar staan de grenzen, de commando's, de werkwijze en de kaart. Dit bestand bevat alleen mijn persoonlijke voorkeuren en wat enkel voor Cursor geldt. Het herhaalt niets uit AGENTS.md.
+Follow [AGENTS.md](AGENTS.md): it holds the boundaries, the commands, the working method and the map. This file contains only my personal preferences and what applies to Cursor alone. It repeats nothing from AGENTS.md.
 
-- Antwoord in het Nederlands. Volledig in de code.
-- Bij een wijziging aan de UI: na de fix in de browser controleren, dan afronden. (DESIGN lezen: zie AGENTS.md.)
-- <Persoonlijke werkwijze, bv. "bij meer dan drie bestanden eerst een plan — tenzij de gebruiker al implementeer/bouw/ja zei; dan meteen code".>
-- <Cursor-specifiek, bv. welke `.cursor/rules/*.mdc` er zijn en waarvoor.>
+- Answer in <language>. Comments in the code in English.
+- On a UI change: check it in the browser after the fix, then finish. (Reading DESIGN: see AGENTS.md.)
+- <Personal working method, e.g. "with more than three files, a plan first — unless the user already said implement/build/yes; then code straight away".>
+- <Cursor-specific, e.g. which `.cursor/rules/*.mdc` exist and what for.>

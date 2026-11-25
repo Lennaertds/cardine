@@ -34,7 +34,7 @@ Zonder die tabel + akkoord: geen kit-edit. Zie ook [README — twee doelen](../.
 | §35 / hybrid-agents | Always-on `.mdc` met Hybrid-jargon | **Nee** |
 | §35 / hybrid-agents | Analogie denken/handelen in kenniskaart + docs | **Ja** (alleen spoor 2 / verwijzingen) |
 | [drie-hefbomen](efficientie/drie-hefbomen.md) | “Drie hefbomen” als P28 | **Nee** — narratief in fundament; empirie blijft `meten/` |
-| [cursor-rule](../../sjablonen/cursor-rule.md) | Audit-checklist mdc vs AGENTS | **Ja** — sjabloon + [waar-hoort-dit](../../standaard/waar-hoort-dit.md) + [bestanden](../../standaard/bestanden.md) |
+| [cursor-rule](../../sjablonen/cursor-rule.md) | Audit-checklist mdc vs AGENTS | **Ja** — sjabloon + [waar-hoort-dit](../../standard/where-does-this-belong.md) + [bestanden](../../standard/per-file.md) |
 | hybrid / hefbomen | Fase-splitting skills meten | **Later** — optionele `meten/`-slice, niet standaardiseren zonder data |
 | §46 / [hrm-trm](redeneneren/hrm-trm.md) | HRM/TRM in kit of nieuw P | **Nee** — spoor 2 / kenniskaart alleen |
 | §47 Strix | Docs + `make security-scan*` + AGENTS + skill-how-to in **kern** | **Ja** (okt 2026) — niet in `make check`; runtime ontbreekt → BACKLOG |

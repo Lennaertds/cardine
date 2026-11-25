@@ -1,14 +1,14 @@
-# Log — status en onderwerpen
+# Log — status and topics
 
-Dit bestand hoort bij elk project dat bijhoudt wat er gedaan is en wat nog open staat.
+This file belongs in every project that tracks what has been done and what is still open.
 
-| Bestand | Doel |
-|---------|------|
-| `status-log.md` | Één overzichtstabel: actieve onderwerpen, open onderwerpen, afgeronde onderwerpen |
-| `onderwerpen/_template.md` | Sjabloon voor een detailpagina per onderwerp |
-| `onderwerpen/T01-slug.md` | Detailpagina's voor individuele onderwerpen |
+| File | Purpose |
+|------|---------|
+| `status-log.md` | One overview table: active topics, open topics, finished topics |
+| `topics/_template.md` | Template for a detail page per topic |
+| `topics/T01-slug.md` | Detail pages for individual topics |
 
-**Status-log updaten:** Zeg "vat samen en update" tegen je agent — die leest dit bestand, inventariseert de chat en werkt de tabellen bij.
-**Kort loggen:** `make finish MSG="wat gedaan"` schrijft een regel onderaan `status-log.md`.
+**Update the status log:** say "summarise and update" to your agent — it reads this file, reviews the chat and updates the tables.
+**Quick log:** `make finish MSG="what was done"` writes a line at the bottom of `status-log.md`.
 
-Zie de Agent Engineering kit-standaard voor de regels en invulgids.
+See the kit standard for the rules and the fill-in guide.

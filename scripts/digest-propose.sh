@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Bouwt voorstel-Markdown uit recente dumps. Wijzigt nooit bronnen.md (P5).
+# Builds proposal Markdown from recent dumps. Never changes bronnen.md (P5).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -14,11 +14,11 @@ die() { echo "digest-propose: $*" >&2; exit 1; }
 tip() { echo "digest-propose: $*" >&2; }
 
 [[ -f bron/digest/README.md ]] || die "ontbreekt bron/digest/"
-[[ -d "$DUMP_ROOT" ]] || die "geen $DUMP_ROOT — eerst make digest-fetch"
+[[ -d "$DUMP_ROOT" ]] || die "no $DUMP_ROOT — run make digest-fetch first"
 
 pick_dumps() {
   if [[ -n "${DIGEST_PROPOSE_FROM:-}" ]]; then
-    [[ -d "$DIGEST_PROPOSE_FROM" ]] || die "DIGEST_PROPOSE_FROM is geen map"
+    [[ -d "$DIGEST_PROPOSE_FROM" ]] || die "DIGEST_PROPOSE_FROM is not a folder"
     printf '%s\n' "$DIGEST_PROPOSE_FROM"
     return
   fi
@@ -27,7 +27,7 @@ pick_dumps() {
 }
 
 mapfile -t DUMPS < <(pick_dumps)
-[[ ${#DUMPS[@]} -gt 0 ]] || die "geen dump-mappen — make digest-fetch eerst"
+[[ ${#DUMPS[@]} -gt 0 ]] || die "no dump folders — run make digest-fetch first"
 
 if [[ "${1:-}" == "--dry-run" ]] || [[ "${DIGEST_DRY_RUN:-}" == "1" ]]; then
   tip "dry-run — zou $OUT schrijven uit:"
@@ -59,7 +59,7 @@ for d in "${DUMPS[@]}"; do
   done <"$items"
 done
 
-[[ "$count" -gt 0 ]] || die "geen items om voor te stellen"
+[[ "$count" -gt 0 ]] || die "no items to propose"
 
 mkdir -p "$PROP_DIR"
 {

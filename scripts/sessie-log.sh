@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Voeg een entry toe aan bron/sessies/INDEX.md en maak sessiebestand
+# Add an entry to bron/sessies/INDEX.md and create the session file
 # Usage: sessie-log.sh <datum> <tijd> <msg> <slug>
 set -euo pipefail
 
@@ -16,7 +16,7 @@ cat > "$sessiebestand" <<EOF
 
 **Datum:** ${datum} ${tijd}
 
-(vul aan: wat gedaan, open punten, volgende stap)
+(fill in: what was done, open points, next step)
 
 ---
 
@@ -24,7 +24,7 @@ EOF
 
 echo "Sessiebestand: ${sessiebestand}"
 
-# Voeg entry toe aan INDEX.md (python3 voor betrouwbaarheid met pipes)
+# Add the entry to INDEX.md (python3 for reliability with pipes)
 python3 <<PYEOF
 import sys
 path = "${index}"

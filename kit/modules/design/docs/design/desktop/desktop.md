@@ -1,87 +1,87 @@
 # Desktop — gate
 
-> **Rol:** Wanneer de landingspagina / showcase cinematic mag, en wat desktop-extra’s niet mogen raken.  
-> **Niet hier:** craft-kaart ([DESIGN.md](../DESIGN.md)); landing-craft ([landingpage/](landingpage/layout.md)); product-chrome (projectbestand).
+> **Role:** When the landing page / showcase may be cinematic, and what desktop extras may not touch.
+> **Not here:** craft map ([DESIGN.md](../DESIGN.md)); landing craft ([landingpage/](landingpage/layout.md)); product chrome (project file).
 
-## 0. Twee desktopvlakken
+## 0. Two desktop surfaces
 
-Eén site, typisch `apps/web`.
+One site, typically `apps/web`.
 
-| Vlak | Craft |
-|------|--------|
-| Showcase / landingspagina desktop | [landingpage/](landingpage/layout.md), achter de gate hieronder |
-| Applicatie desktop | Project-chrome (breed); content volgt iPhone-applicatie-craft waar die de bron is |
+| Surface | Craft |
+|---------|-------|
+| Showcase / desktop landing page | [landingpage/](landingpage/layout.md), behind the gate below |
+| Desktop application | Project chrome (wide); content follows the iPhone application craft where that is the source |
 
-[a11y.md](a11y.md) en [performance.md](performance.md) gelden voor beide desktopvlakken. Op de telefoon gelden motion, touch en materials in `iphone/` voor beide telefoonvlakken.
+[a11y.md](a11y.md) and [performance.md](performance.md) apply to both desktop surfaces. On a phone, motion, touch and materials in `iphone/` apply to both phone surfaces.
 
 ## 1. Gate (hard)
 
-Cinematic extra’s op de **showcase / landingspagina** alleen als:
+Cinematic extras on the **showcase / landing page** only if:
 
-`≥768px` **én** `(pointer: fine)` **én** niet `prefers-reduced-motion: reduce`.
+`≥768px` **and** `(pointer: fine)` **and** not `prefers-reduced-motion: reduce`.
 
-| | Telefoon | Desktop-browser |
-|--|-------------------|-------------------------|
-| Input | Vinger | Muis/trackpad, scroll, hover |
-| Motion | Minimaal (nav, sheets) | Mag cinematic op **showcase**-routes |
-| Layout | Één kolom, touch-chrome | Pins / breedte / parallax op showcase |
-| Gate | Altijd (geen cinematic) | Gate hierboven |
+| | Phone | Desktop browser |
+|--|-------|-----------------|
+| Input | Finger | Mouse/trackpad, scroll, hover |
+| Motion | Minimal (nav, sheets) | May be cinematic on **showcase** routes |
+| Layout | One column, touch chrome | Pins / width / parallax on the showcase |
+| Gate | Always (no cinematic) | The gate above |
 
-## 2. Waar desktop-extra’s wél / niet
+## 2. Where desktop extras do and do not belong
 
-**Wel:** publieke showcase-routes, marketing-secties, dunne “enter the app”-brug.
+**Yes:** public showcase routes, marketing sections, a thin "enter the app" bridge.
 
-**Niet:** productflows (loggen, bewerken, sessies) — touch-pad blijft leidend, ook op breed venster (geen hover-only primaire actie).
+**No:** product flows (logging, editing, sessions) — the touch pad stays leading, also in a wide window (no hover-only primary action).
 
 **Type (showcase vs product):**
 
 | Surface | Fonts | Sizes |
 |---------|-------|-------|
-| Product (ook ≥768px) | `--font-sans` (+ mono) | Ladder in [materials-type](../iphone/materials-type.md) — geen aparte desktop type-schaal |
-| Showcase landing / hero | Mag `--font-display` | Showcase-classes OK achter gate |
-| Showcase body | Sans of showcase-root | Zelfde page padding / max-width-familie |
+| Product (also ≥768px) | `--font-sans` (+ mono) | Ladder in [materials-type](../iphone/materials-type.md) — no separate desktop type scale |
+| Showcase landing / hero | May use `--font-display` | Showcase classes OK behind the gate |
+| Showcase body | Sans or showcase root | Same page padding / max-width family |
 
-## 3. Toegestane cool-dingen (catalogus)
+## 3. Allowed cool things (catalogue)
 
-Kiezen per slice — niet alles tegelijk. Merk: bestaande tokens; geen paars-glow SaaS, geen terracotta-serif, geen neon-cliché.
+Pick per slice — not all at once. Brand: existing tokens; no purple-glow SaaS, no terracotta serif, no neon cliché.
 
-| Idee | Gate / valkuil |
-|------|----------------|
-| Lenis (of equiv.) smooth scroll | Desktop + fine pointer; uit bij reduced-motion |
-| GSAP ScrollTrigger / scroll-story | Showcase-routes, niet product-bundle |
-| Pipeline-pin | Één scène |
-| Tekst-/mask-reveals | `aria`; reduced-motion = eindstaat |
-| Parallax | Licht; geen LCP-killer |
-| Magnetic / hover-CTA | Nooit de enige klik-manier |
-| Pointer-tilt device-mock | Statische fallback op gsm |
-| Live chart scrub | Anonieme of echte demo-data |
-| Bronnen-marquee | Pauzeer bij hover/focus |
-| WebGL / R3F | Lazy, desktop-only, kill op battery/reduced-motion; 2D eerst waar mogelijk |
-| Interactieve hotspots | Click/keyboard opent panel; niet hover-only |
-| Horizontale chapter-rail | `matchMedia`; gsm = verticaal |
-| Custom cursor | Skip op touch |
-| Scroll-progress + sectie-dots | Keyboard-bereikbaar |
+| Idea | Gate / trap |
+|------|-------------|
+| Lenis (or equivalent) smooth scroll | Desktop + fine pointer; off under reduced-motion |
+| GSAP ScrollTrigger / scroll story | Showcase routes, not the product bundle |
+| Pipeline pin | One scene |
+| Text / mask reveals | `aria`; reduced-motion = end state |
+| Parallax | Light; not an LCP killer |
+| Magnetic / hover CTA | Never the only way to click |
+| Pointer-tilt device mock | Static fallback on phone |
+| Live chart scrub | Anonymous or real demo data |
+| Source marquee | Pauses on hover/focus |
+| WebGL / R3F | Lazy, desktop only, killed on battery/reduced-motion; 2D first where possible |
+| Interactive hotspots | Click/keyboard opens the panel; not hover-only |
+| Horizontal chapter rail | `matchMedia`; phone = vertical |
+| Custom cursor | Skip on touch |
+| Scroll progress + section dots | Reachable by keyboard |
 
-## 4. Harde regels
+## 4. Hard rules
 
-1. **Eén codebase** — `matchMedia` / CSS; geen aparte marketing-repo.
-2. **Gsm wint bij conflict** — bundle/hydration/jank → uit of lazy desktop-only.
-3. **Geen tweede product-IA** — uitbreiden via de afgesproken kaart, niet een parallel menu.
-4. **Geen nep** — geen fake MAU / dummy-feed / verzonnen quotes.
-5. **A11y** — reduced-motion = eindstaat; focus-ringen; geen info alleen in hover.
-6. **Library:** GSAP/Lenis alleen achter showcase-gate; **nooit** importeren in het productpad ([overlays-policy.md](../iphone/application/overlays-policy.md)).
+1. **One codebase** — `matchMedia` / CSS; no separate marketing repo.
+2. **The phone wins on conflict** — bundle/hydration/jank → off, or lazy desktop only.
+3. **No second product IA** — extend through the agreed map, not with a parallel menu.
+4. **Nothing fake** — no fake MAU / dummy feed / made-up quotes.
+5. **A11y** — reduced-motion = end state; focus rings; no information only in hover.
+6. **Library:** GSAP/Lenis only behind the showcase gate; **never** imported into the product path ([overlays-policy.md](../iphone/application/overlays-policy.md)).
 
 ## 5. Test
 
-1. Breed venster ≥1280px, muis, Chrome/Firefox: landing scrollt soepel; CTA werkt zonder hover-theater.
-2. `prefers-reduced-motion: reduce` → alles stil / eindstaat.
-3. Dezelfde URL op de iPhone: geen WebGL / geen cinematic. Ingelogd is het de applicatie.
+1. Wide window ≥1280px, mouse, Chrome/Firefox: the landing page scrolls smoothly; the CTA works without hover theatre.
+2. `prefers-reduced-motion: reduce` → everything still / end state.
+3. The same URL on the iPhone: no WebGL / no cinematic. Signed in, it is the application.
 
 ## 6. Never ship (desktop)
 
 | Never | Instead |
 |-------|---------|
-| Showcase GSAP in product path | Gate only |
-| Hover-only primary in productflow | Touch + klik + toetsenbord |
-| WebGL op gsm | CSS-gradient / stil fallback |
-| Nep-MAU / dummy-feed | Echte of anonieme demo-data |
+| Showcase GSAP in the product path | Gate only |
+| Hover-only primary in a product flow | Touch + click + keyboard |
+| WebGL on phone | CSS gradient / still fallback |
+| Fake MAU / dummy feed | Real or anonymous demo data |

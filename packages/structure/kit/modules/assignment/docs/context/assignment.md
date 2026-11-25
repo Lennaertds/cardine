@@ -1,28 +1,28 @@
-# Opdracht
+# Assignment
 
-> **Rol:** Wat de school of klant vraagt, hoe het beoordeeld wordt, en tegen wanneer.
-> **Niet hier:** hoe we het oplossen ([ARCHITECTURE.md](../architecture/ARCHITECTURE.md)), het ingediende werk (`deliverables/`).
+> **Role:** What the school or client asks for, how it is assessed, and by when.
+> **Not here:** how we solve it ([ARCHITECTURE.md](../architecture/ARCHITECTURE.md)), the submitted work (`deliverables/`).
 
-- **Opdrachtgever:** <vak, docent, klant>
-- **Contact:** <naam en kanaal; geen privénummers>
-- **Brondocument:** <link naar de opdracht of de pdf in `deliverables/`>
+- **Client:** <course, teacher, client>
+- **Contact:** <name and channel; no private phone numbers>
+- **Source document:** <link to the assignment or the pdf in `deliverables/`>
 
-## Opdracht in eigen woorden
+## Assignment in our own words
 
-<Drie à vijf zinnen. Citeer waar het letterlijk moet.>
+<Three to five sentences. Quote where it has to be literal.>
 
-## Beoordelingscriteria
+## Assessment criteria
 
-| Criterium | Gewicht | Waar we het aantonen |
-|-----------|---------|----------------------|
-| <Datamodel> | <20 %> | <`docs/architecture/data-model.md`, demo stap 2> |
+| Criterion | Weight | Where we demonstrate it |
+|-----------|--------|-------------------------|
+| <Data model> | <20 %> | <`docs/architecture/data-model.md`, demo step 2> |
 
 ## Deadlines
 
-| Datum | Wat | Status |
-|-------|-----|--------|
-| <YYYY-MM-DD> | <Tussentijdse presentatie> | <open> |
+| Date | What | Status |
+|------|------|--------|
+| <YYYY-MM-DD> | <Interim presentation> | <open> |
 
-## Randvoorwaarden
+## Preconditions
 
-- <Verplichte technologie, groepsgrootte, wat niet mag (bv. geen externe API's).>
+- <Mandatory technology, group size, what is not allowed (e.g. no external APIs).>

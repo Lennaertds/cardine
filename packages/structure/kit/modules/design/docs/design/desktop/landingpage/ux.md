@@ -1,68 +1,68 @@
 # Desktop — ux
 
-> **Rol:** Hoe de showcase werkt: doel, copy, links, formulieren, feedback.  
-> **Niet hier:** looks ([looks.md](looks.md)).
+> **Role:** How the showcase works: goal, copy, links, forms, feedback.
+> **Not here:** looks ([looks.md](looks.md)).
 
-Mooi volgt hieruit. Een effect dat het doel niet dient, gaat eruit.
+Pretty follows from this. An effect that does not serve the goal goes out.
 
-## 1. Doel per pagina
+## 1. Goal per page
 
-Elke showcase-route heeft één zin: wat de bezoeker hier moet kunnen (begrijpen, handelen, of doorverwijzen).
+Every showcase route has one sentence: what the visitor must be able to do here (understand, act, or go on).
 
-Patroon dat mensen al kennen: balk boven, claim, actie, dan de rest. Geen nieuwe navigatiemetafoor.
+A pattern people already know: bar on top, claim, action, then the rest. No new navigation metaphor.
 
 ## 2. Copy
 
-- De claim noemt het concrete resultaat. Geen vage belofte (“het beste platform”).
-- Korte woorden. Geen stack-jargon in de claim of de featurezin. Stack mag op een technische plek.
-- Eén onderwerp per zin. Fluff eruit. Plain product copy — geen AI-marketingwol (“revolutionize your journey”).
-- Lange tekst breekt met een H2, een beeld of een lijst. Geen muur.
-- De primaire knop zegt wat er gebeurt (“Open de demo”, “Ga naar de app”). Niet “Verstuur”, “Klik hier”, “Learn more”.
-- Zelfde bestemming in de balk en in de hero.
-- Eén accent-CTA in de hero (~90/10 t.o.v. secondary). Real proof in diezelfde viewport: product-UI of echte scène — geen stock-abstract, geen AI-blob als “bewijs”.
+- The claim names the concrete result. No vague promise ("the best platform").
+- Short words. No stack jargon in the claim or the feature line. Stack may appear in a technical spot.
+- One topic per sentence. Cut the fluff. Plain product copy — no AI marketing wool ("revolutionize your journey").
+- Long text breaks with an H2, an image or a list. No wall.
+- The primary button says what happens ("Open the demo", "Go to the app"). Not "Submit", "Click here", "Learn more".
+- Same destination in the bar and in the hero.
+- One accent CTA in the hero (~90/10 against the secondary). Real proof in that same viewport: product UI or a real scene — no stock abstract, no AI blob as "proof".
 
 ## 3. Links
 
-- In proza: `--accent` én onderstreept. Kleur alleen is niet genoeg.
-- In de balk: geen underline. De actieve route is weight 650.
-- Blauw is geen linkkleur. Onderstreepte tekst die geen link is, bestaat niet.
-- Externe links zeggen waar ze heen gaan.
+- In prose: `--accent` **and** underlined. Colour alone is not enough.
+- In the bar: no underline. The active route is weight 650.
+- Blue is not a link colour. Underlined text that is not a link does not exist.
+- External links say where they go.
 
-## 4. Hiërarchie op de landing
+## 4. Hierarchy on the landing page
 
-Het oogpad, van boven naar onder:
+The eye path, top to bottom:
 
-1. Claim (grootte).
-2. Primaire knop (accent, enige gevulde actie).
-3. Beeld van het product.
-4. Daarna de rest van de secties.
+1. Claim (size).
+2. Primary button (accent, the only filled action).
+3. Image of the product.
+4. Then the rest of the sections.
 
-Iets benadrukken door de rest rustiger te maken, niet door een tweede accent te introduceren. Een beeld trekt hard: daarom staat het in de hero, niet nog eens als volle breedte tussen features.
+Emphasise something by keeping the rest calmer, not by introducing a second accent. An image pulls hard: that is why it sits in the hero, not again as full width between features.
 
-## 5. Formulieren
+## 5. Forms
 
-Op de showcase zeldzaam. Als er een veld is:
+Rare on the showcase. If there is a field:
 
-- Zichtbaar label boven het veld, één verticale lijn. Placeholder is geen label.
-- Verplicht-veld krijgt een woord of asterisk in het label.
-- Fout onder het veld, na blur, niet per toetsaanslag. De tekst zegt wat mis is en hoe het goed komt.
-- Meerdere fouten: een samenvatting bovenaan die focust, plus de fouten bij de velden.
-- Type en `autocomplete` kloppen (`email`, paste toegestaan).
-- Hoogte van het veld ≥ 44px.
-- Onopgeslagen invoer: vragen voor het sluiten.
+- Visible label above the field, one vertical line. A placeholder is not a label.
+- A required field gets a word or asterisk in the label.
+- Error under the field, on blur, not on every keystroke. The text says what is wrong and how to fix it.
+- Several errors: a summary at the top that takes focus, plus the errors at the fields.
+- Type and `autocomplete` are right (`email`, paste allowed).
+- Field height ≥ 44px.
+- Unsaved input: ask before closing.
 
 ## 6. Feedback
 
-- Elke actie antwoordt binnen 100ms (press, of de pending-staat).
-- Korte bevestiging: de bestaande toaster, 3–5 seconden, steelt geen focus, `aria-live="polite"`.
-- Fout die blijft: in de pagina, met een manier om het opnieuw te proberen.
-- Destructief staat ruimtelijk weg van de primaire knop, in de danger-kleur van het product, met een woord erbij.
-- Ongedaan maken als de actie inhoud wist.
+- Every action answers within 100ms (press, or the pending state).
+- Short confirmation: the existing toaster, 3–5 seconds, does not steal focus, `aria-live="polite"`.
+- An error that stays: in the page, with a way to try again.
+- Destructive sits spatially away from the primary button, in the product's danger colour, with a word next to it.
+- Undo if the action wipes content.
 
-## 7. Consistentie over pagina’s
+## 7. Consistency across pages
 
-- Hulp en footerlinks staan op elke showcase-route in dezelfde volgorde.
-- Terug gaan herstelt scroll waar de browser dat doet. De pagina springt niet stil naar home.
-- Een dialoog is geen navigatie. Inhoudelijke pagina’s zijn routes.
+- Help and footer links sit in the same order on every showcase route.
+- Going back restores scroll where the browser does. The page does not jump quietly to home.
+- A dialog is not navigation. Content pages are routes.
 
-**Test:** de hero-knop zegt de bestemming. Een prozalink is accent en onderstreept. Er is geen tweede gevulde actie.
+**Test:** the hero button names the destination. A prose link is accent and underlined. There is no second filled action.

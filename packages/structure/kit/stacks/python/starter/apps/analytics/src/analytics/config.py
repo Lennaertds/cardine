@@ -1,4 +1,4 @@
-"""Paden en instellingen uit de omgeving, met de data-lagen van de repo als standaard."""
+"""Paths and settings from the environment, with the repo data layers as defaults."""
 
 from __future__ import annotations
 

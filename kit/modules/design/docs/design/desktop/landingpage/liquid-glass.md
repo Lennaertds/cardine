@@ -1,88 +1,88 @@
 # Desktop — liquid glass
 
-> **Rol:** Waar het materiaal zit, welke variant, en wat nooit glas is.  
-> **Niet hier:** de pixels ([looks.md](looks.md)); de class zelf ([glass.md](../../shared/glass.md)).
+> **Role:** Where the material lives, which variant, and what is never glass.
+> **Not here:** the pixels ([looks.md](looks.md)); the class itself ([glass.md](../../shared/glass.md)).
 
-Glas is de laag die zweeft. Content blijft leesbaar zonder blur.
+Glass is the layer that floats. Content stays readable without blur.
 
-## 1. Twee varianten, nooit door elkaar
+## 1. Two variants, never mixed
 
-Op één pagina één variant. Een Regular-balk en een Clear-pil in dezelfde viewport zijn verboden.
+One variant per page. A Regular bar and a Clear pill in the same viewport are forbidden.
 
-### Regular — de default
+### Regular — the default
 
-- Elke nav, toolbar, menu en hoogstens één detailpaneel.
-- Werkt over tekst, over kleur en over beeld.
-- Past mee met het theme. Grote vlakken (sidebar, menu, paneel) flippen niet van licht naar donker terwijl je scrollt.
+- Every nav, toolbar, menu and at most one detail panel.
+- Works over text, over colour and over imagery.
+- Follows the theme. Large surfaces (sidebar, menu, panel) do not flip from light to dark while you scroll.
 
-### Clear — alleen als alle drie kloppen
+### Clear — only if all three hold
 
-1. Het vlak ligt op **mediarijke** content (full-bleed foto of film, geen tekstkolom).
-2. Een dim-laag onder het glas schaadt het beeld niet.
-3. Wat óp het glas staat is groot en helder (woordmerk, één knop). Geen bijschrift van 13px.
+1. The surface sits on **media-rich** content (full-bleed photo or film, not a text column).
+2. A dim layer under the glass does not hurt the image.
+3. What sits **on** the glass is large and bright (wordmark, one button). No 13px caption.
 
-Ontbreekt één voorwaarde: Regular, of solid.
+If one condition fails: Regular, or solid.
 
-Clear draagt altijd een dim-laag (`color-mix` naar zwart, ongeveer 28–40%). Zonder dim is het onleesbaar. Lokale dim (alleen onder het vlak) gaat voor een paginabrede sluier.
+Clear always carries a dim layer (`color-mix` towards black, about 28–40%). Without dim it is unreadable. A local dim (only under the surface) beats a page-wide veil.
 
-## 2. Waar glas wel is
+## 2. Where glass is
 
 | Element | Variant |
 |---------|---------|
-| Site-nav | Regular |
-| Groep toolbar-knoppen | Regular, zelfde vlak als de nav of één capsule erin |
-| Menu / popover | Regular, dikker (schaduwrol “panel”) |
-| Eén functioneel paneel over media | Regular, of Clear als §1 slaagt |
-| Primaire CTA | Regular + accent-tint, of solid accent als de knop op rustige content staat |
+| Site nav | Regular |
+| Group of toolbar buttons | Regular, same surface as the nav or one capsule inside it |
+| Menu / popover | Regular, thicker (shadow role "panel") |
+| One functional panel over media | Regular, or Clear if §1 holds |
+| Primary CTA | Regular + accent tint, or solid accent if the button sits on calm content |
 
-## 3. Waar glas niet is
+## 3. Where glass is not
 
-- Feature-kolommen, artikeltekst, tabellen, formulieren, lijsten, footer.
-- Een grid van glazen kaarten.
-- Tekst direct op een tweede glaslaag (item op een glazen menu = fill of vibrancy, geen eigen `backdrop-filter`).
-- Productcontent, sheets, tabellen. Die blijven [materials-depth](../../iphone/materials-depth.md): glas = chrome.
+- Feature columns, article text, tables, forms, lists, footer.
+- A grid of glass cards.
+- Text directly on a second glass layer (an item in a glass menu = fill or vibrancy, no own `backdrop-filter`).
+- Product content, sheets, tables. Those stay [materials-depth](../../iphone/materials-depth.md): glass = chrome.
 
-## 4. Laagjes (één class, vaste volgorde)
+## 4. Layers (one class, fixed order)
 
-Een glazen vlak is deze stapel, niets extra’s per pagina:
+A glass surface is this stack, nothing extra per page:
 
-1. **Blur + saturate** — de achtergrond wordt melk, niet een eigen gradient.
-2. **Tint** — `color-mix` van `--card` (Regular) of lager (Clear).
-3. **Inset-glans** — 0.5px lichte lijn langs de bovenrand. Dat is de specular. Geen bewegende regenboog.
-4. **Schaduw** — scheidt het vlak van tekst eronder. Zwaarder naarmate het vlak groter is ([looks.md](looks.md) § schaduw).
-5. **Haarlijn** — 1px `--stroke` gemengd met transparant, zodat de rand blijft bestaan op een vlakke achtergrond.
+1. **Blur + saturate** — the background goes milky, not its own gradient.
+2. **Tint** — `color-mix` of `--card` (Regular) or lower (Clear).
+3. **Inset highlight** — a 0.5px light line along the top edge. That is the specular. No moving rainbow.
+4. **Shadow** — separates the surface from text underneath. Heavier as the surface is bigger ([looks.md](looks.md) § shadow).
+5. **Hairline** — 1px `--stroke` mixed with transparent, so the edge survives on a flat background.
 
-Schaduw wordt zwaarder boven drukke content. Op het web is de default de zwaardere schaduw, omdat content onder de balk door scrollt.
+Shadow gets heavier over busy content. On the web the default is the heavier shadow, because content scrolls underneath the bar.
 
-## 5. Scroll-edge
+## 5. Scroll edge
 
-Content die onder een glazen balk doorgaat lost op, in plaats van tegen een harde 1px-lijn te stoppen.
+Content that passes under a glass bar dissolves, instead of stopping at a hard 1px line.
 
-- Zachte fade: mask of gradient aan de onderkant van de balk, ongeveer 12–20px.
-- Donkere content onder de balk: de fade dimt, ze wordt geen witte waas.
-- Een gepinde subkop gebruikt een **harde** edge over de volle hoogte van balk + subkop, zodat die twee als één blok lezen.
+- Soft fade: mask or gradient at the bottom of the bar, about 12–20px.
+- Dark content under the bar: the fade dims, it does not turn into a white haze.
+- A pinned subheader uses a **hard** edge over the full height of bar + subheader, so the two read as one block.
 
-## 6. Dikte bij morph
+## 6. Thickness on morph
 
-Een knop die een menu wordt, wordt dikker:
+A button that becomes a menu gets thicker:
 
-- schaduw van rol “control” naar rol “panel”;
-- iets sterkere tint (meer `--card` in de mix);
-- de blur-familie blijft `.glass`.
+- shadow from role "control" to role "panel";
+- a slightly stronger tint (more `--card` in the mix);
+- the blur family stays `.glass`.
 
-Geen aparte filter-stack voor het menu.
+No separate filter stack for the menu.
 
-## 7. Rust versus interactie
+## 7. Rest versus interaction
 
-In rust is het vlak stil. Bij hover of press licht de glans op (iets hogere inset-wit). Dat is feedback, geen loop. Beweging → [motion.md](motion.md).
+At rest the surface is still. On hover or press the highlight lights up (slightly higher inset white). That is feedback, not a loop. Motion → [motion.md](motion.md).
 
-**Test:** alle showcase-routes delen één `.glass`-class. Nergens een tweede `backdrop-filter` op een kaart of lijst.
+**Test:** all showcase routes share one `.glass` class. Nowhere a second `backdrop-filter` on a card or list.
 
-## 8. Wat we niet uit glassmorphism-kits halen
+## 8. What we do not take from glassmorphism kits
 
-[glassmorphism.com](https://glassmorphism.com/) en soortgelijke gidsen beschrijven een los recept: vaste `rgba`-vulling, een rand `1px solid rgba(255, 255, 255, 0.15)`, en een mesh-gradient erachter. Dat recept komt niet in de site.
+[glassmorphism.com](https://glassmorphism.com/) and similar guides describe a loose recipe: a fixed `rgba` fill, a `1px solid rgba(255, 255, 255, 0.15)` border, and a mesh gradient behind it. That recipe does not enter the site.
 
-- De vulling blijft `color-mix` op `--card`, niet een losse witte of zwarte rgba.
-- De rand blijft `--stroke`. De glans is de inset van `.glass`, geen tweede witte rand.
-- Geen mesh-gradient als achtergrond. De pagina houdt `--background`, een foto, of solid content.
-- `backdrop-filter` en `-webkit-backdrop-filter` blijven het paar uit `.glass` (`saturate` + `blur`). Een tweede blur-getal is verboden.
+- The fill stays `color-mix` on `--card`, not a loose white or black rgba.
+- The border stays `--stroke`. The highlight is the inset of `.glass`, not a second white border.
+- No mesh gradient as background. The page keeps `--background`, a photo, or solid content.
+- `backdrop-filter` and `-webkit-backdrop-filter` stay the pair from `.glass` (`saturate` + `blur`). A second blur value is forbidden.

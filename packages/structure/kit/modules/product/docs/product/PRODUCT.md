@@ -1,16 +1,16 @@
 # Product
 
-> **Rol:** Wat het product doet, per domein, gezien vanuit de gebruiker.
-> **Niet hier:** hoe het gebouwd is ([ARCHITECTURE.md](../architecture/ARCHITECTURE.md)), hoe het eruitziet (`design/`).
+> **Role:** What the product does, per domain, seen from the user.
+> **Not here:** how it is built ([ARCHITECTURE.md](../architecture/ARCHITECTURE.md)), how it looks (`design/`).
 
-## Domeinen
+## Domains
 
-Eén bestand per domein: `product/<domein>.md`, met hetzelfde sjabloon ([_template.md](_template.md)). De namen komen uit [GLOSSARY.md](../context/GLOSSARY.md).
+One file per domain: `product/<domain>.md`, with the same template ([_template.md](_template.md)). The names come from [GLOSSARY.md](../context/GLOSSARY.md).
 
-| Domein | Wat de gebruiker kan | Status | Spec |
+| Domain | What the user can do | Status | Spec |
 |--------|----------------------|--------|------|
-| <sleep> | <Slaapdata importeren en de trend van vier weken zien> | <live> | [sleep.md](<sleep>.md) |
+| <sleep> | <Import sleep data and see the four-week trend> | <live> | [sleep.md](<sleep>.md) |
 
-## Bewust niet
+## Deliberately not
 
-- <Wat het product nooit doet, met het waarom.>
+- <What the product never does, with the why.>

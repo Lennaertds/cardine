@@ -1,52 +1,51 @@
 #!/usr/bin/env bash
-# cardine CLI — het enige commando dat een verse map nodig heeft.
+# cardine CLI — the only command an empty directory needs.
 #
-#   npm i -g cardine            → `cardine <map>` zet de structuur neer
-#   npx cardine <map> …         → zelfde, zonder globale installatie
+#   npm i -g cardine            → `cardine <dir>` lays down the structure
+#   npx cardine <dir> …         → same, without a global install
 #
-# De structuur komt uit packages/structure/kit/ dat met dit package wordt
-# meegestuurd (gepulld uit `kit/` op een pinned commit, ADR 0013).
-# Er wordt niets buiten <map> geschreven.
+# The structure comes from packages/structure/kit/, shipped inside this package
+# (mirrored from `kit/`, ADR 0013). Nothing is written outside <dir>.
 set -euo pipefail
 
-# npm linkt bin/ naar ../lib/node_modules/<pkg>/bin/<naam>; BASH_SOURCE[0] is dan
-# de symlink. Eerst resolven, anders klopt ROOT niet en vindt de CLI de kit niet.
+# npm links bin/ into ../lib/node_modules/<pkg>/bin/<name>; BASH_SOURCE[0] is that
+# symlink. Resolve it first, or ROOT is wrong and the CLI cannot find the kit.
 SELF="$(readlink -f "${BASH_SOURCE[0]}")"
 ROOT="$(cd "$(dirname "${SELF}")/.." && pwd)"
 KIT="${ROOT}/packages/structure/kit"
 NEW_PROJECT="${KIT}/new-project.sh"
 
 usage() {
-  cat <<'EOF'
-Gebruik: cardine <map> [opties]
+  cat <<'USAGE'
+Usage: cardine <dir> [options]
 
-  Zet de Cardine-projectstructuur neer in <map>. Overschrijft nooit een bestaand
-  bestand; een tweede run is een no-op.
+  Lays down the Cardine project structure in <dir>. Never overwrites an existing
+  file; a second run is a no-op.
 
-  --profile NAAM     app (standaard) | research | studie | schoolwerk
-  --team             team-laag in plaats van solo
+  --profile NAME     app (default) | research | studie | schoolwerk
+  --team             team layer instead of solo
   --modules a,b      extra modules
   --stacks a,b       stacks (next, nest, python, sql, rust, c)
-  --starter          ook de startcode van de stacks
-  --name NAAM        projectnaam voor {{PROJECT}} (standaard: de mapnaam)
-  --dry-run          alleen tonen wat er zou gebeuren
-  --no-git           geen git init
-  -h, --help         deze hulp
+  --starter          also the stacks' starter code
+  --name NAME        project name for {{PROJECT}} (default: the directory name)
+  --dry-run          show what would happen, change nothing
+  --no-git           skip git init
+  -h, --help         this help
 
-Subcommando's:
-  status [opties]    status van de lab-omgeving (--json, --verbose, --fix)
-  version            versie van dit package
+Subcommands:
+  status [opts]      status of the lab environment (--json, --verbose, --fix)
+  version            version of this package
 
-Voorbeelden:
-  npx cardine mijn-project
+Examples:
+  npx cardine my-project
   npx cardine ~/code/api --profile app --stacks python,sql --starter
-  npx cardine oefeningen --profile schoolwerk --dry-run
-EOF
+  npx cardine exercises --profile schoolwerk --dry-run
+USAGE
 }
 
 if [ ! -f "$NEW_PROJECT" ]; then
-  echo "cardine: kit niet gevonden op $NEW_PROJECT (onvolledige installatie)" >&2
-  echo "         installeer opnieuw: npm i -g cardine" >&2
+  echo "cardine: kit not found at $NEW_PROJECT (incomplete installation)" >&2
+  echo "         reinstall: npm i -g cardine" >&2
   exit 1
 fi
 
@@ -64,14 +63,14 @@ case "${1:-}" in
     exec bash "${ROOT}/packages/lab/cardine-status.sh" "$@"
     ;;
   lab)
-    # Lab is een eigen package met eigen commando; `cardine` stuurt niet door
-    # want dat werkt alleen als @lennaertds/cardine-lab toevallig geïnstalleerd is.
-    echo "cardine: 'lab' hoort bij @lennaertds/cardine-lab" >&2
+    # Lab is a separate package with its own command; `cardine` does not forward,
+    # because that only works if @lennaertds/cardine-lab happens to be installed.
+    echo "cardine: 'lab' belongs to @lennaertds/cardine-lab" >&2
     echo "         npm i -g @lennaertds/cardine-lab && cardine-lab install" >&2
     exit 1
     ;;
   -*)
-    echo "cardine: optie '$1' zonder doelmap" >&2
+    echo "cardine: option '$1' without a target directory" >&2
     usage >&2
     exit 1
     ;;

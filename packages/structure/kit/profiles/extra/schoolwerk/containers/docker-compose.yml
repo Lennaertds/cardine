@@ -1,5 +1,5 @@
-# {{PROJECT}} — reproduceerbare omgeving voor oefeningen
-# ({{PROJECT}} wordt vervangen door de projectnaam bij het kopiëren)
+# {{PROJECT}} — reproducible environment for exercises
+# ({{PROJECT}} is replaced with the project name on copy)
 services:
   dev:
     image: python:3.12-slim

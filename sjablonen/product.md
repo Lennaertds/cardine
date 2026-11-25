@@ -1,39 +1,39 @@
 # docs/product/
 
-> **Rol:** Wat het product doet, per domein, gezien vanuit de gebruiker: gedrag, regels, randgevallen.
-> **Niet hier:** schermen ([design](design.md)), tabellen en endpoints ([architecture](architecture.md)).
+> **Role:** What the product does, per domain, seen from the user: behaviour, rules, edge cases.
+> **Not here:** screens ([design](design.md)), tables and endpoints ([architecture](architecture.md)).
 
-**Kitbestanden:** [PRODUCT.md](../kit/modules/product/docs/product/PRODUCT.md) en [_template.md](../kit/modules/product/docs/product/_template.md) · module `product` · P6, P11, P22
+**Kit files:** [PRODUCT.md](../kit/modules/product/docs/product/PRODUCT.md) and [_template.md](../kit/modules/product/docs/product/_template.md) · module `product` · P6, P11, P22
 
-## Wanneer
+## When
 
-Zodra er meer dan één domein is, of zodra productregels (wat telt als een training, hoe een budget rekent) niet meer in een spec passen. Een spec beschrijft een wijziging en verdwijnt; `product/` beschrijft het gedrag dat blijft.
+As soon as there is more than one domain, or as soon as product rules (what counts as a workout, how a budget is calculated) no longer fit in a spec. A spec describes a change and disappears; `product/` describes the behaviour that stays.
 
-## Invullen
+## Filling in
 
-1. **`PRODUCT.md`:** de tabel van de domeinen (dezelfde namen als in het glossarium), met status en link, plus **Bewust niet**.
-2. **Per domein** een kopie van `_template.md` als `<domein>.md`. Een code vooraan mag (`H-gym.md`), zolang het onderwerp in de naam staat.
-3. **Regels** met het waarom en de test die ze bewaakt. Dat is **intentie** (P22): een test die slaagt door de regel af te zwakken, faalt op intentie. De agent mag RULES/product niet stil omzeilen om groen te worden.
-4. **Randgevallen:** lege data, dubbels, tijdzones, eenheden. Hier zit wat de agent niet uit de code haalt.
+1. **`PRODUCT.md`:** the table of the domains (the same names as in the glossary), with status and link, plus **Deliberately not**.
+2. **Per domain** a copy of `_template.md` as `<domain>.md`. A code in front is fine (`H-gym.md`), as long as the topic is in the name.
+3. **Rules** with the why and the test that guards them. That is **intent** (P22): a test that passes by weakening the rule fails on intent. The agent may not silently bypass RULES/product to get green.
+4. **Edge cases:** empty data, duplicates, time zones, units. This is where what the agent cannot get from the code lives.
 
-## Voorbeeld (GymFreak, `S-sleep.md`)
+## Example (GymFreak, `S-sleep.md`)
 
 ```markdown
-## Regels
+## Rules
 
-| Regel | Waarom | Bewaakt door |
-|-------|--------|--------------|
-| Een nacht telt vanaf 18:00 tot 18:00 de dag erna | dutjes en late nachten bij de juiste dag | `sleep-engine.spec.ts` |
-| Twee bronnen voor dezelfde nacht: Health wint van handmatig | Health meet, handmatig is een schatting | `sleep-merge.spec.ts` |
+| Rule | Why | Guarded by |
+|------|-----|------------|
+| A night counts from 18:00 to 18:00 the next day | naps and late nights land on the right day | `sleep-engine.spec.ts` |
+| Two sources for the same night: Health beats manual | Health measures, manual is an estimate | `sleep-merge.spec.ts` |
 
-## Randgevallen
+## Edge cases
 
-- Zomertijd: een nacht van 23 of 25 uur is geldig.
-- Import zonder slaapfases: alleen totale duur tonen, geen fasegrafiek.
+- Daylight saving time: a night of 23 or 25 hours is valid.
+- Import without sleep stages: show total duration only, no stage chart.
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Elk domein in `PRODUCT.md` heeft een bestand, en elk bestand een rij.
-- [ ] Geen schermbeschrijvingen en geen tabelnamen.
-- [ ] Elke regel heeft een waarom en een bewaking; die bewaking omzeilen zou de regel schenden.
+- [ ] Every domain in `PRODUCT.md` has a file, and every file has a row.
+- [ ] No screen descriptions and no table names.
+- [ ] Every rule has a why and a guard; bypassing that guard would violate the rule.

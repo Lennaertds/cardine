@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Wekelijks: fetch → propose → weekbrief in bron/weken/ van deze repo.
-# De kennisbron (bron/) leeft sinds de samenvoeging in deze repo zelf; er is
-# geen sibling-repo meer nodig.
-# Schrijft nooit bronnen.md (P5). Cron: zie docs/how-to/digest.md.
-# DIGEST_WEEK=2026-W44 — ISO-week forceren (default: vorige week op ma; anders huidige).
-# DIGEST_WEEK_SKIP_FETCH=1 — alleen propose + weekbrief.
+# Weekly: fetch → propose → week letter in bron/weken/ of this repo.
+# The knowledge source (bron/) lives in this repo itself since the merge; no
+# sibling repo is needed any more.
+# Never writes bronnen.md (P5). Cron: see docs/how-to/digest.md.
+# DIGEST_WEEK=2026-W44 — force the ISO week (default: last week on Monday; otherwise the current one).
+# DIGEST_WEEK_SKIP_FETCH=1 — propose + week letter only.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -21,7 +21,7 @@ tip() { echo "digest-week: $*" >&2; }
 log() { printf '%s %s\n' "$(date -Iseconds)" "$*" | tee -a "$LOG" >&2; }
 
 [[ -f docs/research/digest/README.md ]] || die "ontbreekt docs/research/digest/"
-[[ -f docs/research/digest/SOURCES.md ]] || die "geen SOURCES.md"
+[[ -f docs/research/digest/SOURCES.md ]] || die "no SOURCES.md"
 [[ -d "$BRON_WEKEN" ]] || die "weekmap ontbreekt: $BRON_WEKEN"
 
 # ISO-week: op maandag = vorige volledige week; anders huidige week.
@@ -63,12 +63,12 @@ TODAY="$(date +%F)"
 tip "ISO-week=$WEEK → $OUT"
 
 mapfile -t DATES < <(week_dates "$WEEK")
-[[ ${#DATES[@]} -eq 7 ]] || die "kon datums voor $WEEK niet bepalen"
+[[ ${#DATES[@]} -eq 7 ]] || die "could not determine the dates for $WEEK"
 
 if [[ "${DIGEST_WEEK_SKIP_FETCH:-}" != "1" ]]; then
   log "fetch start"
-  # HF Daily Papers heeft week-API (geen RSS) — forceer de ISO-week dump naast SOURCES.
-  # Topic-search: ~90d (niet alleen ISO-week — anders mist bv. token-consumption).
+  # HF Daily Papers has a week API (no RSS) — force the ISO-week dump next to SOURCES.
+  # Topic search: ~90d (not just the ISO week — otherwise e.g. token consumption is missed).
   DIGEST_EXTRA_URLS="https://huggingface.co/api/daily_papers?week=${WEEK}&limit=50" \
   DIGEST_ITEM_LIMIT="${DIGEST_ITEM_LIMIT:-40}" \
   DIGEST_JSON_DAYS="${DIGEST_JSON_DAYS:-90}" \
@@ -82,9 +82,9 @@ log "propose start"
 if DIGEST_PROPOSE_LIMIT="${DIGEST_PROPOSE_LIMIT:-40}" \
   DIGEST_PROPOSE_MAX_DUMPS="${DIGEST_PROPOSE_MAX_DUMPS:-30}" \
   bash "$SCRIPTS/digest-propose.sh"; then
-  log "propose klaar"
+  log "propose done"
 else
-  tip "propose soft-fail (lege dumps? weekend-RSS?) — weekbrief gaat door"
+  tip "propose soft-fail (empty dumps? weekend RSS?) — the week letter continues"
   log "propose soft-fail"
 fi
 
@@ -99,7 +99,7 @@ count=0
 for d in data/external/digest/*/; do
   [[ -d "$d" ]] || continue
   base="$(basename "$d")"
-  # mapnaam = YYYY-MM-DD-<slug> — niet %%-* (dat knipt bij eerste streep → alleen YYYY)
+  # folder name = YYYY-MM-DD-<slug> — not %%-* (that cuts at the first dash → YYYY only)
   [[ "$base" =~ ^([0-9]{4}-[0-9]{2}-[0-9]{2})- ]] || continue
   day="${BASH_REMATCH[1]}"
   items="$d/items.md"
@@ -111,7 +111,7 @@ for d in data/external/digest/*/; do
     [[ "$day" == "$want" ]] && keep=1 && break
   done
   # Maandag-fetch: HF week-API + topic-search vallen vaak buiten ma–zo (dump-datum = vandaag).
-  # Geen HF daily?limit= hier — die dekt “vandaag”, niet de vorige ISO-week.
+  # No HF daily?limit= here — that covers "today", not the previous ISO week.
   [[ "$src" == *"week=${WEEK}"* ]] && keep=1
   [[ "$day" == "$TODAY" && "$src" == *huggingface.co/api/papers/search* ]] && keep=1
   [[ "$keep" -eq 1 ]] || continue
@@ -126,7 +126,7 @@ for d in data/external/digest/*/; do
     [[ -z "$key" || "$key" == "—" ]] && key="$title"
     grep -Fxq "$key" "$seen" 2>/dev/null && continue
     printf '%s\n' "$key" >>"$seen"
-    # Korte bronlabel (niet hele API-URL in de tabel)
+    # Short source label (not the whole API URL in the table)
     label="$base"
     [[ "$src" == *rss.arxiv.org*cs.SE* ]] && label="rss cs.SE"
     [[ "$src" == *rss.arxiv.org*cs.MA* ]] && label="rss cs.MA"
@@ -144,25 +144,25 @@ for d in data/external/digest/*/; do
 done
 
 {
-  echo "# Weekbrief — $WEEK"
+  echo "# Week letter — $WEEK"
   echo
-  echo "> **Rol:** Inbound selectie van deze ISO-week. Geen SSOT — promote handmatig naar \`bronnen.md\` §."
-  echo "> **Gegenereerd:** $TODAY via \`make digest-week\` (Cardine). Fetch-dumps blijven in IDE \`data/external/digest/\`."
+  echo "> **Role:** inbound selection for this ISO week. Not SSOT — promote by hand into \`bronnen.md\` §."
+  echo "> **Generated:** $TODAY via \`make digest-week\` (Cardine). Fetch dumps stay in the IDE \`data/external/digest/\`."
   echo
   echo "## Checklist"
   echo
-  echo "- [ ] Irrelevante rijen geschrapt / status \`skip\`"
-  echo "- [ ] Interessant → \`§\` in [bronnen.md](../bronnen.md) + [bronnen-index.md](../bronnen-index.md); status hier \`§n\`"
-  echo "- [ ] Eigen YouTube/inbox-hits van deze week hieronder of via [inbox.md](../inbox.md)"
-  echo "- [ ] Lab: eventueel Trial/Assess op IDE \`docs/research/radar.md\` (niet auto)"
+  echo "- [ ] Irrelevant rows removed / status \`skip\`"
+  echo "- [ ] Interesting → \`§\` in [bronnen.md](../bronnen.md) + [bronnen-index.md](../bronnen-index.md); status here \`§n\`"
+  echo "- [ ] Your own YouTube/inbox hits for this week below or via [inbox.md](../inbox.md)"
+  echo "- [ ] Lab: optionally Trial/Assess on IDE \`docs/research/radar.md\` (not automatic)"
   echo
-  echo "## Papers / feed-hits ($count uniek)"
+  echo "## Papers / feed hits ($count unique)"
   echo
   if [[ "$count" -eq 0 ]]; then
-    echo "_Geen dump-items voor datums ${DATES[*]}. Draai weekdays \`digest-fetch\` of \`DIGEST_WEEK_SKIP_FETCH=0 make digest-week\`._"
+    echo "_No dump items for dates ${DATES[*]}. Run \`digest-fetch\` on weekdays or \`DIGEST_WEEK_SKIP_FETCH=0 make digest-week\`._"
     echo
   else
-    echo "| Titel | Link | Bron | Status |"
+    echo "| Title | Link | Source | Status |"
     echo "|-------|------|------|--------|"
     cat "$rows"
     echo

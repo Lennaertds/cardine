@@ -1,60 +1,60 @@
 # docs/design/DESIGN.md
 
-> **Rol:** Ingang bij elke UI-taak: principes, wat nooit, tokens, en de kaart naar één craft-bestand.
-> **Niet hier:** wat het doet ([product](product.md)), de waarden van de tokens (de code).
+> **Role:** Entry point for every UI task: principles, what is never allowed, tokens, and the map to one craft file.
+> **Not here:** what it does ([product](product.md)), the values of the tokens (the code).
 
-**Kitbestanden:** [DESIGN.md](../kit/modules/design/docs/design/DESIGN.md), craft onder `shared/` · `desktop/` · `iphone/`, [`.cursor/agents/ui.md`](../kit/modules/design/.cursor/agents/ui.md) · module `design`
+**Kit files:** [DESIGN.md](../kit/modules/design/docs/design/DESIGN.md), craft under `shared/` · `desktop/` · `iphone/`, [`.cursor/agents/ui.md`](../kit/modules/design/.cursor/agents/ui.md) · module `design`
 
-## Wanneer
+## When
 
-Bij een UI met een eigen huisstijl, of zodra een agent schermen bouwt die op elkaar moeten lijken. Een intern dashboard met een standaard componentbibliotheek: niet nodig. Module `design` zet in `AGENTS.md` de harde route: UI-taak → dit bestand eerst, en zet de UI-subagent neer ([cursor-agents](cursor-agents.md)).
+For a UI with its own house style, or as soon as an agent builds screens that have to look alike. An internal dashboard on a standard component library: not needed. Module `design` installs the hard route in `AGENTS.md`: UI task → this file first, and installs the UI subagent ([cursor-agents](cursor-agents.md)).
 
-## Wat de kit al levert
+## What the kit already delivers
 
-Module `design` kopieert een **huisstandaard-craftbibliotheek** (premium look: glass-chrome, solid content, motion, touch, overlays). Die bestanden zijn klaar om te volgen — niet leeg.
+Module `design` copies a **house-standard craft library** (premium look: glass chrome, solid content, motion, touch, overlays). Those files are ready to follow — not empty.
 
-| Map | Inhoud |
-|-----|--------|
+| Folder | Content |
+|--------|---------|
 | `docs/design/shared/` | a11y, never, glass |
-| `docs/design/desktop/` | gate, performance, a11y + `landingpage/` showcase-craft |
-| `docs/design/iphone/` | touch, motion, materials, never-checklist + `application/` product-craft |
+| `docs/design/desktop/` | gate, performance, a11y + `landingpage/` showcase craft |
+| `docs/design/iphone/` | touch, motion, materials, never-checklist + `application/` product craft |
 
-**Niet in de kit** (project vult): product-IA, lat-chrome, session-chrome, landing-beats, merkpersoonlijkheid, About/hotspots.
+**Not in the kit** (the project fills these in): product IA, lat chrome, session chrome, landing beats, brand personality, About/hotspots.
 
-## Invullen (project)
+## Filling in (project)
 
-1. **Eerste zin** blijft: "Open dit bij elke UI-taak; kies daarna één craft-bestand."
-2. **Principes:** drie à vijf toetsbare huisregels (of verwijs naar craft die ze al vastlegt). Kit-placeholder mag blijven tot je ze aanscherpt.
-3. **Nooit:** site-breed staat in `shared/never.md`. Project-extra’s onder **Nooit** in `DESIGN.md`.
-4. **Tokens:** pad naar code + betekenis-tabel. Waarden blijven in CSS (P7).
-5. **Kaart:** kit-rijen staan al. Voeg project-chrome toe (§ Project-chrome). Overschrijf de gedeelde vloer niet lichter.
-6. **Craft uitbreiden:** nieuw onderwerp = nieuw bestand + één rij in de kaart. Geen hele map dump bij een taak.
+1. **First sentence** stays: "Open this on every UI task; then pick one craft file."
+2. **Principles:** three to five testable house rules (or link to the craft that already fixes them). The kit placeholder may stay until you sharpen it.
+3. **Never:** site-wide lives in `shared/never.md`. Project extras go under **Never** in `DESIGN.md`.
+4. **Tokens:** path to the code + meaning table. Values stay in CSS (P7).
+5. **Map:** the kit rows are already there. Add project chrome (§ Project chrome). Never override the shared floor more loosely.
+6. **Extending the craft:** a new topic = a new file + one row in the map. No dumping a whole folder on a task.
 
-## Voorbeeld (kaart, verkort)
+## Example (map, shortened)
 
 ```markdown
-> **Rol:** Ingang bij elke UI-taak. Open dit bestand, daarna één craft-bestand.
+> **Role:** Entry point for every UI task. Open this file, then one craft file.
 
-## Gedeeld
-| Bestand | Vraag |
-|---------|--------|
+## Shared
+| File | Question |
+|------|----------|
 | shared/a11y.md | Focus, contrast, prefs |
-| shared/never.md | Site-breed verboden |
-| shared/glass.md | Eén class `.glass` |
+| shared/never.md | Site-wide prohibitions |
+| shared/glass.md | One `.glass` class |
 
 ## Showcase desktop
 | … | desktop/landingpage/… |
 
-## Applicatie
+## Application
 | … | iphone/application/… |
 
-## Project-chrome
+## Project chrome
 | PageShell / tabs | lat-chrome.md (project) |
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Geen hexcodes of pixelwaarden die ook in de code staan.
-- [ ] Kit-craft staat onder `docs/design/` na `--modules design`.
-- [ ] Frisse agent bij "fix de sticky head": opent eerst `DESIGN.md`, dan `surfaces-sticky-heads`.
-- [ ] Project-chrome staat in de kaart; lat/session zitten niet als GF-copy in de kit.
+- [ ] No hex codes or pixel values that also live in the code.
+- [ ] Kit craft is under `docs/design/` after `--modules design`.
+- [ ] A fresh agent asked "fix the sticky head" opens `DESIGN.md` first, then `surfaces-sticky-heads`.
+- [ ] Project chrome is in the map; lat/session do not sit in the kit as a GF copy.

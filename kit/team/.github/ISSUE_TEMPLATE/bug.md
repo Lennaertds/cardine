@@ -1,21 +1,21 @@
 ---
 name: Bug
-about: Iets werkt niet zoals het hoort
+about: Something does not work the way it should
 labels: bug
 ---
 
-## Wat gebeurt er
+## What happens
 
-<Wat je deed, wat je zag.>
+<What you did, what you saw.>
 
-## Wat had er moeten gebeuren
+## What should have happened
 
 <…>
 
-## Hoe reproduceren
+## How to reproduce
 
 1. <…>
 
-## Acceptatie
+## Acceptance
 
-- [ ] <Test die faalt vóór de fix en slaagt erna>
+- [ ] <Test that fails before the fix and passes after>

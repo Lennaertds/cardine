@@ -1,24 +1,24 @@
-# Onderzoek
+# Research
 
-> **Rol:** Wat we over het domein weten, op welke bronnen dat steunt, en welke productregel erop rust.
-> **Niet hier:** de productregels zelf (`product/`), code van experimenten (`apps/<app>/experiments/`).
+> **Role:** What we know about the domain, which sources it rests on, and which product rule builds on it.
+> **Not here:** the product rules themselves (`product/`), experiment code (`apps/<app>/experiments/`).
 
-## Onderzoeksvragen
+## Research questions
 
-1. <bv. "Hoeveel sets per spiergroep per week geven de meeste groei bij beginners?">
+1. <e.g. "How many sets per muscle group per week give the most growth in beginners?">
 
-## Hoe we bronnen beoordelen
+## How we judge sources
 
-| Niveau | Wat telt | Gebruik |
-|--------|----------|---------|
-| A | Meta-analyse of systematische review | Mag een productregel dragen |
-| B | Gerandomiseerde studie | Mag een regel dragen, met vermelding |
-| C | Observationeel, expert, blog | Alleen als hypothese of experiment |
+| Level | What counts | Use |
+|-------|-------------|-----|
+| A | Meta-analysis or systematic review | May carry a product rule |
+| B | Randomised study | May carry a rule, with attribution |
+| C | Observational, expert, blog | Only as a hypothesis or experiment |
 
-## Kaart van `research/`
+## Map of `research/`
 
-- [<onderwerp>.md](<onderwerp>.md) — <wat we weten, met bronnen en niveau>
-- [wantlist.md](wantlist.md) — Bronnen die we nog willen verwerven.
-- [radar.md](radar.md) — Tech-radar (Adopt/Trial/Assess/Hold); maandelijks `make radar-reminder`.
-- [digest/](digest/README.md) — Inbound feeds; `digest-fetch` / `digest-propose` (cureren vóór radar).
-- `experiments/` — Eén verslag per experiment: `make experiment s=<slug>`.
+- [<topic>.md](<topic>.md) — <what we know, with sources and level>
+- [wantlist.md](wantlist.md) — Sources we still want to acquire.
+- [radar.md](radar.md) — Tech radar (Adopt/Trial/Assess/Hold); monthly `make radar-reminder`.
+- [digest/](digest/README.md) — Inbound feeds; `digest-fetch` / `digest-propose` (curate before the radar).
+- `experiments/` — One report per experiment: `make experiment s=<slug>`.

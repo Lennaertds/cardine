@@ -1,31 +1,31 @@
 ---
 name: Feature
-about: Iets nieuws dat de gebruiker kan
+about: Something new the user can do
 labels: feature
 ---
 
-## Doel
+## Goal
 
-<Wat de gebruiker straks kan, en waarom.>
+<What the user can do afterwards, and why.>
 
 ## Scope
 
 - **In:** <…>
-- **Buiten scope:** <…>
+- **Out of scope:** <…>
 
-## Raakvlakken
+## Touchpoints
 
-- Modules / endpoints / tabellen: <…>
-- Seams die raken: <web→api, api→db, …>
-- Voorbeeld om te volgen: `<pad>`
+- Modules / endpoints / tables: <…>
+- Seams involved: <web→api, api→db, …>
+- Example to follow: `<path>`
 
-## Slices (elk één sessie, apart testbaar)
+## Slices (one session each, separately testable)
 
-1. <Dunste werkende versie>
+1. <Thinnest working version>
 2. <…>
 
-## Acceptatie
+## Acceptance
 
-- [ ] <Test of commando dat bewijst dat het werkt — intent, niet alleen “groen”>
-- [ ] Productregels / RULES die dit raakt, blijven gelden
-- [ ] `make check` groen
+- [ ] <Test or command that proves it works — intent, not just "green">
+- [ ] Product rules / RULES this touches still hold
+- [ ] `make check` is green

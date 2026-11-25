@@ -1,19 +1,19 @@
-# Visie
+# Vision
 
-> **Rol:** Waar dit project op lange termijn heen gaat. Richting, geen planning.
-> **Niet hier:** wat nu gebouwd wordt (de backlog of de issue tracker), de huidige scope ([CONTEXT.md](CONTEXT.md)).
+> **Role:** Where this project is heading in the long term. Direction, not planning.
+> **Not here:** what is being built now (the backlog or the issue tracker), the current scope ([CONTEXT.md](CONTEXT.md)).
 
-## Over drie jaar
+## In three years
 
-<Wat het project dan is, voor wie, en waarom dat ertoe doet. Eén alinea.>
+<What the project is then, for whom, and why that matters. One paragraph.>
 
-## Stappen ernaartoe
+## Steps towards it
 
-| Fase | Wat erbij komt | Wanneer het zinvol wordt |
-|------|----------------|--------------------------|
-| <MVP> | <…> | <nu> |
-| <Uitbreiding> | <…> | <als 20 gebruikers het wekelijks gebruiken> |
+| Phase | What gets added | When it becomes worthwhile |
+|-------|-----------------|----------------------------|
+| <MVP> | <…> | <now> |
+| <Extension> | <…> | <once 20 users use it weekly> |
 
-## Wat we nooit worden
+## What we will never be
 
-- <bv. "Geen sociaal netwerk: geen feed, geen volgers.">
+- <e.g. "Not a social network: no feed, no followers.">

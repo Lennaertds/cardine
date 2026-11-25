@@ -2,7 +2,7 @@
 
 > **Rol:** De regels waar elk ander bestand in dit plan op steunt. Eén of twee zinnen per principe, met een verwijzing naar het bronbestand.
 > **Bron:** `§n` = hoofdstuk n in [bronnen.md](bronnen.md) (inhoudsopgave: [bronnen-index.md](bronnen-index.md)). §1–§9 en §25–§33, §37–§50, §52 zijn o.a. video/tooling; §10–§24, §34–§36, §51, §53 geschreven/paper/bundels; §46 outline (HRM/TRM, te verdichten). Diepte (opt-in): [fundament/](fundament/INDEX.md).
-> **Niet hier:** hoe je het toepast. Dat staat in [standaard](../standaard/INDEX.md), [nieuw-project](../nieuw-project/INDEX.md), [bestaand-project](../bestaand-project/INDEX.md) en [meten](../meten/INDEX.md).
+> **Niet hier:** hoe je het toepast. Dat staat in [standaard](../standard/INDEX.md), [nieuw-project](../new-project/INDEX.md), [bestaand-project](../existing-project/INDEX.md) en [meten](../measurement/INDEX.md).
 
 ---
 
@@ -94,7 +94,7 @@ Agents optimaliseren om tests te laten slagen, niet voor onderhoudbaarheid op la
 Voeg pas een regel toe als de agent dezelfde fout herhaalt. Contextbestanden en harness-hacks groeien vanzelf aan ("nog één regel"), dus snoei ze periodiek met de deletion test: verandert het gedrag als je deze regel weghaalt? Zo niet, schrappen — vooral als het model de vaardigheid intussen natively heeft. (bron §3, §12, §13, §21, §25)
 
 **P21 — Meet in plaats van aan te nemen.**
-Wat werkt, verschuift met elke modelgeneratie, en wat vendors aanraden is niet altijd bewezen. Test een structuurwijziging op een vaste set taken voor je ze als verbetering beschouwt. (bron §11, §20, §25, en [meten](../meten/INDEX.md))
+Wat werkt, verschuift met elke modelgeneratie, en wat vendors aanraden is niet altijd bewezen. Test een structuurwijziging op een vaste set taken voor je ze als verbetering beschouwt. (bron §11, §20, §25, en [meten](../measurement/INDEX.md))
 
 ---
 

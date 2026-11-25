@@ -1,42 +1,42 @@
 # UI iPhone — surfaces · sticky section heads
 
-> **Rol:** Gliding koppen binnen `.surface`-vakken.  
-> **Niet hier:** kaarten ([surfaces-cards](surfaces-cards.md)); staten ([surfaces-states](surfaces-states.md)).
+> **Role:** Gliding headers inside `.surface` boxes.
+> **Not here:** cards ([surfaces-cards](surfaces-cards.md)); states ([surfaces-states](surfaces-states.md)).
 
 ## K5. Sticky section heads (in-surface)
 
-**Standaard: geen sticky.** Een korte kaart of een grote kaarttitel is één gesloten surface — titel + body scrollen mee. Mag `overflow: hidden` voor een dichte rand.
+**Default: no sticky.** A short card or a big card title is one closed surface — title + body scroll together. `overflow: hidden` is fine for a closed border.
 
-**Sticky alleen** als de kop een **tussentitel** is boven een **lange, scrollbare body** in hetzelfde vak. Dan blijft de kop even plakken zodat je weet waar je bent.
+**Sticky only** if the header is an **interim title** above a **long, scrollable body** in the same box. Then the header sticks for a while so you know where you are.
 
-### Contract (alleen als sticky)
+### Contract (only when sticky)
 
-| Deel | Regel |
-|------|--------|
-| **Parent** | `.surface.surface-sticky-board` — **geen** `overflow: hidden` (breekt sticky) |
+| Part | Rule |
+|------|------|
+| **Parent** | `.surface.surface-sticky-board` — **no** `overflow: hidden` (breaks sticky) |
 | **Head** | Sticky-head component + `.is-stuck` via scroll |
-| **Pin top** | Onder page-title / sticky chrome (`--nav-h` + title-hoogte) |
-| **At rest** | Bovenhoeken = `--r-group`; onderkant aansluitend op body |
-| **Pinned (`.is-stuck`)** | **Alle vier** hoeken `--r-group` + lichte shadow; scroll-edge fade |
-| **Materiaal** | Card-mix + blur (chrome-achtig, geen tweede glass-stack) — [materials-depth](../materials-depth.md) |
+| **Pin top** | Below the page title / sticky chrome (`--nav-h` + title height) |
+| **At rest** | Top corners = `--r-group`; bottom flush with the body |
+| **Pinned (`.is-stuck`)** | **All four** corners `--r-group` + a light shadow; scroll-edge fade |
+| **Material** | Card mix + blur (chrome-like, no second glass stack) — [materials-depth](../materials-depth.md) |
 
-### Waar sticky
+### Where sticky
 
-Lange boards / lijsten / chart-surfaces met tussentitel boven scrollbare body.
+Long boards / lists / chart surfaces with an interim title above a scrollable body.
 
-### Waar geen sticky
+### Where not sticky
 
-- Page-titles / chrome (eigen pin)
-- Korte overview-kaarten waarvan de titel de hele kaart is
+- Page titles / chrome (they have their own pin)
+- Short overview cards whose title is the whole card
 - Progress / short tip / day cards
 
-### Niet
+### Never
 
 | Never | Instead |
 |-------|---------|
-| Sticky op elke surface-headline | Alleen tussentitel + lange body |
-| `overflow-hidden` op een **sticky** parent | `.surface-sticky-board` |
-| Alleen top-radius terwijl pinned | `.is-stuck` full radius |
-| Ad-hoc sticky / half-radius | Deze primitive of géén sticky |
+| Sticky on every surface headline | Interim title + long body only |
+| `overflow-hidden` on a **sticky** parent | `.surface-sticky-board` |
+| Top radius only while pinned | `.is-stuck` full radius |
+| Ad-hoc sticky / half radius | This primitive, or no sticky |
 
-**Test:** Lange list: kop pin’t onder page-title. Korte overview: titel scrollt mee.
+**Test:** Long list: the header pins under the page title. Short overview: the title scrolls along.

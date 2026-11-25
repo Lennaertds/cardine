@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Maandelijkse tip voor tech-radar. Niet in make check. Geen scrapers.
+# Monthly hint for the tech radar. Not in make check. No scrapers.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -8,15 +8,15 @@ cd "$ROOT"
 file=docs/research/radar.md
 die() { echo "radar-reminder: $*" >&2; exit 1; }
 
-[[ -f "$file" ]] || die "ontbreekt $file (kit: --modules research)."
+[[ -f "$file" ]] || die "missing $file (kit: --modules research)."
 
-line=$(grep -E '^Laatst herzien:' "$file" | head -n1 || true)
-[[ -n "$line" ]] || die "geen regel 'Laatst herzien:' in $file"
+line=$(grep -E '^Last reviewed:' "$file" | head -n1 || true)
+[[ -n "$line" ]] || die "no line 'Last reviewed:' in $file"
 
-date_raw=$(printf '%s' "$line" | sed -E 's/^Laatst herzien:[[:space:]]*//; s/[[:space:]]*$//')
+date_raw=$(printf '%s' "$line" | sed -E 's/^Last reviewed:[[:space:]]*//; s/[[:space:]]*$//')
 echo "radar-reminder: $line"
 
-# Placeholder of ongeldig → altijd tip.
+# Placeholder or invalid → always a hint.
 if [[ "$date_raw" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
   if date -d "$date_raw" +%s >/dev/null 2>&1; then
     then_s=$(date -d "$date_raw" +%s)
@@ -29,18 +29,18 @@ if [[ "$date_raw" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
   if [[ -n "${then_s:-}" ]]; then
     days=$(( (now_s - then_s) / 86400 ))
     if (( days > 30 )); then
-      echo "Tip: laatste herziening was $days dagen geleden — plan een radar-pass (ringen + ADR indien nodig)."
+      echo "Tip: the last review was $days days ago — plan a radar pass (rings + ADR if needed)."
     elif (( days < 0 )); then
-      echo "Tip: datum ligt in de toekomst — corrigeer 'Laatst herzien:'."
+      echo "Tip: the date lies in the future — correct 'Last reviewed:'."
     else
-      echo "Tip: herziening is $days dagen oud (richtlijn: maandelijks)."
+      echo "Tip: the review is $days days old (guideline: monthly)."
     fi
   else
-    echo "Tip: kon datum niet parsen — herzie toch maandelijks (zie docs/how-to/radar.md)."
+    echo "Tip: could not parse the date — review monthly anyway (see docs/how-to/radar.md)."
   fi
 else
-  echo "Tip: zet een echte datum (YYYY-MM-DD) bij 'Laatst herzien:' en herzie maandelijks."
+  echo "Tip: put a real date (YYYY-MM-DD) after 'Last reviewed:' and review monthly."
 fi
 
-echo "Zie: docs/research/radar.md · make radar-check"
-echo "radar-reminder: klaar"
+echo "See: docs/research/radar.md · make radar-check"
+echo "radar-reminder: done"

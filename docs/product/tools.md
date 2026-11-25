@@ -1,36 +1,36 @@
 # Tools
 
-> **Rol:** Bijhouden van de exec-laag — wat de agent mag doen (read/edit/shell/MCP) en onder welke goedkeuring.
-> **Niet hier:** harness-loop ([harness.md](harness.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Role:** maintaining the exec layer — what the agent may do (read/edit/shell/MCP) and under what approval.
+> **Not here:** the harness loop ([harness.md](harness.md)); relations ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** beslist · **ADR:** [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) (whitelist) en [0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) (allowlist + `bwrap`) · **Spec weg** — besluit in ADR's, vorm in product-doc
+**State:** decided · **ADR:** [0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md) (whitelist) and [0007](../decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md) (allowlist + `bwrap`) · **Spec gone** — decision in the ADRs, shape in the product doc
 
-## Wat de gebruiker kan
+## What the user can do
 
-- De agent leest in het project en wijzigt via de shell in de kooi. Buiten het project is er geen mount en geen write-tool. In het lab komt er geen goedkeuringsvraag.
+- The agent reads inside the project and changes things through the shell in the cage. Outside the project there is no mount and no write tool. In the lab there is no approval prompt.
 
-## Besluit
+## Decision
 
-Geen eigen tool-runtime. De toolset is die van DeepSeek Harness ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)): `read`, `glob`/`grep`, shell, plus de indexing-tools via MCP. Schrijven doet de shell, in de kooi ([ADR 0017](../decisions/0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md)). `write`, `edit` en `apply_patch` staan in het lab-profiel uit. Shell en `npm`/`pip` draaien onder `bwrap` met alleen de workspace als bind ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)). Zoeken op het agent-pad loopt via [indexing.md](indexing.md); `rg` blijft de meet-fallback. Zed’s built-in grep hoort bij Zed Agent en draait niet mee.
+No own tool runtime. The toolset is DeepSeek Harness's ([ADR 0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md)): `read`, `glob`/`grep`, shell, plus the indexing tools via MCP. Writing happens through the shell, in the cage ([ADR 0017](../decisions/0017-the-agent-writes-in-the-cage-and-the-fs-write-tools-are-off.md)). `write`, `edit` and `apply_patch` are off in the lab profile. Shell and `npm`/`pip` run under `bwrap` with only the workspace as a bind ([ADR 0007](../decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md)). Searching on the agent path goes through [indexing.md](indexing.md); `rg` stays the measurement fallback. Zed's built-in grep belongs to Zed Agent and does not run along.
 
-## Stand van zaken
+## Current state
 
-| Onderwerp | Status | Notitie |
-|-----------|--------|---------|
-| Whitelist / eigendom (T1) | beslist | DSH read/edit/shell + indexing-MCP — [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
-| Approval-model (T2) | staat | Lab: `approval: never`, `workspace-write` op de repo. Geen dialoog. How-to: [zed-dsh](../how-to/zed-dsh.md). [ADR 0017](../decisions/0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md) |
-| Sandbox (T3) | staat | `packages/lab/cardine-bwrap` bindt de workspace; de shell is de schrijfrechter. `~/.ssh` niet zichtbaar. Zed en `dsh` blijven native |
-| MCP v1 (T4) | beslist | Aan, alleen voor de indexing-daemon. Geen open MCP-markt. |
-| Indexing vs generic search (T5) | beslist | Zoeken via indexing-tools; `rg` is de meet-fallback |
+| Topic | Status | Note |
+|-------|--------|------|
+| Whitelist / ownership (T1) | decided | DSH read/edit/shell + indexing MCP — [ADR 0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md) |
+| Approval model (T2) | stands | Lab: `approval: never`, `workspace-write` on the repo. No dialogue. How-to: [zed-dsh](../how-to/zed-dsh.md). [ADR 0017](../decisions/0017-the-agent-writes-in-the-cage-and-the-fs-write-tools-are-off.md) |
+| Sandbox (T3) | stands | `packages/lab/cardine-bwrap` binds the workspace; the shell is the write court. `~/.ssh` not visible. Zed and `dsh` stay native |
+| MCP v1 (T4) | decided | On, for the indexing daemon only. No open MCP market. |
+| Indexing vs generic search (T5) | decided | Search via the indexing tools; `rg` is the measurement fallback |
 
-## Raakvlakken
+## Interfaces
 
 - Host: [harness.md](harness.md)
-- Versheid van de boom: [fs-events.md](fs-events.md)
-- Gebruikt: [indexing.md](indexing.md) (search-tools)
+- Freshness of the tree: [fs-events.md](fs-events.md)
+- Uses: [indexing.md](indexing.md) (search tools)
 
-## Bewust niet
+## Deliberately not
 
-- Eigen tool-framework of MCP-marktplaats.
-- Onbeperkte shell zonder pad-beleid.
-- Docker/container-vereiste om Zed of `dsh` zelf te draaien (alleen voor untrusted agent-exec).
+- An own tool framework or MCP marketplace.
+- An unrestricted shell without path policy.
+- A Docker/container requirement to run Zed or `dsh` itself (only for untrusted agent exec).

@@ -1,44 +1,44 @@
 # UI iPhone — surfaces · cards
 
-> **Rol:** Wanneer wel/geen card.  
-> **Niet hier:** lege, ladende en foutstaten ([surfaces-states](surfaces-states.md)); sticky koppen ([surfaces-sticky-heads](surfaces-sticky-heads.md)).
+> **Role:** When to use a card and when not to.
+> **Not here:** empty, loading and error states ([surfaces-states](surfaces-states.md)); sticky headers ([surfaces-sticky-heads](surfaces-sticky-heads.md)).
 
-## K1. Taxonomie
+## K1. Taxonomy
 
-| Soort | Wanneer |
-|-------|---------|
-| **Grouped list** | Settings/Profile-rijen, lijsten |
-| **Summary card** | Dag- of statussamenvatting — één job per card |
-| **Insight / tip card** | Tips — solid, geen glass |
-| **Overview card** | Korte overview — **geen** sticky; gesloten rand OK |
-| **Item / set card** | Herhaalde logger- of feed-items |
-| **Feed post** | Feed-achtige kaarten |
-| **Geen card** | Enkele alinea, empty state, form fields in sheet |
+| Kind | When |
+|------|------|
+| **Grouped list** | Settings/Profile rows, lists |
+| **Summary card** | Day or status summary — one job per card |
+| **Insight / tip card** | Tips — solid, no glass |
+| **Overview card** | Short overview — **no** sticky; a closed border is OK |
+| **Item / set card** | Repeated logger or feed items |
+| **Feed post** | Feed-like cards |
+| **No card** | A single paragraph, an empty state, form fields in a sheet |
 
-**Regel:** als border+radius+bg weghalen het begrip niet schaadt → **geen** card.
+**Rule:** if removing border+radius+bg does not hurt understanding → **no** card.
 
-## K2. Materiaal
+## K2. Material
 
 - Content cards = **solid** `surface` / `bg-card` — [materials-depth](../materials-depth.md).
-- Glass alleen chrome/sheets — nooit op dichte content-rijen.
-- **Nested radius:** inner = outer − padding. Ladder bv. 4 · 8 · 12 · 16 · 24.
-- **Hover-lift:** alleen `(hover: hover) and (pointer: fine)`; footprint blijft.
+- Glass only for chrome/sheets — never on dense content rows.
+- **Nested radius:** inner = outer − padding. Ladder e.g. 4 · 8 · 12 · 16 · 24.
+- **Hover lift:** only `(hover: hover) and (pointer: fine)`; the footprint stays.
 
-## K3. Boards (kalender / tijdlijnen)
+## K3. Boards (calendar / timelines)
 
-Waar het product boards heeft:
+Where the product has boards:
 
-- Sticky mid-heads alleen via [surfaces-sticky-heads](surfaces-sticky-heads.md).
-- Dense chips 36–40 OK.
-- Locale z binnen board — géén overlay `--z-*`.
-- Past/inactive items lager contrast; huidige/toekomst helder.
+- Sticky mid-headers only through [surfaces-sticky-heads](surfaces-sticky-heads.md).
+- Dense chips 36–40 are OK.
+- Local z inside the board — **no** overlay `--z-*`.
+- Past/inactive items at lower contrast; current/future clear.
 
 ## K4. Never
 
 | Never | Instead |
 |-------|---------|
-| Card om elke paragraaf | SectionBlock of plain |
-| Glass op dense content-rijen | Solid surface |
-| Dashboard van 6 cards first viewport | Eén job |
-| Whole-card `scale` (grid breekt) | Lift/shadow binnen vaste footprint |
-| Glow / colored blur als card-diepte | Solid + spaarzame elevation ([materials-depth](../materials-depth.md)) |
+| A card around every paragraph | SectionBlock or plain |
+| Glass on dense content rows | Solid surface |
+| A dashboard of 6 cards in the first viewport | One job |
+| Whole-card `scale` (breaks the grid) | Lift/shadow within a fixed footprint |
+| Glow / coloured blur as card depth | Solid + sparse elevation ([materials-depth](../materials-depth.md)) |

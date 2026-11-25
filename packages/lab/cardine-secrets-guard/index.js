@@ -1,29 +1,29 @@
-// cardine-workspace-guard — de agent staat alleen in de workspace.
+// cardine-workspace-guard — the agent stays inside the workspace.
 //
-// Waarom een plugin en niet (alleen) bwrap: bash/grep draaien ín de
-// bwrap-kooi (cardine-bwrap), maar de filesystem-tools draaien in het
-// DSH-hostproces (dsh-fs-local: "cwd is a resolution default, not a
-// containment boundary"). Alleen een tools/pre-execute-listener zit vóór
-// die tools, binnen DSH, en overleeft DSH-updates.
+// Why a plugin and not (only) bwrap: bash/grep run inside the bwrap cage
+// (cardine-bwrap), but the filesystem tools run in the DSH host process
+// (dsh-fs-local: "cwd is a resolution default, not a containment
+// boundary"). Only a tools/pre-execute listener sits in front of those
+// tools, inside DSH, and survives DSH updates.
 //
-// Dit is een ALLOWLIST, geen denylijst (ADR 0017, strikt profiel):
-//   * elk pad buiten de open sessie wordt geweigerd — niet gevraagd,
-//     want de approval-policy staat op `never`;
-//   * de cwd van de sessie wint van CARDINE_WORKSPACE. Die variabele is
-//     alleen de terugval als de sessie geen cwd heeft. Een pin op de repo
-//     waar het lab is geïnstalleerd zou elke andere map blokkeren;
-//   * binnen de workspace blijven .env/keys/certificaten dicht;
-//   * write/edit zijn in het strikte profiel sowieso niet beschikbaar
-//     (tool-fs met write/applyPatch uit); deze listener dekt ze toch, voor
-//     als een ander profiel ze wel mount.
+// This is an ALLOWLIST, not a denylist (ADR 0017, strict profile):
+//   * every path outside the open session is refused — not asked,
+//     because the approval policy is `never`;
+//   * the session's cwd wins over CARDINE_WORKSPACE. That variable is
+//     only the fallback when the session has no cwd. Pinning it to the repo
+//     where the lab was installed would block every other directory;
+//   * inside the workspace .env files, keys and certificates stay closed;
+//   * write/edit are not available in the strict profile anyway
+//     (tool-fs with write/applyPatch off); this listener covers them in case
+//     another profile does mount them.
 //
-// Deny-only: een guard kan een call alleen weigeren, nooit goedkeuren.
-// Pad-resolutie (realpath + parent-walk) i.p.v. tekst-matching, zodat
-// `..`, symlinks en relatieve paden de regel niet omzeilen. Een pad dat
-// nog niet bestaat wordt met de bestaande voorouder opgelost; de naam
-// van het (nog niet bestaande) stuk wordt alsnog per segment getoetst.
+// Deny-only: a guard can only refuse a call, never approve it.
+// Path resolution (realpath + parent walk) instead of text matching, so that
+// `..`, symlinks and relative paths cannot bypass the rule. A path that does
+// not exist yet is resolved against its existing ancestor; the name of the
+// (not yet existing) part is still checked per segment.
 //
-// Zie docs/architecture/security.md en ADR 0017.
+// See docs/architecture/security.md and ADR 0017.
 
 import { realpath } from "node:fs/promises";
 import { homedir } from "node:os";
@@ -31,13 +31,13 @@ import { basename, dirname, isAbsolute, resolve, sep } from "node:path";
 
 export const name = "cardine-workspace-guard";
 
-/** Codes in tool_result.error.info.code — de model-context en logs zien ze. */
+/** Codes in tool_result.error.info.code — the model context and logs see them. */
 export const WORKSPACE_GUARD_DENIED = "WORKSPACE_GUARD_DENIED";
 
 /**
- * Bestandsnamen die nooit gelezen of geschreven mogen worden, ook niet
- * binnen de workspace. `*.example` valt er bewust buiten: dat is de
- * documentatie zonder waarden.
+ * File names that may never be read or written, not even inside the
+ * workspace. `*.example` is deliberately excluded: that is the
+ * documentation without values.
  */
 const SECRET_FILE = [
   /(^|\/)\.env$/,
@@ -49,10 +49,10 @@ const SECRET_FILE = [
 ];
 
 /**
- * Resolve een pad naar een canonieke absolute vorm. Bestaat het pad niet
- * (bv. een write naar een nieuw bestand), dan wordt de eerst bestaande
- * voorouder ge-realpath't en de rest er letterlijk aan geplakt; `..` en `.`
- * daarin zijn al door `resolve` genormaliseerd.
+ * Resolve a path to a canonical absolute form. If the path does not exist
+ * (e.g. a write to a new file), the nearest existing ancestor is realpath'd
+ * and the rest is appended literally; `..` and `.` in it are already
+ * normalised by `resolve`.
  */
 async function canonical(path, cwd) {
   const absolute = isAbsolute(path) ? resolve(path) : resolve(cwd, path);
@@ -73,10 +73,10 @@ async function canonical(path, cwd) {
 }
 
 /**
- * De workspace is de cwd van de open sessie. CARDINE_WORKSPACE wint daar
- * niet van: die variabele stond in de Zed-server op de repo waar
- * install-lab draaide, en blokkeerde daarna elke andere map (Caddie,
- * 2026-11-23). Zonder sessie-cwd blijft de variabele de terugval.
+ * The workspace is the cwd of the open session. CARDINE_WORKSPACE does not
+ * override that: the variable pointed at the repo where install-lab ran in
+ * the Zed server, and then blocked every other folder (Caddie, 2026-11-23).
+ * Without a session cwd the variable remains the fallback.
  */
 function workspaceRootOf(exec) {
   const session = exec.agent?.session?.cwd;
@@ -96,24 +96,24 @@ function isUnder(target, root) {
 }
 
 /**
- * Waarom een canoniek pad geweigerd is, of undefined als het mag.
- * Volgorde: de workspace-allowlist eerst (dat is de grens), daarna de
- * geheimen (die blijven dicht, óók binnen de workspace).
+ * Why a canonical path is refused, or undefined when it is allowed.
+ * Order: the workspace allowlist first (that is the boundary), then the
+ * secrets (they stay closed, also inside the workspace).
  */
 function reasonFor(canonicalPath, root) {
   if (!isUnder(canonicalPath, root)) {
-    return "ligt buiten de workspace — de agent werkt alleen binnen het project; " +
-      "vraag de gebruiker om dit zelf op het systeem uit te voeren";
+    return "is outside the workspace — the agent works inside the project only; " +
+      "ask the user to do this on the system themselves";
   }
-  // Binnen de workspace: *.example is documentatie, geen secret.
+  // Inside the workspace: *.example is documentation, not a secret.
   if (/\.example$/.test(canonicalPath)) return undefined;
   for (const pattern of SECRET_FILE) {
-    if (pattern.test(canonicalPath)) return "is een geheim bestand (.env/keys) in de workspace";
+    if (pattern.test(canonicalPath)) return "is a secret file (.env/keys) inside the workspace";
   }
   return undefined;
 }
 
-/** Paden die een tool-aanroep raakt, per toolnaam. */
+/** Paths a tool call touches, per tool name. */
 function targetsOf(toolName, args) {
   if (args === null || typeof args !== "object") return [];
   const out = [];
@@ -133,8 +133,8 @@ function targetsOf(toolName, args) {
       add(args.path);
       break;
     case "apply_patch":
-      // apply_patch draagt freeform patchnotatie; lastig pad-voor-pad te
-      // parsen. Weiger de aanroep als een pad erin buiten de workspace valt.
+      // apply_patch carries freeform patch notation; hard to parse path by
+      // path. Refuse the call when any path inside it falls outside the workspace.
       add(args.input);
       break;
     default:
@@ -156,10 +156,10 @@ async function denial(toolName, path, reason, root) {
   return {
     kind: "deny",
     reason:
-      `cardine-workspace-guard: "${toolName}" op "${path}" geweigerd — ${reason}. ` +
-      `De workspace is "${root}". Er is geen goedkeuringspad: de gebruiker voert ` +
-      "wijzigingen buiten het project zelf uit. Doe een voorstel (pad + exacte inhoud) " +
-      "en vraag de gebruiker het toe te passen. Toon of lees nooit geheimen.",
+      `cardine-workspace-guard: refused "${toolName}" on "${path}" — ${reason}. ` +
+      `The workspace is "${root}". There is no approval path: the user makes ` +
+      "changes outside the project themselves. Propose one (path plus exact contents) " +
+      "and ask the user to apply it. Never show or read secrets.",
     info: { name: "WorkspaceGuardDenied", code: WORKSPACE_GUARD_DENIED, path: canon, workspace: root },
   };
 }
@@ -175,7 +175,7 @@ export function apply(ctx) {
         const cwd = cwdOf(exec);
         const root = await canonical(workspaceRootOf(exec), cwd);
         for (const path of paths) {
-          // apply_patch: toets elk token dat een pad lijkt.
+          // apply_patch: check every token that looks like a path.
           const candidates =
             exec.name === "apply_patch"
               ? path.split(/\s+/).filter((t) => t.includes("/") || t.startsWith(".") || t.includes(".env"))

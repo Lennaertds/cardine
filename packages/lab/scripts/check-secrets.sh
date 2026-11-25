@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# check-secrets.sh — bewijst dat de secrets-grens er is en dicht zit.
+# check-secrets.sh — proves the secrets boundary exists and is closed.
 #
-# 1. ~/.secrets: rechten 700 (map) en 600 (env-bestanden), geen andere lezers.
-# 2. Geen geheim bestand of bestandssymlink naar buiten in een repo.
-# 3. De secrets-guard-plugin: unit-tests groen en geregistreerd in het DSH-profiel.
-# 4. De bwrap-grens: ~/.secrets is niet bereikbaar uit de shell-kooi.
+# 1. ~/.secrets: mode 700 (folder) and 600 (env files), no other readers.
+# 2. No secret file or outward file symlink in a repo.
+# 3. The secrets-guard plugin: unit tests green and registered in the DSH profile.
+# 4. The bwrap boundary: ~/.secrets is not reachable from the shell cage.
 #
-# Gebruik: bash packages/lab/scripts/check-secrets.sh   (ook via make check)
+# Usage: bash packages/lab/scripts/check-secrets.sh   (also via make check)
 set -euo pipefail
 
 LAB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -18,46 +18,46 @@ GUARD_DIR="$LAB_DIR/cardine-secrets-guard"
 fails=0
 warns=0
 ok() { echo "  ok    $1"; }
-warn() { echo "  WAARSCHUWING  $1"; warns=$((warns + 1)); }
-bad() { echo "  FAAL  $1"; fails=$((fails + 1)); }
+warn() { echo "  WARNING  $1"; warns=$((warns + 1)); }
+bad() { echo "  FAIL  $1"; fails=$((fails + 1)); }
 
 ###############################################################################
-# 1. Secrets-centrale — LOKALE OMGEVING, geen repo-contract.
+# 1. Secrets store — LOCAL ENVIRONMENT, not a repo contract.
 #
-# Rechten op ~/.secrets zeggen niets over de repository en verschillen per
-# machine; een verkeerde mode mag `make check` dus niet rood maken op elke
-# checkout/CI. Het is wel een bevinding die je meteen moet zien.
+# Modes on ~/.secrets say nothing about the repository and differ per
+# machine; so a wrong mode must not make `make check` red on every
+# checkout/CI. But it is a finding you must see straight away.
 ###############################################################################
 mode_of() { stat -c '%a' "$1" 2>/dev/null || echo "?"; }
 
 if [ -n "${DSH_SESSION_ID:-}" ]; then
-  # In de kooi bestaat ~/.secrets bewust niet; de rechten zijn hier onmeetbaar.
-  ok "~/.secrets niet zichtbaar uit de kooi (rechten: draai deze check in je terminal)"
+  # Inside the cage ~/.secrets deliberately does not exist; modes are unmeasurable here.
+  ok "~/.secrets not visible from the cage (modes: run this check in your terminal)"
 elif [ -d "$SECRETS_DIR" ]; then
   bad_modes=0
   m="$(mode_of "$SECRETS_DIR")"
   case "$m" in
     700) ok "~/.secrets is 700" ;;
-    *) warn "~/.secrets is $m (aanbevolen: 700)"; bad_modes=1 ;;
+    *) warn "~/.secrets is $m (recommended: 700)"; bad_modes=1 ;;
   esac
   while IFS= read -r -d '' f; do
     m="$(mode_of "$f")"
     case "$m" in
       600|400) ok "$(basename "$(dirname "$f")")/$(basename "$f") is $m" ;;
-      *) warn "${f#"$HOME"/} is $m (aanbevolen: 600)"; bad_modes=1 ;;
+      *) warn "${f#"$HOME"/} is $m (recommended: 600)"; bad_modes=1 ;;
     esac
   done < <(find "$SECRETS_DIR" -type f -print0 2>/dev/null)
   if [ "$bad_modes" -eq 1 ]; then
-    echo "        oplossen met: bash packages/lab/scripts/secrets-init.sh"
+    echo "        fix with: bash packages/lab/scripts/secrets-init.sh"
   fi
 else
-  warn "~/.secrets ontbreekt (nog geen secrets-centrale)"
+  warn "~/.secrets is missing (no secrets store yet)"
 fi
 
 ###############################################################################
-# 2. Repo's: geen geheim bestand, geen symlink naar buiten
+# 2. Repos: no secret file, no outward symlink
 ###############################################################################
-# Alleen deze repo: er is geen tweede repo meer om na te lopen.
+# This repo only: there is no second repo to walk any more.
 declare -A seen_repo=()
 for root in "$CARDINE_DIR"; do
   [ -d "$root/.git" ] || continue
@@ -65,12 +65,12 @@ for root in "$CARDINE_DIR"; do
   seen_repo[$root]=1
   repo="$(basename "$root")"
   found="$(git -C "$root" ls-files | grep -E '(^|/)\.env$|(^|/)\.env\.[^/]+$' | grep -v '\.example$' || true)"
-  if [ -n "$found" ]; then bad "$repo: geheim bestand in git: $(echo "$found" | tr '\n' ' ')"; else ok "$repo: geen .env in git"; fi
-  # tmp/ is testafval (gitignored) en telt niet als geheim op schijf.
+  if [ -n "$found" ]; then bad "$repo: secret file in git: $(echo "$found" | tr '\n' ' ')"; else ok "$repo: no .env in git"; fi
+  # tmp/ is test debris (gitignored) and does not count as a secret on disk.
   ondisk="$(find "$root" -name '.env' -o -name '.env.*' 2>/dev/null | grep -v '\.example$' | grep -v '/node_modules/' | grep -v '/\.git/' | grep -v '/tmp/' || true)"
-  if [ -n "$ondisk" ]; then warn "$repo: .env op schijf (buiten ~/.secrets): $(echo "$ondisk" | sed "s|$root/||" | tr '\n' ' ')"; else ok "$repo: geen .env op schijf"; fi
+  if [ -n "$ondisk" ]; then warn "$repo: .env on disk (outside ~/.secrets): $(echo "$ondisk" | sed "s|$root/||" | tr '\n' ' ')"; else ok "$repo: no .env on disk"; fi
   escape="$(find "$root" -maxdepth 3 -type l 2>/dev/null | while read -r l; do t="$(readlink -f "$l" 2>/dev/null || true)"; case "$t" in ""|"$HOME"|"$root"/*) ;; *) echo "$(readlink "$l") -> $t" ;; esac; done | head -5)"
-  if [ -n "$escape" ]; then warn "$repo: symlink naar buiten: $(echo "$escape" | tr '\n' ' ')"; else ok "$repo: geen symlinks naar buiten"; fi
+  if [ -n "$escape" ]; then warn "$repo: outward symlink: $(echo "$escape" | tr '\n' ' ')"; else ok "$repo: no outward symlinks"; fi
 done
 
 ###############################################################################
@@ -79,46 +79,46 @@ done
 if [ -f "$GUARD_DIR/index.js" ]; then
   if command -v node >/dev/null; then
     if (cd "$GUARD_DIR" && node --test >/dev/null 2>&1); then
-      ok "secrets-guard: unit-tests groen"
+      ok "secrets-guard: unit tests green"
     else
-      bad "secrets-guard: unit-tests falen (cd packages/lab/cardine-secrets-guard && node --test)"
+      bad "secrets-guard: unit tests fail (cd packages/lab/cardine-secrets-guard && node --test)"
     fi
   else
-    warn "secrets-guard: node niet gevonden — tests overgeslagen"
+    warn "secrets-guard: node not found — tests skipped"
   fi
 else
-  bad "secrets-guard ontbreekt ($GUARD_DIR/index.js)"
+  bad "secrets-guard missing ($GUARD_DIR/index.js)"
 fi
 
 if [ -f "$PROFILE" ]; then
   if grep -q 'cardine-secrets-guard' "$PROFILE"; then
-    ok "secrets-guard: geregistreerd in $PROFILE"
+    ok "secrets-guard: registered in $PROFILE"
   else
-    bad "secrets-guard: niet geregistreerd in het DSH-profiel — run install-lab.sh"
+    bad "secrets-guard: not registered in the DSH profile — run install-lab.sh"
   fi
 else
-  warn "DSH-profiel niet gevonden ($PROFILE) — kan registratie niet controleren"
+  warn "DSH profile not found ($PROFILE) — cannot check registration"
 fi
 
 ###############################################################################
-# 4. bwrap-grens: ~/.secrets onbereikbaar uit de kooi
+# 4. bwrap boundary: ~/.secrets unreachable from the cage
 #
-# Let op: "ls faalt" alleen is géén bewijs — een kooi die zelf niet start
-# faalt ook. Daarom eerst bewijzen dát de kooi draait, en dán pas ~/.secrets.
+# Careful: "ls fails" alone is no proof — a cage that does not start also
+# fails. So first prove THAT the cage runs, and only then ~/.secrets.
 ###############################################################################
 if [ -x "$LAB_DIR/cardine-bwrap" ] && command -v bwrap >/dev/null; then
   if ! "$LAB_DIR/cardine-bwrap" -- /bin/true >/dev/null 2>&1; then
-    warn "shell-kooi start niet hier — grens ~/.secrets niet meetbaar"
+    warn "shell cage does not start here — ~/.secrets boundary not measurable"
   elif "$LAB_DIR/cardine-bwrap" -- /bin/bash -c 'ls -d "$HOME/.secrets" >/dev/null 2>&1'; then
-    bad "~/.secrets is bereikbaar uit de shell-kooi"
+    bad "~/.secrets is reachable from the shell cage"
   else
-    ok "~/.secrets onbereikbaar uit de shell-kooi"
+    ok "~/.secrets unreachable from the shell cage"
   fi
 fi
 
 ###############################################################################
 if [ "$fails" -gt 0 ]; then
-  echo "check-secrets: $fails fout(en), $warns waarschuwing(en)" >&2
+  echo "check-secrets: $fails failure(s), $warns warning(s)" >&2
   exit 1
 fi
-echo "check-secrets: groen ($warns waarschuwing(en))"
+echo "check-secrets: green ($warns warning(s))"

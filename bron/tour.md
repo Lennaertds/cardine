@@ -134,7 +134,7 @@ idee / video / claim
 - **structure** — waar policy leeft: docs vs code vs dual (A6)  
 - **indexing** — hoe de agent de codebase vindt (regex-first vs embeddings — §69/§70)
 
-Onderzoeksvragen en volgorde: `cardine/docs/research/RESEARCH.md` + `cardine/docs/research/ideeen-en-vragen.md`.
+Onderzoeksvragen en volgorde: `cardine/docs/research/RESEARCH.md` + `cardine/docs/research/ideas-and-questions.md`.
 Lessen die hard genoeg zijn → terug als **§ in `kit/`** (één feitenbron), niet gedupliceerd in het lab.
 
 Relatie in één zin: **AE leert en standaardiseert de schil; het lab experimenteert tot iets meetbaar genoeg is om te standaardiseren of bewust weg te laten.**
@@ -150,7 +150,7 @@ Relatie in één zin: **AE leert en standaardiseert de schil; het lab experiment
 | vLLM, VRAM, quantisatie | §3 inference | [inference](fundament/inference/INDEX.md) |
 | Tool-calls, MCP, multi-agent | §4 agent | [agents](fundament/agents/INDEX.md) |
 | AGENTS.md, hooks, `make check`, slices | §5 AE-schil | [principes](principes.md), [bronnen-index](bronnen-index.md) |
-| Cursor vs Pi, dual structure, spine | §6 lab | `cardine/docs/research/ideeen-en-vragen.md` (sibling-repo) |
+| Cursor vs Pi, dual structure, spine | §6 lab | `cardine/docs/research/ideas-and-questions.md` (sibling-repo) |
 | Kit, bootstrap, GymFreak | spoor 1 leveren | [README](../README.md), [brug](fundament/brug.md) |
 | Reels / claims / nieuwe tools | nog geen plek | [inbox](inbox.md) → later § |
 
@@ -165,7 +165,7 @@ Ruwe signalen: [inbox](inbox.md).
 1. Dit bestand tot hier.  
 2. Schets in [llm-doorloop](fundament/modellen/llm-doorloop.md) (mermaid + ASCII).  
 3. Skim [principes](principes.md) sectie A–E — koppel elke sectie aan een laag uit §5.  
-4. Open `cardine/docs/research/ideeen-en-vragen.md` (sibling-repo) A1–A5 werkantwoorden — zie lab als "AE in het wild meten".
+4. Open `cardine/docs/research/ideas-and-questions.md` (sibling-repo) A1–A5 werkantwoorden — zie lab als "AE in het wild meten".
 5. Bij het volgende begrip dat je niet kunt plaatsen: rij in de tabel hierboven; zo niet → inbox of vraag.
 
 Daarna hoef je niet alles te *kennen*; je moet alles kunnen *plaatsen*.

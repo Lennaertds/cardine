@@ -1,23 +1,23 @@
 # UI iPhone — motion · gestures
 
-> **Rol:** Velocity, momentum, spatial, rubber-band, gesture checklist.  
-> **Niet hier:** springs ([motion-springs](motion-springs.md)); smoothness per frame ([motion-smoothness](motion-smoothness.md)).
+> **Role:** Velocity, momentum, spatial, rubber band, gesture checklist.
+> **Not here:** springs ([motion-springs](motion-springs.md)); smoothness per frame ([motion-smoothness](motion-smoothness.md)).
 
 ## 1. Velocity handoff
 
-Bij loslaten moet de animatie **doorgaan op de exacte finger-velocity** — geen naad tussen drag en spring.
+On release the animation must **continue at the exact finger velocity** — no seam between drag and spring.
 
 ```
-relativeVelocity = gestureVelocity / (targetValue − currentValue)  // als API genormaliseerd wil
+relativeVelocity = gestureVelocity / (targetValue − currentValue)  // if the API wants it normalised
 ```
 
-Motion/Framer: vaak absolute px/s via `velocity`.
+Motion/Framer: often absolute px/s via `velocity`.
 
 ## 2. Momentum projection
 
 > Take a small input and make a big output.
 
-Niet snappen naar nearest boundary vanaf release-punt. **Projecteer** resting position met velocity (scroll-deceleration), dan snap naar target dichtst bij die projectie.
+Do not snap to the nearest boundary from the release point. **Project** the resting position with the velocity (scroll deceleration), then snap to the target closest to that projection.
 
 ```js
 // decelerationRate ≈ 0.998 (scroll); 0.99 snappier
@@ -29,22 +29,22 @@ const target = nearestSnapPoint(projectedEndpoint);
 animateSpringTo(target, { velocity: releaseVelocity });
 ```
 
-Gebruik dit voor bottom-sheets en horizontale carousels/boards.
+Use this for bottom sheets and horizontal carousels/boards.
 
 ## 3. Spatial consistency
 
-- **Enter en exit langs hetzelfde pad.** In van rechts → weg naar rechts.
-- **Anker aan de bron.** Popover/menu/sheet: `transform-origin` naar trigger. (Modals die echt viewport-centered zijn: center ok.)
-- Mirror easing op reversible transitions (inverse cubic-bézier).
-- Geen `scale(0)`: enter vanaf ≥ `scale(0.95)` + opacity.
+- **Enter and exit along the same path.** In from the right → out to the right.
+- **Anchor to the source.** Popover/menu/sheet: `transform-origin` towards the trigger. (Modals that are truly viewport-centred: centre is fine.)
+- Mirror easing on reversible transitions (inverse cubic-bézier).
+- No `scale(0)`: enter from ≥ `scale(0.95)` + opacity.
 
-## 4. Hint in de richting van de gesture
+## 4. Hint in the direction of the gesture
 
-Intermediate frames moeten de uitkomst **telegraphen** — niet blind interpoleren.
+Intermediate frames must **telegraph** the outcome — no blind interpolation.
 
-## 5. Rubber-banding
+## 5. Rubber banding
 
-Harde stop = “bevroren”. Progressieve weerstand past de rand.
+A hard stop = "frozen". Progressive resistance fits the edge.
 
 ```js
 function rubberband(overshoot, dimension, constant = 0.55) {
@@ -52,23 +52,23 @@ function rubberband(overshoot, dimension, constant = 0.55) {
 }
 ```
 
-Sheets en horizontale boards: rubber-band aan randen.
+Sheets and horizontal boards: rubber band at the edges.
 
 ## 6. Gesture design checklist
 
-- **Tap:** highlight touch-down; commit touch-up; ~10px hit padding; cancel door weg te slepen.
-- **Drag/swipe:** ~10px hysteresis vóór richting commit, daarna 1:1.
-- Detecteer plausible gestures **parallel** vanaf eerste move; cancel verliezers zodra intent duidelijk is. Vermijd alleen-final events (`swipeleft`).
-- Minimaliseer disambiguation delays (double-tap alleen waar nodig).
-- Horizontale surfaces: `touch-action` expliciet (`pan-x pan-y` als pagina ook verticaal moet kunnen).
+- **Tap:** highlight on touch-down; commit on touch-up; ~10px hit padding; cancel by dragging away.
+- **Drag/swipe:** ~10px hysteresis before the direction commits, then 1:1.
+- Detect plausible gestures **in parallel** from the first move; cancel losers as soon as the intent is clear. Avoid only-final events (`swipeleft`).
+- Minimise disambiguation delays (double-tap only where needed).
+- Horizontal surfaces: explicit `touch-action` (`pan-x pan-y` if the page must scroll vertically too).
 
-## 7. Swipe-actions
+## 7. Swipe actions
 
-| Regel | Detail |
-|-------|--------|
-| **Affordance hint** | Zonder hint ontdekt bijna niemand swipe — peek, ⋯, of first-run cue |
-| **Friction op destroy** | Partial swipe = knop tonen; full-swipe alleen met undo/confirm-pad |
-| **Nooit swipe-only** | Altijd button / long-press / detail-fallback (a11y + discoverability) |
-| **Kleur = gevolg** | Neutraal surface; destructief rood — zelfde mapping overal |
+| Rule | Detail |
+|------|--------|
+| **Affordance hint** | Without a hint almost nobody discovers swipe — peek, ⋯, or a first-run cue |
+| **Friction on destroy** | Partial swipe = show the button; full swipe only with undo/confirm |
+| **Never swipe-only** | Always a button / long-press / detail fallback (a11y + discoverability) |
+| **Colour = consequence** | Neutral surface; destructive red — the same mapping everywhere |
 
-Lijst-swipe: [overlays-forms](application/overlays-forms.md). Destroy-taal en undo: [controls](application/controls.md).
+List swipe: [overlays-forms](application/overlays-forms.md). Destroy language and undo: [controls](application/controls.md).

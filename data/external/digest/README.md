@@ -1,10 +1,10 @@
 # data/external/digest/
 
-> **Rol:** Ruwe inbound dumps (feeds, release notes, advisories). Niet de waarheid.
-> **Niet hier:** gecureerde keuzes (`docs/research/radar.md`, wantlist, ADR).
+> **Role:** Raw inbound dumps (feeds, release notes, advisories). Not the truth.
+> **Not here:** curated choices (`docs/research/radar.md`, wantlist, ADR).
 
-Bestanden hier zijn gitignored (behalve deze README / `.gitkeep`).  
-`make digest-fetch` maakt `YYYY-MM-DD-<slug>/` met `raw.xml` + `items.md`.  
-Voorstellen horen in `docs/research/digest/proposals/` (niet hier). Cureren: `docs/how-to/digest.md`.
+Files here are gitignored (except this README / `.gitkeep`).
+`make digest-fetch` creates `YYYY-MM-DD-<slug>/` with `raw.xml` + `items.md`.
+Proposals belong in `docs/research/digest/proposals/` (not here). Curating: `docs/how-to/digest.md`.
 
-Geen SSOT — cureren gaat via `bron/weken/` → `bron/bronnen.md` (§).
+Not SSOT — curation goes via `bron/weken/` → `bron/bronnen.md` (§).

@@ -1,71 +1,71 @@
 # Product
 
-> **Rol:** Wat het product doet, gezien vanuit de gebruiker.
-> **Niet hier:** hoe het gebouwd is ([ARCHITECTURE.md](../architecture/ARCHITECTURE.md)), het lab-pad in detail ([totaalproduct.md](totaalproduct.md)).
+> **Role:** what the product does, seen from the user's side.
+> **Not here:** how it is built ([ARCHITECTURE.md](../architecture/ARCHITECTURE.md)), the lab path in detail ([totaalproduct.md](totaalproduct.md)).
 
-## Wat iemand meeneemt
+## What someone takes away
 
-Het product is de **projectstructuur**, gratis. Een gids is de voorkant: wie zoekt op een IDE met een harness en een abonnement, landt daar en kan de structuur meenemen. Besluit: [ADR 0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md).
+The product is the **project structure**, free. A guide is the front end: whoever searches for an IDE with a harness and a subscription lands there and can take the structure with them. Decision: [ADR 0009](../decisions/0009-the-product-is-the-free-project-structure-and-a-guide-to-the-agent-paths.md).
 
-Eén meta-package legt uit wat je installeert en wat je weglaat. De packages eronder zijn elk apart te installeren. Besluit: [ADR 0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md).
+One meta package explains what you install and what you leave out. The packages beneath it install separately. Decision: [ADR 0010](../decisions/0010-the-meta-package-points-to-separate-packages-for-structure-and-three-zed-paths.md).
 
-| Package | Voor wie |
+| Package | For whom |
 |---------|----------|
-| Structuur | Iedereen. Ook VS Code en elke andere editor. Leeg project: de boom staat er. Bestaand project: dezelfde structuur herschikt docs en bestanden. |
-| Claude in Zed | Claude Pro of Max, via Claude Code in het Zed-paneel |
-| ChatGPT in Zed | ChatGPT Plus of Pro, via Codex of Zed’s ChatGPT-login |
-| Zed + DeepSeek Harness | Wie een API-key wil. Dit is het pad waarop het lab meet |
+| Structure | Everyone. VS Code and any other editor too. Empty project: the tree is there. Existing project: the same structure reorders docs and files. |
+| Claude in Zed | Claude Pro or Max, via Claude Code in the Zed panel |
+| ChatGPT in Zed | ChatGPT Plus or Pro, via Codex or Zed's ChatGPT login |
+| Zed + DeepSeek Harness | Anyone who wants an API key. This is the path the lab measures on |
 
-De chat op claude.ai of chatgpt.com wijzigt de map niet. Het abonnement dat bestanden aanpast is Claude Code of Codex.
+The chat on claude.ai or chatgpt.com does not change the directory. The subscription that edits files is Claude Code or Codex.
 
-## Dag 0
+## Day 0
 
-De structuur zet de boom neer. Wat het project is, vult een gesprek. Besluit: [ADR 0011](../decisions/0011-de-stack-volgt-op-beslissingsdocs-en-een-goedkeuring-tegen-een-catalogus.md).
+The structure lays down the tree. What the project is, a conversation fills in. Decision: [ADR 0011](../decisions/0011-the-stack-follows-decision-docs-and-an-approval-against-a-catalogue.md).
 
-- Vragen sturen het gesprek. Beslissingen leggen de uitkomst vast: `PRODUCT.md`, `BUSINESSMODEL.md`, `GOALS.md` en de docs die een latere keuze moeten kunnen uitleggen.
-- De gebruiker vult die zelf in, of loopt ze met de agent af. Een zin belandt in een beslissingsbestand als hij die goedkeurt.
-- Daarna noemt de agent twee of drie opties uit een catalogus van talen en software, elk gekoppeld aan een zin uit `PRODUCT.md`. De gebruiker keurt goed of wijst af. Een generator draait pas daarna.
+- Questions steer the conversation. Decisions record the outcome: `PRODUCT.md`, `BUSINESSMODEL.md`, `GOALS.md` and the docs that must be able to explain a later choice.
+- The user fills them in, or walks through them with the agent. A sentence lands in a decision file when they approve it.
+- The agent then names two or three options from a catalogue of languages and software, each tied to a sentence from `PRODUCT.md`. The user approves or rejects. A generator runs only after that.
 
-## Fasen
+## Phases
 
-| Fase | Wat | Status |
-|------|-----|--------|
-| Lab | De persoonlijke stapel werkend: Zed + DeepSeek Harness + indexing + de structure uit `kit/`, op Arch Linux Hyprland | nu — [0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md) |
-| Thesis | Hetzelfde lab, leesbaar voor een beoordelaar | later |
-| Product | Publieke repo als uithangbord: packages, guides, structure gepullt uit `kit/` | vorm beslist ([0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md), [0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)); pas nadat de persoonlijke stapel werkt |
+| Phase | What | Status |
+|-------|------|--------|
+| Lab | The personal stack working: Zed + DeepSeek Harness + indexing + the structure from `kit/`, on Arch Linux Hyprland | now — [0012](../decisions/0012-the-next-completion-is-the-personal-stack-on-arch-linux-hyprland.md) |
+| Thesis | The same lab, readable for an assessor | later |
+| Product | Public repo as the shop window: packages, guides, structure mirrored from `kit/` | shape decided ([0009](../decisions/0009-the-product-is-the-free-project-structure-and-a-guide-to-the-agent-paths.md), [0013](../decisions/0013-cardine-is-the-public-shop-window-and-pulls-the-structure-from-agent-engineering.md)); only after the personal stack works |
 
-## Lab-pad
+## Lab path
 
-Het pad Zed + DeepSeek Harness blijft het pad waarop je meet. Samenhang: [totaalproduct.md](totaalproduct.md). Per onderdeel één bestand hieronder.
+The Zed + DeepSeek Harness path remains the path you measure on. Relations: [totaalproduct.md](totaalproduct.md). One file per part below.
 
-| # | Onderdeel | Productdoc | Spec |
-|---|-----------|------------|------|
-| 1 | IDE-shell | [ide-shell.md](ide-shell.md) | afgerond — [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
-| 2 | FS/events | [fs-events.md](fs-events.md) | afgerond — Zed-boom, geen eigen watcher (geen ADR) |
-| 8 | Agent-UI | [agent-ui.md](agent-ui.md) | afgerond — Zed Agent Panel via ACP (geen ADR) |
-| 5 | Harness | [harness.md](harness.md) | beslist — [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
-| 4 | Tools | [tools.md](tools.md) | beslist — [ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) |
-| 6 | LLM | [llm.md](llm.md) | beslist voor dit pad — [ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) |
-| 3 | Indexing | [indexing.md](indexing.md) | beslist, agent-pad — [ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md) |
-| 7 | Structure | [structure.md](structure.md) | beslist — [ADR 0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) |
-| 9 | Session/spine | [session-spine.md](session-spine.md) | overgeslagen — [ADR 0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md) |
+| # | Part | Product doc | Spec |
+|---|------|-------------|------|
+| 1 | IDE shell | [ide-shell.md](ide-shell.md) | done — [ADR 0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md) |
+| 2 | FS/events | [fs-events.md](fs-events.md) | done — Zed's tree, no own watcher (no ADR) |
+| 8 | Agent UI | [agent-ui.md](agent-ui.md) | done — Zed Agent Panel via ACP (no ADR) |
+| 5 | Harness | [harness.md](harness.md) | decided — [ADR 0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md) |
+| 4 | Tools | [tools.md](tools.md) | decided — [ADR 0007](../decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md) |
+| 6 | LLM | [llm.md](llm.md) | decided for this path — [ADR 0008](../decisions/0008-the-coding-model-is-deepseek-flash-and-claude-is-the-second-provider.md) |
+| 3 | Indexing | [indexing.md](indexing.md) | decided, agent path — [ADR 0006](../decisions/0006-the-agent-searches-via-jarvis-as-mcp-zed-search-and-lsp-stay-with-the-editor.md) |
+| 7 | Structure | [structure.md](structure.md) | decided — [ADR 0004](../decisions/0004-the-project-standard-is-dual-a-thin-agents-md-and-a-hard-make-check.md) |
+| 9 | Session/spine | [session-spine.md](session-spine.md) | skipped — [ADR 0005](../decisions/0005-the-conversation-remains-the-zed-and-dsh-session-without-repo-spine.md) |
 
-Op dit pad: shell, FS en Agent-UI = Zed. Harness = DeepSeek Harness. Het model is `deepseek-flash`, met Claude als tweede provider via een eigen key ([0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md)). De abonnement-paden kiezen hun model zelf ([0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md)).
+On this path: shell, FS and agent UI = Zed. Harness = DeepSeek Harness. The model is `deepseek-flash`, with Claude as second provider via your own key ([0008](../decisions/0008-the-coding-model-is-deepseek-flash-and-claude-is-the-second-provider.md)). The subscription paths pick their own model ([0010](../decisions/0010-the-meta-package-points-to-separate-packages-for-structure-and-three-zed-paths.md)).
 
-## Bewust niet
+## Deliberately not
 
-- Geen eigen editor en geen verplichte Zed-installatie ([0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md)).
-- Geen IDE-fork: als het pad Zed is, blijft Zed upstream ([0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md)).
-- Geen stille stackkeuze door de agent ([0011](../decisions/0011-de-stack-volgt-op-beslissingsdocs-en-een-goedkeuring-tegen-een-catalogus.md)).
-- Geen betalende SaaS. Abonnementen zijn die van Claude of ChatGPT. API-keys blijven van de gebruiker.
-- Geen publieke release tijdens de labfase ([RULES.md](../rules/RULES.md)).
-- Geen overname of duplicatie van data, secrets of broninhoud uit andere projecten of uit `kit/`.
-- Geen eigen inference-serving.
+- No own editor and no mandatory Zed install ([0009](../decisions/0009-the-product-is-the-free-project-structure-and-a-guide-to-the-agent-paths.md)).
+- No IDE fork: if the path is Zed, Zed stays upstream ([0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md)).
+- No silent stack choice by the agent ([0011](../decisions/0011-the-stack-follows-decision-docs-and-an-approval-against-a-catalogue.md)).
+- No paid SaaS. Subscriptions are those of Claude or ChatGPT. API keys stay with the user.
+- No public release during the lab phase ([RULES.md](../rules/RULES.md)).
+- No taking over or duplicating data, secrets or source content from other projects or from `kit/`.
+- No own inference serving.
 
-## Bewust later
+## Deliberately later
 
-| Uitbreiding | Waarom later | Vraag als |
-|-------------|--------------|-----------|
-| Gids-tekst en één pagina per pad | De vorm staat in [0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md) en [0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md); de pagina’s wachten tot de persoonlijke stapel werkt ([0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md)) | de gids geschreven moet worden |
-| Vragen, beslissingsdocs en de taalcatalogus in de structuurpackage | [0011](../decisions/0011-de-stack-volgt-op-beslissingsdocs-en-een-goedkeuring-tegen-een-catalogus.md); de kit wijzigt pas na een brug en een ja | die bestanden in de kit horen |
-| Package-manifesten en de pull van de structure | Publiceren wacht tot de persoonlijke stapel werkt ([0012](../decisions/0012-de-eerstvolgende-voltooiing-is-de-persoonlijke-stack-op-arch-linux-hyprland.md), [0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)) | de packages echt geïnstalleerd moeten kunnen worden |
+| Extension | Why later | Ask when |
+|-----------|-----------|----------|
+| Guide text and one page per path | The shape is in [0009](../decisions/0009-the-product-is-the-free-project-structure-and-a-guide-to-the-agent-paths.md) and [0010](../decisions/0010-the-meta-package-points-to-separate-packages-for-structure-and-three-zed-paths.md); the pages wait until the personal stack works ([0012](../decisions/0012-the-next-completion-is-the-personal-stack-on-arch-linux-hyprland.md)) | the guide needs writing |
+| Questions, decision docs and the language catalogue in the structure package | [0011](../decisions/0011-the-stack-follows-decision-docs-and-an-approval-against-a-catalogue.md); the kit changes only after a bridge and a yes | those files belong in the kit |
+| Package manifests and mirroring the structure | Publishing waits until the personal stack works ([0012](../decisions/0012-the-next-completion-is-the-personal-stack-on-arch-linux-hyprland.md), [0013](../decisions/0013-cardine-is-the-public-shop-window-and-pulls-the-structure-from-agent-engineering.md)) | the packages must really be installable |

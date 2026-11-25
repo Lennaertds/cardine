@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# secrets-apply.sh — zet de secrets-standaard in een bestaande repo.
+# secrets-apply.sh — apply the secrets standard to an existing repo.
 #
-# Doet in een willekeurige repo hetzelfde als de kit voor nieuwe projecten:
-#   1. scripts/check-secrets.sh       (repo-contract; mag en moet in de repo)
-#   2. Makefile-wiring                (check-secrets in `make check`)
-#   3. .gitignore-regels              (.env, .env.*, !.env.example)
-#   4. AGENTS.md-regel                (als het bestand bestaat en de regel mist)
-#   5. rapport                        (welke secrets-.env naar ~/.secrets horen)
+# Does in any repo the same as the kit does for new projects:
+#   1. scripts/check-secrets.sh       (repo contract; may and must live in the repo)
+#   2. Makefile wiring                (check-secrets in `make check`)
+#   3. .gitignore rules               (.env, .env.*, !.env.example)
+#   4. AGENTS.md rule                 (if the file exists and lacks the rule)
+#   5. report                         (which secret .env files belong in ~/.secrets)
 #
-# Idempotent: draait vaker zonder iets te dupliceren. Overschrijft nooit
-# een bestaand check-secrets.sh; maakt geen back-ups aan als er niets
-# verandert. Verplaatst GEEN secrets: alleen melden.
+# Idempotent: runs repeatedly without duplicating anything. Never overwrites
+# an existing check-secrets.sh; creates no backups when nothing
+# changes. Moves NO secrets: reports only.
 #
-# Gebruik:
+# Usage:
 #   bash packages/lab/scripts/secrets-apply.sh <repo> --dry-run
 #   bash packages/lab/scripts/secrets-apply.sh <repo>
 set -euo pipefail
@@ -31,8 +31,8 @@ for arg in "$@"; do
   esac
 done
 
-[ -n "$TARGET" ] || { echo "gebruik: secrets-apply.sh <repo> [--dry-run]" >&2; exit 1; }
-[ -d "$TARGET" ] || { echo "secrets-apply: $TARGET bestaat niet" >&2; exit 1; }
+[ -n "$TARGET" ] || { echo "usage: secrets-apply.sh <repo> [--dry-run]" >&2; exit 1; }
+[ -d "$TARGET" ] || { echo "secrets-apply: $TARGET does not exist" >&2; exit 1; }
 [ -f "$CHECK_SRC" ] || { echo "secrets-apply: $CHECK_SRC ontbreekt" >&2; exit 1; }
 
 REPO="$(cd "$TARGET" && pwd)"
@@ -44,101 +44,101 @@ echo "secrets-apply: $REPO$([ "$DRY" = 1 ] && echo '  (dry-run)')"
 
 # 1. check-secrets.sh
 if [ -f "$REPO/scripts/check-secrets.sh" ]; then
-  say "scripts/check-secrets.sh bestaat al (niet overschreven)"
+  say "scripts/check-secrets.sh already exists (not overwritten)"
 else
   run mkdir -p "$REPO/scripts"
   run cp "$CHECK_SRC" "$REPO/scripts/check-secrets.sh"
-  # 755, niet "+x": de bron kan strikte rechten hebben en de repo mag de
-  # check gewoon door iedereen laten draaien.
+  # 755, not "+x": the source may have strict modes and the repo may let
+  # anyone run the check.
   run chmod 755 "$REPO/scripts/check-secrets.sh"
-  say "scripts/check-secrets.sh toegevoegd"
+  say "scripts/check-secrets.sh added"
 fi
 
-# 2. Makefile-wiring
+# 2. Makefile wiring
 if [ -f "$REPO/Makefile" ]; then
   if grep -q 'check-secrets' "$REPO/Makefile"; then
-    say "Makefile: check-secrets al gekoppeld"
+    say "Makefile: check-secrets already wired"
   else
-    # Target toevoegen na het laatste uitvoerbare recept of aan het einde.
+    # Add the target after the last executable recipe or at the end.
     if [ "$DRY" = 1 ]; then
-      say "[dry-run] Makefile: target check-secrets + koppeling in check toevoegen"
+      say "[dry-run] Makefile: add target check-secrets + the wiring in check"
     else
       {
         echo
-        echo "check-secrets: ## geen .env/keys in de repo (scripts/check-secrets.sh)"
+        echo "check-secrets: ## no .env/keys in the repo (scripts/check-secrets.sh)"
         echo "	@bash scripts/check-secrets.sh"
       } >>"$REPO/Makefile"
       if grep -qE '^check:.*##' "$REPO/Makefile"; then
         sed -i -E '/^check:/{/check-secrets/!s/^(check:[[:space:]]*)/\1check-secrets /}' "$REPO/Makefile"
       fi
-      say "Makefile: target toegevoegd en gekoppeld aan check"
-      say "        (staat 'check' er niet of zonder recept: koppel check-secrets zelf)"
+      say "Makefile: target added and wired into check"
+      say "        (if 'check' is missing or has no recipe: wire check-secrets yourself)"
     fi
   fi
 else
-  say "geen Makefile — step 2 overgeslagen"
+  say "no Makefile — step 2 skipped"
 fi
 
-# 3. .gitignore — alle drie de regels, anders is `.env.local` e.d. nog niet gedekt.
+# 3. .gitignore — all three rules, otherwise `.env.local` etc. is not covered yet.
 if [ -f "$REPO/.gitignore" ] \
    && grep -qxF '.env' "$REPO/.gitignore" \
    && grep -qxF '.env.*' "$REPO/.gitignore" \
    && grep -qxF '!.env.example' "$REPO/.gitignore"; then
-  say ".gitignore dekt .env al"
+  say ".gitignore already covers .env"
 else
   if [ "$DRY" = 1 ]; then
-    say "[dry-run] .gitignore: .env, .env.*, !.env.example toevoegen"
+    say "[dry-run] .gitignore: add .env, .env.*, !.env.example"
   else
     {
       echo
-      echo "# Secrets — nooit committen; echte waarden leven in ~/.secrets/${REPO_NAME}/"
+      echo "# Secrets — never commit; real values live in ~/.secrets/${REPO_NAME}/"
       echo ".env"
       echo ".env.*"
       echo "!.env.example"
     } >>"$REPO/.gitignore"
-    say ".gitignore aangevuld"
+    say ".gitignore updated"
   fi
 fi
 
 # 4. AGENTS.md
 if [ -f "$REPO/AGENTS.md" ]; then
   if grep -qi '~/.secrets' "$REPO/AGENTS.md"; then
-    say "AGENTS.md noemt ~/.secrets al"
+    say "AGENTS.md already mentions ~/.secrets"
   else
     if [ "$DRY" = 1 ]; then
-      say "[dry-run] AGENTS.md: regel over .env/~/.secrets toevoegen"
+      say "[dry-run] AGENTS.md: add a rule about .env/~/.secrets"
     else
-      # Heredoc met quoted delimiter: backticks blijven letterlijk tekst.
+      # Heredoc with a quoted delimiter: backticks stay literal text.
       if ! {
         echo
         cat <<EOF
-- Secrets (\`.env\`, keys) leven in \`~/.secrets/${REPO_NAME}/\`, nooit in deze repo; in de repo alleen \`.env.example\`. Niet lezen, tonen of committen.
+- Secrets (\`.env\`, keys) live in \`~/.secrets/${REPO_NAME}/\`, never in this repo; only \`.env.example\` in the repo. Do not read, show or commit them.
 EOF
       } >>"$REPO/AGENTS.md"; then
-        echo "secrets-apply: kon AGENTS.md niet bijwerken" >&2
+        echo "secrets-apply: could not update AGENTS.md" >&2
         exit 1
       fi
-      say "AGENTS.md aangevuld"
+      say "AGENTS.md updated"
     fi
   fi
 else
-  say "geen AGENTS.md — step 4 overgeslagen"
+  say "no AGENTS.md — step 4 skipped"
 fi
 
-# 5. Rapport: welke secrets-.env staan nu in de repo?
+# 5. Report: which secret .env files are in the repo now?
 found="$(find "$REPO" \( -name '.git' -o -name 'node_modules' \) -prune -o -type f -name '.env' -print 2>/dev/null || true)"
 found="$(echo "$found" | grep -v '\.example$' || true)"
 echo
 if [ -n "$found" ]; then
-  echo "  LET OP: deze .env-bestanden staan in de repo (horen in ~/.secrets/${REPO_NAME}/):"
+  echo "  NOTE: these .env files are in the repo (they belong in ~/.secrets/${REPO_NAME}/):"
   echo "$found" | sed "s|$REPO/|    |"
 else
-  echo "  geen .env-bestanden op schijf"
+  echo "  no .env files on disk"
 fi
 
 echo
 if [ "$DRY" = 1 ]; then
-  echo "secrets-apply: dry-run klaar (niets geschreven)"
+  echo "secrets-apply: dry-run done (nothing written)"
 else
-  echo "secrets-apply: klaar — controleer met: cd $REPO && bash scripts/check-secrets.sh"
+  echo "secrets-apply: done — check with: cd $REPO && bash scripts/check-secrets.sh"
 fi

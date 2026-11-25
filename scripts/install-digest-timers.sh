@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installeer systemd --user timer voor digest-day; schakel oude digest-* timers uit.
+# Install the systemd --user timer for digest-day; disable old digest-* timers.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="$ROOT/scripts/systemd"
@@ -12,8 +12,8 @@ for u in digest-fetch.timer digest-week.timer digest-fetch.service digest-week.s
   rm -f "$DST/$u"
 done
 
-# @REPO_ROOT@ invullen, zodat de unit naar déze repo wijst en niet naar een
-# hardgecodeerd pad.
+# Fill in @REPO_ROOT@ so the unit points at *this* repo and not at a
+# hardcoded path.
 sed "s|@REPO_ROOT@|$ROOT|g" "$SRC/digest-day.service" > "$DST/digest-day.service"
 cp -f "$SRC/digest-day.timer" "$DST/digest-day.timer"
 systemctl --user daemon-reload

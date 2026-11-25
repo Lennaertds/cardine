@@ -1,40 +1,40 @@
-# .github/pull_request_template.md en ISSUE_TEMPLATE/
+# .github/pull_request_template.md and ISSUE_TEMPLATE/
 
-> **Rol:** Elke PR en elk issue vraagt naar dezelfde dingen: wat, waarom, hoe getest, welke docs.
-> **Niet hier:** het plan van een groot item solo ([spec](spec.md)).
+> **Role:** Every PR and every issue asks for the same things: what, why, how tested, which docs.
+> **Not here:** the plan of a large item solo ([spec](spec.md)).
 
-**Kitbestanden:** [pull_request_template.md](../kit/team/.github/pull_request_template.md), [bug.md](../kit/team/.github/ISSUE_TEMPLATE/bug.md), [feature.md](../kit/team/.github/ISSUE_TEMPLATE/feature.md) · laag team · P8, P19, P22–P24
+**Kit files:** [pull_request_template.md](../kit/team/.github/pull_request_template.md), [bug.md](../kit/team/.github/ISSUE_TEMPLATE/bug.md), [feature.md](../kit/team/.github/ISSUE_TEMPLATE/feature.md) · layer team · P8, P19, P22–P24
 
-## Wanneer
+## When
 
-Elk teamproject, vanaf sprint 0. De PR-template is de plek waar "docs bijwerken hoort bij de Definition of Done" zichtbaar wordt, plus review op intent en seams.
+Every team project, from sprint 0. The PR template is where "updating docs is part of the Definition of Done" becomes visible, plus review on intent and seams.
 
-## Invullen
+## Filling in
 
-1. **PR:** wat en waarom in één à drie zinnen, met link naar het issue. Hoe getest. **Review:** mens of frisse agent-sessie; intent niet afgezwakt; geen nieuwe modulegrenzen zonder ADR (P19, P22, P23). Welke docs geraakt, of bewust geen.
-2. **Feature-issue:** dezelfde velden als een [spec](spec.md): doel, buiten scope, raakvlakken (incl. seams), slices (één sessie), acceptatie op intent. Een agent kan er rechtstreeks mee werken.
-3. **Bug-issue:** wat gebeurt, wat had moeten gebeuren, hoe reproduceren, en een test die faalt vóór de fix.
-4. Schrap vakjes die in jullie team nooit gelden; een vakje dat iedereen blind aanvinkt, zegt niets.
+1. **PR:** what and why in one to three sentences, with a link to the issue. How tested. **Review:** a human or a fresh agent session; intent not weakened; no new module boundaries without an ADR (P19, P22, P23). Which docs were touched, or deliberately none.
+2. **Feature issue:** the same fields as a [spec](spec.md): goal, out of scope, touchpoints (incl. seams), slices (one session), acceptance on intent. An agent can work from it directly.
+3. **Bug issue:** what happens, what should happen, how to reproduce, and a test that fails before the fix.
+4. Remove checkboxes that never apply in your team; a checkbox everyone ticks blindly says nothing.
 
-## Voorbeeld (DEP2, ingevulde PR)
+## Example (DEP2, filled-in PR)
 
 ```markdown
-## Wat en waarom
+## What and why
 
-Loader voor dronevluchten zet `├п` om naar `ï` vóór de insert. Fixes #41.
+The drone flight loader converts `├п` to `ï` before the insert. Fixes #41.
 
-## Hoe getest
+## How tested
 
-- [x] `make check` groen (CI)
-- [x] `make check-full` lokaal tegen de school-DB: 3 nieuwe vluchten geladen, geen dubbele plots
+- [x] `make check` green (CI)
+- [x] `make check-full` locally against the school DB: 3 new flights loaded, no duplicate plots
 
 ## Docs
 
-- [x] Docs bijgewerkt: `docs/architecture/case2-drone.md` (valkuil encoding)
+- [x] Docs updated: `docs/architecture/case2-drone.md` (encoding pitfall)
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Elke gemergede PR van de laatste sprint heeft "Docs" en "Review" ingevuld.
-- [ ] Een feature-issue heeft iets onder "buiten scope" en noemt seams of "geen".
-- [ ] Niemand vinkt "intent niet afgezwakt" blind aan: spotcheck één PR per sprint.
+- [ ] Every merged PR from the last sprint has "Docs" and "Review" filled in.
+- [ ] A feature issue has something under "out of scope" and names the seams or "none".
+- [ ] Nobody ticks "intent not weakened" blindly: spot-check one PR per sprint.

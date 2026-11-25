@@ -1,116 +1,117 @@
 # cardine-lab
 
-> **Een reproduceerbaar AI-agent-werkstation voor Arch Linux / Hyprland.**
+> **A reproducible AI-agent workstation for Arch Linux / Hyprland.**
 
-Installeert toolchain, sandbox, indexering en editor-koppeling in één
-idempotent script. Geen handmatige stappen, geen verdwaalde configuratie —
-draai het en je hebt een werkend agent-werkstation.
+Installs the toolchain, sandbox, indexing and editor coupling in one idempotent
+script. No manual steps, no stray configuration — run it and you have a working
+agent workstation.
 
 ---
 
-## Wat het installeert
+## What it installs
 
-| Onderdeel | Wat | Waarom? (research) |
-|-----------|-----|---------------------|
-| **DeepSeek Harness** | Agent-loop: tool-use, bestand-editen, sessie-beheer | Waarom DSH: [packages-context.md](../../docs/decisions/packages-context.md#waarom-dsh-en-niet-een-eigen-loop) · ADR [0003](../../docs/decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
-| **Jarvis MCP-server** | Code-index voor de agent — zoeken, definitie, referenties | Waarom Jarvis: [packages-context.md](../../docs/decisions/packages-context.md) · ADR [0006](../../docs/decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md) |
-| **bwrap-sandbox** | Strakke kooi voor de agent-shell | Waarom sandbox: [packages-context.md](../../docs/decisions/packages-context.md#waarom-een-sandbox-bwrap) · ADR [0007](../../docs/decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) |
-| **Zed-config** | ACP-profiel zodat DSH als agent-paneel in Zed draait | Waarom Zed: [packages-context.md](../../docs/decisions/packages-context.md#waarom-is-zed-de-ide-op-het-lab-pad) · ADR [0002](../../docs/decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
+| Part | What | Why? (research) |
+|------|------|-----------------|
+| **DeepSeek Harness** | Agent loop: tool use, file editing, session management | Why DSH: [packages-context.md](../../docs/decisions/packages-context.md#why-deepseek-harness-and-not-an-own-loop) · ADR [0003](../../docs/decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md) |
+| **Jarvis MCP server** | Code index for the agent — search, definition, references | Why Jarvis: [packages-context.md](../../docs/decisions/packages-context.md) · ADR [0006](../../docs/decisions/0006-the-agent-searches-via-jarvis-as-mcp-zed-search-and-lsp-stay-with-the-editor.md) |
+| **bwrap sandbox** | Tight cage for the agent shell | Why a sandbox: [packages-context.md](../../docs/decisions/packages-context.md#why-a-sandbox-bwrap) · ADR [0007](../../docs/decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md) |
+| **Zed config** | ACP profile so DSH runs as the agent panel in Zed | Why Zed: [packages-context.md](../../docs/decisions/packages-context.md#why-is-zed-the-ide-on-the-lab-path) · ADR [0002](../../docs/decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md) |
 
-Zie [docs/cardine-lab.md](docs/cardine-lab.md) voor de volledige uitleg per
-onderdeel en hoe ze samenhangen, en
+See [docs/cardine-lab.md](docs/cardine-lab.md) for the full explanation per part
+and how they relate, and
 [docs/decisions/packages-context.md](../../docs/decisions/packages-context.md)
-voor de context bij alle keuzes.
+for the context behind every choice.
 
 ---
 
-## Installatie
+## Install
 
-### Vereisten
+### Requirements
 
-- **Arch Linux** (of afgeleide zoals EndeavourOS)
-- **Hyprland** (of een andere Wayland-compositor)
-- **Git** geïnstalleerd
-- Optioneel: **Node.js** (voor `cardine-slice-check`)
+- **Arch Linux** (or a derivative such as EndeavourOS)
+- **Hyprland** (or another Wayland compositor)
+- **Git** installed
+- Optional: **Node.js** (for `cardine-slice-check`)
 
-### Stap 1 — Installeer de toolchain
+### Step 1 — Install the toolchain
 
 ```bash
 npm i -g @lennaertds/cardine-lab
 cardine-lab install
 ```
 
-`cardine-lab` blijft daarna beschikbaar voor `cardine-lab status` en
-`cardine-lab status --fix`. Zonder globale installatie werkt ook:
+`cardine-lab` stays available afterwards for `cardine-lab status` and
+`cardine-lab status --fix`. Without a global install you can also run:
 
 ```bash
 npx @lennaertds/cardine-lab install
 ```
 
-of direct uit de repo (zonder npm):
+or straight from the repo (no npm):
 
 ```bash
 bash packages/lab/install-lab.sh
 ```
 
-Het package publiceert naar de publieke npm-registry — geen token nodig.
-`cardine-lab install` draait vanuit de map waarin je staat: die map (of de
-git-root ervan) wordt de `workspaceRoot` van het DSH-profiel.
+The package publishes to the public npm registry — no token needed.
+`cardine-lab install` runs from the directory you are in: that directory (or its
+git root) becomes the `workspaceRoot` of the DSH profile.
 
-Het script is **idempotent**: je kunt het meerdere keren draaien zonder
-schade. Het installeert wat ontbreekt en slaat over wat er al is.
+The script is **idempotent**: you can run it several times without harm. It
+installs what is missing and skips what is already there.
 
-### Stap 2 — Voeg de projectstructuur toe
-
-```bash
-npx cardine mijn-project --profile app
-```
-
-Zie [cardine-structure](../structure/README.md) voor alle opties.
-
-### Stap 3 — Status controleren
+### Step 2 — Add the project structure
 
 ```bash
-bash packages/lab/cardine-status.sh
+npx cardine my-project --profile app
 ```
 
-of via make (als je de repo hebt):
+See [cardine-structure](../structure/README.md) for every option.
+
+### Step 3 — Check the status
+
+```bash
+cardine-lab status
+```
+
+or via make (if you have the repo):
 
 ```bash
 make env-status
 ```
 
-Zie [docs/how-to/status-jarvis-dsh.md](../../docs/how-to/status-jarvis-dsh.md)
-voor wat de status-check je vertelt en hoe je problemen oplost.
+See [docs/how-to/status-jarvis-dsh.md](../../docs/how-to/status-jarvis-dsh.md)
+for what the status check tells you and how to fix problems.
 
-### Optionele tooling
+### Optional tooling
 
-Naast de kern installeert `install-lab.sh` ook scripts voor:
+Besides the core, `install-lab.sh` also ships scripts for:
 
 - **Security scanning** — [docs/how-to/security-scan.md](../../docs/how-to/security-scan.md)
-- **Dependencies audit** — [docs/how-to/deps-audit.md](../../docs/how-to/deps-audit.md)
-- **Tech-radar** — [docs/how-to/radar.md](../../docs/how-to/radar.md)
+- **Dependency audit** — [docs/how-to/deps-audit.md](../../docs/how-to/deps-audit.md)
+- **Tech radar** — [docs/how-to/radar.md](../../docs/how-to/radar.md)
 - **Digest (RSS/Atom feeds)** — [docs/how-to/digest.md](../../docs/how-to/digest.md)
 - **Performance budgets** — [docs/architecture/performance.md](../../docs/architecture/performance.md)
 - **Polyglot checks** — [docs/architecture/polyglot.md](../../docs/architecture/polyglot.md)
 
-Deze scripts zijn **optioneel** — ze worden geïnstalleerd maar je hoeft ze
-niet te gebruiken.
+These scripts are **optional** — they are installed but you do not have to use
+them.
 
 ---
 
-## Inhoud van dit package
+## Contents of this package
 
 ```
 packages/lab/
-├── CHANGELOG.md              ← Versiegeschiedenis
-├── README.md                 ← Dit bestand
-├── install-lab.sh            ← Hoofdscript — idempotent
-├── cardine-bwrap             ← Strakkere bwrap-kooi (ADR 0007)
-├── cardine-status.sh         ← Status-check voor DSH, Jarvis, tools
-├── cardine-slice-check/      ← Node-module voor make check na een turn
-├── scripts/                  ← Optionele tool-scripts
+├── CHANGELOG.md              ← Version history
+├── README.md                 ← This file
+├── install-lab.sh            ← Main script — idempotent
+├── cardine-bwrap             ← Tighter bwrap cage (ADR 0004)
+├── cardine-status.sh         ← Status check for DSH, Jarvis, tools
+├── cardine-slice-check/      ← Node module for make check after a turn
+├── scripts/                  ← Optional tool scripts
 │   ├── check-links.sh
+│   ├── check-language.sh
 │   ├── deps-audit.sh
 │   ├── security-scan.sh
 │   ├── perf-check.sh
@@ -119,83 +120,83 @@ packages/lab/
 │   ├── native-ffi.sh
 │   ├── digest-*.sh / digest-rss.py
 │   └── install-digest-timers.sh
-└── systemd/                  ← Timer-units (digest-fetch, digest-week)
+└── systemd/                  ← Timer units (digest-fetch, digest-week)
     ├── digest-fetch.service / digest-fetch.timer
     └── digest-week.service / digest-week.timer
 ```
 
-### Belangrijkste bestanden
+### Key files
 
-| Bestand | Rol |
-|---------|-----|
-| `install-lab.sh` | Hoofdscript — idempotent, installeert DSH + Jarvis + bwrap + Zed-config |
-| `cardine-bwrap` | Strakkere bwrap-kooi voor de agent-shell. Zie [ADR 0007](https://github.com/ventje/cardine/blob/main/docs/decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) |
-| `cardine-status.sh` | Status-check voor DSH, Jarvis en tools. Zie [docs/how-to/status-jarvis-dsh.md](../../docs/how-to/status-jarvis-dsh.md) |
-| `cardine-slice-check/` | Node-module voor `make check` na een turn — valideert of een slice compleet is |
-| `scripts/` | Extra tool-scripts (security, radar, audit, digest, …) — optioneel |
-| `systemd/` | Timer-units voor digest-fetch — optioneel |
-
----
-
-## Hoe het werkt
-
-1. **`install-lab.sh`** downloadt en installeert DSH, Jarvis, bwrap en
-   Zed-config. Het genereert een ACP-profiel in `~/.dsh/profiles/` dat DSH als
-   agent-paneel in Zed koppelt.
-2. **`cardine-bwrap`** vervangt de standaard bwrap-config door een strakkere
-   kooi die de agent-shell isoleert tot de workspace. Het netwerk blijft
-   open. Geen onbevoegde bestandstoegang.
-3. **`cardine-status.sh`** controleert of alle onderdelen werken: DSH-versie,
-   Jarvis-index, sandbox, omgevingsvariabelen. Handig na installatie en bij
-   problemen.
-4. **`cardine-slice-check`** is een Node-module die `make check` gebruikt om
-   na elke turn te valideren of links kloppen, of er geen secrets gelekt zijn,
-   en of de docs consistent zijn.
-
-Zie [docs/product/totaalproduct.md](../../docs/product/totaalproduct.md) voor
-hoe deze onderdelen samenhangen met de rest van het product.
+| File | Role |
+|------|------|
+| `install-lab.sh` | Main script — idempotent, installs DSH + Jarvis + bwrap + Zed config |
+| `cardine-bwrap` | Tighter bwrap cage for the agent shell. See [ADR 0007](../../docs/decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md) |
+| `cardine-status.sh` | Status check for DSH, Jarvis and tools. See [docs/how-to/status-jarvis-dsh.md](../../docs/how-to/status-jarvis-dsh.md) |
+| `cardine-slice-check/` | Node module for `make check` after a turn — verifies a slice is complete |
+| `scripts/` | Extra tool scripts (security, radar, audit, digest, …) — optional |
+| `systemd/` | Timer units for digest-fetch — optional |
 
 ---
 
-## Werking achter de schermen — waarom deze keuzes?
+## How it works
 
-| Vraag | Antwoord | Meer lezen |
-|-------|----------|------------|
-| Waarom DSH en geen eigen loop? | Upstream DeepSeek Harness is stabiel en actief. Een fork is onderhoud zonder meerwaarde. | Context: [packages-context.md](../../docs/decisions/packages-context.md#waarom-dsh-en-niet-een-eigen-loop) · ADR: [0003](../../docs/decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
-| Waarom bwrap? | Lichtgewicht, geen root-dienst, werkt op Arch zonder extra kernel-modules. | Context: [packages-context.md](../../docs/decisions/packages-context.md#waarom-een-sandbox-bwrap) · ADR: [0007](../../docs/decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) |
-| Waarom Zed? | Upstream, geen fork. Het lab-pad gebruikt Zed, maar het product dwingt geen editor af. | Context: [packages-context.md](../../docs/decisions/packages-context.md#waarom-is-zed-de-ide-op-het-lab-pad) · ADR: [0002](../../docs/decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
-| Waarom deepseek-flash? | Goedkoop en snel voor het lab. Claude is de tweede provider voor wie een eigen key heeft. | Context: [packages-context.md](../../docs/decisions/packages-context.md#waarom-deepseek-flash-als-model) · ADR: [0008](../../docs/decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) |
-| Waarom geen eigen editor? | De editor is upstream Zed. Een eigen IDE is werk dat geen meerwaarde biedt. | Context: [packages-context.md](../../docs/decisions/packages-context.md#waarom-een-gratis-product) · ADR: [0009](../../docs/decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md) |
+1. **`install-lab.sh`** downloads and installs DSH, Jarvis, bwrap and the Zed
+   config. It generates an ACP profile in `~/.dsh/profiles/` that couples DSH as
+   the agent panel in Zed.
+2. **`cardine-bwrap`** replaces the default bwrap config with a tighter cage that
+   isolates the agent shell to the workspace. The network stays open. No
+   unauthorised file access.
+3. **`cardine-status.sh`** checks whether every part works: DSH version, Jarvis
+   index, sandbox, environment variables. Useful after installation and when
+   something breaks.
+4. **`cardine-slice-check`** is a Node module that `make check` uses to verify
+   after every turn that links resolve, that no secrets leaked, and that the docs
+   are consistent.
 
-Zie [docs/decisions/packages-context.md](../../docs/decisions/packages-context.md)
-voor een overzicht van alle context en de bijbehorende bronnen.
+See [docs/product/totaalproduct.md](../../docs/product/totaalproduct.md) for how
+these parts relate to the rest of the product.
 
 ---
 
-## Versiebeheer
+## Behind the scenes — why these choices?
 
-Dit package heeft een **eigen versie**, onafhankelijk van `cardine-structure`
-en de meta-package. SemVer — `major.minor.patch`.
+| Question | Answer | Read more |
+|----------|--------|-----------|
+| Why DSH and no own loop? | Upstream DeepSeek Harness is stable and active. A fork is maintenance without benefit. | Context: [packages-context.md](../../docs/decisions/packages-context.md#why-deepseek-harness-and-not-an-own-loop) · ADR: [0003](../../docs/decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md) |
+| Why bwrap? | Lightweight, no root service, works on Arch without extra kernel modules. | Context: [packages-context.md](../../docs/decisions/packages-context.md#why-a-sandbox-bwrap) · ADR: [0007](../../docs/decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md) |
+| Why Zed? | Upstream, no fork. The lab path uses Zed, but the product imposes no editor. | Context: [packages-context.md](../../docs/decisions/packages-context.md#why-is-zed-the-ide-on-the-lab-path) · ADR: [0002](../../docs/decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md) |
+| Why deepseek-flash? | Cheap and fast for the lab. Claude is the second provider for anyone with their own key. | Context: [packages-context.md](../../docs/decisions/packages-context.md#why-deepseek-flash-as-the-model) · ADR: [0008](../../docs/decisions/0008-the-coding-model-is-deepseek-flash-and-claude-is-the-second-provider.md) |
+| Why no own editor? | The editor is upstream Zed. An own IDE is work without benefit. | Context: [packages-context.md](../../docs/decisions/packages-context.md#why-a-free-product) · ADR: [0009](../../docs/decisions/0009-the-product-is-the-free-project-structure-and-a-guide-to-the-agent-paths.md) |
 
-| Actie | Versie |
-|-------|--------|
-| Huidige versie | [0.4.0](CHANGELOG.md) |
-| Git-tag | `lab-v<semver>` |
+See [docs/decisions/packages-context.md](../../docs/decisions/packages-context.md)
+for an overview of all the context and its sources.
+
+---
+
+## Versioning
+
+This package has its **own version**, independent of `cardine-structure` and the
+meta package. SemVer — `major.minor.patch`.
+
+| Item | Value |
+|------|-------|
+| Current version | 0.5.2 ([CHANGELOG](CHANGELOG.md)) |
+| Git tag | `lab-v<semver>` |
 | CHANGELOG | [CHANGELOG.md](CHANGELOG.md) |
 
-Zie [docs/packages/VERSIONING.md](../../docs/packages/VERSIONING.md) voor het
-volledige schema.
+See [docs/packages/VERSIONING.md](../../docs/packages/VERSIONING.md) for the full
+scheme.
 
 ---
 
-## Meer lezen
+## Read more
 
-| Waar | Wat |
-|------|-----|
-| [docs/cardine-lab.md](docs/cardine-lab.md) | Volledige documentatie van dit package |
-| [docs/how-to/zed-dsh.md](../../docs/how-to/zed-dsh.md) | Zed + DSH configureren |
-| [docs/how-to/status-jarvis-dsh.md](../../docs/how-to/status-jarvis-dsh.md) | Status-check uitlezen |
-| [docs/how-to/sandbox-troubleshoot.md](../../docs/how-to/sandbox-troubleshoot.md) | bwrap-problemen oplossen |
-| [docs/product/totaalproduct.md](../../docs/product/totaalproduct.md) | Hoe de 9 onderdelen samenhangen |
+| Where | What |
+|-------|------|
+| [docs/cardine-lab.md](docs/cardine-lab.md) | Full documentation of this package |
+| [docs/how-to/zed-dsh.md](../../docs/how-to/zed-dsh.md) | Configure Zed + DSH |
+| [docs/how-to/status-jarvis-dsh.md](../../docs/how-to/status-jarvis-dsh.md) | Read the status check |
+| [docs/how-to/sandbox-troubleshoot.md](../../docs/how-to/sandbox-troubleshoot.md) | Solving bwrap problems |
+| [docs/product/totaalproduct.md](../../docs/product/totaalproduct.md) | How the 9 parts relate |
 | [docs/architecture/ARCHITECTURE.md](../../docs/architecture/ARCHITECTURE.md) | Containers, stack, dataflow |
-| [README.md](../../README.md) | Meta-package — overzicht van alles |
+| [README.md](../../README.md) | Meta package — overview of everything |

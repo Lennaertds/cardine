@@ -1,23 +1,23 @@
 # docs/architecture/dependencies.md
 
-> **Rol:** Dependency-hygiëne: audits, ritueel, snellere/veiligere alternatieven.
-> **Niet hier:** Strix ([security](security.md)), budgets ([performance](performance.md)).
+> **Role:** Dependency hygiene: audits, ritual, faster/safer alternatives.
+> **Not here:** Strix ([security](security.md)), budgets ([performance](performance.md)).
 
-**Kitbestand:** [kit/kern/docs/architecture/dependencies.md](../kit/kern/docs/architecture/dependencies.md) · laag kern · P13, P17
+**Kit file:** [kit/kern/docs/architecture/dependencies.md](../kit/kern/docs/architecture/dependencies.md) · layer kern · P13, P17
 
-## Wanneer
+## When
 
-Dag 0 met de kittekst. Bij de eerste release: `make deps-audit` een keer lokaal + in CI (`check-full`). Maandelijks: ritueel uit de architecture-doc. AGENTS: alleen via INDEX als de opdracht het noemt.
+Day 0 with the kit text. At the first release: run `make deps-audit` once locally + in CI (`check-full`). Monthly: the ritual from the architecture doc. AGENTS: only via INDEX when the task names it.
 
-## Invullen
+## Filling in
 
-1. Laat de audit-tabel staan; stacks zonder die bestanden slaat het script over.
-2. Bij bewuste CVE/license-compromis: ADR, niet stil in deze file.
-3. **`## Bewust later`:** kitrijen laten staan of projectrijen toevoegen (P28). How-to: [deps-audit](../kit/kern/docs/how-to/deps-audit.md). Geen paden naar Agent Engineering `bron/` in het projectbestand.
+1. Leave the audit table; the script skips stacks without those files.
+2. For a deliberate CVE/licence compromise: an ADR, not silently in this file.
+3. **`## Deliberately incomplete` (P28):** keep the kit rows or add project rows (P28). How-to: [deps-audit](../kit/kern/docs/how-to/deps-audit.md). No paths into Agent Engineering `bron/` in the project file.
 
-## Snelle toets
+## Quick check
 
-- [ ] `make deps-audit` is groen (of alleen docs-check + duidelijke skips zonder tool).
-- [ ] `deps-audit` staat in `make help` en in `check-full`, niet in `CHECK` / `make check`.
-- [ ] `## Bewust later` heeft minstens één uitbreidingsrij (P28).
-- [ ] Maandelijks ritueel is bekend (of in teamkalender / BACKLOG-herinnering).
+- [ ] `make deps-audit` is green (or only the docs check + clear skips without the tool).
+- [ ] `deps-audit` is in `make help` and in `check-full`, not in `CHECK` / `make check`.
+- [ ] `## Deliberately incomplete` has at least one extension row (P28).
+- [ ] The monthly ritual is known (or in the team calendar / BACKLOG reminder).

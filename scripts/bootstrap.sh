@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# bootstrap: zet deze standaard tijdelijk in een project als _bootstrap/, of haalt hem weer weg.
-# Gebruik: scripts/bootstrap.sh <project>
+# bootstrap: temporarily place this standard in a project as _bootstrap/, or remove it again.
+# Usage: scripts/bootstrap.sh <project>
 #          scripts/bootstrap.sh --remove <project>
-# Het pakket staat in .git/info/exclude: git, rg en de link-check zien het niet, en het komt nooit in een commit.
+# The package sits in .git/info/exclude: git, rg and the link check do not see it, and it never ends up in a commit.
 set -euo pipefail
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -22,13 +22,13 @@ if [[ "${1:-}" == --remove ]]; then remove=1; shift; fi
 target="$1"
 
 if ((remove)); then
-  [[ -d "$target" ]] || { echo "Geen map: $target" >&2; exit 1; }
+  [[ -d "$target" ]] || { echo "No folder: $target" >&2; exit 1; }
   target="$(cd "$target" && pwd)"
   pkg="$target/$NAME"
-  [[ -f "$pkg/BOOTSTRAP.md" ]] || { echo "Geen opstartpakket in $target (verwacht $pkg/BOOTSTRAP.md)." >&2; exit 1; }
+  [[ -f "$pkg/BOOTSTRAP.md" ]] || { echo "No bootstrap package in $target (expected $pkg/BOOTSTRAP.md)." >&2; exit 1; }
   if git -C "$target" rev-parse --git-dir >/dev/null 2>&1; then
     if [[ -n "$(git -C "$target" ls-files -- "$NAME")" ]]; then
-      echo "$NAME/ staat in git; eerst: git rm -r --cached $NAME" >&2
+      echo "$NAME/ is in git; first: git rm -r --cached $NAME" >&2
       exit 1
     fi
     exclude="$(cd "$target" && realpath -m "$(exclude_file "$target")")"
@@ -39,7 +39,7 @@ if ((remove)); then
     fi
   fi
   rm -rf -- "$pkg"
-  echo "Opstartpakket weg: $pkg"
+  echo "Bootstrap package removed: $pkg"
   exit 0
 fi
 
@@ -48,11 +48,11 @@ target="$(cd "$target" && pwd)"
 pkg="$target/$NAME"
 case "$target/" in
   "$SRC"/tmp/*) ;;
-  "$SRC"/*) echo "Het project ligt in de standaard zelf: $target" >&2; exit 1 ;;
+  "$SRC"/*) echo "The project sits inside the standard itself: $target" >&2; exit 1 ;;
 esac
-[[ ! -e "$pkg" ]] || { echo "Bestaat al: $pkg. Eerst: $0 --remove $target" >&2; exit 1; }
+[[ ! -e "$pkg" ]] || { echo "Already exists: $pkg. First: $0 --remove $target" >&2; exit 1; }
 
-# Een lege map krijgt een eigen repo, ook binnen een andere repo: anders telt de exclude niet voor het nieuwe project.
+# An empty folder gets its own repo, even inside another repo: otherwise the exclude does not apply to the new project.
 if [[ -z "$(ls -A "$target")" ]] || ! git -C "$target" rev-parse --git-dir >/dev/null 2>&1; then
   git -C "$target" init -q -b main
   echo "git init: $target"
@@ -67,13 +67,13 @@ mkdir -p "$(dirname "$exclude")"
 grep -qxF -- "$line" "$exclude" 2>/dev/null || echo "$line" >>"$exclude"
 
 cat <<EOF
-Opstartpakket klaar: $pkg
-Niet zichtbaar voor git: $line in $exclude
+Bootstrap package ready: $pkg
+Invisible to git: $line in $exclude
 
-Open $target in Cursor en geef de agent:
+Open $target in Cursor and tell the agent:
 
-  Lees _bootstrap/BOOTSTRAP.md en volg het voor dit project.
+  Read _bootstrap/BOOTSTRAP.md and follow it for this project.
 
-Weghalen kan de agent zelf aan het einde, of jij met:
+Removing it can be done by the agent at the end, or by you with:
   bash $SRC/scripts/bootstrap.sh --remove $target
 EOF

@@ -1,37 +1,37 @@
 # .pre-commit-config.yaml, .gitignore, .editorconfig
 
-> **Rol:** De guardrails die vóór elke commit draaien, en wat nooit in git komt.
-> **Niet hier:** het beleid over wat in git staat ([git](../standaard/git.md)), de lagen van `data/` ([data](../standaard/data.md)).
+> **Role:** The guardrails that run before every commit, and what never goes into git.
+> **Not here:** the policy on what is in git ([git](../standard/git.md)), the layers of `data/` ([data](../standard/data.md)).
 
-**Kitbestanden:** [.pre-commit-config.yaml](../kit/kern/.pre-commit-config.yaml), [.gitignore](../kit/kern/.gitignore), [.editorconfig](../kit/kern/.editorconfig) · laag kern · P14, P17
+**Kit files:** [.pre-commit-config.yaml](../kit/kern/.pre-commit-config.yaml), [.gitignore](../kit/kern/.gitignore), [.editorconfig](../kit/kern/.editorconfig) · layer kern · P14, P17
 
-## Wanneer
+## When
 
-Altijd, dag 0. `make setup` installeert de hooks. Een regel die je anders in `AGENTS.md` zou zetten ("geen ruwe data committen"), staat hier als hook: dan wordt hij niet vergeten.
+Always, day 0. `make setup` installs the hooks. A rule you would otherwise put in `AGENTS.md` ("do not commit raw data") sits here as a hook: then it is not forgotten.
 
-## Invullen
+## Filling in
 
-1. **`.gitignore`:** het kit-blok niet aanpassen; regels van dit project onderaan onder `# --- Specifiek voor dit project`.
-2. **Hooks:** de kit heeft secrets (gitleaks, private keys), grote bestanden (> 1 MB), merge-conflicten, YAML, witruimte, en twee eigen: geen ruwe of runtime-data en geen sync-conflicten.
-3. **Eigen hook** voor een fout die twee keer gebeurde: een `language: fail`-hook op een padpatroon, of een `language: system`-hook die een script draait.
-4. **Versies bijwerken** in het onderhoud: `pre-commit autoupdate`.
+1. **`.gitignore`:** do not change the kit block; put this project's rules at the bottom under `# --- Specific to this project`.
+2. **Hooks:** the kit has secrets (gitleaks, private keys), large files (> 1 MB), merge conflicts, YAML, whitespace, and two of its own: no raw or runtime data and no sync conflicts.
+3. **Your own hook** for a mistake that happened twice: a `language: fail` hook on a path pattern, or a `language: system` hook that runs a script.
+4. **Update versions** during maintenance: `pre-commit autoupdate`.
 
-## Voorbeeld (eigen hook)
+## Example (your own hook)
 
-GymFreak wil nooit een Health-export in een testfixture:
+GymFreak never wants a Health export in a test fixture:
 
 ```yaml
   - repo: local
     hooks:
       - id: no-health-export-in-fixtures
-        name: geen echte Health-export in testfixtures
+        name: no real Health export in test fixtures
         language: fail
-        entry: gebruik een synthetische export (tests/fixtures/README.md)
+        entry: use a synthetic export (tests/fixtures/README.md)
         files: 'tests/fixtures/.*export.*\.xml$'
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] `pre-commit run --all-files` is groen.
-- [ ] `git ls-files -ci --exclude-standard` geeft niets.
-- [ ] Een test-commit van een bestand in `data/raw/` wordt geweigerd.
+- [ ] `pre-commit run --all-files` is green.
+- [ ] `git ls-files -ci --exclude-standard` returns nothing.
+- [ ] A test commit of a file in `data/raw/` is refused.

@@ -1,6 +1,6 @@
 # Stack nest — `apps/api`
 
-> **Rol:** Een NestJS-API opzetten volgens [stacks §3](../../../standaard/stacks.md#3-nestjs-api). Dit bestand wordt niet gekopieerd.
+> **Role:** Set up a NestJS API following [stacks §3](../../../standard/stacks.md#3-nestjs-api). This file is not copied.
 
 ## 1. Generator
 
@@ -8,7 +8,7 @@
 pnpm dlx @nestjs/cli new api --directory apps/api --package-manager pnpm --skip-git --strict
 ```
 
-Nest zet zijn tests in `test/`. Verhuis ze meteen naar de vaste plek, zodat er later niets te verhuizen valt:
+Nest puts its tests in `test/`. Move them to their fixed place straight away, so nothing has to be moved later:
 
 ```bash
 mkdir -p apps/api/tests/integration
@@ -18,17 +18,17 @@ mv apps/api/test/jest-e2e.json apps/api/tests/jest-integration.json && rmdir app
 
 In `tests/jest-integration.json`: `"rootDir": "."` en `"testRegex": "integration/.*\\.e2e-spec\\.ts$"`.
 
-## 2. Kit erover
+## 2. Kit on top
 
 ```bash
 kit/new-project.sh <project> --stacks nest --modules compose
 ```
 
-Dit voegt `app.mk`, `AGENTS.md`, `.env.example` en de mappen `src/common/`, `src/database/migrations/` en `tests/{integration,smoke,fixtures}/` toe. Met de module `compose` start `make dev-api` eerst Postgres.
+This adds `app.mk`, `AGENTS.md`, `.env.example` and the folders `src/common/`, `src/database/migrations/` and `tests/{integration,smoke,fixtures}/`. With module `compose`, `make dev-api` starts Postgres first.
 
 ## 3. Scripts
 
-`app.mk` roept deze scripts aan. Voeg ze toe aan `apps/api/package.json` (de generator heeft `start:dev`, `build` en `test` al):
+`app.mk` calls these scripts. Add them to `apps/api/package.json` (the generator already has `start:dev`, `build` and `test`):
 
 ```json
 {
@@ -37,18 +37,18 @@ Dit voegt `app.mk`, `AGENTS.md`, `.env.example` en de mappen `src/common/`, `src
     "typecheck": "tsc --noEmit",
     "test:integration": "jest --config ./tests/jest-integration.json --runInBand",
     "seed": "ts-node scripts/seed.ts",
-    "db:reset": "<schema leegmaken en alle migraties draaien, met je ORM>"
+    "db:reset": "<empty the schema and run all migrations, with your ORM>"
   }
 }
 ```
 
-Voorbeeld voor `db:reset` met TypeORM: `typeorm-ts-node-commonjs schema:drop -d src/database/data-source.ts && typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts`.
+Example for `db:reset` with TypeORM: `typeorm-ts-node-commonjs schema:drop -d src/database/data-source.ts && typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts`.
 
 ## 4. Health check
 
-`make smoke-api` vraagt `GET /health` op. Zet die route in `src/common/health/`, zonder auth.
+`make smoke-api` requests `GET /health`. Put that route in `src/common/health/`, without auth.
 
-## 5. Controleren
+## 5. Check
 
 ```bash
 make setup && make up && make check && make dev-api

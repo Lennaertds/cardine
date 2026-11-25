@@ -1,24 +1,24 @@
 # docs/architecture/performance.md
 
-> **Rol:** Budgets en anti-patronen; performance vanaf dag 1.
-> **Niet hier:** dashboards ([observability](observability.md)).
+> **Role:** Budgets and anti-patterns; performance from day 1.
+> **Not here:** dashboards ([observability](observability.md)).
 
-**Kitbestand:** [kit/kern/docs/architecture/performance.md](../kit/kern/docs/architecture/performance.md) · laag kern · P13
+**Kit file:** [kit/kern/docs/architecture/performance.md](../kit/kern/docs/architecture/performance.md) · layer kern · P13
 
-## Wanneer
+## When
 
-Dag 0 met de voorbeeld-budgets. Pas cijfers aan zodra je een eerste meting hebt (`make bench-*` of obs). Bij elke nieuwe hot path: rij in de tabel of ADR. AGENTS: alleen via INDEX als de opdracht het noemt, niet always-on.
+Day 0 with the example budgets. Update the numbers once you have a first measurement (`make bench-*` or obs). With every new hot path: a row in the table or an ADR. AGENTS: only via INDEX when the task names it, not always-on.
 
-## Invullen
+## Filling in
 
-1. **Budgets:** vervang voorbeelden door projectcijfers (API eerst, dan web, dan analytics). Lagen aanpassen aan de stacks van het project.
-2. **Productie:** limieten/CDN/scaling kort of via ADR.
-3. **Bench-scripts:** `apps/<app>/scripts/bench.sh` — zie [how-to in de kit](../kit/kern/docs/how-to/perf-bench.md).
-4. **`## Bewust later`:** kitrijen laten staan of aanvullen (P28); geen stille weglatingen. Geen paden naar Agent Engineering `bron/` in het projectbestand.
+1. **Budgets:** replace the examples with project numbers (API first, then web, then analytics). Adapt the layers to the project's stacks.
+2. **Production:** limits/CDN/scaling briefly or via an ADR.
+3. **Bench scripts:** `apps/<app>/scripts/bench.sh` — see the [how-to in the kit](../kit/kern/docs/how-to/perf-bench.md).
+4. **`## Deliberately incomplete` (P28):** keep the kit rows or extend them (P28); no silent omissions. No paths into Agent Engineering `bron/` in the project file.
 
-## Snelle toets
+## Quick check
 
-- [ ] `make perf-check` is groen.
-- [ ] `make bench` / `bench-api` staan in `make help`; niet in `make check`.
-- [ ] `## Bewust later` heeft minstens één uitbreidingsrij (P28).
-- [ ] Budgets-tabel heeft projectcijfers, geen verouderde voorbeelden zonder BACKLOG.
+- [ ] `make perf-check` is green.
+- [ ] `make bench` / `bench-api` are listed in `make help`; not in `make check`.
+- [ ] `## Deliberately incomplete` has at least one extension row (P28).
+- [ ] The budgets table has project numbers, no stale examples without a BACKLOG entry.

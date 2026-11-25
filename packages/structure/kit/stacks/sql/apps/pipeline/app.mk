@@ -1,8 +1,8 @@
-# pipeline (apps/pipeline) — make-targets van deze app. De root-Makefile neemt dit bestand automatisch op.
+# pipeline (apps/pipeline) — make targets of this app. The root Makefile picks this file up automatically.
 PIPELINE_DIR := apps/pipeline
 PIPELINE_UV := uv --directory $(PIPELINE_DIR)
 PIPELINE_ENV := $(PIPELINE_DIR)/.env
-# Laadt DATABASE_URL uit apps/pipeline/.env in de shell van het recept.
+# Loads DATABASE_URL from apps/pipeline/.env into the recipe's shell.
 PIPELINE_LOAD_ENV = test -f $(PIPELINE_ENV) || { echo "Geen $(PIPELINE_ENV). Draai make env." >&2; exit 1; }; \
 	set -a; . ./$(PIPELINE_ENV); set +a; export PGOPTIONS='--client-min-messages=warning'
 
@@ -20,7 +20,7 @@ CLEAN += clean-pipeline
 setup-pipeline: ## pipeline: virtuele omgeving en dependencies (uv sync)
 	$(PIPELINE_UV) sync
 
-check-pipeline: ## pipeline: ruff, mypy en pytest (zonder database)
+check-pipeline: ## pipeline: ruff, mypy and pytest (without a database)
 	$(PIPELINE_UV) run ruff check .
 	$(PIPELINE_UV) run ruff format --check .
 	$(PIPELINE_UV) run mypy
@@ -55,7 +55,7 @@ data-pipeline: migrate-pipeline ## pipeline: extract en load, daarna staging en 
 	  psql "$$DATABASE_URL" -v ON_ERROR_STOP=1 -q -1 -f "$$file"; \
 	done
 
-checks-pipeline: ## pipeline: datakwaliteit; elke query in sql/checks/ moet nul rijen geven
+checks-pipeline: ## pipeline: data quality; every query in sql/checks/ must return zero rows
 	@$(PIPELINE_LOAD_ENV); failed=0; \
 	for file in $(PIPELINE_DIR)/sql/checks/*.sql; do \
 	  [ -e "$$file" ] || continue; \

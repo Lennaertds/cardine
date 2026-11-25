@@ -1,81 +1,80 @@
-# {{PROJECT}} — agent-instructies
+# {{PROJECT}} — agent instructions
 
-<Eén zin: wat dit project is en voor wie.> Voor mensen: [README.md](README.md).
+<One sentence: what this project is and for whom.> For humans: [README.md](README.md).
 
-## Nooit
+## Never
 
-- Secrets en `.env` niet lezen, tonen of committen. Nieuwe variabelen gaan naar de `.env.example` van de app die ze leest.
-- Niets uit `data/raw/` of `data/runtime/` overnemen in code, tests, logs of antwoorden.
-- Niet committen of pushen tenzij erom gevraagd is.
-- Geen nieuwe map op root of in `docs/` zonder te vragen: elke soort bestand heeft al een vaste plek.
-- <Destructief, bv.: `make db-reset` alleen op uitdrukkelijke vraag; het wist de lokale database.>
-- Geen `mcp__jarvis__indexRepo` aanroepen (breekt in sandbox, laat stale `.lock`-bestanden achter); bij ontbrekende index: gebruiker vragen `make index` te draaien.
-- Inhoudelijke grenzen: [RULES.md](docs/rules/RULES.md). Security (live): [security.md](docs/architecture/security.md). Overige engineering-docs: via [docs/INDEX.md](docs/INDEX.md) — alleen als de opdracht ze raakt.
+- Do not read, show or commit secrets and `.env`. New variables go into the `.env.example` of the app that reads them.
+- Do not copy anything from `data/raw/` or `data/runtime/` into code, tests, logs or answers.
+- Do not commit or push unless asked.
+- No new folder at the root or in `docs/` without asking: every kind of file already has a fixed place.
+- <Destructive, e.g.: `make db-reset` only on explicit request; it wipes the local database.>
+- Do not call `mcp__jarvis__indexRepo` (it breaks in the sandbox and leaves stale `.lock` files); if the index is missing, ask the user to run `make index`.
+- Content boundaries: [RULES.md](docs/rules/RULES.md). Security (live): [security.md](docs/architecture/security.md). Other engineering docs: via [docs/INDEX.md](docs/INDEX.md) — only if the task touches them.
 
-## Commando's
+## Commands
 
-| Doel | Commando |
-|------|----------|
-| Context laden (RULES + BACKLOG + optionele spec) | `make context s=<slug>` (1 call i.p.v. 3-4 losse reads) |
-| Alles controleren (moet groen voor je afrondt) | `make check` |
-| Controleren + loggen in 1 call | `make finish MSG="wat gedaan"` |
-| Ook integratie-, e2e-, deps-audit en native STRICT | `make check-full` |
-| Lokaal starten | `make dev` |
-| Eén test | `<bv. pnpm --dir apps/api exec jest src/diet/diet-engine.spec.ts>` |
-| Dependency toevoegen | `<bv. pnpm --dir apps/web add zod · uv --directory apps/analytics add polars; nooit pip>` |
-| Container-safe functies klaarzetten | `make container-setup` (eenmalig per machine) |
-| Alle commando's (incl. opt-in) | `make help` |
+| Goal | Command |
+|------|---------|
+| Load context (RULES + BACKLOG + optional spec) | `make context s=<slug>` (1 call instead of 3–4 separate reads) |
+| Check everything (must be green before you finish) | `make check` |
+| Check + log in one call | `make finish MSG="what was done"` |
+| Also integration, e2e, deps-audit and native STRICT | `make check-full` |
+| Start locally | `make dev` |
+| One test | `<e.g. pnpm --dir apps/api exec jest src/diet/diet-engine.spec.ts>` |
+| Add a dependency | `<e.g. pnpm --dir apps/web add zod · uv --directory apps/analytics add polars; never pip>` |
+| Set up container-safe wrappers | `make container-setup` (once per machine) |
+| All commands (incl. opt-in) | `make help` |
 <!-- als: solo
-| Nieuw werkitem (index + plan) | `make spec s=<slug>` |
+| New work item (index + plan) | `make spec s=<slug>` |
 -->
 
-Opt-in (`security-scan*`, `obs-*`, `perf-*`, `deps-audit`, `polyglot-check`, `radar-*` / `digest-*`): alleen als de opdracht dat vraagt — `make help`, docs via INDEX.
+Opt-in (`security-scan*`, `obs-*`, `perf-*`, `deps-audit`, `polyglot-check`, `radar-*` / `digest-*`): only when the task asks for it — `make help`, docs via INDEX.
 
-## Werken
+## Working
 
-- **Start met** `make context s=<slug>`: dat toont RULES.md + BACKLOG + de spec in één uitvoer. Nooit losse reads.
-- Geen item? Vraag ernaar: `make context` zonder `s=` toont enkel RULES + werk. Daarna beslis of er een product/architectuur-doc nodig is.
-- De **kaart** is [docs/INDEX.md](docs/INDEX.md) — open die alleen als je écht niet weet waar iets hoort. Voor de 5 meest voorkomende gevallen gebruik je:
-  - `docs/product/<domein>.md` via PRODUCT.md
-  - `docs/architecture/<subsysteem>.md` via ARCHITECTURE.md
-  - `docs/how-to/<taak>.md` voor stappenplannen
-  - `docs/context/GLOSSARY.md` voor begrippen
-  - `docs/rules/RULES.md` voor grenzen (staat al in `make context`)
+- **Start with** `make context s=<slug>`: it shows RULES.md + BACKLOG + the spec in one output. Never separate reads.
+- No item? Ask for it: `make context` without `s=` shows only RULES + work. Then decide whether a product/architecture doc is needed.
+- The **map** is [docs/INDEX.md](docs/INDEX.md) — open it only if you really do not know where something belongs. For the five most common cases use:
+  - `docs/product/<domain>.md` via PRODUCT.md
+  - `docs/architecture/<subsystem>.md` via ARCHITECTURE.md
+  - `docs/how-to/<task>.md` for step-by-step procedures
+  - `docs/context/GLOSSARY.md` for terms
+  - `docs/rules/RULES.md` for boundaries (already in `make context`)
 <!-- als: solo
-- Nieuw open werk: `make spec s=<slug>` — BACKLOG = **index** (korte regel + link); plan/slices in `docs/work/specs/<slug>.md`. Nooit een essay in de BACKLOG-tabel.
+- New open work: `make spec s=<slug>` — BACKLOG = **index** (short line + link); plan/slices in `docs/work/specs/<slug>.md`. Never an essay in the BACKLOG table.
 -->
 <!-- als: design
-- UI / scherm / craft: eerst [DESIGN.md](docs/design/DESIGN.md); daarna één craft-bestand — nooit alleen screenshots/CSS.
+- UI / screen / craft: [DESIGN.md](docs/design/DESIGN.md) first; then one craft file — never screenshots/CSS alone.
 -->
 <!-- als: product
-- Gedrag / feature: eerst [PRODUCT.md](docs/product/PRODUCT.md); daarna één domeinbestand.
+- Behaviour / feature: [PRODUCT.md](docs/product/PRODUCT.md) first; then one domain file.
 -->
-- Architectuur / seams / modules: eerst [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md); daarna één subsystem. `## Bewust later` (P28): vraag of BACKLOG, niet stil inventeren.
+- Architecture / seams / modules: [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) first; then one subsystem. `## Deliberately later` (P28): ask or file it in BACKLOG, do not invent silently.
 <!-- als: research
-- Onderzoek: eerst [RESEARCH.md](docs/research/RESEARCH.md); daarna één onderwerp- of experimentbestand.
+- Research: [RESEARCH.md](docs/research/RESEARCH.md) first; then one topic or experiment file.
 -->
 <!-- als: cursor
-- *subagents* / *delegeer* / *parallel* / te groot: specialisten in `.cursor/agents/`. Parent = synthese (P24).
-- *clarify* / *check mijn prompt*: eerst `/clarify` (readonly); nooit auto vóór elke taak.
+- *subagents* / *delegate* / *parallel* / too large: specialists in `.cursor/agents/`. Parent = synthesis (P24).
+- *clarify* / *check my prompt*: `/clarify` first (readonly); never automatic before every task.
 -->
-- **Uitvoeren wint van praten.** *implementeer* / *bouw* / *doe* / *fix* / *voer uit* / *ja* → code in deze beurt. Geen tweede plan.
-- Volg bestaande patronen. Voorbeeld: `<pad/naar/voorbeeld>`. Term onbekend: [GLOSSARY.md](docs/context/GLOSSARY.md).
-- <Afwijkende conventie die geen linter afdwingt, bv. "Postgres is de enige writer van user-data".>
-- **Intent** boven groene tests (RULES/product niet afzwakken). **Geen** nieuwe modulegrenzen / `utils/` zonder vraag (seams in ARCHITECTURE). **Eén slice** per sessie; review eigen diff in frisse context. Rapporteer beknopt; `make check`-output tonen.
-- Regels per app: `apps/<app>/AGENTS.md`.
+- **Doing beats talking.** *implement* / *build* / *do* / *fix* / *run* / *yes* → code this turn. No second plan.
+- Follow existing patterns. Example: `<path/to/example>`. Unknown term: [GLOSSARY.md](docs/context/GLOSSARY.md).
+- <Deviating convention no linter enforces, e.g. "Postgres is the only writer of user data".>
+- **Intent** above green tests (do not weaken RULES/product). **No** new module boundaries / `utils/` without asking (seams in ARCHITECTURE). **One slice** per session; review your own diff in a fresh context. Report briefly; show the `make check` output.
+- Rules per app: `apps/<app>/AGENTS.md`.
 
-## Afronden
+## Finishing
 
+**Without asking.** After every turn with a repo change (code, docs, specs, config) — or after a finished slice — you do this. Do not wait for "log", "wrap up" or "ADR". Pure Q&A without writing: skip.
 
-**Zonder te vragen.** Na elke beurt met repo-wijziging (code, docs, specs, config) — of na een afgeronde slice — voer je dit uit. Wacht niet op "log", "rond af" of "ADR". Pure Q&A zonder schrijven: overslaan.
-
-1. **Bundel in 1 call:** `make finish MSG="<kort wat gedaan>"` — draait check + logt in 1 call. Toon de output.
+1. **Bundle in one call:** `make finish MSG="<briefly what was done>"` — runs check + logs in one call. Show the output.
 <!-- als: solo
-2. Keuze met waarom (voortaan X, niet meer Y, stack/seam/productregel): `make adr t="<besluit als zin>"` + geraakte doc. Geen keuze → geen ADR en niet vragen.
-3. Docs die deze wijziging raakt, bijgewerkt (alleen die). Kaart: [docs/INDEX.md](docs/INDEX.md).
-4. Item in [BACKLOG.md](docs/work/BACKLOG.md) / spec afvinken als de slice echt klaar is.
+2. Choice with a why (from now on X, no longer Y, stack/seam/product rule): `make adr t="<decision as a sentence>"` + the affected doc. No choice → no ADR and do not ask.
+3. Docs this change touches, updated (only those). Map: [docs/INDEX.md](docs/INDEX.md).
+4. Tick off the item in [BACKLOG.md](docs/work/BACKLOG.md) / the spec once the slice is really done.
 -->
 <!-- als: team
-2. Keuze met waarom: `make adr t="<besluit als zin>"` + geraakte doc. Geen keuze → geen ADR en niet vragen.
-3. Korte samenvatting in de PR, volgens de PR-template.
+2. Choice with a why: `make adr t="<decision as a sentence>"` + the affected doc. No choice → no ADR and do not ask.
+3. Short summary in the PR, following the PR template.
 -->

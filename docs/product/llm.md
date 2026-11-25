@@ -1,41 +1,41 @@
 # LLM
 
-> **Rol:** Bijhouden van BYOK-modelproviders — default, fallbacks, wat wél de machine verlaat.
-> **Niet hier:** harness-routing ([harness.md](harness.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Role:** maintaining the BYOK model providers — default, fallbacks, and what does leave the machine.
+> **Not here:** harness routing ([harness.md](harness.md)); relations ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** beslist · **ADR:** [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) (default) en [0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) (`deepseek-flash` + Claude) · **Spec weg** — besluit in ADR's, vorm in product-doc
+**State:** decided · **ADR:** [0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md) (default) and [0008](../decisions/0008-the-coding-model-is-deepseek-flash-and-claude-is-the-second-provider.md) (`deepseek-flash` + Claude) · **Spec gone** — decision in the ADRs, shape in the product doc
 
-## Wat de gebruiker kan
+## What the user can do
 
-- Op het pad Zed + DeepSeek Harness: coding-agent via **eigen API-key**; default DeepSeek (prijs/kwaliteit). Claude-in-Zed en ChatGPT-in-Zed kiezen hun model zelf ([ADR 0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md)).
+- On the Zed + DeepSeek Harness path: a coding agent via **your own API key**; DeepSeek by default (price/quality). Claude-in-Zed and ChatGPT-in-Zed pick their own model ([ADR 0010](../decisions/0010-the-meta-package-points-to-separate-packages-for-structure-and-three-zed-paths.md)).
 
-## Eigenaar
+## Owner
 
-Model, route en keys horen bij DeepSeek Harness ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)), niet bij Zed. Zed’s modelkiezer geldt voor Zed Agent; dat pad staat uit ([totaalproduct](totaalproduct.md)). DSH kiest het model via ACP (`session/set_config_option`).
+The model, the route and the keys belong to DeepSeek Harness ([ADR 0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md)), not to Zed. Zed's model picker applies to Zed Agent; that path is off ([totaalproduct](totaalproduct.md)). DSH chooses the model via ACP (`session/set_config_option`).
 
-## Besluit
+## Decision
 
-DeepSeek als default, model-id `deepseek-flash`, via de harness-config ([ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md)). Claude is de tweede provider. Enige niet-lokale pad = provider HTTPS. Geen eigen inference. Keys alleen in `.env` (nooit git). Kimi blijft een onderzoekspeer (§142), geen product-fallback. Een nieuwer id komt via de radar.
+DeepSeek as the default, model id `deepseek-flash`, through the harness config ([ADR 0008](../decisions/0008-the-coding-model-is-deepseek-flash-and-claude-is-the-second-provider.md)). Claude is the second provider. The only non-local path is provider HTTPS. No own inference. Keys only in `.env` (never git). Kimi stays a research peer (§142), not a product fallback. A newer id arrives via the radar.
 
-## Stand van zaken
+## Current state
 
-| Onderwerp | Status | Notitie |
-|-----------|--------|---------|
-| Eigenaar | beslist | DSH, niet Zed Agent — [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
-| Default provider L1 | beslist | DeepSeek; key in `.env` |
-| Fallbacks L2 | beslist | Claude, eigen key — [ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) |
-| Model-id coding L3 | beslist | `deepseek-flash`; nieuwer id via radar |
-| Local/Ollama L4 | beslist | niet in v1 |
-| Prompt-redaction L5 | verplicht later | RULES |
-| `.env.example` | naam vast | `DEEPSEEK_API_KEY` in de root-example. De waarde hoort in `~/.dsh/.env` ([zed-dsh](../how-to/zed-dsh.md)) |
+| Topic | Status | Note |
+|-------|--------|------|
+| Owner | decided | DSH, not Zed Agent — [ADR 0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md) |
+| Default provider L1 | decided | DeepSeek; key in `.env` |
+| Fallbacks L2 | decided | Claude, own key — [ADR 0008](../decisions/0008-the-coding-model-is-deepseek-flash-and-claude-is-the-second-provider.md) |
+| Model id for coding L3 | decided | `deepseek-flash`; a newer id via the radar |
+| Local/Ollama L4 | decided | not in v1 |
+| Prompt redaction L5 | required later | RULES |
+| `.env.example` | name fixed | `DEEPSEEK_API_KEY` in the root example. The value belongs in `~/.dsh/.env` ([zed-dsh](../how-to/zed-dsh.md)) |
 
-## Raakvlakken
+## Interfaces
 
-- Gebruikt door: [harness.md](harness.md)
-- Beïnvloedt tool/prompt-vorm → [indexing.md](indexing.md)
+- Used by: [harness.md](harness.md)
+- Influences tool/prompt shape → [indexing.md](indexing.md)
 
-## Bewust niet
+## Deliberately not
 
-- DeepInfer / zelf GPU-serving.
-- Zed-hosted modellen als default (dat is het slapende Zed-Agent-pad).
-- Vendor-lock ADR forceren vóór meting.
+- DeepInfra / serving on our own GPU.
+- Zed-hosted models as the default (that is the dormant Zed Agent path).
+- Forcing a vendor-lock ADR before measuring.

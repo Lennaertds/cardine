@@ -1,61 +1,61 @@
 # Dependencies
 
-> **Rol:** Afspraak over dependency-hygiëne: CVE-audits, ritueel, en wanneer je een sneller/veiliger alternatief overweegt.
-> **Niet hier:** hoe je de audit draait ([how-to/deps-audit.md](../how-to/deps-audit.md)); latency-budgets ([performance.md](performance.md)); dreigingen/auth ([security.md](security.md)).
+> **Role:** the agreement on dependency hygiene: CVE audits, the ritual, and when to consider a faster/safer alternative.
+> **Not here:** how to run the audit ([how-to/deps-audit.md](../how-to/deps-audit.md)); latency budgets ([performance.md](performance.md)); threats/auth ([security.md](security.md)).
 
-Supply-chain en onderhoud van packages horen bij engineering-discipline, niet alleen bij “security later”.
+Supply chain and package maintenance are part of engineering discipline, not just "security later".
 
-## Relatie tot andere docs
+## Relation to other docs
 
-| Hier | Elders |
-|------|--------|
-| Welke audits, ritueel, bewuste uitzonderingen (ADR) | `security.md` — auth, secrets, Strix |
-| “Traag / sleept deze package?” | `performance.md` — budgets; daarna eventueel andere dep |
-| `make deps-audit` (in `check-full`) | How-to voor tools en flags |
+| Here | Elsewhere |
+|------|-----------|
+| Which audits, the ritual, deliberate exceptions (ADR) | `security.md` — auth, secrets, Strix |
+| "Slow / does this package drag?" | `performance.md` — budgets; then possibly another dependency |
+| `make deps-audit` (in `check-full`) | How-to for tools and flags |
 
 ## Audits per stack
 
-| Ecosysteem | Detectie | Commando (via script) | Faalt op |
-|------------|----------|------------------------|----------|
-| JS/TS | `package.json` (apps of root) | `pnpm audit` / `npm audit` (`--audit-level=high`) | high / critical |
-| Python | `pyproject.toml` / `requirements*.txt` | `pip-audit` of `uv pip audit` | bekende CVE’s |
-| Rust | `Cargo.toml` | stub: `cargo audit` (installeer `cargo-audit`) | later aangesloten |
+| Ecosystem | Detection | Command (via script) | Fails on |
+|-----------|-----------|----------------------|----------|
+| JS/TS | `package.json` (apps or root) | `pnpm audit` / `npm audit` (`--audit-level=high`) | high / critical |
+| Python | `pyproject.toml` / `requirements*.txt` | `pip-audit` or `uv pip audit` | known CVEs |
+| Rust | `Cargo.toml` | stub: `cargo audit` (install `cargo-audit`) | wired up later |
 
-Rijen zonder die bestanden in het project: het script slaat die stack over. Ontbreekt de tool: waarschuwing, geen stille “groen” alsof je gescand hebt — zie how-to. Bewuste weglatingen: [Bewust later](#bewust-later) (P28).
+Rows without those files in the project: the script skips that stack. Missing the tool: a warning, not a silent "green" as if you had scanned — see the how-to. Deliberate omissions: [Deliberately later](#deliberately-later) (P28).
 
-## Ritueel
+## Ritual
 
-1. **Bij release / nachtelijke CI:** `make check-full` (bevat `deps-audit`).
-2. **Maandelijks (of na grote bump):** `make deps-audit` + korte review:
-   - Welke high/critical open? Patch, pin, of ADR “bewust houden”.
-   - Vertraagt of sleept een package? Meet (`bench` / obs) → sneller/veiliger alternatief of schrappen.
-3. **Nieuwe dependency:** standaard via stack-commando in `AGENTS.md`; niet “even pip install” buiten de lockfile.
+1. **On release / nightly CI:** `make check-full` (includes `deps-audit`).
+2. **Monthly (or after a big bump):** `make deps-audit` plus a short review:
+   - Which high/critical are open? Patch, pin, or an ADR "deliberately keep".
+   - Is a package slow or dragging? Measure (`bench` / obs) → a faster/safer alternative, or drop it.
+3. **New dependency:** through the stack command in `AGENTS.md` by default; not "just a quick pip install" outside the lockfile.
 
-## Snellere / veiligere alternatieven
+## Faster / safer alternatives
 
-Geen always-on radar in AGENTS. Wel:
+No always-on radar in AGENTS. Instead:
 
-- Periodieke vraag in dit ritueel of in `docs/research/wantlist.md` / `docs/research/radar.md` (module `research`).
-- Bewuste keuze voor een zwakkere of tragere dep → ADR (compromis license/CVE/perf).
-- Tech-radar (Adopt/Trial/…): module `research` → `docs/research/radar.md`; scrapers → Bewust later daar.
+- A periodic question in this ritual or in `docs/research/wantlist.md` / `docs/research/radar.md` (module `research`).
+- A deliberate choice for a weaker or slower dependency → ADR (license/CVE/perf trade-off).
+- Tech radar (Adopt/Trial/…): module `research` → `docs/research/radar.md`; scrapers → Deliberately later there.
 
-## Commando's
+## Commands
 
 ```bash
-make deps-audit     # docs-structuur + audits per aanwezige stack
+make deps-audit     # docs structure + audits for each stack present
 make check-full     # check + deps-audit + CHECK_FULL (e2e, …)
 ```
 
-Niet in `make check` (netwerk/registry; kan noise geven). Zie [how-to/deps-audit.md](../how-to/deps-audit.md).
+Not in `make check` (network/registry; can produce noise). See [how-to/deps-audit.md](../how-to/deps-audit.md).
 
-## Bewust later
+## Deliberately later
 
-Vaste kop (P28): wat de kit **bewust** niet meelevert. Vraag ernaar of zet een project-BACKLOG-item als dit nodig wordt — niet gissen of stil aannemen dat het “niet mag”.
+Fixed heading (P28): what the kit **deliberately** does not ship. Ask about it or file a project BACKLOG item when this becomes needed — do not guess, and do not silently assume it "is not allowed".
 
-| Uitbreiding | Waarom later | Vraag als |
-|-------------|--------------|-----------|
-| License-allowed-list in `deps-audit` | v1 = CVE-hygiëne | Compliance/school eist license-scan |
-| SBOM (CycloneDX e.d.) | Extra tooling/format | Klant of supply-chain-audit |
-| `cargo audit` vast (niet alleen stub-melding) | Geen Rust-stack in kern | Eerste productie-`Cargo.toml` |
-| `TARGET=` / scan beperken tot één pad | Zelden nodig in typische monorepo | Audit-noise of CI-tijd te hoog |
-| Auto-Adopt van digest-voorstellen in deps-keuze | Digest stelt voor; mens kiest (P5) | Feed mag dependency-default wijzigen |
+| Extension | Why later | Ask when |
+|-----------|-----------|----------|
+| License allowed-list in `deps-audit` | v1 = CVE hygiene | Compliance/school requires a license scan |
+| SBOM (CycloneDX etc.) | Extra tooling/format | Customer or supply-chain audit |
+| `cargo audit` permanent (not just a stub message) | No Rust stack in the core | First production `Cargo.toml` |
+| `TARGET=` / limit the scan to one path | Rarely needed in a typical monorepo | Audit noise or CI time too high |
+| Auto-Adopt of digest proposals in the dependency choice | The digest proposes; a human chooses (P5) | A feed may change a dependency default |

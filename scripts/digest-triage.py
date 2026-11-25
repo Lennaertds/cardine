@@ -25,7 +25,7 @@ ROW_RE = re.compile(
     r"^\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|$"
 )
 
-# Kern AE + bachelor — altijd keep bij titelhit.
+# Core AE + bachelor — always keep on a title hit.
 AE_KEYWORDS = [
     "agent",
     "agentic",
@@ -101,7 +101,7 @@ def load_bronnen_index(path: Path) -> tuple[dict[str, str], list[str]]:
             for m2 in ARXIV_RE.finditer(line):
                 id_to_sec[m2.group(1)] = current_sec
             for m2 in ARXIV_BARE.finditer(line):
-                # alleen in URL-achtige context: vermijd jaartallen in prose
+                # only in a URL-like context: avoid years in prose
                 if "arxiv" in line.lower() or "abs/" in line or "papers/" in line:
                     id_to_sec.setdefault(m2.group(1), current_sec)
 
@@ -173,7 +173,7 @@ def decide(
     if link and link != "—" and link in bronnen_text:
         return "have", "url-in-bronnen"
 
-    # open altijd; andere statussen alleen met --force herberekenen
+    # always open; other statuses only recomputed with --force
     if not force and st not in {"open", ""}:
         return st, "preserve"
 
@@ -195,7 +195,7 @@ def default_weeks() -> list[str]:
     today = date.today()
     y, w, _ = today.isocalendar()
     weeks = [f"{y}-W{w:02d}"]
-    if today.isoweekday() == 1:  # maandag: ook vorige
+    if today.isoweekday() == 1:  # Monday: also the previous
         prev = today - timedelta(days=7)
         py, pw, _ = prev.isocalendar()
         weeks.append(f"{py}-W{pw:02d}")

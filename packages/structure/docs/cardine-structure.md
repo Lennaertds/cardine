@@ -1,149 +1,149 @@
 # Package: `cardine-structure`
 
-> **De projectstandaard voor ieder project, ongeacht editor of abonnement.**
-> Dit is het gratis product uit ADR 0009 — pulled uit `kit/` op een pinned commit.
+> **The project standard for every project, regardless of editor or subscription.**
+> This is the free product from ADR 0009 — mirrored from `kit/`.
 
-| Veld | Waarde |
-|------|--------|
+| Field | Value |
+|-------|-------|
 | **Package** | `cardine-structure` |
-| **Doelgroep** | Iedereen die een projectstandaard wil (elke editor) |
-| **Bron** | `cardine/packages/structure/` (gepullt uit `kit/`) |
-| **Installatie** | `npx @lennaertds/cardine-structure <map>`, `npm i -g` + `cardine-structure`, of `new-project.sh` |
-| **Afhankelijk van** | niets (zelfstandig) |
+| **Audience** | Anyone who wants a project standard (any editor) |
+| **Source** | `cardine/packages/structure/` (mirrored from `kit/`) |
+| **Install** | `npx @lennaertds/cardine-structure <dir>`, `npm i -g` + `cardine-structure`, or `new-project.sh` |
+| **Depends on** | nothing (standalone) |
 
 ---
 
-## Inhoud
+## Contents
 
-De volledige `kit/` op een pinned moment, letterlijk gekopieerd naar `packages/structure/kit/`.
+The full `kit/`, copied literally into `packages/structure/kit/`.
 
-| Laag | Beschrijving | Verplicht? |
-|------|-------------|-----------|
-| `kern/` | README, AGENTS.md, Makefile, .gitignore, .editorconfig, docs/ (INDEX, context, rules, architecture, decisions, how-to), data/ (5 vaste lagen), apps/ | altijd |
-| `solo/` | .cursorrules, docs/work/BACKLOG.md, specs/_template.md, logs/_template.md | standaard |
-| `logging/` | logs/status-log.md, logs/onderwerpen/_template.md | altijd |
-| `team/` | .github/ (CI, PR-template, issue-templates) | optioneel (--team) |
-| `modules/<naam>/` | Per module (agent, research, design, compose, …) | optioneel (--modules) |
-| `stacks/<stack>/` | Per stack (next, nest, python, sql, rust, c) | optioneel (--stacks) |
-| `profiles/<naam>.profile` | Voorgedefinieerde combinaties | optioneel (--profile) |
-| `new-project.sh` | Generator-script | ja |
+| Layer | Description | Required? |
+|-------|-------------|-----------|
+| `kern/` | README, AGENTS.md, Makefile, .gitignore, .editorconfig, docs/ (INDEX, context, rules, architecture, decisions, how-to), data/ (5 fixed layers), apps/ | always |
+| `solo/` | .cursorrules, docs/work/BACKLOG.md, specs/_template.md, logs/_template.md | default |
+| `logging/` | logs/status-log.md, logs/topics/_template.md | always |
+| `team/` | .github/ (CI, PR template, issue templates) | optional (--team) |
+| `modules/<name>/` | Per module (agent, research, design, compose, …) | optional (--modules) |
+| `stacks/<stack>/` | Per stack (next, nest, python, sql, rust, c) | optional (--stacks) |
+| `profiles/<name>.profile` | Predefined combinations | optional (--profile) |
+| `new-project.sh` | Generator script | yes |
 
-### Mapstructuur
+### Directory structure
 
 ```
 packages/structure/
 ├── CHANGELOG.md
 ├── README.md
 ├── package.json
-├── sync_kit.sh       ← kopieert de bron kit/ naar hier
-└── kit/              ← letterlijke kopie op pinned versie
-    ├── COMMIT        ← pinned commit hash
+├── sync_kit.sh       ← copies the source kit/ here
+└── kit/              ← literal copy of the current kit
     ├── README.md
     ├── kern/
     ├── solo/
     ├── logging/
-    ├── team/         (optioneel)
-    ├── modules/      (optioneel)
-    ├── stacks/       (optioneel)
-    ├── profiles/     (optioneel)
+    ├── team/         (optional)
+    ├── modules/      (optional)
+    ├── stacks/       (optional)
+    ├── profiles/     (optional)
     └── new-project.sh
 ```
 
-## Hoe de kit bij het package komt
+## How the kit gets into the package
 
 ```
-kit/                        (bron, in de repo-root)
+kit/                        (source, in the repo root)
   │
   │  bash packages/structure/sync_kit.sh
   │
   ▼
-packages/structure/kit/     (publieke distributiekopie, gaat mee in het package)
+packages/structure/kit/     (public distribution copy, ships in the package)
   │
   ▼
-@lennaertds/cardine-structure op npm
+@lennaertds/cardine-structure on npm
 ```
 
-Er is **geen tweede repo en geen pin meer nodig**. Vroeger kwam `kit/` uit de
-aparte repo ``kit/`` en bewaarde `kit/COMMIT` de gepinde commit; dat
-pin-bestand is weg. Sinds de samenvoeging is `kit/` de enige bron.
+There is **no second repo and no pin anymore**. `kit/` used to be pulled from a
+separate repo and `kit/COMMIT` held the pinned commit; that pin file is gone.
+Since the merge, `kit/` is the only source.
 
-`sync_kit.sh` kopieert `kit/` letterlijk naar `packages/structure/kit/`.
-Controleer met `bash packages/structure/sync_kit.sh --check` of de twee gelijk zijn
-(`make check` doet dat ook).
+`sync_kit.sh` copies `kit/` literally into `packages/structure/kit/`. Check with
+`bash packages/structure/sync_kit.sh --check` whether the two are equal
+(`make check` does this too).
 
-## Versie-koppeling
+## Version coupling
 
-Elke `cardine-structure`-release bevat een kopie van `kit/` op het moment van
-uitbrengen.
+Every `cardine-structure` release contains a copy of `kit/` as it was at release
+time.
 
-| cardine-structure | Datum | Bijzonderheden |
-|-------------------|-------|----------------|
-| 0.5.0 | 2026-11-24 | `kit/` wordt de bron; `pull_kit.sh` en `kit/COMMIT` vervallen |
+| cardine-structure | Date | Notes |
+|-------------------|------|-------|
+| 0.5.0 | 2026-11-24 | `kit/` becomes the source; `pull_kit.sh` and `kit/COMMIT` dropped |
 | 0.4.0 | 2026-11-22 | `jarvis-check`/`env-status`/`index` in `kern/Makefile` |
 | 0.3.0 | 2026-11-20 | scoped name |
-| 0.2.0 | 2026-11-18 | kit-tag `kit-v0.2.0` |
-| 0.1.0 | 2026-11-17 | eerste release |
+| 0.2.0 | 2026-11-18 | kit tag `kit-v0.2.0` |
+| 0.1.0 | 2026-11-17 | first release |
 
-### Een nieuwe versie uitbrengen
+### Publishing a new version
 
 ```bash
-# 1. Zorg dat de distributiekopie gelijk is aan de bron
+# 1. Make sure the distribution copy equals the source
 bash packages/structure/sync_kit.sh
 
-# 2. Versionering ophogen
-#    - packages/structure/package.json: versie
-#    - packages/structure/CHANGELOG.md: nieuwe entry
-#    - deze tabel bijwerken
-#    - git tag structure-v<versie>
+# 2. Bump the version
+#    - packages/structure/package.json: version
+#    - packages/structure/CHANGELOG.md: new entry
+#    - update this table
+#    - git tag structure-v<version>
 ```
 
-## Aanpassingen voor publicatie
+## Adjustments for publication
 
-De kit wordt 1-op-1 uit `kit/` gepulled, met twee uitzonderingen:
+The kit is copied 1:1 from `kit/`, with two exceptions:
 
-| Wijziging | Waarom |
-|-----------|--------|
-| `kit/README.md` wordt **vervangen** door een gebruikersversie | Het origineel bevat interne SSOT-links naar `../standaard/`, `../sjablonen/` etc. — die bestaan niet in de gepubliceerde package |
-| `sync_kit.sh` staat niet in `files` van package.json | Interne tooling, niet relevant voor gebruikers |
+| Change | Why |
+|--------|-----|
+| `kit/README.md` is **replaced** by a user-facing version | The original contains internal SSOT links to `../standard/`, `../sjablonen/` etc. — those do not exist in the published package |
+| `sync_kit.sh` is not in `files` of package.json | Internal tooling, irrelevant to users |
 
-Deze aanpassingen worden **elke pull opnieuw gedaan** (automatisch of handmatig). De SSOT blijft `kit/`.
+These adjustments are **redone on every copy** (automatically or by hand). The
+SSOT stays `kit/`.
 
-## Wat blijft in `kit/` (privé)
+## What stays in the repo (private)
 
-| Onderdeel | Waarom privé |
-|-----------|-------------|
-| `standaard/` | Regels, principes, waarom de structuur zo is — logica achter de kit |
-| `sjablonen/` | Invulgidsen per bestand — uitleg voor de maker |
-| `nieuw-project/`, `bestaand-project/` | Gidsen — hoe gebruik je de kit |
-| `bron/` | Kennis, principes, fundament — research en achtergrond |
-| `meten/` | Meetprotocollen, taken, resultaten |
-| `scripts/` | Interne tooling (test-kit, bootstrap, digest-triage, sessielogs) |
+| Part | Why private |
+|------|-------------|
+| `standard/` | Rules, principles, why the structure is the way it is — the logic behind the kit |
+| `sjablonen/` | Fill-in guides per file — explanation for the maker |
+| `new-project/`, `existing-project/` | Guides — how to use the kit |
+| `bron/` | Knowledge, principles, fundamentals — research and background |
+| `measurement/` | Measurement protocols, tasks, results |
+| `scripts/` | Internal tooling (test-kit, bootstrap, digest-triage, session logs) |
 
-## Installatie
+## Install
 
-Het package staat op de publieke npm-registry als
+The package is on the public npm registry as
 `@lennaertds/cardine-structure`.
 
 ```bash
-# Nieuw project starten (aanbevolen)
-npx @lennaertds/cardine-structure mijn-project --profile app --modules research,agent
+# Start a new project (recommended)
+npx @lennaertds/cardine-structure my-project --profile app --modules research,agent
 
-# Of globaal installeren; het bin heet cardine-structure
+# Or install globally; the bin is called cardine-structure
 npm i -g @lennaertds/cardine-structure
-cardine-structure mijn-project --profile app
+cardine-structure my-project --profile app
 
-# Of direct uit de repo (alleen Git + Bash nodig)
-bash packages/structure/kit/new-project.sh mijn-project --profile app
+# Or straight from the repo (only Git + Bash needed)
+bash packages/structure/kit/new-project.sh my-project --profile app
 ```
 
-## Relaties
+## Relations
 
-- Maakt deel uit van de **cardine (meta)**-verwijzingen
-- Wordt gepulled uit **`kit/`** (privé, SSOT) — zie [ADR 0013](../../../docs/decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md)
-- Kan samen met `cardine-lab` gebruikt worden voor een volledig werkstation
+- Part of the **cardine (meta)** references
+- Mirrored from **`kit/`** (repo, SSOT) — see [ADR 0013](../../../docs/decisions/0013-cardine-is-the-public-shop-window-and-pulls-the-structure-from-agent-engineering.md)
+- Can be used together with `cardine-lab` for a complete workstation
 
-## Versiebeheer
+## Versioning
 
-Zie [VERSIONING.md](VERSIONING.md) voor het algemene schema.
-CHANGELOG: `packages/structure/CHANGELOG.md` (eigen versie, SemVer).
-Git-tag: `structure-v<semver>`.
+See [VERSIONING.md](VERSIONING.md) for the general scheme.
+CHANGELOG: `packages/structure/CHANGELOG.md` (own version, SemVer).
+Git tag: `structure-v<semver>`.

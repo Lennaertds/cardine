@@ -1,56 +1,56 @@
 # UI iPhone — folds / accordion
 
-> **Rol:** `<details>` folds, Settings-blokken, deep-link open.  
-> **Niet hier:** sheets en dialogen ([overlays-policy](overlays-policy.md)).
+> **Role:** `<details>` folds, Settings blocks, deep-link open.
+> **Not here:** sheets and dialogs ([overlays-policy](overlays-policy.md)).
 
-## F1. Wanneer fold
+## F1. When a fold
 
-| Gebruik | Patroon |
-|---------|---------|
-| Secundaire Settings-blokken | `FoldSection` / `<details>` |
-| Lange optionele content onder de fold | Niet voor primaire navigatie of tab-peers |
+| Use | Pattern |
+|-----|---------|
+| Secondary Settings blocks | `FoldSection` / `<details>` |
+| Long optional content under the fold | Not for primary navigation or tab peers |
 
-| Modus | Gedrag |
-|-------|--------|
-| **Accordion** | Exact **één** panel open; open van A sluit B |
-| **Disclosure** | Meerdere open tegelijk |
+| Mode | Behaviour |
+|------|-----------|
+| **Accordion** | Exactly **one** panel open; opening A closes B |
+| **Disclosure** | Several open at once |
 
-**Niet:** fold als vervanging van sheet voor multi-step forms; niet als tab (→ `.ios-segmented` — [controls C2](controls.md)).
+**Don't:** a fold as a replacement for a sheet on multi-step forms; not as a tab (→ `.ios-segmented` — [controls C2](controls.md)).
 
-## F2. Anatomie
+## F2. Anatomy
 
-| Deel | Regel |
-|------|--------|
-| Header | **Button** (of summary met button-rol); `aria-expanded` + `aria-controls`; Enter/Space |
-| Summary / hit | Min. hit 44px hoogte |
-| Chevron | Roteert open/dicht; **zelfde timingcurve** als panel |
+| Part | Rule |
+|------|------|
+| Header | **Button** (or summary with the button role); `aria-expanded` + `aria-controls`; Enter/Space |
+| Summary / hit | Min. hit 44px high |
+| Chevron | Rotates open/closed; the **same timing curve** as the panel |
 | Title | Type-caption / headline — [materials-type](../materials-type.md) |
-| Body | Solid surface of grouped rows; geen glass in fold-body |
-| Motie | Height via grid `0fr→1fr` of gemeten hoogte — niet `height: auto` spring |
+| Body | Solid surface or grouped rows; no glass in the fold body |
+| Motion | Height via the `0fr→1fr` grid or a measured height — not a `height: auto` spring |
 
 ## F3. Deep link
 
-- Hash / helper opent één benoemde fold.
-- Na open: scroll fold in beeld; één gedrag per app (hash blijven of clear).
-- Ongeldige hash = no-op.
+- A hash / helper opens one named fold.
+- After opening: scroll the fold into view; one behaviour per app (keep the hash or clear it).
+- An invalid hash = no-op.
 
-## F4. Settings apply-model
+## F4. Settings apply model
 
-| Veldsoort | Apply |
-|-----------|-------|
-| Lichte toggles / prefs | **Instant** (optimistic; rollback + toast bij fail) |
-| Identity (email, wachtwoord, account) | Expliciet **Save / Cancel** |
+| Field kind | Apply |
+|------------|-------|
+| Light toggles / prefs | **Instant** (optimistic; rollback + toast on failure) |
+| Identity (email, password, account) | Explicit **Save / Cancel** |
 
-| Layout | Regel |
-|--------|-------|
-| Groepering | Op **taak / intent**, niet op datamodel |
-| Danger | Onderaan / aparte zone — [controls C8](controls.md) |
+| Layout | Rule |
+|--------|------|
+| Grouping | By **task / intent**, not by data model |
+| Danger | At the bottom / a separate zone — [controls C8](controls.md) |
 
 ## F5. Never
 
 | Never | Instead |
 |-------|---------|
-| Nested folds > 1 diep | Flatten of sheet |
-| Fold zonder summary-label | Altijd leesbare summary |
-| Accordion die meerdere open laat | Eén open, of benoem als disclosure |
-| Chevron out-of-sync met panel | Zelfde duration/easing |
+| Nested folds > 1 deep | Flatten or use a sheet |
+| A fold without a summary label | Always a readable summary |
+| An accordion that lets several open | One open, or name it a disclosure |
+| A chevron out of sync with the panel | The same duration/easing |

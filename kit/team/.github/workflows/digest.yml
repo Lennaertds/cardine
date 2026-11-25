@@ -1,6 +1,6 @@
-# Periodieke digest: fetch → propose → draft-PR (alleen voorstel-bestand).
-# Vereist module research + SOURCES.md. Raw dumps blijven CI-lokaal (gitignored).
-# Schrap of disable zonder research/feeds.
+# Periodic digest: fetch → propose → draft PR (proposal file only).
+# Requires module research + SOURCES.md. Raw dumps stay CI-local (gitignored).
+# Remove or disable without research/feeds.
 name: digest
 
 on:
@@ -35,24 +35,24 @@ jobs:
       - name: Fetch feeds
         if: steps.gate.outputs.skip != 'true'
         run: make digest-fetch
-      - name: Propose (geen auto-radar)
+      - name: Propose (no auto-radar)
         if: steps.gate.outputs.skip != 'true'
         run: make digest-propose
-      - name: Draft PR met voorstel
+      - name: Draft PR with the proposal
         if: steps.gate.outputs.skip != 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore(digest): voorstel ${{ steps.gate.outputs.day }}"
-          title: "digest: voorstel ${{ steps.gate.outputs.day }}"
+          commit-message: "chore(digest): proposal ${{ steps.gate.outputs.day }}"
+          title: "digest: proposal ${{ steps.gate.outputs.day }}"
           body: |
-            Automatisch digest-voorstel (P5): **geen** auto-update van `radar.md`.
+            Automatic digest proposal (P5): **no** auto-update of `radar.md`.
 
             1. Review `docs/research/digest/proposals/*-draft.md`
-            2. Accepteer rijen → handmatig naar `radar.md` / wantlist
-            3. Merge = voorstel in git; curatie blijft mens/agent
+            2. Accept rows → by hand into `radar.md` / wantlist
+            3. Merge = the proposal in git; curation stays human/agent
 
-            Raw feeds staan niet in deze PR (`data/external/digest/` is gitignored).
+            Raw feeds are not in this PR (`data/external/digest/` is gitignored).
           branch: digest/propose-auto
           delete-branch: true
           draft: true

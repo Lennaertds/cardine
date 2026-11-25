@@ -1,19 +1,19 @@
 # UI iPhone — materials · depth
 
-> **Rol:** Materials, depth, skins contract.  
-> **Niet hier:** de class `.glass` ([glass.md](../shared/glass.md)); typografie ([materials-type](materials-type.md)).
+> **Role:** Materials, depth, skins contract.
+> **Not here:** the `.glass` class ([glass.md](../shared/glass.md)); typography ([materials-type](materials-type.md)).
 
 ## 1. Materials & depth
 
-Translucente materialen = floating functionele laag.
+Translucent materials = a floating functional layer.
 
-- **Nav / tabbar / sheets** als translucent layers: `backdrop-filter: blur()` + semi-transparante bg; content scrollt **onder** chrome.
-- **Material weight = hiërarchie:** zwaarder voor structure (sidebar/chrome); lichter voor interactive chips. **Nooit** light translucent op light translucent stacken.
-- Grotere surfaces = dikker (sterkere blur + diepere shadow). Context-aware shadow: zwaarder over drukke content.
-- **Dim om te focussen** (modal + scrim); **scheiding zonder scrim** voor parallelle panels. Stacked sheets: parent progressief dimmen/terugduwen.
-- **Vibrancy:** tekst op blur = hoger contrast, iets zwaarder weight, lichte tracking-bump — geen flat muted gray op glass.
-- Scroll-edge: blur/gradient fade i.p.v. harde 1px divider onder sticky chrome.
-- **Materialize, don’t just fade:** blur-radius + scale samen animeren bij enter/exit van glass.
+- **Nav / tabbar / sheets** as translucent layers: `backdrop-filter: blur()` + semi-transparent bg; content scrolls **under** the chrome.
+- **Material weight = hierarchy:** heavier for structure (sidebar/chrome); lighter for interactive chips. **Never** stack light translucent on light translucent.
+- Bigger surfaces = thicker (stronger blur + deeper shadow). Context-aware shadow: heavier over busy content.
+- **Dim to focus** (modal + scrim); **separation without a scrim** for parallel panels. Stacked sheets: dim/push the parent back progressively.
+- **Vibrancy:** text on blur = higher contrast, slightly heavier weight, a small tracking bump — no flat muted grey on glass.
+- Scroll edge: blur/gradient fade instead of a hard 1px divider under sticky chrome.
+- **Materialise, don't just fade:** animate blur radius + scale together on the enter/exit of glass.
 
 ```css
 .toolbar {
@@ -23,31 +23,31 @@ Translucente materialen = floating functionele laag.
 }
 ```
 
-Grouped inset **content**-rijen mogen solide `surface` blijven (leesbaarheid). Glass = chrome + sheets. Product gebruikt de ene class [`.glass`](../shared/glass.md).
+Grouped inset **content** rows may stay solid `surface` (readability). Glass = chrome + sheets. The product uses the one class [`.glass`](../shared/glass.md).
 
-**Diepte-lat:**
+**Depth bar:**
 
 | Do | Don't (product) |
 |----|-----------------|
-| Spaarzame elevation op solid cards: contact (~1–3px) + eventueel soft mid — max één lifted laag | **Nooit** product-parallax (lagen op verschillende scroll-snelheid) |
-| Hiërarchie via surface-ladder (base → surface → elevated) en borders | Glow / colored blur / `translateZ`-theater als diepte |
-| Dark ≠ pure `#000`: ~layered off-black, soft off-white text, accents ~20% desaturate | Flat invert of pure white glare |
-| Hover-lift alleen `(hover: hover) and (pointer: fine)` | Primary affordance of “premium depth” op touch via glow |
+| Sparse elevation on solid cards: contact (~1–3px) + optionally a soft mid — at most one lifted layer | **Never** product parallax (layers at different scroll speeds) |
+| Hierarchy through a surface ladder (base → surface → elevated) and borders | Glow / coloured blur / `translateZ` theatre as depth |
+| Dark ≠ pure `#000`: ~layered off-black, soft off-white text, accents ~20% desaturated | Flat invert or pure white glare |
+| Hover lift only `(hover: hover) and (pointer: fine)` | Primary affordance or "premium depth" on touch through glow |
 
-Elevation = spaarzame hiërarchie, geen showcase. Cards: [surfaces-cards](application/surfaces-cards.md). Hover-gate: [touch-targets](touch-targets.md).
+Elevation = sparse hierarchy, not a showcase. Cards: [surfaces-cards](application/surfaces-cards.md). Hover gate: [touch-targets](touch-targets.md).
 
 ## 2. Materials & skins (contract)
 
-| Laag | Materiaal |
-|------|-----------|
-| Product header, tabbar, sheet chrome | [`.glass`](../shared/glass.md) — één class, geen tweede blur |
-| Gepinde paginatitel | Zelfde liquid glass als de header, alleen terwijl de balk meevolgt (project-chrome) |
+| Layer | Material |
+|-------|----------|
+| Product header, tabbar, sheet chrome | [`.glass`](../shared/glass.md) — one class, no second blur |
+| Pinned page title | The same liquid glass as the header, only while the bar follows along (project chrome) |
 | Grouped content, tables, feed cards | **Solid** `surface` / `bg-card` |
 | Notice / critical banners | Near-solid (≥ ~96% opacity) |
 
-- Nooit light-glass op light-glass stacken (header glass + sticky live-bar glass → één van de twee solid of zwaarder materiaal).
-- Per skin: glass opacity mag omhoog als habitat busy is; tekst over blur = vibrancy — geen flat muted gray.
-- `prefers-reduced-transparency: reduce` → solidify chrome.
-- `prefers-contrast: more` → near-solid + duidelijke border op chrome én cards.
+- Never stack light glass on light glass (header glass + sticky live-bar glass → one of the two solid or a heavier material).
+- Per skin: glass opacity may go up if the habitat is busy; text over blur = vibrancy — no flat muted grey.
+- `prefers-reduced-transparency: reduce` → solidify the chrome.
+- `prefers-contrast: more` → near-solid + a clear border on chrome **and** cards.
 
-Scroll-edge: blur/gradient fade onder sticky chrome i.p.v. harde 1px rule.
+Scroll edge: blur/gradient fade under sticky chrome instead of a hard 1px rule.

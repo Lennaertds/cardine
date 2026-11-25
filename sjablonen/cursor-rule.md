@@ -1,50 +1,50 @@
 # .cursor/rules/&lt;app&gt;.mdc
 
-> **Rol:** Regels die Cursor automatisch laadt op basis van een glob of een beschrijving.
-> **Niet hier:** regels voor elke tool ([agents-app](agents-app.md)), subagents per rol ([cursor-agents](cursor-agents.md)).
+> **Role:** Rules Cursor loads automatically based on a glob or a description.
+> **Not here:** rules for every tool ([agents-app](agents-app.md)), subagents per role ([cursor-agents](cursor-agents.md)).
 
-**Kitbestand:** [kit/modules/cursor/.cursor/rules/_template.mdc](../kit/modules/cursor/.cursor/rules/_template.mdc) · module `cursor` · P15
+**Kit file:** [kit/modules/cursor/.cursor/rules/_template.mdc](../kit/modules/cursor/.cursor/rules/_template.mdc) · module `cursor` · P15
 
-## Wanneer
+## When
 
-Alleen als je iets wil dat `AGENTS.md` niet kan: laden op een glob (`apps/web/**/*.tsx`), laden op een beschrijving, of handmatig met `@`. In een teamproject liefst niet: niet iedereen gebruikt Cursor. De standaard per app is een geneste `AGENTS.md`; een `.mdc` alleen voor wat die niet kan, zoals een regel per bestandstype over apps heen.
+Only if you want something `AGENTS.md` cannot do: load on a glob (`apps/web/**/*.tsx`), load on a description, or manually with `@`. Preferably not in a team project: not everyone uses Cursor. The standard per app is a nested `AGENTS.md`; a `.mdc` only for what that cannot do, such as a rule per file type across apps.
 
-**Meer `.mdc` i.p.v. mensdocs is meestal slechter** (P15, P25, §8): always-on of dubbele inhoud = harness tax en context clash. Migreer geen `docs/` naar `.mdc`. Agent-gerichte taal = dichte imperatieven, domeintermen en pointers — geen aparte kunsttaal en geen paper-jargon in always-on rules.
+**More `.mdc` instead of human docs is usually worse** (P15, P25, §8): always-on or duplicated content = harness tax and context clash. Do not migrate `docs/` to `.mdc`. Agent-facing language = dense imperatives, domain terms and pointers — no separate artificial language and no paper jargon in always-on rules.
 
-## Audit vóór je een `.mdc` toevoegt
+## Audit before you add a `.mdc`
 
-1. Staat dit al in root- of geneste `AGENTS.md`? → **niet** kopiëren; schrap of verwijs (P7).
-2. Geldt het bij élke taak? → hoort in `AGENTS.md`, niet in `.mdc` met `alwaysApply: true`.
-3. Is het alleen voor mensen (waarom, onboarding)? → `docs/`, niet `.mdc`.
-4. Heb je alleen Cursor-glob/description nodig? → `.mdc` oké; inhoud zo kort als de geneste AGENTS-regels.
-5. Deletion test: verdwijnt het bestand, verandert agentgedrag nog? Zo nee → weg (P20).
+1. Is this already in the root or nested `AGENTS.md`? → do **not** copy it; cut it or link to it (P7).
+2. Does it apply to *every* task? → it belongs in `AGENTS.md`, not in `.mdc` with `alwaysApply: true`.
+3. Is it only for humans (why, onboarding)? → `docs/`, not `.mdc`.
+4. Do you only need a Cursor glob/description? → `.mdc` is fine; content as short as the nested AGENTS rules.
+5. Deletion test: remove the file — does agent behaviour still change? If not → delete it (P20).
 
-## Invullen
+## Filling in
 
-1. **`description`:** wanneer de regel geldt, in één zin. De agent beslist hierop of hij hem laadt.
-2. **`globs`:** zo smal als kan. `apps/web/**` voor een app, `**/*.sql` voor een taal.
-3. **`alwaysApply: false`**, tenzij het echt bij elke taak geldt (dan hoort het in `AGENTS.md`).
-4. **Inhoud:** patronen met een echt voorbeeldbestand, valkuilen, het één-test-commando. Dezelfde regels als bij [agents-app](agents-app.md).
-5. Kopieer het sjabloon naar `<app>.mdc` en verwijder `_template.mdc` als elke app er een heeft.
+1. **`description`:** when the rule applies, in one sentence. The agent decides on this whether to load it.
+2. **`globs`:** as narrow as possible. `apps/web/**` for an app, `**/*.sql` for a language.
+3. **`alwaysApply: false`**, unless it really applies to every task (then it belongs in `AGENTS.md`).
+4. **Content:** patterns with a real example file, pitfalls, the one-test command. The same rules as in [agents-app](agents-app.md).
+5. Copy the template to `<app>.mdc` and delete `_template.mdc` once every app has one.
 
-## Voorbeeld (GymFreak, `.cursor/rules/api.mdc`)
+## Example (GymFreak, `.cursor/rules/api.mdc`)
 
 ```markdown
 ---
-description: Werk in de NestJS-API van GymFreak (endpoints, services, migraties).
+description: Work in the GymFreak NestJS API (endpoints, services, migrations).
 globs: apps/api/**
 alwaysApply: false
 ---
 
-- Nieuw endpoint volgt `apps/api/src/sleep/`: module, controller, service, `dto/`, engine met tests.
-- Migraties in `src/database/migrations/` nooit wijzigen na merge; vraag eerst.
-- Eén test: `pnpm --filter @gymfreak/api exec jest src/diet/diet-engine.spec.ts`.
+- A new endpoint follows `apps/api/src/sleep/`: module, controller, service, `dto/`, engine with tests.
+- Migrations in `src/database/migrations/` are never changed after merge; ask first.
+- One test: `pnpm --filter @gymfreak/api exec jest src/diet/diet-engine.spec.ts`.
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Audit hierboven doorlopen (geen duplicaat van AGENTS, geen docs→mdc-migratie).
-- [ ] De glob raakt alleen de bestanden waarvoor de regel geldt.
-- [ ] Geen regel die ook in `AGENTS.md` of `apps/<app>/AGENTS.md` staat (context clash, §8).
-- [ ] `alwaysApply: false` tenzij het echt in AGENTS hoort.
-- [ ] Een workspace-rule buiten de repo die naar dit project verwijst, wijst naar een bestaand pad.
+- [ ] The audit above is done (no duplicate of AGENTS, no docs→mdc migration).
+- [ ] The glob only touches the files the rule applies to.
+- [ ] No rule that is also in `AGENTS.md` or `apps/<app>/AGENTS.md` (context clash, §8).
+- [ ] `alwaysApply: false` unless it really belongs in AGENTS.
+- [ ] A workspace rule outside the repo that points at this project points at an existing path.

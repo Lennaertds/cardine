@@ -1,4 +1,4 @@
-"""Paden en databaseverbinding uit de omgeving, met de data-lagen van de repo als standaard."""
+"""Paths and database connection from the environment, with the repo data layers as defaults."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ REPO_ROOT = Path(__file__).resolve().parents[4]
 
 
 class ConfigError(RuntimeError):
-    """Een verplichte instelling ontbreekt."""
+    """A required setting is missing."""
 
 
 @dataclass(frozen=True)

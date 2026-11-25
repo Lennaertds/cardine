@@ -1,32 +1,32 @@
 # Package: `cardine-lab`
 
-> **Een reproduceerbaar AI-agent-werkstation voor Arch Linux / Hyprland.**
-> Installeert toolchain, sandbox, indexering en editor-koppeling in één idempotent script.
+> **A reproducible AI-agent workstation for Arch Linux / Hyprland.**
+> Installs the toolchain, sandbox, indexing and editor coupling in one idempotent script.
 
-| Veld | Waarde |
-|------|--------|
+| Field | Value |
+|-------|-------|
 | **Package** | `cardine-lab` |
-| **Doelgroep** | Wie een AI-agent-werkstation wil op Arch Linux / Hyprland |
-| **Bron** | `cardine/packages/lab/` |
-| **Installatie** | `curl … \| bash`, npm, later AUR |
-| **Afhankelijk van** | niets (alles-in-één installer) |
+| **Audience** | Anyone who wants an AI-agent workstation on Arch Linux / Hyprland |
+| **Source** | `cardine/packages/lab/` |
+| **Install** | `npm i -g` + `cardine-lab install` (AUR planned) |
+| **Depends on** | nothing (all-in-one installer) |
 
 ---
 
-## Inhoud
+## Contents
 
-Alles in `packages/lab/`:
+Everything in `packages/lab/`:
 
-| Bestand | Rol |
-|---------|-----|
-| `install-lab.sh` | Hoofdscript — idempotent, installeert DSH + Jarvis + bwrap + Zed-config |
-| `cardine-bwrap` | Strakkere bwrap-kooi voor de agent-shell (ADR 0007) |
-| `cardine-status.sh` | Status-check voor DSH, Jarvis en tools |
-| `cardine-slice-check/` | Node-module voor `make check` na een turn |
-| `scripts/` | Tool-scripts (digest, security, radar, audit, …) |
-| `systemd/` | Timer-units voor digest-fetch en digest-week |
+| File | Role |
+|------|------|
+| `install-lab.sh` | Main script — idempotent, installs DSH + Jarvis + bwrap + Zed config |
+| `cardine-bwrap` | Tighter bwrap cage for the agent shell (ADR 0007) |
+| `cardine-status.sh` | Status check for DSH, Jarvis and tools |
+| `cardine-slice-check/` | Node module for `make check` after a turn |
+| `scripts/` | Tool scripts (digest, security, radar, audit, …) |
+| `systemd/` | Timer units for digest-fetch and digest-week |
 
-### Mapstructuur
+### Directory structure
 
 ```
 packages/lab/
@@ -40,6 +40,7 @@ packages/lab/
 │   └── package.json
 ├── scripts/
 │   ├── check-links.sh
+│   ├── check-language.sh
 │   ├── deps-audit.sh
 │   ├── security-scan.sh
 │   ├── perf-check.sh
@@ -61,39 +62,39 @@ packages/lab/
     └── digest-week.timer
 ```
 
-## Wat is NIET voor publiek (blijft in `kit/` privé)
+## What is NOT public
 
-| Onderdeel | Reden |
-|-----------|-------|
-| `systemd/*.service` met `_jouwgebruiker_` placeholder | Per-machine config; kopieer en pas aan |
-| Persoonlijke keys in `~/.dsh/.env` | Altijd lokaal, nooit in git |
-| Sibling-repo-verbindingen | Sibling-repo, niet publiek |
+| Part | Reason |
+|------|--------|
+| `systemd/*.service` with a user placeholder | Per-machine config; copy and adjust |
+| Personal keys in `~/.dsh/.env` | Always local, never in git |
+| Sibling repo connections | Sibling repo, not public |
 
-## Installatie
+## Install
 
-Het package staat op de publieke npm-registry als `@lennaertds/cardine-lab`.
+The package is on the public npm registry as `@lennaertds/cardine-lab`.
 
 ```bash
-# Aanbevolen: via npm
+# Recommended: via npm
 npm i -g @lennaertds/cardine-lab
-cardine-lab install          # of: cardine-lab install --force
+cardine-lab install          # or: cardine-lab install --force
 
-# Status van de omgeving
+# Status of the environment
 cardine-lab status           # --json | --verbose | --fix
 ```
 
-Een AUR-package (PKGBUILD) staat nog op de lijst, maar npm is de enige
-gedistribueerde route.
+An AUR package (PKGBUILD) is still on the list, but npm is the only distributed
+route.
 
-## Relaties
+## Relations
 
-- Maakt deel uit van de **cardine (meta)**-verwijzingen
-- Installeert DSH, Zed-config en bwrap — de fundamenten van het werkstation
-- `cardine-slice-check` blijft in dit package tot er een andere afnemer is
-- Tool-scripts worden naar projecten gekopieerd via `cardine-structure`
+- Part of the **cardine (meta)** references
+- Installs DSH, the Zed config and bwrap — the foundations of the workstation
+- `cardine-slice-check` stays in this package until another consumer appears
+- Tool scripts are copied into projects via `cardine-structure`
 
-## Versiebeheer
+## Versioning
 
-Zie [VERSIONING.md](VERSIONING.md) voor het algemene schema.
-CHANGELOG: `packages/lab/CHANGELOG.md` (eigen versie, SemVer).
-Git-tag: `lab-v<semver>`.
+See [VERSIONING.md](VERSIONING.md) for the general scheme.
+CHANGELOG: `packages/lab/CHANGELOG.md` (own version, SemVer).
+Git tag: `lab-v<semver>`.

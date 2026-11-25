@@ -1,3 +1,3 @@
 # data/models
 
-Getrainde modellen, één map per model en versie: `<model>/<YYYY-MM-DD>/` met het model en een `meta.json` (data-versie, parameters, metriek). Nooit in git; opnieuw maken met `make data` of het trainscript dat in de metadata staat.
+Trained models, one folder per model and version: `<model>/<YYYY-MM-DD>/` with the model and a `meta.json` (data version, parameters, metric). Never in git; recreate with `make data` or the training script named in the metadata.

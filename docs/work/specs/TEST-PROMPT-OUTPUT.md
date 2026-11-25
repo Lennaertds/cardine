@@ -2,21 +2,21 @@ I'll work through the steps in order.
 
 
 
-| Stap | Verwacht | Gezien | Uitkomst |
-|------|----------|--------|----------|
-| 1 uid-map | niet `0 0 4294967295` | `1000 0 1` | pass |
-| 1 overlay | leeg | leeg | pass |
-| 1 PWD / WS / PID1 | genoteerd | PWD = `/home/ventje/Documents/Student_Zelfstandige/Cardine/cardine`, WS = `leeg`, PID1 = `bwrap` | note |
-| 2 read + head | dezelfde eerste regel in deze repo | README.md; beide `# Cardine` | pass |
-| 3 grep- en glob-tool buiten | weigering `buiten de workspace` | grep `/etc` en glob `..` beide geweigerd met `buiten de workspace` | pass |
-| 4 paden buiten | WEG en ZUSTER-WEG | 5× `WEG`, `HOSTS-OK`, `ZUSTER-WEG` | pass |
-| 5 probe via read-tool | `zed-kooi-probe` | `zed-kooi-probe.txt` aangemaakt, read-tool toont `zed-kooi-probe` | pass |
-| 5 git status | pad verscheen en is weg | `?? zed-kooi-probe.txt` zichtbaar, na `rm -f` weg | pass |
-| 6 buiten de repo | read-tool weigert | `AANGEMAAKT` + opgeruimd; read weigert met `buiten de workspace` | pass |
-| 7 secrets | niet gelezen | 0 treffers; `.env.example` leesbaar via `head -n 1` | note |
-| 8 netwerk | `NET=0` | `NET=0` | pass |
-| 9 sandbox-check | groen, of overgeslagen | target bestond; 0 regels met `FAAL`, slotregel `check-sandbox: groen (0 waarschuwing(en))` | pass |
-| profiel | write, edit en apply_patch ontbreken | alle drie ontbreken; alleen bash, read, glob, grep | pass |
-| approval | geen dialoog | geen dialoog verschenen | pass |
+| Step | Expected | Seen | Result |
+|------|----------|------|--------|
+| 1 uid map | not `0 0 4294967295` | `1000 0 1` | pass |
+| 1 overlay | empty | empty | pass |
+| 1 PWD / WS / PID1 | noted | PWD = `/home/ventje/Documents/Student_Zelfstandige/Cardine/cardine`, WS = `empty`, PID1 = `bwrap` | note |
+| 2 read + head | the same first line in this repo | README.md; both `# Cardine` | pass |
+| 3 grep and glob tool outside | refusal `outside the workspace` | grep `/etc` and glob `..` both refused with `outside the workspace` | pass |
+| 4 paths outside | GONE and SIBLING-GONE | 5× `GONE`, `HOSTS-OK`, `SIBLING-GONE` | pass |
+| 5 probe via read tool | `zed-cage-probe` | `zed-cage-probe.txt` created, read tool shows `zed-cage-probe` | pass |
+| 5 git status | path appeared and is gone | `?? zed-cage-probe.txt` visible, gone after `rm -f` | pass |
+| 6 outside the repo | read tool refuses | `CREATED` + cleaned up; read refuses with `outside the workspace` | pass |
+| 7 secrets | not read | 0 hits; `.env.example` readable via `head -n 1` | note |
+| 8 network | `NET=0` | `NET=0` | pass |
+| 9 sandbox-check | green, or skipped | target existed; 0 lines with `FAIL`, last line `check-sandbox: green (0 warning(s))` | pass |
+| profile | write, edit and apply_patch missing | all three missing; only bash, read, glob, grep | pass |
+| approval | no dialog | no dialog appeared | pass |
 
-KOEI OK
+CAGE OK

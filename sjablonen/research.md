@@ -1,39 +1,39 @@
 # docs/research/
 
-> **Rol:** Wat je over het domein weet, op welke bronnen het steunt, en welke productregel erop rust.
-> **Niet hier:** de productregels zelf ([product](product.md)), één experiment ([experiment](experiment.md)).
+> **Role:** What you know about the domain, which sources it rests on, and which product rule builds on it.
+> **Not here:** the product rules themselves ([product](product.md)), a single experiment ([experiment](experiment.md)).
 
-**Kitbestanden:** [RESEARCH.md](../kit/modules/research/docs/research/RESEARCH.md), [wantlist.md](../kit/modules/research/docs/research/wantlist.md), [radar.md](../kit/modules/research/docs/research/radar.md), [digest/](../kit/modules/research/docs/research/digest/README.md), [experiments/_template.md](../kit/modules/research/docs/research/experiments/_template.md), how-to radar/digest · module `research`
+**Kit files:** [RESEARCH.md](../kit/modules/research/docs/research/RESEARCH.md), [wantlist.md](../kit/modules/research/docs/research/wantlist.md), [radar.md](../kit/modules/research/docs/research/radar.md), [digest/](../kit/modules/research/docs/research/digest/README.md), [experiments/_template.md](../kit/modules/research/docs/research/experiments/_template.md), how-to radar/digest · module `research`
 
-## Wanneer
+## When
 
-Als productregels op literatuur steunen (trainingsvolume, slaap), als je experimenten draait, of bij een bachelorproef. Een agent die codewerk doet, laadt deze map niet; de kaart zegt dat.
+When product rules rest on literature (training volume, sleep), when you run experiments, or for a bachelor thesis. An agent doing code work does not load this folder; the map says so.
 
-## Invullen
+## Filling in
 
-1. **Onderzoeksvragen** in `RESEARCH.md`, genummerd. Elke `<onderwerp>.md` en elk experiment verwijst naar een nummer.
-2. **Hoe je bronnen beoordeelt:** de niveaus en wat een niveau mag dragen. Zo kan je bij elke regel zeggen hoe sterk ze staat.
-3. **Per onderwerp** een bestand: wat je weet, met bron, niveau en de productregel die erop steunt.
-4. **Wantlist:** wat je nog wil lezen. De pdf's zelf staan in `data/external/`, nooit in git.
-5. **Tech-radar:** [radar](radar.md) — ringen + maandelijks ritueel; niet always-on in AGENTS.
-6. **Digest:** [digest](digest.md) — fetch/propose; cureren vóór radar (P5).
+1. **Research questions** in `RESEARCH.md`, numbered. Every `<topic>.md` and every experiment references a number.
+2. **How you judge sources:** the levels and what a level may carry. That way you can say how strong every rule is.
+3. **Per topic** a file: what you know, with source, level and the product rule that rests on it.
+4. **Wantlist:** what you still want to read. The pdfs themselves live in `data/external/`, never in git.
+5. **Tech radar:** [radar](radar.md) — rings + monthly ritual; not always-on in AGENTS.
+6. **Digest:** [digest](digest.md) — fetch/propose; curate before the radar (P5).
 
-## Voorbeeld (GymFreak, `research/training-volume.md`)
+## Example (GymFreak, `research/training-volume.md`)
 
 ```markdown
-# Trainingsvolume
+# Training volume
 
-> **Rol:** Wat we weten over sets per spiergroep per week, en welke regel van de split-engine erop steunt.
-> **Niet hier:** de regel zelf (`product/H-gym.md`).
+> **Role:** What we know about sets per muscle group per week, and which rule of the split engine rests on it.
+> **Not here:** the rule itself (`product/H-gym.md`).
 
-| Bewering | Bron | Niveau | Productregel |
-|----------|------|--------|--------------|
-| 10+ sets per week geeft meer hypertrofie dan < 5 | Schoenfeld 2017 | A | standaard 10–20 sets per spiergroep |
-| Boven 20 sets weinig extra winst bij beginners | Baz-Valle 2022 | B | waarschuwing boven 20 |
+| Claim | Source | Level | Product rule |
+|-------|--------|-------|--------------|
+| 10+ sets per week gives more hypertrophy than < 5 | Schoenfeld 2017 | A | default 10–20 sets per muscle group |
+| Above 20 sets little extra gain for beginners | Baz-Valle 2022 | B | warning above 20 |
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Elke productregel die op onderzoek steunt, is hier terug te vinden.
-- [ ] Geen pdf's of volledige teksten van derden in git.
-- [ ] De kaart zegt "niet laden bij codewerk".
+- [ ] Every product rule that rests on research can be traced back here.
+- [ ] No pdfs or full third-party texts in git.
+- [ ] The map says "do not load on code work".

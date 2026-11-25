@@ -1,15 +1,15 @@
-# Schrijfregels voor de agent
+# Write rules for the agent
 
-> **Rol:** Welke paden een agent vrij mag wijzigen, welke na toestemming, en welke nooit.
-> **Niet hier:** wat bij elke taak geldt ([AGENTS.md](../../AGENTS.md)); welke docs je bij een soort opdracht **leest** (dat staat in `AGENTS.md` § Werken en de kaart).
+> **Role:** which paths an agent may change freely, which need permission, and which never.
+> **Not here:** what applies to every task ([AGENTS.md](../../AGENTS.md)); which docs you **read** for a given kind of task (that is in `AGENTS.md` § Working and the map).
 
-Open dit bestand alleen als je wilt weten of je ergens mag schrijven. Leesroutes (UI → DESIGN, feature → PRODUCT) staan in `AGENTS.md`, niet hier — anders worden ze alleen geraadpleegd bij schrijfvragen.
+Open this file only when you want to know whether you may write somewhere. Read routes (UI → DESIGN, feature → PRODUCT) live in `AGENTS.md`, not here — otherwise they would only be consulted on writing questions.
 
-| Pad | Mag | Waarom |
-|-----|-----|--------|
-| `apps/*/src/`, `apps/*/tests/` | vrij | gewone code |
-| `docs/work/` | vrij | status |
-| `docs/` (rest) | na toestemming | één feit op één plek |
-| `apps/*/src/database/migrations/` | na toestemming | schema-wijzigingen zijn onomkeerbaar |
-| `AGENTS.md`, `.cursor/rules/` | na toestemming | elke regel kost context bij elke taak |
-| `data/raw/`, `data/runtime/`, `.env*` | nooit | ruwe data, persoonsgegevens, secrets |
+| Path | Allowed | Why |
+|------|---------|-----|
+| `apps/*/src/`, `apps/*/tests/` | free | ordinary code |
+| `docs/work/` | free | status |
+| `docs/` (the rest) | with permission | one fact in one place |
+| `apps/*/src/database/migrations/` | with permission | schema changes are irreversible |
+| `AGENTS.md`, `.cursor/rules/` | with permission | every rule costs context on every task |
+| `data/raw/`, `data/runtime/`, `.env*` | never | raw data, personal data, secrets |

@@ -1,25 +1,25 @@
 # docs/research/digest/
 
-> **Rol:** Inbound feeds ophalen en voorstellen; cureren vóór radar/wantlist.
-> **Niet hier:** ring-inhoud ([radar](radar.md)).
+> **Role:** Fetch inbound feeds and propose items; curate before the radar/wantlist.
+> **Not here:** ring content ([radar](radar.md)).
 
 **Kit:** [digest/README.md](../kit/modules/research/docs/research/digest/README.md) · how-to [digest.md](../kit/modules/research/docs/how-to/digest.md) · module `research` · P5, P8, P28
 
-## Wanneer
+## When
 
-Met module `research`. Bij periodieke tooling-/security-/release-hits.
+With module `research`. For periodic tooling/security/release hits.
 
-## Invullen
+## Filling in
 
-1. Kopieer `SOURCES.example.md` → `SOURCES.md` (echte feed-URL’s).
-2. `make digest-fetch` → `data/external/digest/` (raw; niet in docs plakken).
-3. `make digest-propose` → `proposals/*-draft.md`; geaccepteerd → handmatig `radar.md`.
-4. Team: `digest.yml` draft-PR met alleen voorstel.
-5. **`## Bewust later`:** kitrijen laten of aanvullen (P28).
+1. Copy `SOURCES.example.md` → `SOURCES.md` (real feed URLs).
+2. `make digest-fetch` → `data/external/digest/` (raw; do not paste into docs).
+3. `make digest-propose` → `proposals/*-draft.md`; accepted → manually into `radar.md`.
+4. Team: `digest.yml` opens a draft PR containing only the proposal.
+5. **`## Deliberately incomplete` (P28):** keep the kit rows or extend them (P28).
 
-## Snelle toets
+## Quick check
 
-- [ ] `make digest-check` groen.
-- [ ] `digest-check` / `reminder` / `fetch` / `propose` in `make help`; niet in `CHECK`.
-- [ ] Zonder `SOURCES.md` faalt `digest-fetch`; `DIGEST_DRY_RUN=1` / `DIGEST_FIXTURE=` werken.
-- [ ] Voorstel wijzigt `radar.md` niet automatisch (P5).
+- [ ] `make digest-check` is green.
+- [ ] `digest-check` / `reminder` / `fetch` / `propose` in `make help`; not in `CHECK`.
+- [ ] Without `SOURCES.md`, `digest-fetch` fails; `DIGEST_DRY_RUN=1` / `DIGEST_FIXTURE=` work.
+- [ ] A proposal never changes `radar.md` on its own (P5).

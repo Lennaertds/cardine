@@ -1,93 +1,93 @@
 # Desktop — layout
 
-> **Rol:** Kolom, ritme en reflow voor elke showcase-pagina.  
-> **Niet hier:** typografie ([type.md](type.md)); materiaal ([liquid-glass.md](liquid-glass.md)).
+> **Role:** Column, rhythm and reflow for every showcase page.
+> **Not here:** typography ([type.md](type.md)); material ([liquid-glass.md](liquid-glass.md)).
 
-## 1. Pagina-mal
+## 1. Page template
 
-Elke showcase-route, van boven naar onder:
+Every showcase route, top to bottom:
 
-1. **Chrome** — één zwevende glazen balk ([chrome.md](chrome.md)).
-2. **Eerste viewport** — één taak: begrijpen waar je bent.
-3. **Secties** — verticale stapel. Eén scroll, geen geneste scrollcontainers.
-4. **Footer** — dezelfde site-footer. Geen tweede footer in een sectie.
+1. **Chrome** — one floating glass bar ([chrome.md](chrome.md)).
+2. **First viewport** — one job: understand where you are.
+3. **Sections** — a vertical stack. One scroll, no nested scroll containers.
+4. **Footer** — the same site footer. No second footer inside a section.
 
-De balk zweeft boven de content. Content mag eronder door. Interactieve tekst blijft in de veilige zone: minstens de balkhoogte + 16px vrij aan de bovenkant van de eerste viewport.
+The bar floats above the content. Content may pass underneath. Interactive text stays in the safe zone: at least the bar height + 16px free at the top of the first viewport.
 
-## 2. Breedtes
+## 2. Widths
 
-| Naam | Maat | Wat |
-|------|------|-----|
-| narrow | &lt; 768px | Eén kolom. Geen pins, geen parallax. Zelfde secties, gestapeld |
-| regular | 768–1279px | Eén contentkolom, ruimere gutter |
-| wide | ≥ 1280px | De ontwerpbreedte. Tweeluik mag |
+| Name | Size | What |
+|------|------|------|
+| narrow | &lt; 768px | One column. No pins, no parallax. Same sections, stacked |
+| regular | 768–1279px | One content column, roomier gutter |
+| wide | ≥ 1280px | The design width. A diptych may |
 
-| Maat | Waarde |
-|------|--------|
-| Contentkolom | `max-width: 72rem` (1152px), gecentreerd |
-| Proza | 65–72ch, links uitgelijnd |
-| Hero-claim | max ~18ch, of 40rem als de regel langer moet |
+| Measure | Value |
+|---------|-------|
+| Content column | `max-width: 72rem` (1152px), centred |
+| Prose | 65–72ch, left-aligned |
+| Hero claim | max ~18ch, or 40rem if the line has to be longer |
 | Gutter 768–1023 | 24px |
 | Gutter 1024–1279 | 32px |
 | Gutter ≥ 1280 | 40px |
-| Full-bleed beeld | Mag de kolom uit, tot de viewport. Tekst blijft in de kolom |
+| Full-bleed image | May leave the column, out to the viewport. Text stays in the column |
 
-Geen derde kolom. Een sidebar telt als chrome, niet als extra contentkolom ([chrome.md](chrome.md) § sidebar).
+No third column. A sidebar counts as chrome, not as an extra content column ([chrome.md](chrome.md) § sidebar).
 
-## 3. Ruimte — 8px, details op 4px
+## 3. Space — 8px, details at 4px
 
-Alleen deze stappen. Geen `13px` of `22px` margin.
+These steps only. No `13px` or `22px` margins.
 
-| Stap | px | Typisch |
-|------|----|---------|
-| 1 | 4 | Haarlijn-correctie, glans |
-| 2 | 8 | Icoon tot label |
-| 3 | 12 | Binnen een compacte groep |
-| 4 | 16 | Label tot veld, titel tot lede |
-| 5 | 24 | Gutter regular, kaart-padding |
-| 6 | 32 | Lede tot CTA, kop tot grid |
-| 7 | 48 | Binnen een lichte sectie |
-| 8 | 64 | Tussen lichte secties |
-| 9 | 80 | Sectie-padding onder 1280 |
-| 10 | 96 | Sectie-padding ≥ 1280 |
-| 11 | 120 | Na een zware sectie |
+| Step | px | Typically |
+|------|----|-----------|
+| 1 | 4 | Hairline correction, highlight |
+| 2 | 8 | Icon to label |
+| 3 | 12 | Inside a compact group |
+| 4 | 16 | Label to field, title to lede |
+| 5 | 24 | Regular gutter, card padding |
+| 6 | 32 | Lede to CTA, heading to grid |
+| 7 | 48 | Inside a light section |
+| 8 | 64 | Between light sections |
+| 9 | 80 | Section padding below 1280 |
+| 10 | 96 | Section padding ≥ 1280 |
+| 11 | 120 | After a heavy section |
 
-Verticale padding van een sectie: 96px vanaf 1280, 80px daaronder. Na een zware sectie (bewijs, lange proza) 120px.
+Vertical padding of a section: 96px from 1280, 80px below that. After a heavy section (proof, long prose) 120px.
 
-Twee zware secties nooit direct na elkaar.
+Never two heavy sections directly after each other.
 
-## 4. Uitlijning
+## 4. Alignment
 
-- Tekst in een sectie deelt één linkerlijn.
-- Een tweeluik is 6/6 of 7/5. Geen 8/4 waar de tekstkolom smaller wordt dan 36ch.
-- Knoppen in een rij: 8px of 12px ertussen. Primaire knop links in een tekstblok, rechts in de chrome.
-- Centreren mag voor een hero-claim op wide. Body nooit gecentreerd.
-- Kolommen in een feature-rij delen hoogte niet door de tekst uit te rekken. De koppen staan op één lijn; de body eindigt waar ze eindigt.
+- Text in a section shares one left line.
+- A diptych is 6/6 or 7/5. No 8/4 where the text column gets narrower than 36ch.
+- Buttons in a row: 8px or 12px between them. Primary button left in a text block, right in the chrome.
+- Centring is allowed for a hero claim on wide. Body never centred.
+- Columns in a feature row do not share height by stretching the text. The headings line up; the body ends where it ends.
 
-## 5. Eerste viewport
+## 5. First viewport
 
-- Hoogte: `min-height: 100dvh` op de hero-sectie mag. `100vh` niet.
-- Op 1280×800 passen claim, lede, één primaire CTA en het beeld nog in beeld, zonder dat de CTA onder de fold valt.
-- Het beeld is het product (device-mock of de echte scène), geen stockfoto.
+- Height: `min-height: 100dvh` on the hero section is fine. Not `100vh`.
+- At 1280×800 the claim, lede, one primary CTA and the image still fit, without the CTA falling below the fold.
+- The image is the product (device mock or the real scene), not a stock photo.
 
-## 6. Nabijheid en CSS
+## 6. Proximity and CSS
 
-Wat bij elkaar hoort, staat dichterbij dan wat alleen op dezelfde pagina staat. Binnen een groep eerst ruimte, een lijn alleen als de groep anders niet leest (menu-rij, haarlijn op glas).
+What belongs together sits closer than what merely sits on the same page. Inside a group space comes first; a line only if the group does not read otherwise (menu row, hairline on glass).
 
-CSS is mobile-first: de smalle kolom is de basis, `min-width` voegt het tweeluik en de gate-extras toe. Desktop-first media queries die de telefoon “eraf halen” zijn af.
+CSS is mobile-first: the narrow column is the base, `min-width` adds the diptych and the gate extras. Desktop-first media queries that "strip off" the phone are out.
 
-Lengtes in `rem`, behalve 1px-haarlijnen en de blur in px. `1rem` blijft 16px. De root niet op 62.5% zetten.
+Lengths in `rem`, except 1px hairlines and the blur in px. `1rem` stays 16px. Do not put the root at 62.5%.
 
-Beelden: `max-width: 100%`, vaste `aspect-ratio`. De pagina zelf scrollt niet horizontaal. Een horizontale snap mag een eigen baan hebben, met een zichtbare manier om verder te gaan.
+Images: `max-width: 100%`, fixed `aspect-ratio`. The page itself does not scroll horizontally. A horizontal snap may have its own track, with a visible way to continue.
 
-Checkbreedtes: 375, 768, 1024, 1280, 1440. Landscape op een telefoon blijft één kolom en leesbaar.
+Check widths: 375, 768, 1024, 1280, 1440. Landscape on a phone stays one column and readable.
 
-De sticky balk dekt inhoud niet af: de eerste sectie en `scroll-margin` houden balkhoogte + 16px vrij.
+The sticky bar does not cover content: the first section and `scroll-margin` keep bar height + 16px free.
 
 ## 7. Reflow
 
-- wide → regular: tweeluik wordt stapel, beeld onder de tekst. Feature-rijen mogen wrappen of een horizontale snap met duidelijke scroll.
-- regular → narrow: zelfde volgorde, één kolom, chrome wordt de smalle gast-chrome. Geen horizontaal verhaal dat alleen met de muis werkt.
-- Venster mag elke breedte ≥ 768. Geen vaste “alleen 1440”.
+- wide → regular: the diptych becomes a stack, image below the text. Feature rows may wrap or become a horizontal snap with clear scrolling.
+- regular → narrow: same order, one column, chrome becomes the narrow guest chrome. No horizontal story that only works with a mouse.
+- The window may be any width ≥ 768. No fixed "1440 only".
 
-**Test:** op 1440, 1280, 1024, 768 en 375 deelt de landing één contentkolom van max 72rem; gutters zijn 40 / 32 / 24 vanaf 1280; geen maat buiten de tabel; geen horizontale scroll van de pagina.
+**Test:** at 1440, 1280, 1024, 768 and 375 the landing page shares one content column of max 72rem; gutters are 40 / 32 / 24 from 1280 down; no measure outside the table; no horizontal page scroll.

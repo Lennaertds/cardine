@@ -1,21 +1,21 @@
-## Wat en waarom
+## What and why
 
-<Eén à drie zinnen. Link naar het issue.>
+<One to three sentences. Link to the issue.>
 
-## Hoe getest
+## How tested
 
-- [ ] `make check` groen (CI)
-- [ ] <Handmatige check, als het om UI of data gaat>
+- [ ] `make check` green (CI)
+- [ ] <Manual check, if it concerns UI or data>
 
 ## Review
 
-- [ ] Diff gelezen door een mens (of agent in een **nieuwe** sessie)
-- [ ] Intent/productregels niet afgezwakt om tests groen te krijgen
-- [ ] Geen nieuwe modulegrenzen of `utils/` zonder ADR/akkoord
+- [ ] Diff read by a human (or by an agent in a **new** session)
+- [ ] Intent/product rules not weakened to get the tests green
+- [ ] No new module boundaries or `utils/` without an ADR/agreement
 
 ## Docs
 
-- [ ] Geen docs geraakt
-- [ ] Docs bijgewerkt: <bestanden>
-- [ ] Nieuw besluit → ADR toegevoegd (`make adr t="…"`)
-- [ ] `AGENTS.md` aangepast (alleen bij een herhaalde agentfout of een nieuw commando)
+- [ ] No docs touched
+- [ ] Docs updated: <files>
+- [ ] New decision → ADR added (`make adr t="…"`)
+- [ ] `AGENTS.md` changed (only for a repeated agent mistake or a new command)

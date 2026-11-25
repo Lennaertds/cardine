@@ -1,59 +1,59 @@
 # Desktop — surfaces
 
-> **Rol:** Wanneer een vlak solid is, en wanneer het het ene glas-paneel is.  
-> **Niet hier:** het materiaal ([liquid-glass.md](liquid-glass.md)); kaarten in de app ([surfaces-cards](../../iphone/application/surfaces-cards.md)).
+> **Role:** When a surface is solid, and when it is the one glass panel.
+> **Not here:** the material ([liquid-glass.md](liquid-glass.md)); cards in the app ([surfaces-cards](../../iphone/application/surfaces-cards.md)).
 
-De contentlaag is rustig en dekkend. Glas is de uitzondering, en er is er één.
+The content layer is calm and opaque. Glass is the exception, and there is one.
 
 ## 1. Solid
 
-Deze blijven `--card` of gewoon `--background`, met `--r-group` als ze een rand hebben:
+These stay `--card` or plain `--background`, with `--r-group` if they have an edge:
 
-- feature-kolommen;
-- proza-blokken;
-- bewijslijst en chart;
-- formulieren;
-- footer;
-- rijen in een menu (de menu-schaal is glas; de rij is een fill).
+- feature columns;
+- prose blocks;
+- the proof list and chart;
+- forms;
+- the footer;
+- rows in a menu (the menu scale is glass; the row is a fill).
 
-Rij-padding ruimer dan op de telefoon: minstens 12px verticaal, 16px horizontaal. Sectiekoppen in titelkast, niet in hoofdletters.
+Row padding roomier than on the phone: at least 12px vertical, 16px horizontal. Section headings in title case, not uppercase.
 
-Een haarlijn of een shift van `--background` naar `--card` scheidt secties. Geen kaarten-soep om de pagina “af” te maken.
+A hairline or a shift from `--background` to `--card` separates sections. No card soup to make the page look "finished".
 
-## 2. Het ene glazen paneel
+## 2. The one glass panel
 
-Toegestaan als functionele laag:
+Allowed as a functional layer:
 
-- de site-balk;
-- een menu;
-- een dialoog;
-- hoogstens één detailpaneel over media.
+- the site bar;
+- a menu;
+- a dialog;
+- at most one detail panel over media.
 
-Niet twee van de laatste drie tegelijk. De balk mag blijven staan terwijl een menu open is, omdat het menu uit de balk groeit en dezelfde laag is — de items erin zijn geen tweede `backdrop-filter`.
+Not two of the last three at once. The bar may stay while a menu is open, because the menu grows out of the bar and is the same layer — the items inside it are not a second `backdrop-filter`.
 
-## 3. Detailpaneel over foto
+## 3. Detail panel over a photo
 
-De foto is de content. Het paneel is het ene glasvlak.
+The photo is the content. The panel is the one glass surface.
 
-- Als de tekst op Regular-glas niet genoeg contrast haalt: een solid leesvlak ín het paneel (`--card` ≥ 96% dekking), geen tweede blur.
-- Geen glazen kaarten rond tekstblokken.
-- Hotspots zijn controls ([controls.md](controls.md)), geen glazen stickers.
+- If the text on Regular glass does not reach enough contrast: a solid reading surface **inside** the panel (`--card` ≥ 96% opacity), not a second blur.
+- No glass cards around text blocks.
+- Hotspots are controls ([controls.md](controls.md)), not glass stickers.
 
-## 4. Leeg, laden, fout
+## 4. Empty, loading, error
 
-Op de showcase zeldzaam. Als een demo-blok faalt:
+Rare on the showcase. If a demo block fails:
 
-- één zin in body-type, `--foreground`;
-- geen illustratie-bibliotheek, geen glazen empty-card;
-- de rest van de secties blijft staan.
+- one sentence in body type, `--foreground`;
+- no illustration library, no glass empty card;
+- the rest of the sections stays.
 
-Product empty/loading blijft [surfaces-states](../../iphone/application/surfaces-states.md).
+Product empty/loading stays [surfaces-states](../../iphone/application/surfaces-states.md).
 
-## 5. Beeld
+## 5. Imagery
 
-- Device-mock: `--r-device`, schaduwrol panel, geen glas-op-glas op het scherm van de mock.
-- Foto’s: echte product- of scènebeelden. Geen stock, geen neon-overlay.
-- Een full-bleed foto mag Clear-glas dragen alleen als [liquid-glass.md](liquid-glass.md) §1 slaagt.
-- Tekst op een foto: één methode uit [images.md](images.md) §2.
+- Device mock: `--r-device`, shadow role panel, no glass-on-glass on the mock's screen.
+- Photos: real product or scene images. No stock, no neon overlay.
+- A full-bleed photo may carry Clear glass only if [liquid-glass.md](liquid-glass.md) §1 holds.
+- Text on a photo: one method from [images.md](images.md) §2.
 
-**Test:** op de landing heeft geen feature-kolom `backdrop-filter`. Het enige glas is de balk (en een menu als dat open is).
+**Test:** on the landing page no feature column has a `backdrop-filter`. The only glass is the bar (and a menu when it is open).

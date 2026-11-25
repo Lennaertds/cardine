@@ -1,38 +1,38 @@
-# Glossarium
+# Glossary
 
-> **Rol:** Eén term per begrip, en hoe die in de code heet. Gebruik deze termen in code, docs en prompts.
-> **Niet hier:** uitleg van algemene begrippen (REST, ETL, JWT).
+> **Role:** one term per concept, and what it is called in the code. Use these terms in code, docs and prompts.
+> **Not here:** explanation of general concepts (REST, ETL, JWT).
 
-## Domeinen
+## Domains
 
-Dezelfde naam in `docs/product/`, en later in app-mappen zodra er een stack is (`features/<domein>/`, `src/<domein>/`, …).
+The same name in `docs/product/`, and later in app directories once there is a stack (`features/<domain>/`, `src/<domain>/`, …).
 
-| Domein | Eén zin | Code of afkorting |
-|--------|---------|-------------------|
-| harness | Agent-loop / runtime-experiment: hoe de agent draait en meetbaar wordt aangestuurd | H |
-| structure | Projectstructuur-integratie: standaard lezen en afdwingen (docs, rules, seams) | S |
-| indexing | Code-/context-index zodat de agent gericht context krijgt | I |
+| Domain | One sentence | Code or abbreviation |
+|--------|--------------|----------------------|
+| harness | Agent loop / runtime experiment: how the agent runs and is steered measurably | H |
+| structure | Project-structure integration: reading and enforcing the standard (docs, rules, seams) | S |
+| indexing | Code/context index so the agent gets targeted context | I |
 
-## Termen
+## Terms
 
-| Term | Betekenis | In de code | Niet verwarren met |
-|------|-----------|------------|--------------------|
-| Spoor | Eén van de drie lagen: omgeving (kit), kennis (bron), lab (deze repo) | — (docs) | module (kit-module agent/research/product) |
-| Harness | De minimale runtime die de agent-loop en metingen draagt | `harness` | Cursor zelf (externe IDE); indexing |
-| Structure | Integratie met de projectstandaard (lezen/afdwingen) | `structure` | de standaard in `kit/` van deze repo |
-| Indexing | Opbouw en gebruik van een code-/context-index (Project-Understanding) | `indexing` | digest; IDE-shell; harness |
-| IDE-shell | Lichte editor-host (non-Electron) waaraan rest hangt | later | Cursor/VS Code-fork |
-| FS/events | Seam: file-wijzigingen doorgeven aan indexing/harness | later | “een app forken” |
-| Totaalproduct | Persoonlijke stack van 9 onderdelen — [totaalproduct.md](../product/totaalproduct.md) | — (docs) | SaaS-productisatie |
-| Runtime-keuze | Expliciet besluit voor stack (bv. Pi, DSH of IDE-fork) vóór generators | ADR 0001 (uitstel); opvolger bij keuze | kit-modules zonder stack |
-| Productisatie | Expliciet besluit lab → gratis release (portfolio; OS of closed) | BACKLOG Geparkeerd | stille “maak het publiek” zonder ADR |
-| DeepSeek | Goedkope LLM-provider-richting via eigen API-key | env `DEEPSEEK_API_KEY` e.d. | DeepSeek Harness (§77); DeepInfer |
+| Term | Meaning | In the code | Not to be confused with |
+|------|---------|-------------|-------------------------|
+| Track | One of the three layers: environment (kit), knowledge (sources), lab (this repo) | — (docs) | module (kit module agent/research/product) |
+| Harness | The minimal runtime that carries the agent loop and measurements | `harness` | Zed itself (external IDE); indexing |
+| Structure | Integration with the project standard (reading/enforcing) | `structure` | the standard in `kit/` of this repo |
+| Indexing | Building and using a code/context index (Project-Understanding) | `indexing` | digest; IDE shell; harness |
+| IDE shell | Lightweight editor host (non-Electron) the rest hangs off | later | Zed/VS Code fork |
+| FS/events | Seam: passing file changes to indexing/harness | later | "forking an app" |
+| Whole product | Personal stack of 9 parts — [totaalproduct.md](../product/totaalproduct.md) | — (docs) | SaaS productisation |
+| Runtime choice | An explicit decision on the stack (e.g. Pi, DSH or an IDE fork) before generators | ADR 0001 (deferral); successor once chosen | kit modules without a stack |
+| Productisation | Explicit decision lab → free release (portfolio; OS or closed) | BACKLOG Parked | a silent "make it public" without an ADR |
+| DeepSeek | Cheap LLM provider direction via your own API key | env `DEEPSEEK_API_KEY` etc. | DeepSeek Harness (§77); DeepInfra |
 
-## Afkortingen en projectcodes
+## Abbreviations and project codes
 
-| Code | Betekent |
-|------|----------|
-| ADR | Architecture Decision Record, bestand in `docs/decisions/` |
-| H / S / I | Domeincodes harness / structure / indexing |
-| Pi | Kandidaat-runtime (pas na expliciete keuze) |
-| TS | TypeScript als kandidaat-richting (pas na expliciete keuze) |
+| Code | Means |
+|------|-------|
+| ADR | Architecture Decision Record, a file in `docs/decisions/` |
+| H / S / I | Domain codes harness / structure / indexing |
+| Pi | Candidate runtime (only after an explicit choice) |
+| TS | TypeScript as a candidate direction (only after an explicit choice) |

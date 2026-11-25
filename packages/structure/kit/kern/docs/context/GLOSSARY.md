@@ -1,24 +1,24 @@
-# Glossarium
+# Glossary
 
-> **Rol:** Eén term per begrip, en hoe die in de code heet. Gebruik deze termen in code, docs en prompts.
-> **Niet hier:** uitleg van algemene begrippen (REST, ETL, JWT).
+> **Role:** One term per concept, and what it is called in the code. Use these terms in code, docs and prompts.
+> **Not here:** explanations of general concepts (REST, ETL, JWT).
 
-## Domeinen
+## Domains
 
-Dezelfde naam in `docs/product/`, `apps/web/src/features/`, `apps/api/src/` en de Python-modules.
+The same name in `docs/product/`, `apps/web/src/features/`, `apps/api/src/` and the Python modules.
 
-| Domein | Eén zin | Code of afkorting |
-|--------|---------|-------------------|
-| <sleep> | <Slaapdata importeren en tonen> | <S> |
+| Domain | One sentence | Code or abbreviation |
+|--------|--------------|----------------------|
+| <sleep> | <Import and show sleep data> | <S> |
 
-## Termen
+## Terms
 
-| Term | Betekenis | In de code | Niet verwarren met |
-|------|-----------|------------|--------------------|
-| <Plot> | <Proefveldje met één behandeling> | <`DimPlot`, `plot_id`> | <object (de proefopzet)> |
+| Term | Meaning | In the code | Do not confuse with |
+|------|---------|-------------|---------------------|
+| <Plot> | <A trial field with one treatment> | <`DimPlot`, `plot_id`> | <object (the whole trial design)> |
 
-## Afkortingen en projectcodes
+## Abbreviations and project codes
 
-| Code | Betekent |
-|------|----------|
-| <ADR> | <Architecture Decision Record, een bestand in `docs/decisions/`> |
+| Code | Means |
+|------|-------|
+| <ADR> | <Architecture Decision Record, a file in `docs/decisions/`> |

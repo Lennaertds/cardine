@@ -1,29 +1,29 @@
-# NNNN — <Besluit als zin, bv. "Postgres is de enige writer van user-data">
+# NNNN — <decision as a sentence, e.g. "Postgres is the only writer of user data">
 
-- **Status:** voorgesteld | aanvaard | vervangen door NNNN | ingetrokken
-- **Datum:** YYYY-MM-DD
-- **Raakt:** <bestanden, modules of docs die hierdoor gelden>
+- **Status:** proposed | accepted | superseded by NNNN | withdrawn
+- **Date:** YYYY-MM-DD
+- **Touches:** <files, modules or docs this decision governs>
 
-## Samenvatting
+## Summary
 
-In de context van <situatie>, geconfronteerd met <probleem>, kozen we voor <optie> en tegen <alternatief>, om <doel> te bereiken, en we aanvaarden <nadeel>.
+In the context of <situation>, faced with <problem>, we chose <option> over <alternative>, in order to reach <goal>, and we accept <drawback>.
 
 ## Context
 
-<Welke krachten spelen: eisen, beperkingen, wat er eerder misliep. Feiten, geen oplossing.>
+<Which forces are at play: requirements, constraints, what went wrong before. Facts, not a solution.>
 
-## Besluit
+## Decision
 
-<Wat we doen, in actieve vorm: "We …".>
+<What we do, in the active voice: "We …".>
 
-## Alternatieven
+## Alternatives
 
-| Optie | Waarom niet |
-|-------|-------------|
-| <A> | <reden> |
+| Option | Why not |
+|--------|---------|
+| <A> | <reason> |
 
-## Gevolgen
+## Consequences
 
-- **Makkelijker:** <…>
-- **Moeilijker of risico:** <…>
-- **Te doen:** <docs of code die moeten volgen; geen takenlijst>
+- **Easier:** <…>
+- **Harder or risky:** <…>
+- **To do:** <docs or code that must follow; not a task list>

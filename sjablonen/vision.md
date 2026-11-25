@@ -1,39 +1,39 @@
 # docs/context/vision.md
 
-> **Rol:** Waar het project op lange termijn heen gaat: richting, geen planning.
-> **Niet hier:** de huidige scope ([context](context.md)), wat nu gebouwd wordt ([backlog](backlog.md)).
+> **Role:** Where the project is heading in the long term: direction, not planning.
+> **Not here:** the current scope ([context](context.md)), what is being built now ([backlog](backlog.md)).
 
-**Kitbestand:** [kit/modules/vision/docs/context/vision.md](../kit/modules/vision/docs/context/vision.md) · module `vision`
+**Kit file:** [kit/modules/vision/docs/context/vision.md](../kit/modules/vision/docs/context/vision.md) · module `vision`
 
-## Wanneer
+## When
 
-Als het project langer loopt dan één semester, of als je keuzes maakt die pas over een jaar zinvol worden (een datamodel dat later sociale functies moet dragen). Voor een schoolopdracht van tien weken: niet.
+If the project runs longer than one semester, or if you make choices that only pay off in a year (a data model that later has to carry social features). For a ten-week school assignment: no.
 
-## Invullen
+## Filling in
 
-1. **Over drie jaar:** één alinea, voor wie en waarom het dan ertoe doet.
-2. **Stappen ernaartoe:** fasen met de **voorwaarde** waaronder ze zinvol worden, niet met een datum.
-3. **Wat we nooit worden:** de grenzen die ook op lange termijn gelden.
+1. **In three years:** one paragraph, for whom and why it matters then.
+2. **Steps towards it:** phases with the **condition** under which they become worthwhile, not a date.
+3. **What we will never be:** the boundaries that also hold in the long term.
 
-## Voorbeeld (GymFreak)
+## Example (GymFreak)
 
 ```markdown
-## Stappen ernaartoe
+## Steps towards it
 
-| Fase | Wat erbij komt | Wanneer het zinvol wordt |
-|------|----------------|--------------------------|
-| Persoonlijk | Plannen, loggen, slaap en dieet | nu |
-| Coach | Een coach volgt meerdere sporters | als drie coaches erom vragen |
-| Evidence | Elke aanbeveling met bron en niveau | als de evidence-bibliotheek 100 bronnen telt |
+| Phase | What gets added | When it becomes worthwhile |
+|-------|-----------------|----------------------------|
+| Personal | Planning, logging, sleep and diet | now |
+| Coach | A coach follows several athletes | once three coaches ask for it |
+| Evidence | Every recommendation with source and level | once the evidence library holds 100 sources |
 
-## Wat we nooit worden
+## What we will never be
 
-- Geen sociaal netwerk met een publieke feed.
-- Geen medische app: trends, geen diagnoses.
+- Not a social network with a public feed.
+- Not a medical app: trends, no diagnoses.
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Geen datum, geen sprint, geen taak.
-- [ ] Elke fase heeft een voorwaarde die je kan nagaan.
-- [ ] De agent heeft dit niet nodig voor een gewone taak; de kaart zegt dat ook.
+- [ ] No date, no sprint, no task.
+- [ ] Every phase has a condition you can verify.
+- [ ] The agent does not need this for an ordinary task; the map says so too.

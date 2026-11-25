@@ -1,15 +1,15 @@
 # UI iPhone — motion · springs
 
-> **Rol:** Direct manipulation, interruptibility, springs.  
-> **Niet hier:** gebaren en momentum ([motion-gestures](motion-gestures.md)); smoothness per frame ([motion-smoothness](motion-smoothness.md)).
+> **Role:** Direct manipulation, interruptibility, springs.
+> **Not here:** gestures and momentum ([motion-gestures](motion-gestures.md)); smoothness per frame ([motion-smoothness](motion-smoothness.md)).
 
 ## 1. Direct manipulation — 1:1 tracking
 
 > Touch and content should move together.
 
-- Element blijft plakken aan de vinger; respecteer **grab offset** (niet naar centrum snappen bij grab).
+- The element stays glued to the finger; respect the **grab offset** (do not snap to the centre on grab).
 - Pointer Events + `setPointerCapture`.
-- Houd korte **velocity/position history** (laatste `pointermove`s) voor release.
+- Keep a short **velocity/position history** (the last `pointermove`s) for release.
 
 ```js
 el.addEventListener('pointerdown', (e) => {
@@ -19,37 +19,37 @@ el.addEventListener('pointerdown', (e) => {
 });
 ```
 
-## 2. Interruptibility — belangrijkste principe
+## 2. Interruptibility — the most important principle
 
 > The thought and the gesture happen in parallel.
 
-- **Nooit input locken tijdens een transition.**
-- Animeer altijd vanaf de **presentation value** (live on-screen), nooit vanaf de logical/target value bij interrupt.
-- **Geen CSS transitions/`@keyframes` voor gesture-driven UI** (sheets, drag-dismiss, swipe). Die zijn niet soepel te grijpen mid-flight. Gebruik **springs**.
-- Bij reverse: **velocity blenden**, geen hard-cut (“brick wall”).
-- 2D motion = **aparte X- en Y-springs**.
+- **Never lock input during a transition.**
+- Always animate from the **presentation value** (live on screen), never from the logical/target value on interrupt.
+- **No CSS transitions/`@keyframes` for gesture-driven UI** (sheets, drag-dismiss, swipe). Those cannot be caught smoothly mid-flight. Use **springs**.
+- On reverse: **blend velocity**, no hard cut ("brick wall").
+- 2D motion = **separate X and Y springs**.
 
-Sheets, chip-drag, drawers moeten dit halen. Vaste fade-ins die zelden voorkomen mogen CSS blijven.
+Sheets, chip drag, drawers must meet this. Fixed fade-ins that rarely occur may stay CSS.
 
-## 3. Behavior over animation — springs
+## 3. Behaviour over animation — springs
 
 ### Easing = intent
 
-| Curve | Wanneer |
-|-------|---------|
-| **ease-out** | Default voor UI enter / settle — snel starten, landen |
-| **ease-in** / snappier exit | Dismiss; exit korter dan entrance ([motion-response](motion-response.md)) |
-| **ease-in-out** | Verplaatsen tussen peers (tab content, indicator) |
-| **linear** | Alleen spinners / continue loops — nooit start/stop UI |
-| **spring** | Gesture-driven + spaarzame touch-feedback; geen bounce op elke fade |
+| Curve | When |
+|-------|------|
+| **ease-out** | Default for UI enter / settle — start fast, land |
+| **ease-in** / snappier exit | Dismiss; exit shorter than entrance ([motion-response](motion-response.md)) |
+| **ease-in-out** | Moving between peers (tab content, indicator) |
+| **linear** | Spinners / continuous loops only — never start/stop UI |
+| **spring** | Gesture-driven + sparing touch feedback; no bounce on every fade |
 
-Zelfde curves overal = coherent. Ad-hoc per component = gestikt.
+The same curves everywhere = coherent. Ad hoc per component = stitched together.
 
-- Springs voor alles wat de user kan **aanraken** (sheets, drag, swipe-settle) — niet voor elke fade.
-- Parameters: **damping ratio** + **response** (geen vaste “duration” in physics-zin).
-  - Default UI: damping **`1.0`** (geen overshoot), response **`0.3–0.4`**.
+- Springs for everything the user can **touch** (sheets, drag, swipe settle) — not for every fade.
+- Parameters: **damping ratio** + **response** (no fixed "duration" in the physics sense).
+  - Default UI: damping **`1.0`** (no overshoot), response **`0.3–0.4`**.
   - Momentum/flick: damping **`~0.8`**, response **`0.3–0.4`**.
-- Bounce **alleen** als de gesture zelf momentum had (flick/throw), of zeldzame attention. Geen bounce op menu fade-in.
+- Bounce **only** if the gesture itself had momentum (flick/throw), or rare attention. No bounce on a menu fade-in.
 
 | Interaction | Damping | Response |
 |-------------|---------|----------|
@@ -66,13 +66,13 @@ animate(el, { y: 0 }, { type: 'spring', bounce: 0, duration: 0.4 });
 animate(el, { y: target }, { type: 'spring', bounce: 0.2, duration: 0.4 });
 ```
 
-**Niet animeren** (frequentie wint van “mooi”):
+**Do not animate** (frequency beats "pretty"):
 
-| Frequentie | Besluit |
-|------------|---------|
-| 100×/dag | Geen animatie |
-| Tientallen×/dag | Weg of drastisch korter |
-| Occasioneel (sheets) | Spring / standaard |
-| Zeldzaam | Mag delight |
+| Frequency | Decision |
+|-----------|----------|
+| 100×/day | No animation |
+| Dozens/day | Gone, or drastically shorter |
+| Occasional (sheets) | Spring / standard |
+| Rare | May delight |
 
-Dichte logger-tikken: **instant of ≤160ms press** — geen theater.
+Dense logger ticks: **instant or a ≤160ms press** — no theatre.

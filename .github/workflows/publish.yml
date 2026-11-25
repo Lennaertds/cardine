@@ -1,29 +1,29 @@
-# Publiceert naar de publieke npm-registry (registry.npmjs.org) via
-# **trusted publishing** (OIDC). Geen NPM_TOKEN, geen langlevend publiceertoken:
-# npm vertrouwt deze workflow op basis van repository + workflowbestand en
-# controleert dat met een kortlevend OIDC-token.
+# Publishes to the public npm registry (registry.npmjs.org) via
+# **trusted publishing** (OIDC). No NPM_TOKEN, no long-lived publish token:
+# npm trusts this workflow based on repository + workflow file and
+# verifies that with a short-lived OIDC token.
 #
-# Eenmalige inrichting op npmjs.com, PER PACKAGE (pakketpagina → Settings →
-# Trusted Publisher → GitHub Actions). Alle velden zijn hoofdlettergevoelig:
+# One-time setup on npmjs.com, PER PACKAGE (package page → Settings →
+# Trusted Publisher → GitHub Actions). All fields are case-sensitive:
 #   Organization/user: Lennaertds
 #   Repository:        cardine
-#   Workflow filename: publish.yml        (incl. .yml, zonder pad)
-#   Environment name:  leeg laten
-#   Allowed actions:   "npm publish" toestaan (anders mag de verbinding alleen
-#                      `npm stage publish`, wat een menselijke 2FA-stap vraagt)
+#   Workflow filename: publish.yml        (incl. .yml, without a path)
+#   Environment name:  leave empty
+#   Allowed actions:   allow "npm publish" (otherwise the connection may only
+#                      `npm stage publish`, which asks for a human 2FA step)
 #
 # Triggers:
 #   - Tags: v*, structure-v*, lab-v*
-#   - Manual: workflow_dispatch (kies meta, structure, lab, of all)
+#   - Manual: workflow_dispatch (choose meta, structure, lab, or all)
 #
-# Belangrijk:
-#   - Vul de verbinding in VOOR de tag push; een nieuwe verbinding die niet
-#     binnen 2 dagen een geslaagde publish ziet, verloopt.
-#   - Een bestaande verbinding kan niet worden aangepast: verwijderen en
-#     opnieuw maken.
-#   - Hernoem dit bestand of de repo niet — de verbinding is eraan vastgeklonken.
-#   - npm CLI >= 11.21 (staged) c.q. 12.2 (dist-tags); Node 24 levert dat.
-#   - Provenance wordt bij OIDC automatisch gegenereerd (geen --provenance).
+# Important:
+#   - Set up the connection BEFORE the tag push; a new connection that does not
+#     see a successful publish within 2 days expires.
+#   - An existing connection cannot be edited: delete it and
+#     create it again.
+#   - Do not rename this file or the repo — the connection is tied to them.
+#   - npm CLI >= 11.21 (staged) resp. 12.2 (dist-tags); Node 24 provides that.
+#   - Provenance is generated automatically with OIDC (no --provenance).
 
 name: publish
 
@@ -47,7 +47,7 @@ on:
           - lab
 
 jobs:
-  # ── GitHub Release (alleen bij v* tags, niet v0.*) ──
+  # ── GitHub Release (only on v* tags, not v0.*) ──
   release:
     runs-on: ubuntu-latest
     permissions:
@@ -70,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # OIDC — verplicht voor trusted publishing
+      id-token: write # OIDC — required for trusted publishing
     if: |
       (github.event_name == 'push' && startsWith(github.ref_name, 'v') && !startsWith(github.ref_name, 'v0.')) ||
       (github.event_name == 'workflow_dispatch' && (inputs.package == 'meta' || inputs.package == 'all'))

@@ -1,7 +1,7 @@
-"""Python-kant van apps/native (starter).
+"""Python side of apps/native (starter).
 
-Probeert de maturin/PyO3-module `native`; anders pure fallback (spiegel van index.js).
-NATIVE_STRICT=1: geen fallback (CI / check-full).
+Tries the maturin/PyO3 module `native`; otherwise a pure fallback (mirror of index.js).
+NATIVE_STRICT=1: no fallback (CI / check-full).
 """
 
 from __future__ import annotations

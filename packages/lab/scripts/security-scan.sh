@@ -18,22 +18,22 @@ done
 
 die() { echo "security-scan: $*" >&2; exit 1; }
 
-command -v docker >/dev/null || die "Docker ontbreekt of staat niet in PATH. Start de daemon en installeer Docker."
-docker info >/dev/null 2>&1 || die "Docker draait niet. Start de daemon en probeer opnieuw."
+command -v docker >/dev/null || die "Docker is missing or not in PATH. Start the daemon and install Docker."
+docker info >/dev/null 2>&1 || die "Docker is not running. Start the daemon and try again."
 
 if ! command -v strix >/dev/null; then
   cat >&2 <<'EOF'
-security-scan: `strix` staat niet in PATH.
+security-scan: `strix` is not in PATH.
 
-Installeer (één van beide):
+Install (either one):
   curl -sSL https://strix.ai/install | bash
   pipx install strix-agent
 
-Zet daarna een LLM-provider, bv.:
+Then set an LLM provider, e.g.:
   export STRIX_LLM="openrouter/z-ai/glm-5.3"
   export LLM_API_KEY="…"
 
-Skill voor coding agents (optioneel):
+Skill for coding agents (optional):
   npx skills add usestrix/strix
 
 Uitleg: docs/architecture/security.md · docs/how-to/security-scan.md
@@ -42,10 +42,10 @@ EOF
 fi
 
 if [[ -z "${LLM_API_KEY:-}${ANTHROPIC_API_KEY:-}${OPENAI_API_KEY:-}" && -z "${STRIX_LLM:-}" ]]; then
-  echo "security-scan: waarschuwing — geen LLM_API_KEY / STRIX_LLM zichtbaar in de omgeving." >&2
+  echo "security-scan: warning — no LLM_API_KEY / STRIX_LLM visible in the environment." >&2
 fi
 
-echo "security-scan: alleen targets waar je toestemming voor hebt (eigen code / staging)."
+echo "security-scan: only targets you have permission for (your own code / staging)."
 args=(--target "$target")
 if [[ "$mode" == quick ]]; then
   args+=(--scan-mode quick)

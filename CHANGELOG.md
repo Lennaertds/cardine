@@ -1,5 +1,18 @@
 # Changelog — Cardine meta
 
+## [0.4.1] — 2026-11-24
+
+| Package | Version | What |
+|---------|---------|------|
+| cardine (meta) | 0.4.1 | README and package docs in English; stale version table fixed |
+| @lennaertds/cardine-lab | 0.5.2 | English package, CLI help and docs; pending npm-route catch-up shipped |
+| @lennaertds/cardine-structure | 0.5.1 | English package docs; English `new-project.sh` help and output |
+
+### Changed
+- English is the only project language ([ADR 0018](docs/decisions/0018-english-is-the-only-project-language.md)).
+  This entry covers the public-facing layer: READMEs, package docs and CLI help.
+  The rest of the repo follows per [LANGUAGE-MIGRATION.md](LANGUAGE-MIGRATION.md).
+
 ## [0.4.0] — 2026-11-24
 
 | Package | Versie | Wat |

@@ -1,139 +1,139 @@
-# Opstartpakket — instructies voor de agent
+# Bootstrap package — instructions for the agent
 
-> **Rol:** De procedure voor een agent die een project naar de standaard brengt: een leeg project opzetten of een bestaand herordenen, en daarna dit pakket weer weghalen.
-> **Niet hier:** de standaard zelf ([standaard](standaard/INDEX.md)), het stappenplan in detail ([nieuw-project](nieuw-project/INDEX.md), [bestaand-project](bestaand-project/INDEX.md)).
+> **Role:** The procedure for an agent that brings a project to the standard: set up an empty project or reorganise an existing one, and then remove this package again.
+> **Not here:** the standard itself ([standaard](standard/INDEX.md)), the step-by-step plan in detail ([nieuw-project](new-project/INDEX.md), [bestaand-project](existing-project/INDEX.md)).
 
-Je staat in de root van een project. Deze map heet daar `_bootstrap/` en is tijdelijk: hij staat in `.git/info/exclude`, komt nooit in een commit en gaat weg aan het einde. Alle paden hieronder zijn relatief aan de projectroot, tenzij ze in een link staan.
+You are in the root of a project. There this folder is called `_bootstrap/` and it is temporary: it is in `.git/info/exclude`, never ends up in a commit, and is removed at the end. All paths below are relative to the project root, unless they are inside a link.
 
-De mens zette het pakket hier met `make bootstrap DIR=<project>` in de standaard. Hij vroeg je: "Lees `_bootstrap/BOOTSTRAP.md` en volg het voor dit project."
+The human put the package here with `make bootstrap DIR=<project>` in the standard. They asked you: "Read `_bootstrap/BOOTSTRAP.md` and follow it for this project."
 
-## Harde regels, gedurende de hele procedure
+## Hard rules, throughout the procedure
 
-1. **Nooit lezen, tonen of committen:** `.env` en elke andere secret, en data in `data/raw/`, `data/runtime/` of een map met gebruikers- of gezondheidsdata. Inventariseer zulke mappen op naam en grootte (`fd`, `du`), nooit op inhoud.
-2. **De regels van het project gaan voor.** Staat in `AGENTS.md`, `.cursorrules` of een workspace-rule iets strengers (niet committen, een map niet aanraken), dan volg je dat.
-3. **Niet zelf committen**, tenzij de mens het in dit gesprek uitdrukkelijk toestaat. Na elke fase stop je met `git status --short`, een samenvatting en een voorgestelde commit-boodschap; de mens commit.
-4. **Verhuizen met `git mv`**, nooit kopiëren en verwijderen. Niets overschrijven: het kitscript doet dat nooit, en jij ook niet met de hand.
-5. **Geen code herschrijven** behalve paden die door een verhuizing veranderen. Code verhuist "bij aanraking", later.
-6. **`make check` na elke fase.** Rood: eerst oplossen of melden, niet verder.
-7. **Twijfel is een vraag**, geen gok. Een bestand zonder duidelijke plaats gaat als vraag naar de mens.
-8. **Standaard-features die in de docs staan maar hier nog niet aangesloten zijn** (tooling, Make-target, secrets, Docker): niet negeren. Solo: één regel in `docs/work/BACKLOG.md` (§ Straks of § Geparkeerd) met *wat* ontbreekt en *waarop* je wacht. Team: equivalent issue. De documentatie blijft de bron van waarheid over *hoe* het hoort.
+1. **Never read, show or commit:** `.env` and any other secret, and data in `data/raw/`, `data/runtime/` or a folder with user or health data. Inventory such folders by name and size (`fd`, `du`), never by content.
+2. **The project's rules win.** If `AGENTS.md`, `.cursorrules` or a workspace rule says something stricter (do not commit, do not touch a folder), you follow that.
+3. **Do not commit yourself**, unless the human explicitly allows it in this conversation. After every phase you stop with `git status --short`, a summary and a proposed commit message; the human commits.
+4. **Move with `git mv`**, never copy and delete. Overwrite nothing: the kit script never does, and neither do you by hand.
+5. **Do not rewrite code** except paths that change because of a move. Code moves "on touch", later.
+6. **`make check` after every phase.** Red: fix it or report it first, do not continue.
+7. **Doubt is a question**, not a guess. A file without a clear place goes to the human as a question.
+8. **Standard features that the docs describe but that are not wired up here yet** (tooling, Make target, secrets, Docker): do not ignore them. Solo: one line in `docs/work/BACKLOG.md` (§ Later or § Parked) with *what* is missing and *what* you are waiting for. Team: an equivalent issue. The documentation stays the source of truth about *how* it should work.
 
-## Wat waar staat in dit pakket
+## What sits where in this package
 
-Lees just-in-time, alleen wat de fase vraagt.
+Read just in time, only what the phase asks for.
 
-| Nodig voor | Lees |
+| Needed for | Read |
 |------------|------|
-| Waar hoort een bestand? | [standaard/waar-hoort-dit](standaard/waar-hoort-dit.md), [standaard/skelet](standaard/skelet.md) |
-| Wat hoort in een bestand, en wat niet? | [standaard/bestanden](standaard/bestanden.md), en de gids in [sjablonen](sjablonen/INDEX.md) |
-| Makefile, targets, `app.mk` | [standaard/makefile](standaard/makefile.md) |
-| Datalagen | [standaard/data](standaard/data.md) |
-| De bestanden zelf, en het script | [kit](kit/README.md): `bash _bootstrap/kit/new-project.sh . …` |
-| Een uitgewerkt voorbeeld | [GymFreak](bestaand-project/voorbeelden/gymfreak.md) (solo), [DEP2](bestaand-project/voorbeelden/dep2.md) (team) |
+| Where does a file belong? | [standard/where-does-this-belong](standard/where-does-this-belong.md), [standard/skelet](standard/skelet.md) |
+| What belongs in a file, and what does not? | [standard/per-file](standard/per-file.md), and the guide in [sjablonen](sjablonen/INDEX.md) |
+| Makefile, targets, `app.mk` | [standard/makefile](standard/makefile.md) |
+| Datalagen | [standard/data](standard/data.md) |
+| The files themselves, and the script | [kit](kit/README.md): `bash _bootstrap/kit/new-project.sh . …` |
+| A worked example | [GymFreak](existing-project/examples/gymfreak.md) (solo), [DEP2](existing-project/examples/dep2.md) (team) |
 
-## Fase 0 — Soort project bepalen
+## Phase 0 — Determine the kind of project
 
 ```bash
 git status --short | head; ls -A | grep -vx -e .git -e _bootstrap
 ```
 
-- **Leeg** (niets buiten `.git` en `_bootstrap`): ga naar [Nieuw project](#nieuw-project).
-- **Bestaand**: ga naar [Bestaand project](#bestaand-project). Is er een uitgewerkt voorbeeld voor dit project, gebruik dat als startpunt, maar controleer elk feit opnieuw: het project kan intussen veranderd zijn.
+- **Empty** (nothing outside `.git` and `_bootstrap`): go to [New project](#nieuw-project).
+- **Existing**: go to [Existing project](#bestaand-project). If there is a worked example for this project, use it as a starting point, but check every fact again: the project may have changed in the meantime.
 
-Vraag in beide gevallen: **solo of team?** Solo krijgt `.cursorrules` als dunne persoonlijke laag; team niet.
+Ask in both cases: **solo or team?** Solo gets `.cursorrules` as a thin personal layer; team does not.
 
-## Nieuw project
+## New project
 
-1. **Afstemmen.** Vraag wat het project doet (één zin), welke apps (web, API, data, pipeline), of er een database is, en of het een opdracht of klant heeft. Stel op basis daarvan het commando voor uit de tabel in [nieuw-project](nieuw-project/INDEX.md), met `--starter`. **Stop** tot de mens akkoord geeft.
-2. **Kit kopiëren:** eerst `--dry-run`, toon de lijst, dan echt. Volg [stap 1](nieuw-project/1-kit-kopieren.md).
-3. **Context en grenzen:** samen met de mens invullen, [stap 2](nieuw-project/2-context-en-grenzen.md). Vul niets in wat de mens niet zei; laat de `<placeholder>` staan en vraag.
-4. **Apps en feedbacklus:** generators per stack, dan de stack opnieuw met `--starter`, tot `make check` groen is. [Stap 3](nieuw-project/3-apps-en-feedbacklus.md).
-5. **Agent:** `AGENTS.md` en (solo) `.cursorrules` afwerken, [stap 4](nieuw-project/4-agent.md).
-6. Naar [Afsluiten](#afsluiten).
+1. **Align.** Ask what the project does (one sentence), which apps (web, API, data, pipeline), whether there is a database, and whether it has an assignment or a client. Based on that, propose the command from the table in [new-project](new-project/INDEX.md), with `--starter`. **Stop** until the human agrees.
+2. **Copy the kit:** `--dry-run` first, show the list, then for real. Follow [step 1](new-project/1-copy-the-kit.md).
+3. **Context and boundaries:** fill in together with the human, [step 2](new-project/2-context-and-boundaries.md). Fill in nothing the human did not say; leave the `<placeholder>` and ask.
+4. **Apps and feedback loop:** generators per stack, then the stack again with `--starter`, until `make check` is green. [Step 3](new-project/3-apps-and-feedback-loop.md).
+5. **Agent:** finish `AGENTS.md` and (solo) `.cursorrules`, [step 4](new-project/4-agent.md).
+6. Go to [Closing](#afsluiten).
 
-## Bestaand project
+## Existing project
 
-Volg [bestaand-project](bestaand-project/INDEX.md), met deze pauzes.
+Follow [bestaand-project](existing-project/INDEX.md), with these pauses.
 
-### Fase 1 — Inventaris en plan (alleen lezen)
+### Phase 1 — Inventory and plan (read only)
 
-1. De inventaris uit [stap 1](bestaand-project/1-nulmeting-en-inventaris.md): alle docs, routers, rules, build-output in git, sync-restjes, de grootste bestanden, de Makefile-targets en package-scripts per app.
-2. De droge run van de kit, **zonder** `--starter`. Kies modules en stacks op basis van de inventaris.
-3. Elk bestand een soort en een doel ([stap 2](bestaand-project/2-classificeren.md)).
-4. **Toon het plan** aan de mens, in deze vorm, en **stop**:
+1. The inventory from [step 1](existing-project/1-baseline-and-inventory.md): all docs, routers, rules, build output in git, sync leftovers, the largest files, the Makefile targets and package scripts per app.
+2. The dry run of the kit, **without** `--starter`. Choose modules and stacks based on the inventory.
+3. A kind and a destination for every file ([step 2](existing-project/2-classificeren.md)).
+4. **Show the plan** to the human, in this shape, and **stop**:
 
-   | Fase | Wordt uitgevoerd | Verandert |
+   | Phase | Is executed | Changes |
    |------|------------------|-----------|
-   | Feedbacklus | … | welke bestanden nieuw, welke targets hernoemd |
-   | Opruimen | … | wat uit git verdwijnt (met aantallen), wat weg gaat |
-   | Verhuizen | … | elke `git mv` (oud → nieuw), elk codepad dat mee verandert |
-   | Router en kaart | … | wat uit de oude router waarheen gaat |
+   | Feedback loop | … | which files are new, which targets renamed |
+   | Clean up | … | what disappears from git (with counts), what goes away |
+   | Move | … | every `git mv` (old → new), every code path that changes with it |
+   | Router and map | … | what from the old router goes where |
 
-   Plus: de vragen (bestanden zonder duidelijke plaats, keuzes tussen twee lijnen) en wat je **niet** aanraakt.
+   Plus: the questions (files without a clear place, choices between two tracks) and what you do **not** touch.
 
-Pas na akkoord schrijf je. Het plan gaat als verhuistabel in `docs/work/specs/herordening.md` (sjabloon met de hand kopiëren, zie stap 1). Vraag of de mens een nulmeting wil ([meten](meten/INDEX.md)); zo ja, die eerst.
+You only write after agreement. The plan goes as the move table into `docs/work/specs/reorganise.md` (copy the template by hand, see step 1). Ask whether the human wants a baseline ([meten](measurement/INDEX.md)); if so, that first.
 
-### Fase 2 tot 5 — Uitvoeren, elk met een pauze
+### Phases 2 to 5 — Execute, each with a pause
 
-| Fase | Stap | Klaar als |
+| Phase | Step | Done when |
 |------|------|-----------|
-| 2 | [Feedbacklus](bestaand-project/3-feedbacklus.md) | `make check` bestaat, dekt elke app en is groen |
-| 3 | [Opruimen](bestaand-project/4-opruimen.md) | `git ls-files -ci --exclude-standard` is leeg |
-| 4 | [Verhuizen](bestaand-project/5-verhuizen.md): docs, data, apps, **dan pas** de kit | elke rij van de verhuistabel afgevinkt; geen dode links |
-| 5 | [Router en kaart](bestaand-project/6-router-en-kaart.md) | één `AGENTS.md`; solo een dunne `.cursorrules`; geneste `AGENTS.md` per app |
+| 2 | [Feedback loop](existing-project/3-feedbacklus.md) | `make check` exists, covers every app and is green |
+| 3 | [Clean up](existing-project/4-opruimen.md) | `git ls-files -ci --exclude-standard` is empty |
+| 4 | [Move](existing-project/5-move.md): docs, data, apps, **only then** the kit | every row of the move table ticked off; no dead links |
+| 5 | [Router and map](existing-project/6-router-and-map.md) | one `AGENTS.md`; solo a thin `.cursorrules`; nested `AGENTS.md` per app |
 
-Na elke fase: `make check`, `git status --short`, een korte lijst van wat veranderde, een commit-boodschap, en **stop**. Een fase met veel verhuizingen (docs per map) mag je opdelen in meerdere pauzes.
+After every phase: `make check`, `git status --short`, a short list of what changed, a commit message, and **stop**. A phase with many moves (docs per folder) you may split into several pauses.
 
-### Fase 6 — Meten en vastleggen
+### Phase 6 — Measure and record
 
-Als er een nulmeting was: [stap 7](bestaand-project/7-meten-en-vastleggen.md). Anders alleen de ADR "herordening naar de standaard" met wat veranderde en wat bewust niet.
+If there was a baseline: [step 7](existing-project/7-measure-and-record.md). Otherwise only the ADR "reorganise to the standard" with what changed and what deliberately did not.
 
-## Al op de standaard — kit-delta
+## Already on the standard — kit delta
 
-Gebruik dit als het project **al** een `AGENTS.md`, `docs/INDEX.md` en `make check` heeft (bv. GymFreak na eerdere bootstrap), en je alleen nieuwe kitbestanden + router-vorm wilt bijtrekken. Geen herordening, geen `--starter`.
+Use this if the project **already** has an `AGENTS.md`, `docs/INDEX.md` and `make check` (e.g. GymFreak after an earlier bootstrap), and you only want to catch up on new kit files + the router shape. No reorganise, no `--starter`.
 
-1. **Droge run** (zelfde modules/stacks als eerder; GymFreak: zie [gymfreak.md](bestaand-project/voorbeelden/gymfreak.md)):
+1. **Dry run** (same modules/stacks as before; GymFreak: see [gymfreak.md](existing-project/examples/gymfreak.md)):
 
    ```bash
    bash _bootstrap/kit/new-project.sh . --modules <…> --stacks <…> --no-git --dry-run
    ```
 
-   Toon `+` (nieuw) vs `=` (bestaat). **Overschrijf nooit** een bestaand bestand met het script.
+   Show `+` (new) vs `=` (exists). **Never overwrite** an existing file with the script.
 
-2. **Nieuwe kitbestanden** (`+`): script echt draaien of met de hand kopiëren. Typisch: `docs/architecture/{observability,performance,dependencies,polyglot}.md`, how-to’s, scripts, research radar/digest, voorbeeld-ADR `0000-…`.
+2. **New kit files** (`+`): run the script for real, or copy by hand. Typically: `docs/architecture/{observability,performance,dependencies,polyglot}.md`, how-tos, scripts, research radar/digest, example ADR `0000-…`.
 
-3. **Merge bestaande bestanden** (vorm = kit, feiten = project):
+3. **Merge existing files** (shape = kit, facts = project):
 
-   | Bestand | Doen |
+   | File | Do |
    |---------|------|
-   | `AGENTS.md` | Kit-vorm: korte Nooit (RULES + security live; rest via INDEX — **geen** polyglot/keyword-catalogus always-on); commandotabel = dagelijks + één zin opt-in → INDEX/`make help`; Werken = harde leesroutes + intent/seams/slice kort. Projectfeiten behouden. Geen acht always-on kit-routes, geen pad-tabel voor zelden-gebruikte docs. |
-   | `docs/INDEX.md` | Nieuwe satellieten + “opt-in” bij obs/perf/deps/polyglot; ARCHITECTURE-regel: niet PWA/auth-dump. |
-   | `Makefile` | Kit-targets toevoegen (`security-scan*`, `obs-*`, `perf-*`, `deps-audit`, `polyglot-check`, …) zonder project-targets te wissen. |
-   | `docs/architecture/security.md` e.d. | Alleen ontbrekende secties (Strix, `## Bewust later`); geen projectlijst wissen. |
-   | Vet `ARCHITECTURE.md` (>~100 regels Runtime/Auth-catalogus) | Containers/stack/dataflow/hosting/seams houden; PWA/offline/push → `architecture/runtime-client.md`; JWT/demo/onboarding-details → `architecture/auth.md` (of bestaande data-model/legal). INDEX bijwerken. |
-   | Kit-docs die net binnenkwamen | Geen `kit/stacks/…`-paden, geen “Agent Engineering bron §…”; native-map alleen als die stack bestaat. |
+   | `AGENTS.md` | Kit shape: brief Never (RULES + security live; the rest via INDEX — **no** polyglot/keyword catalogue always-on); command table = daily + one sentence on opt-in → INDEX/`make help`; Working = hard read routes + intent/seams/slice brief. Keep the project facts. No eight always-on kit routes, no path table for rarely used docs. |
+   | `docs/INDEX.md` | New satellites + "opt-in" for obs/perf/deps/polyglot; ARCHITECTURE line: not a PWA/auth dump. |
+   | `Makefile` | Add the kit targets (`security-scan*`, `obs-*`, `perf-*`, `deps-audit`, `polyglot-check`, …) without wiping project targets. |
+   | `docs/architecture/security.md` etc. | Only the missing sections (Strix, `## Deliberately later`); do not wipe the project list. |
+   | A thick `ARCHITECTURE.md` (>~100 lines of runtime/auth catalogue) | Keep containers/stack/dataflow/hosting/seams; PWA/offline/push → `architecture/runtime-client.md`; JWT/demo/onboarding details → `architecture/auth.md` (or the existing data model/legal). Update INDEX. |
+   | Kit docs that just came in | No `kit/stacks/…` paths, no "Agent Engineering source §…"; a native folder only if that stack exists. |
 
-4. Solo: BACKLOG § Straks/Geparkeerd voor wat docs beloven maar tooling nog mist (Strix-install, OTel in apps, perf-budgets, digest-feeds, …) — zie harde regel 8.
-5. `make check` (en waar zinvol `polyglot-check` / `perf-check`). `make deps-audit` mag rood zijn tot CVE’s opgelost zijn — niet stil in `make check` stoppen.
-6. Naar [Afsluiten](#afsluiten) (pakket weghalen).
+4. Solo: BACKLOG § Later/Parked for what the docs promise but the tooling still lacks (Strix install, OTel in apps, perf budgets, digest feeds, …) — see hard rule 8.
+5. `make check` (and `polyglot-check` / `perf-check` where useful). `make deps-audit` may be red until the CVEs are fixed — do not quietly put it into `make check`.
+6. Go to [Closing](#afsluiten) (remove the package).
 
-## Afsluiten
+## Closing
 
-1. **Eindcontrole:**
+1. **Final check:**
 
    ```bash
    make check
    make docs-health
-   bash _bootstrap/kit/new-project.sh . --modules <dezelfde> --stacks <dezelfde> --no-git --dry-run   # alleen bewust overgeslagen sjablonen
+   bash _bootstrap/kit/new-project.sh . --modules <the same> --stacks <the same> --no-git --dry-run   # only deliberately skipped templates
    rg -n '\{\{PROJECT\}\}|\{\{DATE\}\}' --hidden --glob '!_bootstrap' --glob '!node_modules' .   # leeg
-   rg -n '_bootstrap' --hidden --glob '!_bootstrap' --glob '!.git' .                             # leeg: niets verwijst naar het pakket
+   rg -n '_bootstrap' --hidden --glob '!_bootstrap' --glob '!.git' .                             # empty: nothing points at the package
    ```
 
-2. **Pakket weghalen:**
+2. **Remove the package:**
 
    ```bash
    bash _bootstrap/scripts/bootstrap.sh --remove .
-   git status --short          # geen sporen van _bootstrap
+   git status --short          # no traces of _bootstrap
    ```
 
-3. **Eindverslag** aan de mens: wat veranderde per fase, wat bewust bleef, de open vragen, en de vervolgtaken buiten het project (workspace-rules, user rules). De links in dit verslag mogen niet naar `_bootstrap/` wijzen: die map bestaat niet meer.
+3. **Final report** to the human: what changed per phase, what deliberately stayed, the open questions, and the follow-up tasks outside the project (workspace rules, user rules). The links in this report must not point at `_bootstrap/`: that folder no longer exists.

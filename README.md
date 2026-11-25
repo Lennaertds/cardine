@@ -1,68 +1,67 @@
 # Cardine
 
-> **Het scharnier voor mens en AI-agent in elk project.**
+> **The hinge between human and AI agent in every project.**
 
-AI-assistenten werken het best met een vaste projectstructuur. Zonder worden ze
-richtingloos: ze raden mappen, missen conventies, en elke nieuwe sessie begint
-opnieuw. Mét een vaste boom — docs, data, besluiten, logs — weet een agent
-meteen waar hij iets vindt en waar hij het neerzet.
+AI assistants work best with a fixed project structure. Without one they drift:
+they guess directories, miss conventions, and every new session starts over. With
+a stable tree — docs, data, decisions, logs — an agent knows immediately where to
+find things and where to put them.
 
-Cardine geeft die structuur, plus de toolchain om er meteen in te werken.
-Geen nieuwe editor, geen verplicht abonnement — alleen de standaard en de
-gereedschappen, met de agent die je al hebt.
+Cardine provides that structure, plus the toolchain to work in it right away.
+No new editor, no mandatory subscription — just the standard and the tools, with
+the agent you already have.
 
 ---
 
-## Waarom Cardine?
+## Why Cardine?
 
-*Cardine* is de Latijnse ablatief van *cardo* — de spil, het scharnier waar een
-stad of constructie omheen draait. *"Waarmee en vanuit waar alles scharniert."*
+*Cardine* is the Latin ablative of *cardo* — the pivot, the hinge a city or a
+structure turns on. *"Whereby and from where everything hinges."*
 
-Het idee is eenvoudig: als elke sessie dezelfde boom aantreft, hoeft een agent
-niet telkens te raden waar docs, data of besluiten staan. De projectstandaard
-is het scharnier waar mens én agent omheen werken.
+The idea is simple: if every session meets the same tree, an agent does not have
+to guess each time where docs, data or decisions live. The project standard is
+the hinge that human and agent work around.
 
-Zie voor de achtergrond:
+Background:
 - [docs/decisions/packages-context.md](docs/decisions/packages-context.md) —
-  Volledige context: waarom packages, waarom deze keuzes, met links naar ADRs
+  full context: why packages, why these choices, with links to the ADRs
 
 ---
 
-## De standaard zit ín deze repo
+## The standard lives *inside* this repo
 
-Je hoeft niets te clonen naast elkaar: de projectstandaard (**kit**, **bronnen**,
-**sjablonen**, **standaard**) leeft hier, naast het lab en de packages.
+Nothing to clone side by side: the project standard (**kit**, **sources**,
+**templates**, **standard**) lives here, next to the lab and the packages.
 
-| Map | Wat | Naar een project? |
-|-----|-----|-------------------|
-| [kit/](kit/README.md) | De bestanden zelf, in lagen die een projectroot nabootsen: `kern`, `solo`, `team`, `modules/<naam>`, `stacks/<stack>`. Plus `new-project.sh` | **ja**, via het script |
-| [nieuw-project/](nieuw-project/INDEX.md) | Stappenplan van lege map tot werkend project | nee |
-| [bestaand-project/](bestaand-project/INDEX.md) | Stappenplan om een lopend project te herordenen | nee |
-| [sjablonen/](sjablonen/INDEX.md) | Per kitbestand: wanneer, hoe invullen, voorbeeld, snelle toets | nee |
-| [standaard/](standaard/INDEX.md) | De afspraken: boom, bestanden, stacks, Makefile, data, git, naamgeving | nee |
-| [bron/](bron/INDEX.md) | Principes P1–P28, bronnen-index + samenvattingen, fundament, kenniskaart | nooit |
-| [meten/](meten/INDEX.md) | Herhaalbare evaluatie met taken en condities | alleen `meten/kit/` |
+| Directory | What | Goes into a project? |
+|-----------|------|----------------------|
+| [kit/](kit/README.md) | The files themselves, in layers that mirror a project root: `kern`, `solo`, `team`, `modules/<name>`, `stacks/<stack>`. Plus `new-project.sh` | **yes**, via the script |
+| [new-project/](new-project/INDEX.md) | Step-by-step from empty directory to working project | no |
+| [existing-project/](existing-project/INDEX.md) | Step-by-step to reorder a running project | no |
+| [sjablonen/](sjablonen/INDEX.md) | Per kit file: when, how to fill it in, example, quick test | no |
+| [standard/](standard/INDEX.md) | The agreements: tree, files, stacks, Makefile, data, git, naming | no |
+| [bron/](bron/INDEX.md) | Principles P1–P28, source index + summaries, fundamentals, knowledge map | never |
+| [measurement/](measurement/INDEX.md) | Repeatable evaluation with tasks and conditions | only `measurement/kit/` |
 
-De PDF's onder `bron/pdfs/` staan **buiten git** (samen ~166 MB) en syncen via
-Syncthing; zie [bron/pdfs/README.md](bron/pdfs/README.md).
+The PDFs under `bron/pdfs/` are **outside git** (~166 MB together) and sync via
+Syncthing; see [bron/pdfs/README.md](bron/pdfs/README.md).
 
 ```bash
-make new DIR=~/code/demo ARGS="--profile app"   # nieuw project
-make trio s=makefile                           # de drie plaatsen van één onderwerp
-make test-kit                                  # kit samenstellen en testen
+make new DIR=~/code/demo ARGS="--profile app"   # new project
+make trio s=makefile                           # the three places of one topic
+make test-kit                                  # assemble and test the kit
 ```
 
-De **brug** van kennis naar standaard: wat uit `bron/` de `kit/` mag raken,
-staat in [bron/fundament/brug.md](bron/fundament/brug.md). Zonder jouw ja geen
-kit-edit.
+The **bridge** from knowledge to standard: what may leave `bron/` and touch
+`kit/` is described in [bron/fundament/brug.md](bron/fundament/brug.md). Without
+your yes, there is no kit edit.
 
 ---
 
 ## Packages
 
-Cardine bestaat uit twee packages. De meta-package (`cardine` in de root) is het
-uithangbord: README, docs, gidsen. De packages eronder zijn elk apart te
-installeren.
+Cardine consists of two packages. The meta package (`cardine` in the root) is the
+shop window: README, docs, guides. The packages beneath it install separately.
 
 ```mermaid
 graph TD
@@ -75,140 +74,138 @@ graph TD
     style S fill:#e8a838,color:#fff
 ```
 
-| Package | Wat | Voor wie | Installatie |
-|---------|-----|----------|-------------|
-| **[@lennaertds/cardine-lab]** ⚙️ | Reproduceerbaar AI-agent-werkstation voor Arch Linux / Hyprland. Installeert DSH, Jarvis, bwrap-sandbox en Zed-config in één idempotent script. | Wie Zed + DeepSeek Harness op Arch wil | `npm i -g @lennaertds/cardine-lab` en dan `cardine-lab install` |
-| **[@lennaertds/cardine-structure]** 📁 | Projectstandaard voor ieder project, ongeacht editor of abonnement. Bevat de bewezen `kern/`-`solo/`-`logging/`-boom, modules en stacks, gepulled uit `kit/`. | Iedereen met een project | `npx @lennaertds/cardine-structure <map> --profile app` |
+| Package | What | For whom | Install |
+|---------|------|----------|---------|
+| **[@lennaertds/cardine-lab]** ⚙️ | Reproducible AI-agent workstation for Arch Linux / Hyprland. Installs DSH, Jarvis, the bwrap sandbox and the Zed config in one idempotent script. | Anyone who wants Zed + DeepSeek Harness on Arch | `npm i -g @lennaertds/cardine-lab` then `cardine-lab install` |
+| **[@lennaertds/cardine-structure]** 📁 | Project standard for every project, regardless of editor or subscription. Contains the proven `kern/`-`solo/`-`logging/` tree, modules and stacks, mirrored from `kit/`. | Anyone with a project | `npx @lennaertds/cardine-structure <dir> --profile app` |
 
-### Hoe de packages samenhangen
+### How the packages relate
 
 ```
-cardine                    ← Meta: repo-root met README, docs, gidsen
-├── cardine-lab            ← Toolchain: scripts, sandbox, status-checks
-│   └── genereert          → ~/.dsh/profiles/ (ACP-profiel voor DSH)
-│   └── bevat              → scripts/, systemd/ (optionele tooling)
-└── cardine-structure      ← Projectstandaard: pulled uit kit/
-    └── kit/               → Letterlijke kopie op pinned commit
+cardine                    ← Meta: repo root with README, docs, guides
+├── cardine-lab            ← Toolchain: scripts, sandbox, status checks
+│   └── generates          → ~/.dsh/profiles/ (ACP profile for DSH)
+│   └── contains           → scripts/, systemd/ (optional tooling)
+└── cardine-structure      ← Project standard: mirrored from kit/
+    └── kit/               → Literal copy, kept in sync
 ```
 
-De structuur wordt **in deze repo** onderhouden, in [kit/](kit/README.md).
-`packages/structure/kit/` is de publieke distributiekopie die met
-`@lennaertds/cardine-structure` meegaat. Vroeger kwam die uit een aparte
-privé-repo en werd ze op pinned commits gepulled (zie
-[ADR 0013](docs/decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md));
-sinds de samenvoeging is `kit/` de enige bron en is een pin of pull-script niet
-meer nodig.
+The structure is maintained **in this repo**, in [kit/](kit/README.md).
+`packages/structure/kit/` is the public distribution copy that ships with
+`@lennaertds/cardine-structure`. It used to be pulled from a separate private
+repo on pinned commits (see [ADR 0013](docs/decisions/0013-cardine-is-the-public-shop-window-and-pulls-the-structure-from-agent-engineering.md));
+since the merge, `kit/` is the only source and a pin or pull script is no longer
+needed.
 
 ---
 
-## Installatie-paden
+## Install paths
 
-### 📁 Alleen de projectstructuur (elke editor, elk OS)
+### 📁 The project structure only (any editor, any OS)
 
 ```bash
-npx cardine mijn-project --profile app
+npx cardine my-project --profile app
 ```
 
-Werkt vanaf elke cwd, ook in een lege map zonder clone. Dit zet de volledige
-projectboom neer met `kern/`, `solo/`, `logging/`, plus de gekozen modules en
-stacks. Geen toolchain, geen sandbox — alleen de structuur. Een tweede run
-overschrijft niets. Werkt in VS Code, Zed, Cursor, of een terminal.
+Works from any cwd, including an empty directory with no clone. It lays down the
+full project tree with `kern/`, `solo/`, `logging/`, plus the chosen modules and
+stacks. No toolchain, no sandbox — just the structure. A second run overwrites
+nothing. Works in VS Code, Zed, Cursor or a terminal.
 
 ```bash
-npx cardine mijn-project --profile app --modules research,agent
-npx cardine oefeningen --profile schoolwerk --dry-run
+npx cardine my-project --profile app --modules research,agent
+npx cardine exercises --profile schoolwerk --dry-run
 ```
 
-Zie de [cardine-structure docs](packages/structure/docs/cardine-structure.md)
-voor alle opties (profiles, modules, stacks).
+See the [cardine-structure docs](packages/structure/docs/cardine-structure.md)
+for every option (profiles, modules, stacks).
 
-### ⚙️ Volledig AI-agent-werkstation (Arch Linux / Hyprland)
+### ⚙️ The full AI-agent workstation (Arch Linux / Hyprland)
 
 ```bash
-# 1. Installeer de toolchain (DSH, Jarvis, bwrap, Zed-config)
+# 1. Install the toolchain (DSH, Jarvis, bwrap, Zed config)
 npm i -g @lennaertds/cardine-lab
 cardine-lab install
 
-# 2. Voeg de projectstandaard toe
-npx cardine mijn-project --profile app
+# 2. Add the project standard
+npx cardine my-project --profile app
 ```
 
-Het lab-pad gebruikt Zed als IDE, DeepSeek Harness als agent-loop,
-en `deepseek-flash` als model met Claude als tweede provider.
-Zie [docs/decisions/packages-context.md](docs/decisions/packages-context.md)
-voor de onderbouwing bij elke keuze.
+The lab path uses Zed as IDE, DeepSeek Harness as agent loop, and
+`deepseek-flash` as the model with Claude as second provider. See
+[docs/decisions/packages-context.md](docs/decisions/packages-context.md) for the
+reasoning behind each choice.
 
-Zie de [cardine-lab docs](packages/lab/docs/cardine-lab.md) voor wat er precies
-geïnstalleerd wordt en hoe je sandbox, indexing en status-checks configureert.
-
----
-
-## Hoe het werkt — in vogelvlucht
-
-1. **Project beginnen**: `cardine-structure` zet een bewezen boom neer.
-2. **Structuur leren**: docs/, data/, decisions/ en work/ hebben vaste plekken.
-   Een agent navigeert met [docs/INDEX.md](docs/INDEX.md).
-3. **Werken met een agent**: Open je editor, start de agent — de structuur
-   vertelt hem waar docs, regels en werkitems staan.
-4. **Controleren**: `make check` controleert links, lint en tests.
-5. **Vastleggen**: `make finish` logt wat je gedaan hebt.
-6. **Bijwerken**: Een nieuwe versie van de structuur? `pull_kit.sh` haalt de
-   nieuwste pinned commit uit `kit/`.
-
-Zie voor de volledige product-visie en achtergrond:
-- [PRODUCT.md](docs/product/PRODUCT.md) — Wat het product doet, per onderdeel
-- [totaalproduct.md](docs/product/totaalproduct.md) — Hoe de 9 onderdelen samenhangen
-- [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) — Containers, stack, dataflow
-- [docs/decisions/packages-context.md](docs/decisions/packages-context.md) — Waarom deze
-  keuzes: onderzoeksvragen, bronnen, ADRs
+See the [cardine-lab docs](packages/lab/docs/cardine-lab.md) for exactly what
+gets installed and how to configure the sandbox, indexing and status checks.
 
 ---
 
-## Docs en navigatie
+## How it works — in brief
 
-| Waar | Wat |
-|------|-----|
-| [docs/INDEX.md](docs/INDEX.md) | Volledige docs-kaart — start hier voor elke vraag |
-| [docs/product/PRODUCT.md](docs/product/PRODUCT.md) | Productoverzicht: wat het doet, voor wie, fasen |
-| [docs/decisions/](docs/decisions/) | Architectuurbesluiten (ADR's) — waarom het zo is |
-| [docs/packages/VERSIONING.md](docs/packages/VERSIONING.md) | Versiebeheer: SemVer, changelogs, git-tags |
-| [AGENTS.md](AGENTS.md) | Instructies voor agenten die aan deze repo werken |
+1. **Start a project**: `cardine-structure` lays down a proven tree.
+2. **Learn the structure**: docs/, data/, decisions/ and work/ have fixed places.
+   An agent navigates with [docs/INDEX.md](docs/INDEX.md).
+3. **Work with an agent**: open your editor, start the agent — the structure
+   tells it where docs, rules and work items live.
+4. **Check**: `make check` verifies links, lint and tests.
+5. **Record**: `make finish` logs what you did.
+6. **Update**: a new version of the structure ships as a new package version;
+   `sync_kit.sh` keeps the distribution copy equal to `kit/`.
 
----
-
-## Versiebeheer
-
-Elk package heeft een **eigen versie**, onafhankelijk van de andere.
-
-| Package | Versie | CHANGELOG | Git-tag |
-|---------|--------|-----------|---------|
-| `cardine` (meta) | 0.3.0 | [CHANGELOG.md](CHANGELOG.md) | `v0.3.0` |
-| `@lennaertds/cardine-lab` | 0.4.0 | [packages/lab/CHANGELOG.md](packages/lab/CHANGELOG.md) | `lab-v0.4.0` |
-| `@lennaertds/cardine-structure` | 0.4.0 | [packages/structure/CHANGELOG.md](packages/structure/CHANGELOG.md) | `structure-v0.4.0` |
-
-SemVer: `major.minor.patch`. Een *major* is een breaking change (installer werkt
-niet meer, kit-structuur wijzigt incompatibel). Een *minor* is nieuwe
-functionaliteit. Een *patch* is een bugfix of documentatie.
-
-Het meta-package krijgt een nieuwe versie alleen als de structuur van de meta
-(docs, gidsen) wijzigt — niet bij elke package-update. Zie
-[docs/packages/VERSIONING.md](docs/packages/VERSIONING.md) voor het volledige
-schema.
+For the full product vision and background:
+- [PRODUCT.md](docs/product/PRODUCT.md) — what the product does, per part
+- [totaalproduct.md](docs/product/totaalproduct.md) — how the 9 parts relate
+- [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) — containers, stack, dataflow
+- [docs/decisions/packages-context.md](docs/decisions/packages-context.md) — why these
+  choices: research questions, sources, ADRs
 
 ---
 
-## Ontwikkeling
+## Docs and navigation
 
-Deze repo bevat alles: de projectstandaard ([kit/](kit/README.md)),
-de kennis ([bron/](bron/INDEX.md)), de gidsen ([sjablonen/](sjablonen/INDEX.md),
-[standaard/](standaard/INDEX.md)) en het lab ([packages/](packages/)).
-Er is geen tweede repo meer om mee te synchroniseren.
+| Where | What |
+|-------|------|
+| [docs/INDEX.md](docs/INDEX.md) | Full docs map — start here for any question |
+| [docs/product/PRODUCT.md](docs/product/PRODUCT.md) | Product overview: what it does, for whom, phases |
+| [docs/decisions/](docs/decisions/) | Architecture decisions (ADRs) — why things are the way they are |
+| [docs/packages/VERSIONING.md](docs/packages/VERSIONING.md) | Versioning: SemVer, changelogs, git tags |
+| [AGENTS.md](AGENTS.md) | Instructions for agents working on this repo |
 
-De PDF's in `bron/pdfs/` staan bewust buiten git (zie
+---
+
+## Versioning
+
+Each package has its **own version**, independent of the others.
+
+| Package | Version | CHANGELOG | Git tag |
+|---------|---------|-----------|---------|
+| `cardine` (meta) | 0.4.1 | [CHANGELOG.md](CHANGELOG.md) | `v0.4.1` |
+| `@lennaertds/cardine-lab` | 0.5.2 | [packages/lab/CHANGELOG.md](packages/lab/CHANGELOG.md) | `lab-v0.5.2` |
+| `@lennaertds/cardine-structure` | 0.5.1 | [packages/structure/CHANGELOG.md](packages/structure/CHANGELOG.md) | `structure-v0.5.1` |
+
+SemVer: `major.minor.patch`. A *major* is a breaking change (the installer no
+longer works, the kit structure changes incompatibly). A *minor* is new
+functionality. A *patch* is a bugfix or documentation.
+
+The meta package gets a new version only when the meta's own structure (docs,
+guides) changes — not on every package update. See
+[docs/packages/VERSIONING.md](docs/packages/VERSIONING.md) for the full scheme.
+
+---
+
+## Development
+
+This repo contains everything: the project standard ([kit/](kit/README.md)), the
+knowledge ([bron/](bron/INDEX.md)), the guides ([sjablonen/](sjablonen/INDEX.md),
+[standard/](standard/INDEX.md)) and the lab ([packages/](packages/)).
+There is no second repo to synchronise with anymore.
+
+The PDFs in `bron/pdfs/` are deliberately outside git (see
 [bron/pdfs/README.md](bron/pdfs/README.md)).
 
-Zie [AGENTS.md](AGENTS.md) voor agent-instructies en
-[docs/INDEX.md](docs/INDEX.md) voor de volledige documentatie-kaart.
+See [AGENTS.md](AGENTS.md) for agent instructions and
+[docs/INDEX.md](docs/INDEX.md) for the full documentation map.
 
 [@lennaertds/cardine-lab]: packages/lab/README.md
 [@lennaertds/cardine-structure]: packages/structure/README.md

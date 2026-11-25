@@ -1,57 +1,57 @@
 # docs/decisions/NNNN-&lt;slug&gt;.md (ADR)
 
-> **Rol:** Eén besluit met zijn waarom, zo dat niemand het later opnieuw moet uitvechten.
-> **Niet hier:** hoe het systeem nu werkt ([architecture](architecture.md)), wat er nog moet gebeuren ([backlog](backlog.md)).
+> **Role:** One decision with its why, so nobody has to fight it out again later.
+> **Not here:** how the system works now ([architecture](architecture.md)), what still has to happen ([backlog](backlog.md)).
 
-**Kitbestand:** [kit/kern/docs/decisions/_template.md](../kit/kern/docs/decisions/_template.md) · laag kern · P9 (naar Nygard en de Y-statement, §16, §17)
+**Kit file:** [kit/kern/docs/decisions/_template.md](../kit/kern/docs/decisions/_template.md) · layer kern · P9 (after Nygard and the Y-statement, §16, §17)
 
-## Wanneer
+## When
 
-Elke keuze met een waarom die iemand later in vraag zou stellen: stack, database, hosting, een patroon, een grens. Ook als je iets bewust **niet** doet. Een kleine keuze die alleen in één bestand speelt: een comment in dat bestand volstaat.
+Every choice with a why that someone might question later: stack, database, hosting, a pattern, a boundary. Also when you deliberately **do not** do something. A small choice that only plays in one file: a comment in that file is enough.
 
-Native / extra taal (Rust, C, …) na budget-breuk: eerst [polyglot.md](../kit/kern/docs/architecture/polyglot.md); vorm zie kit-voorbeeld [`0000-voorbeeld-native-module-na-budget-breuk.md`](../kit/kern/docs/decisions/0000-voorbeeld-native-module-na-budget-breuk.md) — status *voorbeeld*, niet als geldend besluit laten staan.
+Native / extra language (Rust, C, …) after a budget breach: [polyglot.md](../kit/kern/docs/architecture/polyglot.md) first; for the shape see the kit example [`0000-example-native-module-after-budget-breach.md`](../kit/kern/docs/decisions/0000-example-native-module-after-budget-breach.md) — status *example*, do not leave it standing as a binding decision.
 
 ```bash
-make adr t="Postgres is de enige writer van user-data"   # → docs/decisions/0007-postgres-is-de-enige-writer-van-user-data.md
+make adr t="Postgres is the only writer of user data"   # → docs/decisions/0007-postgres-is-the-only-writer-of-user-data.md
 ```
 
-## Invullen
+## Filling in
 
-1. **Titel = het besluit als zin.** Niet "Database", wel "Postgres is de enige writer van user-data".
-2. **Status:** `voorgesteld` tot het gemerged of afgesproken is, dan `aanvaard`.
-3. **Samenvatting** als Y-statement: één zin met situatie, probleem, keuze, alternatief, doel en nadeel.
-4. **Context:** de krachten, als feiten.
-5. **Alternatieven:** elk met waarom niet. Dit is wat een agent later het meest helpt.
-6. **Gevolgen:** wat makkelijker en moeilijker wordt, en welke docs of code moeten volgen.
+1. **Title = the decision as a sentence.** Not "Database", but "Postgres is the only writer of user data".
+2. **Status:** `proposed` until it is merged or agreed, then `accepted`.
+3. **Summary** as a Y-statement: one sentence with situation, problem, choice, alternative, goal and drawback.
+4. **Context:** the forces, as facts.
+5. **Alternatives:** each with why not. This is what helps an agent most later.
+6. **Consequences:** what gets easier and harder, and which docs or code have to follow.
 
-Een ADR herschrijf je nooit. Verandert het besluit, dan maak je een nieuwe ADR, en zet je de oude op `vervangen door NNNN`.
+You never rewrite an ADR. If the decision changes, you write a new ADR and mark the old one `superseded by NNNN`.
 
-## Voorbeeld (DEP2)
+## Example (DEP2)
 
 ```markdown
-# 0002 — De pipeline is de bron van waarheid voor alle cases
+# 0002 — The pipeline is the source of truth for all cases
 
-- **Status:** aanvaard
-- **Datum:** 2026-10-14
-- **Raakt:** `sql/`, `src/etl/`, `dronebeelden/`, `docs/architecture/`
+- **Status:** accepted
+- **Date:** 2026-10-14
+- **Touches:** `sql/`, `src/etl/`, `drone-imagery/`, `docs/architecture/`
 
-## Samenvatting
+## Summary
 
-In de context van twee parallelle lijnen voor dronedata, geconfronteerd met agents en teamleden die in de
-verkeerde lijn werken, kozen we voor het sterschema van de pipeline en tegen schema `plantcount`, om één
-plek voor elke meting te hebben, en we aanvaarden dat de groepsscripts van case 2 herschreven moeten worden.
+In the context of two parallel tracks for drone data, faced with agents and team members working on the
+wrong track, we chose the pipeline's star schema and against schema `plantcount`, in order to have one
+place for every measurement, accepting that case 2's group scripts have to be rewritten.
 
-## Alternatieven
+## Alternatives
 
-| Optie | Waarom niet |
-|-------|-------------|
-| Beide lijnen houden | elke vraag heeft twee antwoorden; geen test dekt de tweede lijn |
-| `plantcount` als bron | geen koppeling met `DimPlot`; niet vergelijkbaar met case 1 |
+| Option | Why not |
+|--------|---------|
+| Keep both tracks | every question has two answers; no test covers the second track |
+| `plantcount` as the source | no link to `DimPlot`; not comparable with case 1 |
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] De titel is een besluit, geen onderwerp.
-- [ ] Er staat minstens één alternatief met waarom niet.
-- [ ] Een vervangen ADR verwijst naar zijn opvolger.
-- [ ] Bij meer dan ±15 ADR's: `decisions/DECISIONS.md` met de geldende, en de kaart verwijst ernaar.
+- [ ] The title is a decision, not a topic.
+- [ ] There is at least one alternative with why not.
+- [ ] A superseded ADR points to its successor.
+- [ ] With more than ±15 ADRs: `decisions/DECISIONS.md` with the active ones, and the map points to it.

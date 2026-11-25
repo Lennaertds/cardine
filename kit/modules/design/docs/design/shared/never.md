@@ -1,17 +1,17 @@
-# Nooit — gedeeld
+# Never — shared
 
-> **Rol:** Verboden die op de hele site gelden. Een vlak mag strenger zijn, niet losser.  
-> **Niet hier:** landingspagina ([never-checklist](../desktop/landingpage/never-checklist.md)); applicatie ([never-checklist](../iphone/never-checklist.md)).
+> **Role:** Prohibitions that hold for the whole site. A surface may be stricter, never looser.
+> **Not here:** landing page ([never-checklist](../desktop/landingpage/never-checklist.md)); application ([never-checklist](../iphone/never-checklist.md)).
 
-| Nooit | In plaats daarvan |
-|-------|-------------------|
-| Fake MAU, dummy-feed, verzonnen quotes | Echte bronnen of anonieme demo |
-| Een tweede `backdrop-filter` met een ander blur-getal | [`.glass`](glass.md) |
-| Mesh-gradient, of een rand `rgba(255, 255, 255, 0.15)` uit een glas-kit | `--stroke` en de inset van `.glass` |
-| Hover als enige manier om een primaire actie te doen | Klik, tik, of toetsenbord |
-| GSAP, Lenis of WebGL in de applicatie-bundle | Alleen achter de landingspagina- / showcase-gate |
-| Een tweede navigatiestructuur naast de afgesproken IA | Eén IA; uitbreiden via die kaart, niet een parallel menu |
+| Never | Instead |
+|-------|---------|
+| Fake MAU, dummy feed, made-up quotes | Real sources or an anonymous demo |
+| A second `backdrop-filter` with a different blur value | [`.glass`](glass.md) |
+| Mesh gradient, or a `rgba(255, 255, 255, 0.15)` border from a glass kit | `--stroke` and the inset of `.glass` |
+| Hover as the only way to do a primary action | Click, tap or keyboard |
+| GSAP, Lenis or WebGL in the application bundle | Only behind the landing page / showcase gate |
+| A second navigation structure next to the agreed IA | One IA; extend it through that map, not with a parallel menu |
 
-Default is web (op de telefoon als PWA). Een native shell (Expo, App Store) alleen als het project dat expliciet kiest.
+Default is web (on a phone as a PWA). A native shell (Expo, App Store) only if the project explicitly chooses it.
 
-**Test:** een nieuw scherm kan elk verbod aanwijzen in dit bestand of in de never-lijst van zijn vlak.
+**Test:** a new screen can point to every prohibition in this file or in the never list of its surface.

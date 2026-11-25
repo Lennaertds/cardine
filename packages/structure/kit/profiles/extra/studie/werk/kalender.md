@@ -1,7 +1,7 @@
-# Kalender — {{PROJECT}}
+# Calendar — {{PROJECT}}
 
-> Vul hier de belangrijke data in per semester/trimester.
+> Fill in the important dates per semester/term.
 
-| Maand | Week | Wat | Deadline | Status |
-|-------|------|-----|----------|--------|
+| Month | Week | What | Deadline | Status |
+|-------|------|------|----------|--------|
 | — | — | — | — | — |

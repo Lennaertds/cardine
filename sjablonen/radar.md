@@ -1,25 +1,25 @@
 # docs/research/radar.md
 
-> **Rol:** Tech-radar (Adopt/Trial/Assess/Hold); maandelijks herijken.
-> **Niet hier:** wantlist ([research](research.md)), CVE-audits ([dependencies](dependencies.md)).
+> **Role:** Tech radar (Adopt/Trial/Assess/Hold); re-assessed monthly.
+> **Not here:** wantlist ([research](research.md)), CVE audits ([dependencies](dependencies.md)).
 
-**Kitbestand:** [kit/modules/research/docs/research/radar.md](../kit/modules/research/docs/research/radar.md) · module `research` · P5, P8, P25, P28  
+**Kit file:** [kit/modules/research/docs/research/radar.md](../kit/modules/research/docs/research/radar.md) · module `research` · P5, P8, P25, P28
 **How-to:** [kit/modules/research/docs/how-to/radar.md](../kit/modules/research/docs/how-to/radar.md)
 
-## Wanneer
+## When
 
-Met module `research`. Dag 0: voorbeeldrijen vervangen of markeren. Daarna maandelijks (`make radar-reminder`).
+With module `research`. Day 0: replace or mark the example rows. After that, monthly (`make radar-reminder`).
 
-## Invullen
+## Filling in
 
-1. **Laatst herzien:** echte `YYYY-MM-DD` na elke inhoudelijke pass.
-2. **Rijen:** projectkeuzes; voorbeeldrijen weg of herschreven (geen illustratie als feit laten staan).
-3. **Adopt/Hold met impact:** ADR.
-4. **`## Bewust later`:** kitrijen laten of aanvullen (P28). Geen scrapers in v1.
+1. **Last reviewed:** a real `YYYY-MM-DD` after every substantive pass.
+2. **Rows:** project choices; remove or rewrite the example rows (do not leave an illustration standing as fact).
+3. **Adopt/Hold with impact:** an ADR.
+4. **`## Deliberately incomplete` (P28):** keep the kit rows or extend them (P28). No scrapers in v1.
 
-## Snelle toets
+## Quick check
 
-- [ ] `make radar-check` is groen.
-- [ ] `radar-check` / `radar-reminder` in `make help`; niet in `CHECK` / `check-full`.
-- [ ] `## Bewust later` heeft minstens één uitbreidingsrij (P28).
-- [ ] Geen feed-dump in dit bestand (P5).
+- [ ] `make radar-check` is green.
+- [ ] `radar-check` / `radar-reminder` in `make help`; not in `CHECK` / `check-full`.
+- [ ] `## Deliberately incomplete` has at least one extension row (P28).
+- [ ] No feed dump in this file (P5).

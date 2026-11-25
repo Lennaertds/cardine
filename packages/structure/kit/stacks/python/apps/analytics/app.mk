@@ -1,4 +1,4 @@
-# analytics (apps/analytics) — make-targets van deze app. De root-Makefile neemt dit bestand automatisch op.
+# analytics (apps/analytics) — make targets of this app. The root Makefile picks this file up automatically.
 ANALYTICS_DIR := apps/analytics
 ANALYTICS_UV := uv --directory $(ANALYTICS_DIR)
 

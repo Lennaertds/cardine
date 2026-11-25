@@ -1,7 +1,7 @@
 # How-to — performance bench
 
-> **Rol:** `make bench` / `make perf-check` gebruiken en een app-bench toevoegen.
-> **Niet hier:** budgets en anti-patronen ([performance.md](../architecture/performance.md)).
+> **Role:** use `make bench` / `make perf-check` and add an app bench.
+> **Not here:** budgets and anti-patterns ([performance.md](../architecture/performance.md)).
 
 ## perf-check
 
@@ -9,24 +9,24 @@
 make perf-check
 ```
 
-Controleert of `docs/architecture/performance.md` de vaste secties heeft (Budgets, Anti-patronen, …). Vult geen cijfers voor je in. **Niet** onderdeel van `make check`.
+Checks that `docs/architecture/performance.md` has the fixed sections (Budgets, Anti-patterns, …). It does not fill in numbers for you. **Not** part of `make check`.
 
-Uitbreidingen (heuristische scan, load-tests, …): zie `## Bewust later` in [performance.md](../architecture/performance.md) (P28).
+Extensions (heuristic scan, load tests, …): see `## Deliberately later` in [performance.md](../architecture/performance.md) (P28).
 
-## bench per app
+## Bench per app
 
-1. Zet `apps/<app>/scripts/bench.sh` (uitvoerbaar) dat een meting print en non-zero exit bij budget-breuk.
-2. Het kit-target `bench-<app>` roept dat script aan; ontbreekt het script → duidelijke fout.
+1. Add `apps/<app>/scripts/bench.sh` (executable) that prints a measurement and exits non-zero on a budget breach.
+2. The kit target `bench-<app>` calls that script; if the script is missing, it fails with a clear error.
 
-Voorbeelden van minimale meting:
+Examples of a minimal measurement:
 
-| App | Idee |
+| App | Idea |
 |-----|------|
-| api | `curl` timing op `/health` en één read-route (API moet draaien of script start hem) |
-| web | bundle-size na `build`, of Playwright timing op één URL |
-| analytics | wall-clock van één CLI-commando op `tests/fixtures/` |
+| api | `curl` timing on `/health` and one read route (the API must run, or the script starts it) |
+| web | bundle size after `build`, or Playwright timing on one URL |
+| analytics | wall-clock of one CLI command on `tests/fixtures/` |
 
 ```bash
 make bench-api
-make bench          # alle apps in BENCH
+make bench          # every app in BENCH
 ```

@@ -4,11 +4,11 @@ description: Feature behaviour, user-facing rules, acceptance criteria, or domai
 model: inherit
 ---
 
-Je bent de product-specialist. Eigen context; geef alleen een samenvatting terug.
+You are the product specialist. Own context; return only a summary.
 
-1. Open eerst `docs/product/PRODUCT.md`; daarna precies één `product/<domein>.md`.
-2. Intentie + waarom + test in die doc winnen van "groen maken" (P22).
-3. Implementatie volgt bestaande domeinmodules (`apps/*/src/.../<domein>/`); geen nieuwe grenzen zonder te vragen.
-4. Acceptatie: gebruikersgedrag uit de productdoc én `make check`.
+1. Open `docs/product/PRODUCT.md` first; then exactly one `product/<domain>.md`.
+2. Intent + why + test in that doc beat "making it green" (P22).
+3. Implementation follows existing domain modules (`apps/*/src/.../<domain>/`); no new boundaries without asking.
+4. Acceptance: user behaviour from the product doc **and** `make check`.
 
-Terug: geraakt domein, welke regels geraakt/bewaakt, wat gebouwd of nog open is.
+Return: domain touched, which rules are affected/guarded, what is built or still open.

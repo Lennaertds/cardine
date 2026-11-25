@@ -7,7 +7,7 @@ import { randomUUID } from "node:crypto";
 const name = "cardine-slice-check";
 const steers = new WeakMap();
 
-// De cardine-repo is ../../.. t.o.v. dit bestand (packages/lab/cardine-slice-check/index.js → cardine/)
+// The cardine repo is ../../.. relative to this file (packages/lab/cardine-slice-check/index.js → cardine/)
 const CARDINE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 
 function findMakefile(dir) {
@@ -39,12 +39,12 @@ function run(cwd) {
 function apply(ctx) {
   ctx.on("agent/turn-stopping", async ({ agent }) => {
     try {
-      // Bepaal CWD: agent's cwd, of fallback naar cardine root
+      // Determine CWD: the agent's cwd, or fall back to the cardine root
       let cwd = agent.session?.header?.cwd;
       if (typeof cwd !== "string" || cwd.length === 0) cwd = CARDINE_ROOT;
 
-      // Zoek naar een Makefile — als de agent in een niet-cardine dir zit,
-      // gebruik dan de cardine root.
+      // Look for a Makefile — if the agent is in a non-cardine dir,
+      // use the cardine root.
       const mkDir = findMakefile(cwd);
       if (!mkDir) cwd = CARDINE_ROOT;
       else cwd = mkDir;
@@ -61,7 +61,7 @@ function apply(ctx) {
         id: randomUUID(),
         content: [{
           type: "text",
-          text: `make check is rood (code ${result.code}). De slice sluit niet. Fix, of zet de slice terug.\n${tail}`,
+          text: `make check is red (code ${result.code}). The slice does not close. Fix it, or roll the slice back.\n${tail}`,
         }],
         source: { kind: "user" },
       });

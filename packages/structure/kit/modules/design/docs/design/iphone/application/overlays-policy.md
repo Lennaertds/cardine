@@ -1,71 +1,71 @@
 # UI iPhone — overlays · policy
 
-> **Rol:** Stack/libs + overlay taxonomy.  
-> **Niet hier:** focus en toasts ([overlays-focus-toasts](overlays-focus-toasts.md)); formulieren ([overlays-forms](overlays-forms.md)); dialogen op de showcase ([overlays.md](../../desktop/landingpage/overlays.md)).
+> **Role:** Stack/libraries + overlay taxonomy.
+> **Not here:** focus and toasts ([overlays-focus-toasts](overlays-focus-toasts.md)); forms ([overlays-forms](overlays-forms.md)); showcase dialogs ([overlays.md](../../desktop/landingpage/overlays.md)).
 
 ## 1. Stack & library policy
 
-**Niet hand-rollen** wat al een trusted library heeft. Check eerst `package.json`.
+**Do not hand-roll** what a trusted library already has. Check `package.json` first.
 
-| Need | Library | Regel |
-|------|---------|--------|
-| Springs, gesture-driven, interruptible | **[motion](https://motion.dev)** (Framer Motion) | **Verplicht** voor sheets, drag-settle. Geen CSS `@keyframes` / `setTimeout`-physics voor gestures. |
-| Hover, press, color, rare fade | **CSS transition** | Goedkoopste tool; Motion niet nodig |
-| Toasts / ephemeral status | **[Sonner](https://sonner.emilkowal.ski)** | Eén `<Toaster />` in root; geen custom toast-stack |
-| Charts (product) | Bestaande charts in repo | Geen churn zonder vraag |
-| Showcase scroll theater | GSAP + Lenis | Alleen achter showcase-gate; **nooit** in productpad |
+| Need | Library | Rule |
+|------|---------|------|
+| Springs, gesture-driven, interruptible | **[motion](https://motion.dev)** (Framer Motion) | **Required** for sheets, drag settle. No CSS `@keyframes` / `setTimeout` physics for gestures. |
+| Hover, press, colour, rare fade | **CSS transition** | The cheapest tool; Motion not needed |
+| Toasts / ephemeral status | **[Sonner](https://sonner.emilkowal.ski)** | One `<Toaster />` in the root; no custom toast stack |
+| Charts (product) | Existing charts in the repo | No churn without a request |
+| Showcase scroll theatre | GSAP + Lenis | Only behind the showcase gate; **never** in the product path |
 
-**Tool-ladder:** CSS transition → `@starting-style` → CSS animation → WAAPI → **Motion**. Motion zodra: spring, exit, gesture, interrupt.
+**Tool ladder:** CSS transition → `@starting-style` → CSS animation → WAAPI → **Motion**. Motion as soon as: spring, exit, gesture, interrupt.
 
-- Animeer `transform` + `opacity`. Geen `width`/`height`/`top`/`left` per frame.
+- Animate `transform` + `opacity`. No `width`/`height`/`top`/`left` per frame.
 
 ## 2. Overlay taxonomy
 
-**Weight = intent.** Modal = interrupt. Sheet, action sheet en popover = non-blocking. Op mobile is **bottom sheet de default** voor multi-field / browse / lange content.
+**Weight = intent.** Modal = interrupt. Sheet, action sheet and popover = non-blocking. On mobile a **bottom sheet is the default** for multi-field / browse / long content.
 
-| Pattern | Wanneer |
+| Pattern | When |
+|---------|------|
+| **Bottom sheet** | **Default** multi-field, browse, swipe dismiss |
+| **Action sheet** | Quick 2–N choices; danger red; backdrop dismiss |
+| **Confirm dialog** | **Only** blocking / irreversible — sparingly |
+| **Toast** (Sonner) | Ephemeral success/error/info; undo window — not for form field errors |
+| **Message banner** | Incoming / degraded while that screen is not in focus — `--z-banner` |
+| **Inline alert** | Field validation until fixed |
+
+| Control | Meaning |
 |---------|---------|
-| **Bottom sheet** | **Default** multi-field, browse, swipe-dismiss |
-| **Action sheet** | Snelle 2–N keuzes; danger rood; backdrop dismiss |
-| **Confirm dialog** | **Alleen** blocking / irreversibel — spaarzaam |
-| **Toast** (Sonner) | Ephemeral success/error/info; undo-window — niet voor form field errors |
-| **Message banner** | Inkomend / degraded terwijl dat scherm niet focus is — `--z-banner` |
-| **Inline alert** | Field validation tot fix |
-
-| Control | Betekenis |
-|---------|-----------|
-| **X** / close | Sluit de modal of flow helemaal |
-| **←** / back | Één scherm terug in de stack |
+| **X** / close | Closes the modal or flow entirely |
+| **←** / back | One screen back in the stack |
 | Swipe down | Dismiss sheet |
 
-Quick actions → action sheet of bottom sheet, niet een nieuw centered modal. Deeplinks openen de **exacte** content.
+Quick actions → action sheet or bottom sheet, not a new centred modal. Deep links open the **exact** content.
 
 ### Context menu
 
-| Platform | Gedrag |
-|----------|--------|
-| **Desktop** | Anchored menu; flip-to-fit; Delete onderaan rood |
-| **Mobile** | Long-press → **zelfde acties** in action sheet — geen hover-only als primary |
+| Platform | Behaviour |
+|----------|-----------|
+| **Desktop** | Anchored menu; flip to fit; Delete at the bottom in red |
+| **Mobile** | Long-press → the **same actions** in an action sheet — no hover-only primary |
 
 ### Tabs in overlays
 
-| Aantal peers | Patroon |
-|--------------|---------|
+| Number of peers | Pattern |
+|-----------------|---------|
 | **≤5** | `.ios-segmented` — [controls C2](controls.md) |
-| **>5** | Sheet of list — nooit een shrunk desktop-tabbar |
+| **>5** | Sheet or list — never a shrunk desktop tabbar |
 
 ### Tooltip
 
-Delay ~300ms; edge-flip; Escape/blur dismiss; één korte zin; niet als enige uitleg op disabled knop ([controls C6](controls.md)).
+Delay ~300ms; edge flip; Escape/blur dismiss; one short sentence; not the only explanation on a disabled button ([controls C6](controls.md)).
 
-**Niet:** ad-hoc `fixed inset-0` zonder portal; X en ← omwisselen; hover-only context menu als primary op touch.
+**Don't:** ad-hoc `fixed inset-0` without a portal; swapping X and ←; a hover-only context menu as the primary on touch.
 
 ## 3. Z-index stack (tokens)
 
-Eén ladder — **alleen** `var(--z-*)`.
+One ladder — **only** `var(--z-*)`.
 
-| Laag | Token | Typisch |
-|------|-------|---------|
+| Layer | Token | Typically |
+|-------|-------|-----------|
 | Base UI | `--z-base` | 0 |
 | Sticky chrome | `--z-sticky` | 20 |
 | Dock | `--z-dock` | 48 |
@@ -78,17 +78,17 @@ Eén ladder — **alleen** `var(--z-*)`.
 | Confirm / blocking | `--z-modal` | 100 |
 | Toast | `--z-toast` | 110 |
 
-- Nieuwe overlay kiest **één** laag — geen raw `z-[9999]`.
-- Nested sheets: max één nest; dieper = modal of redesign.
-- Toast altijd boven confirm.
+- A new overlay picks **one** layer — no raw `z-[9999]`.
+- Nested sheets: at most one nest; deeper = a modal or a redesign.
+- The toast is always above the confirm.
 
 | Never | Instead |
 |-------|---------|
-| Arms race (`9999`) | Eén token-laag |
-| Raw Tailwind `z-[n]` buiten de ladder | `z-[var(--z-…)]` |
+| Arms race (`9999`) | One token layer |
+| Raw Tailwind `z-[n]` outside the ladder | `z-[var(--z-…)]` |
 
-## 4. Popovers & menus (geen sheet)
+## 4. Popovers & menus (no sheet)
 
-Notice trays, language pickers, tip popups: popover of sheet-taxonomy — niet toast. Ad-hoc modals → portal+sheet/confirm of EXCEPTION in project-docs.
+Notice trays, language pickers, tip popups: popover or sheet taxonomy — not a toast. Ad-hoc modals → portal+sheet/confirm, or an EXCEPTION in the project docs.
 
-**Test:** Multi-field op phone = sheet; Discard = confirm; ⋯ = action sheet; DevTools: sheet < nest < modal < toast.
+**Test:** Multi-field on a phone = sheet; Discard = confirm; ⋯ = action sheet; DevTools: sheet < nest < modal < toast.

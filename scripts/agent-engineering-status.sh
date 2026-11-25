@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# agent-engineering-status.sh — check de status van de kit in deze repo.
+# agent-engineering-status.sh — check the status of the kit in this repo.
 #
 # Gebruik:
 #   bash scripts/agent-engineering-status.sh
@@ -83,7 +83,7 @@ if [ -f "$AE_PKG" ]; then
   AE_VER=$(node -e "const p=require('${AE_PKG}'); console.log(p.version||'0.0.0')" 2>/dev/null || echo "0.0.0")
   pass "kit" "versie $AE_VER"
 else
-  fail "package.json" "niet gevonden in $AE_DIR"
+  fail "package.json" "not found in $AE_DIR"
 fi
 
 ###############################################################################
@@ -95,9 +95,9 @@ for layer in kern solo team modules stacks; do
   LAYER_DIR="${AE_DIR}/kit/${layer}"
   if [ -d "$LAYER_DIR" ]; then
     COUNT=$(find "$LAYER_DIR" -type f 2>/dev/null | wc -l)
-    pass "kit/${layer}" "$COUNT bestanden"
+    pass "kit/${layer}" "$COUNT files"
   else
-    warn "kit/${layer}" "map niet gevonden"
+    warn "kit/${layer}" "folder not found"
   fi
 done
 
@@ -112,7 +112,7 @@ for dir in standaard sjablonen bron; do
     COUNT=$(find "$DIR_PATH" -type f -name '*.md' 2>/dev/null | wc -l)
     pass "${dir}" "${COUNT} documenten"
   else
-    warn "${dir}" "map niet gevonden"
+    warn "${dir}" "folder not found"
   fi
 done
 
@@ -125,10 +125,10 @@ if [ -f "${AE_DIR}/Makefile" ]; then
   if make -C "$AE_DIR" check &>/dev/null; then
     pass "make check" "slaagt"
   else
-    warn "make check" "faalt — draai make check voor details"
+    warn "make check" "fails — run make check for details"
   fi
 else
-  fail "Makefile" "niet gevonden"
+  fail "Makefile" "not found"
 fi
 
 ###############################################################################

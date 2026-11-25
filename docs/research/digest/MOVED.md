@@ -1,9 +1,9 @@
-# Digest woont nu in bron/
+# The digest now lives in bron/
 
-De live digest (feeds, systemd, weekbrieven) staat in deze repo:
+The live digest (feeds, systemd, weekly briefs) lives in this repo:
 
 - **Feeds:** [`bron/digest/SOURCES.md`](../../../bron/digest/SOURCES.md)
-- **Weekbrieven:** `bron/weken/`
-- **Dagelijks draaien:** `make digest-day` (systemd-timer via `make install-digest-timers`)
+- **Weekly briefs:** `bron/weken/`
+- **Running it daily:** `make digest-day` (systemd timer via `make install-digest-timers`)
 
-Deze map is het historische lab-scaffold en blijft als kit-voorbeeld staan.
+This directory is the historical lab scaffold and stays as a kit example.

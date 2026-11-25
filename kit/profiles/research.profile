@@ -1,6 +1,6 @@
-# kit/profiles/research.profile — voor onderzoek met software (Agent Engineering, Cardine)
+# kit/profiles/research.profile — for research with software (Agent Engineering, Cardine)
 PROFILE_NAME="research"
-PROFILE_DESCRIPTION="Onderzoek met software — literatuur, experimenten, agent-docs"
+PROFILE_DESCRIPTION="Research with software — literature, experiments, agent docs"
 MODULES="assignment,research,agent,deliverables,meetings"
 STACKS="python"
 STARTER=false

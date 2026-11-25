@@ -1,71 +1,70 @@
 # Packages — context
 
-> **Rol:** Dit document legt uit waarom Cardine uit meerdere packages bestaat, hoe de meta-, lab- en structuur-package samenhangen, en welke architectuurbesluiten (ADRs) daaraan ten grondslag liggen.
+> **Role:** explains why Cardine consists of several packages, how the meta, lab and structure packages relate, and which architecture decisions (ADRs) underpin them.
 >
-> Het geeft de achtergrond bij de README's. De README's verwijzen hiernaartoe voor de onderbouwing van de keuzes. De feitelijke research — bronnen, experimenten en paragraafverwijzingen — staat in [`bron/`](../../bron/INDEX.md) (dé Single Source of Truth). Dit document vat alleen de voor deze repo relevante synthese samen.
+> It supplies the background to the READMEs. The READMEs point here for the reasoning behind each choice. The actual research — sources, experiments and paragraph references — lives in [`bron/`](../../bron/INDEX.md) (the Single Source of Truth). This document only summarises the synthesis relevant to this repo.
 
 ---
 
-## Waarom een projectstructuur?
+## Why a project structure?
 
-AI-agenten werken het best wanneer ze een vaste projectboom hebben om op te varen. Zonder zo'n vaste structuur worden ze richtingloos: ze raden naar mappen, missen conventies, en elke nieuwe sessie begint weer vanaf nul. De oplossing is tweeledig (**duaal**): een korte AGENTS.md legt de intentie uit, en harde controles in `make check` en de git-hooks dwingen de regels af waar nodig. Dat besluit is vastgelegd in [ADR 0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md).
+AI agents work best when they have a stable project tree to steer by. Without such a fixed structure they drift: they guess at directories, miss conventions, and every new session starts from zero. The solution is twofold (**dual**): a short AGENTS.md states the intent, and hard checks in `make check` and the git hooks enforce the rules where needed. That decision is recorded in [ADR 0004](../decisions/0004-the-project-standard-is-dual-a-thin-agents-md-and-a-hard-make-check.md).
 
-## Waarom een gratis product?
+## Why a free product?
 
-Het product dat Cardine verspreidt, is de projectstructuur zelf — en die is gratis. De gids die uitlegt hoe je die structuur gebruikt met jouw editor en abonnement, is de voorkant. Het is niet de bedoeling om een betalende dienst of een eigen IDE te bouwen. Dit besluit staat in [ADR 0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md).
+The product Cardine distributes is the project structure itself — and it is free. The guide explaining how to use that structure with your editor and subscription is the front end. Building a paid service or an own IDE is not the intent. This decision is in [ADR 0009](../decisions/0009-the-product-is-the-free-project-structure-and-a-guide-to-the-agent-paths.md).
 
-## Waarom packages in plaats van één bundel?
+## Why packages instead of one bundle?
 
-Niet iedereen gebruikt dezelfde editor, hetzelfde abonnement of dezelfde workflow. Iemand met alleen VS Code heeft geen Zed-package nodig. Iemand met een Claude-abonnement heeft geen API-key-pad nodig. Door losse packages aan te bieden in plaats van één verplichte bundel, kan elke gebruiker alleen datgene installeren wat relevant is. Het besluit staat in [ADR 0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md).
+Not everyone uses the same editor, the same subscription or the same workflow. Someone with only VS Code does not need a Zed package. Someone with a Claude subscription does not need the API-key path. By offering separate packages instead of one mandatory bundle, each user can install only what is relevant. The decision is in [ADR 0010](../decisions/0010-the-meta-package-points-to-separate-packages-for-structure-and-three-zed-paths.md).
 
-## Waarom is Zed de IDE op het lab-pad?
+## Why is Zed the IDE on the lab path?
 
-Het lab-pad — de combinatie waar het team zelf op meet en ontwikkelt — gebruikt Zed, en wel de officiële upstream-versie (geen eigen fork). Maar waarom Zed en niet Cursor, VS Code of iets anders?
+The lab path — the combination the team itself measures and develops on — uses Zed, and specifically the official upstream version (no fork of our own). But why Zed rather than Cursor, VS Code or something else?
 
-De keuze voor Zed is gebaseerd op drie criteria:
+The choice for Zed rests on three criteria:
 
-1. **Een goed agent-pad met GUI.** Een editor voor AI-gestuurd werk moet een rijk agent-protocol hebben, een ingebouwd gesprekspaneel, en diffs tonen waar de agent wijzigingen voorstelt. Zed levert dat alles uit de doos: een ACP-client (Agent Client Protocol), een gesprekspaneel en ingebouwde diffs. Neovim en Helix vallen af omdat ze geen GUI-edit bieden.
+1. **A good agent path with a GUI.** An editor for AI-driven work needs a rich agent protocol, a built-in conversation panel, and diffs where the agent proposes changes. Zed ships all of it out of the box: an ACP client (Agent Client Protocol), a conversation panel and built-in diffs. Neovim and Helix drop out because they offer no GUI editing.
 
-2. **Geen eigen fork willen onderhouden.** Cursor is een fork van VS Code met eigen agent-integraties — maar een fork betekent dat je de hele editor moet blijven bijwerken en syncen met upstream. Zed forken zou hetzelfde probleem geven, met GPL-verplichtingen bovenop. Door ongemodificeerd upstream Zed te gebruiken, vermijden we dat onderhoud volledig. De eigen processen — harness, indexing, structuur en LLM — blijven losse componenten die via ACP koppelen, en hoeven geen deel van de editor te zijn.
+2. **Not wanting to maintain a fork.** Cursor is a fork of VS Code with its own agent integrations — but a fork means keeping the whole editor updated and synced with upstream. Forking Zed would give the same problem, with GPL obligations on top. By using unmodified upstream Zed, we avoid that maintenance entirely. Our own processes — harness, indexing, structure and LLM — remain separate components that couple through ACP, and need not be part of the editor.
 
-3. **Een breed toepasbare gids, geen verplichte editor.** Het product dwingt geen editor af. Zed is een pad in de gids, niet een vereiste. Wie op VS Code of Cursor wil blijven, kan alleen het structuur-package installeren en de agent-paden volgen die bij zijn eigen editor passen. Het lab kiest Zed omdat het op dit moment de beste verhouding biedt tussen een rijk agent-pad en een minimale eigen voetafdruk.
+3. **A broadly applicable guide, not a mandatory editor.** The product imposes no editor. Zed is one path in the guide, not a requirement. Anyone who wants to stay on VS Code or Cursor can install only the structure package and follow the agent paths that fit their own editor. The lab chooses Zed because it currently offers the best ratio between a rich agent path and a minimal footprint of our own.
 
-In de praktijk betekent dit dat de meta-package een gepinde upstream-release van Zed rechtstreeks van zed.dev haalt. We forken niet, we hosten de binary niet zelf, en we aanvaarden dat eventuele gaten in Zed's core alleen via ACP, extensies of een latere heroverweging van dit besluit dichtgaan. Zie ook [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md).
+In practice this means the meta package pulls a pinned upstream release of Zed straight from zed.dev. We do not fork, we do not host the binary ourselves, and we accept that any gaps in Zed's core are closed only through ACP, extensions or a later reconsideration of this decision. See also [ADR 0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md).
 
-## Waarom DeepSeek Harness en niet een eigen loop?
+## Why DeepSeek Harness and not an own loop?
 
-Net als bij Zed gebruiken we ook voor de agent-loop een bestaand, upstream product: DeepSeek Harness (DSH). Het is geen fork en we bouwen geen eigen loop. Zie [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md). DSH wordt als gepind profiel (ACP-profiel) meegeleverd via de meta-package, zodat de versie vastligt en reproduceerbaar is.
+As with Zed, we use an existing upstream product for the agent loop too: DeepSeek Harness (DSH). It is not a fork and we build no loop of our own. See [ADR 0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md). DSH ships as a pinned profile (ACP profile) through the meta package, so the version is fixed and reproducible.
 
-## Waarom een sandbox (bwrap)?
+## Why a sandbox (bwrap)?
 
-De agent-shell draait onder een strakke bwrap-kooi (bubblewrap). Dat betekent dat de agent alleen schrijftoegang heeft tot de projectmap en een goedgekeurde allowlist — niet tot de rest van het systeem. Dit beperkt de schade bij een fout of kwaadwillende instructie. Zie [ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md).
+The agent shell runs under a tight bwrap cage (bubblewrap). That means the agent has write access only to the project directory and an approved allowlist — not to the rest of the system. This limits the damage from a mistake or a malicious instruction. See [ADR 0007](../decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md).
 
-## Waarom deepseek-flash als model?
+## Why deepseek-flash as the model?
 
-DeepSeek Flash is de primaire keuze voor het lab-pad: goedkoop en snel genoeg om iteratief te ontwikkelen. Claude fungeert als tweede provider voor wie een eigen API-key heeft en een ander model wil gebruiken. Het is geen exclusieve keuze — de gids legt ook de abonnement-paden uit (Claude in Zed, ChatGPT in Zed), die hun eigen model kiezen via de bijbehorende agent. Voor het API-key-pad geldt dit besluit; zie [ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md).
+DeepSeek Flash is the primary choice for the lab path: cheap and fast enough to develop iteratively. Claude serves as second provider for anyone with their own API key who wants a different model. It is not an exclusive choice — the guide also explains the subscription paths (Claude in Zed, ChatGPT in Zed), which pick their own model through the corresponding agent. This decision applies to the API-key path; see [ADR 0008](../decisions/0008-the-coding-model-is-deepseek-flash-and-claude-is-the-second-provider.md).
 
-## Waarom zit de structuur in dezelfde repo?
+## Why does the structure live in the same repo?
 
-De projectstandaard — de kit, de bootstrap, de regels en de agent-instructies — leeft in **`kit/`** van deze repo. Dat is de Single Source of Truth. `cardine-structure` bevat er een letterlijke kopie van, gemaakt met `sync_kit.sh`, zodat één bron volstaat.
+The project standard — the kit, the bootstrap, the rules and the agent instructions — lives in **`kit/`** of this repo. That is the Single Source of Truth. `cardine-structure` contains a literal copy of it, made with `sync_kit.sh`, so one source suffices.
 
-Vroeger stond de standaard in een aparte privé-repo (`Agent_Engineering`) en werd ze op gepinde commits gepulld ([ADR 0013](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md), **vervallen** op 2026-11-24). De pin liep in de praktijk uit de pas met de gepubliceerde kit; twee repo's bleken meer werk dan winst.
+The standard used to live in a separate private repo (`Agent_Engineering`) and was pulled on pinned commits ([ADR 0013](../decisions/0013-cardine-is-the-public-shop-window-and-pulls-the-structure-from-agent-engineering.md), **superseded** on 2026-11-24). The pin drifted out of step with the published kit in practice; two repos turned out to be more work than profit.
 
-## Waarom SemVer en aparte versies per package?
+## Why SemVer and separate versions per package?
 
-Elk package krijgt een eigen SemVer-versie, onafhankelijk van de andere packages. De meta-package krijgt alleen een nieuwe versie als de structuur van de meta zelf wijzigt — niet bij elke update van een onderliggend package. Dit past bij het losse-packages-model uit [ADR 0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md): wie alleen de structuur gebruikt, heeft geen last van een versiesprong in het Zed-package. Zie [VERSIONING.md](../packages/VERSIONING.md) voor het volledige schema.
+Each package gets its own SemVer version, independent of the others. The meta package gets a new version only when the meta's own structure changes — not on every update of an underlying package. This fits the separate-packages model from [ADR 0010](../decisions/0010-the-meta-package-points-to-separate-packages-for-structure-and-three-zed-paths.md): anyone who only uses the structure is not affected by a version jump in the Zed package. See [VERSIONING.md](../packages/VERSIONING.md) for the full scheme.
 
 ---
 
-## Overzichtstabel
+## Overview
 
-| Vraag | ADR |
-|-------|-----|
-| Waarom een duale standaard (docs + code)? | [0004](../decisions/0004-de-projectstandaard-is-dual-een-dunne-agents-md-en-een-harde-make-check.md) |
-| Waarom een gratis product? | [0009](../decisions/0009-het-product-is-de-gratis-projectstructuur-en-een-gids-naar-de-agent-paden.md) |
-| Waarom losse packages in plaats van één bundel? | [0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md) |
-| Waarom Zed en niet Cursor of VS Code? | [0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md) |
-| Waarom DSH en geen eigen loop? | [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
-| Waarom een bwrap-sandbox? | [0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md) |
-| Waarom deepseek-flash als model? | [0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) |
-| Waarom zit de structuur in dezelfde repo? | [0013 (vervallen)](../decisions/0013-cardine-is-het-publieke-uithangbord-en-pullt-de-structure-uit-agent-engineering.md) |
-| Waarom SemVer per package? | [0010](../decisions/0010-de-meta-package-wijst-naar-losse-packages-voor-structuur-en-drie-zed-paden.md) + [VERSIONING.md](../packages/VERSIONING.md) |
+| Question | ADR |
+|----------|-----|
+| Why a dual standard (docs + code)? | [0004](../decisions/0004-the-project-standard-is-dual-a-thin-agents-md-and-a-hard-make-check.md) |
+| Why a free product? | [0009](../decisions/0009-the-product-is-the-free-project-structure-and-a-guide-to-the-agent-paths.md) |
+| Why separate packages instead of one bundle? | [0010](../decisions/0010-the-meta-package-points-to-separate-packages-for-structure-and-three-zed-paths.md) |
+| Why Zed and not Cursor or VS Code? | [0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md) |
+| Why DSH and no own loop? | [0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md) |
+| Why a bwrap sandbox? | [0007](../decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md) |
+| Why deepseek-flash as the model? | [0008](../decisions/0008-the-coding-model-is-deepseek-flash-and-claude-is-the-second-provider.md) |
+| Why does the structure live in the same repo? | [0013 (superseded)](../decisions/0013-cardine-is-the-public-shop-window-and-pulls-the-structure-from-agent-engineering.md) |

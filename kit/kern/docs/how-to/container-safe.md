@@ -1,15 +1,15 @@
 # How-to — container-safe packages
 
-> **Rol:** npm, pip en cargo draaien in Podman-containers in plaats van op de host. Voorkomt supply-chain aanvallen door installatiescripts.
-> **Niet hier:** andere dreigingen ([security.md](../architecture/security.md)), Strix-pentest ([security-scan](security-scan.md)).
+> **Role:** Run npm, pip and cargo in Podman containers instead of on the host. Prevents supply-chain attacks through install scripts.
+> **Not here:** other threats ([security.md](../architecture/security.md)), the Strix pentest ([security-scan](security-scan.md)).
 
-## Waarom
+## Why
 
-`npm install`, `pip install` en `cargo build` voeren **installatiescripts** uit die toegang hebben tot je SSH-keys, API-keys en bestanden. Door ze in een container te isoleren, beperk je de schade als een dependency gecompromitteerd is.
+`npm install`, `pip install` and `cargo build` run **install scripts** that have access to your SSH keys, API keys and files. Isolating them in a container limits the damage if a dependency is compromised.
 
-## Voorwaarden
+## Prerequisites
 
-1. **Podman** (of Docker) geïnstalleerd.
+1. **Podman** (or Docker) installed.
    ```bash
    # Arch
    sudo pacman -S podman
@@ -18,31 +18,31 @@
    # Debian/Ubuntu
    sudo apt install podman
    ```
-2. **Container images** (één keer pullen):
+2. **Container images** (pull once):
    ```bash
    podman pull docker.io/library/node:23-slim
    podman pull docker.io/library/python:3.12-slim
    podman pull docker.io/library/rust:latest
    ```
 
-## Setup (éénmalig)
+## Setup (once)
 
 ```bash
 make container-setup
 ```
 
-Dit schrijft shell-functies naar `~/.config/shell/container-safe.sh`. Voeg daarna toe aan je shell rc:
+This writes shell functions to `~/.config/shell/container-safe.sh`. Then add this to your shell rc:
 
 ```bash
 source "${XDG_CONFIG_HOME:-$HOME/.config}/shell/container-safe.sh"
 ```
 
-## Gebruik
+## Usage
 
-Vervang in elke agent-taak of terminal-sessie:
+In every agent task or terminal session, replace:
 
-| In plaats van | Gebruik |
-|---------------|---------|
+| Instead of | Use |
+|------------|-----|
 | `npm install` | `npm-safe install` |
 | `pnpm install` | `pnpm-safe install` |
 | `pip install -r requirements.txt` | `pip-install-safe -r requirements.txt` |
@@ -50,25 +50,25 @@ Vervang in elke agent-taak of terminal-sessie:
 | `node script.js` | `node-safe script.js` |
 | `python script.py` | `python-safe script.py` |
 
-### Offline (geen netwerk in container)
+### Offline (no network in the container)
 
-| In plaats van | Gebruik |
-|---------------|---------|
+| Instead of | Use |
+|------------|-----|
 | `npm ci` | `npm-safe-offline ci` |
 | `pip install` | `pip-safe-offline install` |
 | `cargo build` | `cargo-safe-offline build` |
 
-## Werkt Podman niet?
+## Podman not working?
 
-| Probleem | Oplossing |
-|----------|-----------|
-| `podman: command not found` | Installeer het (zie voorwaarden) |
-| `permission denied` | Podman is rootless — check of `~` leesbaar is |
+| Problem | Fix |
+|---------|-----|
+| `podman: command not found` | Install it (see prerequisites) |
+| `permission denied` | Podman is rootless — check that `~` is readable |
 | `image not found` | `podman pull docker.io/library/node:23-slim` |
-| `Z: flag not supported` | Vervang `:Z` door `:z` in de functies |
-| Trage eerste run | Image pull — daarna cached |
+| `Z: flag not supported` | Replace `:Z` with `:z` in the functions |
+| Slow first run | Image pull — cached afterwards |
 
-## Zie ook
+## See also
 
-- [security.md](../architecture/security.md) — supply-chain dreiging
-- [scripts/container-safe.sh](../../scripts/container-safe.sh) — het script dat de functies uitschrijft
+- [security.md](../architecture/security.md) — supply-chain threat
+- [scripts/container-safe.sh](../../scripts/container-safe.sh) — the script that writes the functions out

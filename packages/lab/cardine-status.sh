@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# cardine-status.sh — check de status van DSH, Jarvis en aanverwante tooling.
+# cardine-status.sh — check the status of DSH, Jarvis and related tooling.
 #
-# Gebruik:
-#   bash packages/lab/cardine-status.sh              (standaard check)
-#   bash packages/lab/cardine-status.sh --json       (machineleesbare output)
+# Usage:
+#   bash packages/lab/cardine-status.sh              (default check)
+#   bash packages/lab/cardine-status.sh --json       (machine-readable output)
 #   bash packages/lab/cardine-status.sh --verbose    (extra detail)
-#   bash packages/lab/cardine-status.sh --fix        (herstel sandbox-paden in DSH-profiel)
+#   bash packages/lab/cardine-status.sh --fix        (repair sandbox paths in the DSH profile)
 #
-# Dit script is idempotent. --fix schrijft alleen naar het DSH-profiel.
+# This script is idempotent. --fix only writes to the DSH profile.
 set -euo pipefail
 
 ###############################################################################
-# Configuratie
+# Configuration
 ###############################################################################
 DSH_BIN="${HOME}/.local/bin/dsh"
 JARVIS_SERVER="${HOME}/.local/bin/jarvis-server"
@@ -22,24 +22,24 @@ DSH_PROFILE="${HOME}/.dsh/profiles/acp/cordis.patch.yml"
 ZED_SETTINGS="${HOME}/.config/zed/settings.json"
 NODE_MIN_MAJOR=24
 NODE_MIN_MINOR=9
-# Twee verschillende roots, en dat onderscheid is essentieel:
+# Two different roots, and the distinction is essential:
 #
-#   PROJECT_DIR — het project waar je in werkt (workspaceRoot, index, scripts/).
-#                 De git-root van $PWD, zoals install-lab.sh dat ook doet.
-#   LAB_DIR     — de map van dit script: de lab-package zelf. In de repo is dat
+#   PROJECT_DIR — the project you work in (workspaceRoot, index, scripts/).
+#                 The git root of $PWD, the way install-lab.sh does it.
+#   LAB_DIR     — this script's folder: the lab package itself. In the repo that is
 #                 <repo>/packages/lab/; via `npm i -g @lennaertds/cardine-lab`
-#                 is het <prefix>/lib/node_modules/@lennaertds/cardine-lab/.
+#                 it is <prefix>/lib/node_modules/@lennaertds/cardine-lab/.
 #
-# Nooit LAB_DIR uit PROJECT_DIR afleiden (`${PROJECT_DIR}/packages/lab`): die
-# bestaat niet in een willekeurig project of in een npm-installatie, en dan
-# vindt de status cardine-bwrap en de slice-check niet terug.
+# Never derive LAB_DIR from PROJECT_DIR (`${PROJECT_DIR}/packages/lab`): it
+# does not exist in an arbitrary project or an npm install, and then
+# the status cannot find cardine-bwrap and the slice-check.
 SELF="$(readlink -f "${BASH_SOURCE[0]}")"
 LAB_DIR="$(cd "$(dirname "${SELF}")" && pwd)"
 PROJECT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 VERBOSE=false
 JSON=false
 FIX=false
-# Detecteer of we in een DSH/bwrap sandbox zitten
+# Detect whether we are in a DSH/bwrap sandbox
 IN_SANDBOX=false
 if [ -n "${DSH_SESSION_ID:-}" ] && [ -n "${DSH_SHELL:-}" ]; then
   IN_SANDBOX=true
@@ -63,7 +63,7 @@ YELLOW='\033[0;33m'
 BOLD='\033[1m'
 NC='\033[0m'
 
-# Resultaten opslaan voor JSON-output
+# Store results for the JSON output
 RESULTS=()
 FAILED=0
 WARNED=0
@@ -118,30 +118,30 @@ if $IN_SANDBOX; then
   if [ -d "${HOME}/.dsh" ] && [ -f "${HOME}/.dsh/profiles/acp/cordis.patch.yml" ]; then
     pass "~/.dsh persistent" "profiel bereikbaar binnen sandbox"
   else
-    warn "~/.dsh persistent" "niet gevonden — bwrap mount werkt nog niet"
+    warn "~/.dsh persistent" "not found — the bwrap mount does not work yet"
   fi
 else
-  warn "sandbox" "niet gedetecteerd (geen DSH_SESSION_ID/DSH_SHELL)"
+  warn "sandbox" "not detected (no DSH_SESSION_ID/DSH_SHELL)"
 fi
 
 if [ "$(ps -p 1 -o comm= 2>/dev/null || true)" = "bwrap" ]; then
   pass "PID 1" "bwrap"
 elif $IN_SANDBOX; then
-  fail "PID 1" "niet bwrap"
+  fail "PID 1" "not bwrap"
 else
-  warn "PID 1" "deze shell zit niet in de kooi"
+  warn "PID 1" "this shell is not in the cage"
 fi
 
 mount_line="$(awk -v dir="$PROJECT_DIR" '$5 == dir { print $0; exit }' /proc/self/mountinfo 2>/dev/null || true)"
 case "$mount_line" in
   *overlay*)
-    fail "schrijfroute" "overlay — een write verdwijnt (ADR 0017 verwacht bind)"
+    fail "write route" "overlay — a write disappears (ADR 0017 expects a bind)"
     ;;
   "")
     if $IN_SANDBOX; then
-      warn "schrijfroute" "geen mountinfo voor $PROJECT_DIR"
+      warn "write route" "no mountinfo for $PROJECT_DIR"
     else
-      warn "schrijfroute" "niet in de kooi"
+      warn "write route" "not in the cage"
     fi
     ;;
   *)
@@ -157,10 +157,10 @@ if [ -f "$DSH_PROFILE" ]; then
     && ! grep -q 'process.cwd()' "$DSH_PROFILE"; then
     pass "profiel" "workspace-write, approval never, write/edit uit"
   else
-    warn "profiel" "wijkt af van ADR 0017 — install-lab.sh en daarna DSH herstarten"
+    warn "profile" "differs from ADR 0017 — run install-lab.sh and restart DSH"
   fi
 else
-  warn "profiel" "niet gevonden ($DSH_PROFILE)"
+  warn "profile" "not found ($DSH_PROFILE)"
 fi
 
 ###############################################################################
@@ -173,10 +173,10 @@ if [ -x "$DSH_BIN" ]; then
   if echo "$DSH_VER" | grep -qE '[0-9]+\.[0-9]+\.[0-9]+'; then
     pass "dsh" "versie $DSH_VER op $DSH_BIN"
   else
-    warn "dsh" "binary ok maar versie niet herkend: $DSH_VER"
+    warn "dsh" "binary ok but version not recognised: $DSH_VER"
   fi
 else
-  fail "dsh" "binary niet gevonden op $DSH_BIN — run packages/lab/install-lab.sh"
+  fail "dsh" "binary not found at $DSH_BIN — run packages/lab/install-lab.sh"
 fi
 
 ###############################################################################
@@ -190,16 +190,16 @@ if [ -x "$JARVIS_SERVER" ]; then
 else
   # Check via uv tool
   if command -v uv &>/dev/null && uv tool list 2>/dev/null | grep -q jarvis-mcp; then
-    warn "jarvis-server" "binary niet op $JARVIS_SERVER, maar wel geïnstalleerd via uv"
+    warn "jarvis-server" "binary not at $JARVIS_SERVER, but installed via uv"
   else
-    fail "jarvis-server" "niet gevonden — run packages/lab/install-lab.sh"
+    fail "jarvis-server" "not found — run packages/lab/install-lab.sh"
   fi
 fi
 
 if [ -x "$JARVIS_CLI" ]; then
   pass "jarvis CLI" "gevonden op $JARVIS_CLI"
 else
-  fail "jarvis CLI" "niet gevonden"
+  fail "jarvis CLI" "not found"
 fi
 
 ###############################################################################
@@ -212,7 +212,7 @@ for bin in zoekt-git-index zoekt-webserver; do
   if [ -x "${JARVIS_BIN_DIR}/${bin}" ]; then
     pass "${bin}" "gevonden in $JARVIS_BIN_DIR"
   else
-    fail "${bin}" "niet gevonden in $JARVIS_BIN_DIR"
+    fail "${bin}" "not found in $JARVIS_BIN_DIR"
     ZOEKT_OK=false
   fi
 done
@@ -222,7 +222,7 @@ for bin in scip; do
   if [ -x "${JARVIS_BIN_DIR}/${bin}" ]; then
     pass "${bin}" "gevonden in $JARVIS_BIN_DIR"
   else
-    warn "${bin}" "niet gevonden — alleen nodig voor SCIP-indexing"
+    warn "${bin}" "not found — only needed for SCIP indexing"
     SCIP_OK=false
   fi
 done
@@ -230,7 +230,7 @@ done
 if [ -x "${JARVIS_BIN_DIR}/scip-python" ]; then
   pass "scip-python" "gevonden"
 else
-  warn "scip-python" "niet gevonden — optioneel voor Python SCIP-indexing"
+  warn "scip-python" "not found — optional for Python SCIP indexing"
 fi
 
 ###############################################################################
@@ -238,7 +238,7 @@ fi
 ###############################################################################
 header "4. DSH ACP-profiel"
 
-# DSH laadt profiel van DSH_HOME, niet per se ~/.dsh
+# DSH loads the profile from DSH_HOME, not necessarily ~/.dsh
 DSH_HOME_DIR="${DSH_HOME:-${HOME}/.dsh}"
 DSH_PROFILE_ACTUAL="${DSH_HOME_DIR}/profiles/acp/cordis.patch.yml"
 
@@ -248,19 +248,19 @@ if [ -f "$DSH_PROFILE_ACTUAL" ]; then
      grep -q 'sandbox-policy' "$DSH_PROFILE_ACTUAL" 2>/dev/null; then
     pass "DSH profiel" "$DSH_PROFILE_ACTUAL (deepinfra + jarvis + sandbox)"
   else
-    warn "DSH profiel" "$DSH_PROFILE_ACTUAL bestaat maar mist componenten"
+    warn "DSH profile" "$DSH_PROFILE_ACTUAL exists but lacks components"
   fi
 elif [ -f "$DSH_PROFILE" ]; then
-  # Fallback naar ~/.dsh voor als DSH_HOME niet gezet is
+  # Fallback to ~/.dsh for when DSH_HOME is not set
   if grep -q 'deepinfra' "$DSH_PROFILE" 2>/dev/null && \
      grep -q 'jarvis-server' "$DSH_PROFILE" 2>/dev/null && \
      grep -q 'sandbox-policy' "$DSH_PROFILE" 2>/dev/null; then
     pass "DSH profiel" "$DSH_PROFILE (deepinfra + jarvis + sandbox)"
   else
-    warn "DSH profiel" "$DSH_PROFILE bestaat maar mist componenten"
+    warn "DSH profile" "$DSH_PROFILE exists but lacks components"
   fi
 else
-  fail "DSH profiel" "niet gevonden in $DSH_PROFILE_ACTUAL of $DSH_PROFILE — run packages/lab/install-lab.sh"
+  fail "DSH profile" "not found in $DSH_PROFILE_ACTUAL or $DSH_PROFILE — run packages/lab/install-lab.sh"
 fi
 
 ###############################################################################
@@ -275,13 +275,13 @@ if [ -f "$DSH_ENV_FILE" ]; then
       KEY_PREVIEW="${KEY_VAL:0:8}...${KEY_VAL: -4}"
       pass "API-key" "$DSH_ENV_FILE ($KEY_PREVIEW)"
     else
-      fail "API-key" "$DSH_ENV_FILE bestaat maar DEEPSEEK_API_KEY is leeg"
+      fail "API key" "$DSH_ENV_FILE exists but DEEPSEEK_API_KEY is empty"
     fi
   else
-    fail "API-key" "$DSH_ENV_FILE heeft geen DEEPSEEK_API_KEY"
+    fail "API key" "$DSH_ENV_FILE has no DEEPSEEK_API_KEY"
   fi
 else
-  fail "API-key" "$DSH_ENV_FILE niet gevonden — run packages/lab/install-lab.sh"
+  fail "API key" "$DSH_ENV_FILE not found — run packages/lab/install-lab.sh"
 fi
 
 ###############################################################################
@@ -301,11 +301,11 @@ if command -v node &>/dev/null; then
     pass "node" "v$NODE_VER (≥ v$NODE_MIN_MAJOR.$NODE_MIN_MINOR)"
   fi
 else
-  fail "node" "niet op PATH"
+  fail "node" "not on PATH"
 fi
 
 ###############################################################################
-# 7. Node-packages van cardine zelf
+# 7. cardine's own Node packages
 ###############################################################################
 header "7. Cardine packages"
 
@@ -314,7 +314,7 @@ if [ -f "$CARDINE_PKG" ]; then
   CARDINE_VER=$(node -e "const p=require('${CARDINE_PKG}'); console.log(p.version||'onbekend')" 2>/dev/null || echo "onbekend")
   pass "cardine" "versie $CARDINE_VER"
 else
-  warn "cardine" "geen package.json in $LAB_DIR"
+  warn "cardine" "no package.json in $LAB_DIR"
 fi
 
 # Check cardine-slice-check package
@@ -323,7 +323,7 @@ if [ -f "$SLICE_PKG" ]; then
   SLICE_VER=$(node -e "const p=require('${SLICE_PKG}'); console.log(p.version||'onbekend')" 2>/dev/null || echo "onbekend")
   pass "cardine-slice-check" "versie $SLICE_VER"
 else
-  warn "cardine-slice-check" "geen package.json"
+  warn "cardine-slice-check" "no package.json"
 fi
 
 ###############################################################################
@@ -340,9 +340,9 @@ if [ -d "${HOME}/.jarvis" ]; then
       STALE_LOCKS=true
       if $FIX; then
         rm -f "$lock"
-        pass "stale lock opgeruimd" "$lock (PID $pid bestaat niet meer)"
+        pass "stale lock cleaned up" "$lock (PID $pid no longer exists)"
       else
-        fail "stale lock" "$lock (PID $pid bestaat niet meer — run met --fix om op te ruimen)"
+        fail "stale lock" "$lock (PID $pid no longer exists — run with --fix to clean up)"
       fi
     else
       pass "lock actief" "$lock (PID $pid)"
@@ -350,7 +350,7 @@ if [ -d "${HOME}/.jarvis" ]; then
   done
 fi
 if ! $STALE_LOCKS; then
-  $VERBOSE && pass "jarvis locks" "geen stale locks in ${HOME}/.jarvis/"
+  $VERBOSE && pass "jarvis locks" "no stale locks in ${HOME}/.jarvis/"
 fi
 
 ###############################################################################
@@ -363,12 +363,12 @@ if [ -x "$JARVIS_CLI" ]; then
   if echo "$INDEX_STATUS" | grep -qiE 'indexed.*true|freshness.*fresh' 2>/dev/null; then
     pass "jarvis index" "cardine repo is geïndexeerd"
   elif echo "$INDEX_STATUS" | grep -qi 'indexed.*false' 2>/dev/null; then
-    warn "jarvis index" "cardine repo is nog niet geïndexeerd — draai: make index"
+    warn "jarvis index" "the cardine repo is not indexed yet — run: make index"
   else
-    warn "jarvis index" "status niet bepaald (run: make index)"
+    warn "jarvis index" "status not determined (run: make index)"
   fi
 else
-  warn "jarvis index" "jarvis CLI niet beschikbaar om index-status te checken"
+  warn "jarvis index" "jarvis CLI not available to check the index status"
 fi
 
 ###############################################################################
@@ -380,9 +380,9 @@ if [ -x "$DSH_BIN" ]; then
   echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' | \
     "$DSH_BIN" --profile acp 2>&1 | head -5 | grep -q 'session/new' && \
     pass "dsh integratietest" "DSH start correct op met --profile acp" || \
-    warn "dsh integratietest" "kon DSH niet kort starten — check of de API-key en config kloppen"
+    warn "dsh integration test" "could not start DSH briefly — check that the API key and config are right"
 else
-  warn "dsh integratietest" "overgeslagen — DSH niet beschikbaar"
+  warn "dsh integration test" "skipped — DSH not available"
 fi
 
 ###############################################################################
@@ -398,13 +398,13 @@ SANDBOX_OK=true
 if [ -f "$CARDINE_BWRAP_EXPECTED" ]; then
   pass "cardine-bwrap" "gevonden op $CARDINE_BWRAP_EXPECTED"
 else
-  fail "cardine-bwrap" "niet gevonden op $CARDINE_BWRAP_EXPECTED"
+  fail "cardine-bwrap" "not found at $CARDINE_BWRAP_EXPECTED"
   SANDBOX_OK=false
 fi
 
 # 11a2. Bewaakt cardine-bwrap de .env-grens?
-# ADR 0017 kiest --bind (geen overlay) en maskeert geheimen met een ro-bind van
-# een leeg bestand. De vroegere 'overlay-src'-check keek naar de oude opzet.
+# ADR 0017 chooses --bind (no overlay) and masks secrets with a read-only bind of
+# an empty file. The earlier 'overlay-src' check looked at the old setup.
 if [ -f "$CARDINE_BWRAP_EXPECTED" ]; then
   SECRET_CHECK="${LAB_DIR}/scripts/check-bwrap-secrets.sh"
   BWRAP_HAS_BIND=false
@@ -415,11 +415,11 @@ if [ -f "$CARDINE_BWRAP_EXPECTED" ]; then
     pass "secrets-grens" "cardine-bwrap bindt de workspace en maskeert .env/keys (bewijs: make sandbox-secrets)"
   else
     if ! $BWRAP_HAS_BIND; then
-      fail "secrets-grens" "cardine-bwrap bindt de workspace niet met --bind (ADR 0017)"
+      fail "secrets boundary" "cardine-bwrap does not bind the workspace with --bind (ADR 0017)"
     elif ! $BWRAP_MASKS; then
-      fail "secrets-grens" "cardine-bwrap maskeert .env/keys niet — oude versie? (make sandbox-secrets)"
+      fail "secrets boundary" "cardine-bwrap does not mask .env/keys — old version? (make sandbox-secrets)"
     else
-      fail "secrets-grens" "bewijs ontbreekt: $SECRET_CHECK niet gevonden"
+      fail "secrets boundary" "evidence missing: $SECRET_CHECK not found"
     fi
     SANDBOX_OK=false
   fi
@@ -429,22 +429,22 @@ fi
 if [ -f "$SLICE_CHECK_EXPECTED" ]; then
   pass "cardine-slice-check" "gevonden op $SLICE_CHECK_EXPECTED"
 else
-  fail "cardine-slice-check" "niet gevonden op $SLICE_CHECK_EXPECTED"
+  fail "cardine-slice-check" "not found at $SLICE_CHECK_EXPECTED"
   SANDBOX_OK=false
 fi
 
-# 11c. Check DSH-profiel: staat het juiste pad naar cardine-bwrap?
+# 11c. Check the DSH profile: is the path to cardine-bwrap right?
 if [ -f "$DSH_PROFILE" ]; then
   BWRAP_IN_PROFILE=$(grep -o '/[^"]*cardine-bwrap' "$DSH_PROFILE" 2>/dev/null || head -1)
   if [ -n "$BWRAP_IN_PROFILE" ]; then
     if [ "$BWRAP_IN_PROFILE" = "$CARDINE_BWRAP_EXPECTED" ]; then
       pass "DSH profiel → cardine-bwrap" "pad klopt: $BWRAP_IN_PROFILE"
     elif [ -f "$BWRAP_IN_PROFILE" ]; then
-      # Een andere, wél bestaande installatie (repo naast npm) is geen fout:
-      # het profiel start een werkende wrapper. Alleen een dood pad is rood.
+      # Another install that does exist (repo next to npm) is not an error:
+      # the profile starts a working wrapper. Only a dead path is red.
       pass "DSH profiel → cardine-bwrap" "andere geldige installatie: $BWRAP_IN_PROFILE"
     else
-      fail "DSH profiel → cardine-bwrap" "pad bestaat niet: ${BWRAP_IN_PROFILE}"$'\n'"    verwacht: ${CARDINE_BWRAP_EXPECTED}"
+      fail "DSH profile → cardine-bwrap" "path does not exist: ${BWRAP_IN_PROFILE}"$'\n'"    expected: ${CARDINE_BWRAP_EXPECTED}"
       SANDBOX_OK=false
       if $FIX; then
         if $JSON; then
@@ -458,10 +458,10 @@ if [ -f "$DSH_PROFILE" ]; then
       fi
     fi
   else
-    warn "DSH profiel → cardine-bwrap" "geen cardine-bwrap pad gevonden in profiel"
+    warn "DSH profile → cardine-bwrap" "no cardine-bwrap path found in the profile"
   fi
 
-  # 11d. Check DSH-profiel: staat het juiste pad naar cardine-slice-check?
+  # 11d. Check the DSH profile: is the path to cardine-slice-check right?
   SLICE_IN_PROFILE=$(grep -o '/[^"]*cardine-slice-check/index\.js' "$DSH_PROFILE" 2>/dev/null || head -1)
   if [ -n "$SLICE_IN_PROFILE" ]; then
     if [ "$SLICE_IN_PROFILE" = "$SLICE_CHECK_EXPECTED" ]; then
@@ -469,7 +469,7 @@ if [ -f "$DSH_PROFILE" ]; then
     elif [ -f "$SLICE_IN_PROFILE" ]; then
       pass "DSH profiel → slice-check" "andere geldige installatie: $SLICE_IN_PROFILE"
     else
-      fail "DSH profiel → slice-check" "pad bestaat niet: ${SLICE_IN_PROFILE}"$'\n'"    verwacht: ${SLICE_CHECK_EXPECTED}"
+      fail "DSH profile → slice-check" "path does not exist: ${SLICE_IN_PROFILE}"$'\n'"    expected: ${SLICE_CHECK_EXPECTED}"
       SANDBOX_OK=false
       if $FIX; then
         if ! $JSON; then
@@ -481,11 +481,11 @@ if [ -f "$DSH_PROFILE" ]; then
       fi
     fi
   else
-    # slice-check kan optioneel zijn — alleen warn als we in verbose mode zijn
-    $VERBOSE && warn "DSH profiel → slice-check" "geen slice-check pad in profiel (optioneel)"
+    # slice-check can be optional — only warn in verbose mode
+    $VERBOSE && warn "DSH profile → slice-check" "no slice-check path in the profile (optional)"
   fi
 else
-  fail "DSH profiel" "niet gevonden — kan sandbox-configuratie niet verifiëren"
+  fail "DSH profile" "not found — cannot verify the sandbox configuration"
   SANDBOX_OK=false
 fi
 
@@ -498,7 +498,7 @@ if [ -n "$DSH_HOME_VAL" ]; then
     warn "DSH_HOME" "afwijkend: $DSH_HOME_VAL (verwacht: ${HOME}/.dsh)"
   fi
 else
-  $VERBOSE && pass "DSH_HOME" "niet gezet (default ~/.dsh wordt gebruikt)"
+  $VERBOSE && pass "DSH_HOME" "not set (the default ~/.dsh is used)"
 fi
 
 # 11f. Test of bwrap zelf werkt
@@ -506,48 +506,48 @@ if command -v bwrap &>/dev/null; then
   if bwrap --version &>/dev/null; then
     pass "bwrap" "geïnstalleerd ($(bwrap --version 2>&1))"
   else
-    warn "bwrap" "binary gevonden maar werkt niet (seccomp? user namespaces?)"
+    warn "bwrap" "binary found but not working (seccomp? user namespaces?)"
   fi
 else
-  fail "bwrap" "niet geïnstalleerd — run: sudo pacman -S bubblewrap"
+  fail "bwrap" "not installed — run: sudo pacman -S bubblewrap"
   SANDBOX_OK=false
 fi
 
-# 11g. Check of er nog oude scripts/ paden bestaan buiten het DSH-profiel
+# 11g. Check whether old scripts/ paths still exist outside the DSH profile
 OLD_PATTERN="${PROJECT_DIR}/scripts/"
 if [ -d "$OLD_PATTERN" ] 2>/dev/null; then
-  warn "oude scripts/" "er bestaat nog een map ${OLD_PATTERN} — zou leeg moeten zijn"
+  warn "old scripts/" "a folder ${OLD_PATTERN} still exists — it should be empty"
 fi
 
-# 11h. Als SANDBOX_OK false is, toon een samenvattende fix-opdracht
+# 11h. If SANDBOX_OK is false, show a summary fix command
 if ! $SANDBOX_OK && ! $FIX && ! $JSON; then
   echo ""
-  echo "  ${YELLOW}─── Sandbox-configuratie heeft problemen.${NC}"
-  echo "  Herstel met: ${BOLD}cardine-lab status --fix${NC}${NC}"
+  echo "  ${YELLOW}─── The sandbox configuration has problems.${NC}"
+  echo "  Repair with: ${BOLD}cardine-lab status --fix${NC}${NC}"
 fi
 
 ###############################################################################
 # 11. `kit/` status
 ###############################################################################
 ###############################################################################
-# Overzicht
+# Summary
 ###############################################################################
 header ""
 header "========================================"
 if ! $JSON; then
-  echo "${BOLD}Samenvatting:${NC}"
+  echo "${BOLD}Summary:${NC}"
   echo "  $((${#RESULTS[@]})) checks — ${GREEN}$(( ${#RESULTS[@]} - FAILED - WARNED )) OK${NC}, ${YELLOW}${WARNED} warnings${NC}, ${RED}${FAILED} failures${NC}"
   if [ "$FAILED" -gt 0 ]; then
     echo ""
     if ! $SANDBOX_OK; then
-      echo "${RED}Aanbevolen:${NC} run ${BOLD}cardine-lab status --fix${NC} om sandbox-paden te herstellen"
-      echo "           Of ${BOLD}cardine-lab install${NC} voor volledige herinstallatie"
+      echo "${RED}Recommended:${NC} run ${BOLD}cardine-lab status --fix${NC} to repair the sandbox paths"
+      echo "           Or ${BOLD}cardine-lab install${NC} for a full reinstall"
     else
-      echo "${RED}Aanbevolen:${NC} run ${BOLD}bash packages/lab/install-lab.sh${NC} om te herstellen"
+      echo "${RED}Recommended:${NC} run ${BOLD}bash packages/lab/install-lab.sh${NC} to repair"
     fi
   fi
   echo ""
-  echo "${BOLD}Volle versie:${NC} draai met ${BOLD}--verbose${NC} of ${BOLD}--json${NC}"
+  echo "${BOLD}Full version:${NC} run with ${BOLD}--verbose${NC} or ${BOLD}--json${NC}"
 fi
 
 # JSON output

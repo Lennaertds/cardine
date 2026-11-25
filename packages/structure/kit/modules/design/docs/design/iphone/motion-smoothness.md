@@ -1,10 +1,10 @@
 # UI iPhone — motion · smoothness
 
-> **Rol:** Frame-level smoothness.  
-> **Niet hier:** springs ([motion-springs](motion-springs.md)); performance van de desktop ([performance.md](../desktop/performance.md)).
+> **Role:** Frame-level smoothness.
+> **Not here:** springs ([motion-springs](motion-springs.md)); desktop performance ([performance.md](../desktop/performance.md)).
 
 ## 1. Frame-level smoothness
 
-- Per-frame positieverandering onder perceptiedrempel (geen strobing).
-- Snelle motion: subtiele blur/stretch mag; animeer vooral **`transform` + `opacity`**; `will-change` alleen als motion imminent.
-- `requestAnimationFrame` als display-synced clock.
+- Per-frame position change below the perception threshold (no strobing).
+- Fast motion: subtle blur/stretch is allowed; animate **`transform` + `opacity`** above all; `will-change` only when motion is imminent.
+- `requestAnimationFrame` as the display-synced clock.

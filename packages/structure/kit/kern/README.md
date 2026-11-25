@@ -1,22 +1,22 @@
 # {{PROJECT}}
 
-<Eén zin: wat dit is en voor wie.> Demo: <url of "nog niet online">.
+<One sentence: what this is and for whom.> Demo: <url or "not online yet">.
 
-## Waarom
+## Why
 
-<Het probleem in twee à drie zinnen, en wat dit project anders of beter doet.>
+<The problem in two or three sentences, and what this project does differently or better.>
 
-## Snel starten
+## Quickstart
 
 ```bash
-make setup     # .env uit .env.example, dependencies, git-hooks
-make dev       # alles lokaal starten
-make check     # lint, types en tests; groen = klaar
+make setup     # .env from .env.example, dependencies, git hooks
+make dev       # start everything locally
+make check     # lint, types and tests; green = done
 ```
 
-`make help` toont alle commando's. `make doctor` controleert of je de nodige tools hebt.
+`make help` lists all commands. `make doctor` checks that you have the tools you need.
 
-## Meer
+## More
 
-- Documentatie: [docs/INDEX.md](docs/INDEX.md)
-- Werken met een AI-agent: [AGENTS.md](AGENTS.md)
+- Documentation: [docs/INDEX.md](docs/INDEX.md)
+- Working with an AI agent: [AGENTS.md](AGENTS.md)

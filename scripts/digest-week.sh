@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Bouw weekbrief in bron/weken/YYYY-Www.md uit dumps. Schrijft nooit bronnen.md (P5).
-# DIGEST_WEEK=2026-W45 — forceren (default: huidige ISO-week; op ma optioneel vorige via digest-day).
-# DIGEST_WEEK_SKIP_FETCH=1 — alleen brief uit bestaande dumps.
+# Build the week letter in bron/weken/YYYY-Www.md from dumps. Never writes bronnen.md (P5).
+# DIGEST_WEEK=2026-W45 — force it (default: the current ISO week; on Monday optionally the previous one via digest-day).
+# DIGEST_WEEK_SKIP_FETCH=1 — build the letter from existing dumps only.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -18,7 +18,7 @@ die() { echo "digest-week: $*" >&2; exit 1; }
 tip() { echo "digest-week: $*" >&2; }
 log() { printf '%s %s\n' "$(date -Iseconds)" "$*" | tee -a "$LOG" >&2; }
 
-[[ -f bron/digest/SOURCES.md ]] || die "geen bron/digest/SOURCES.md"
+[[ -f bron/digest/SOURCES.md ]] || die "no bron/digest/SOURCES.md"
 [[ -d "$WEKEN" ]] || die "weekmap ontbreekt: $WEKEN"
 
 iso_week_default() {
@@ -79,7 +79,7 @@ OUT="$WEKEN/${WEEK}.md"
 tip "ISO-week=$WEEK → $OUT"
 
 mapfile -t DATES < <(week_dates "$WEEK")
-[[ ${#DATES[@]} -eq 7 ]] || die "kon datums voor $WEEK niet bepalen"
+[[ ${#DATES[@]} -eq 7 ]] || die "could not determine the dates for $WEEK"
 
 if [[ "${DIGEST_WEEK_SKIP_FETCH:-}" != "1" ]]; then
   log "fetch start ($WEEK)"
@@ -114,7 +114,7 @@ for d in data/external/digest/*/; do
   for want in "${DATES[@]}"; do
     [[ "$day" == "$want" ]] && keep=1 && break
   done
-  # Content-datum in HF date=/week= URL ook meenemen (catch-up dumps).
+  # Also take the content date in the HF date=/week= URL into account (catch-up dumps).
   for want in "${DATES[@]}"; do
     [[ "$src" == *"date=${want}"* ]] && keep=1 && break
   done
@@ -142,27 +142,27 @@ for d in data/external/digest/*/; do
 done
 
 {
-  echo "# Weekbrief — $WEEK"
+  echo "# Week letter — $WEEK"
   echo
-  echo "> **Rol:** Inbound selectie van deze ISO-week. Geen SSOT — promote handmatig naar \`bronnen.md\` §."
-  echo "> **Gegenereerd:** $TODAY via \`make digest-week\` (`kit/`). Dumps: \`data/external/digest/\`."
+  echo "> **Role:** inbound selection for this ISO week. Not SSOT — promote by hand into \`bronnen.md\` §."
+  echo "> **Generated:** $TODAY via \`make digest-week\` (`kit/`). Dumps: \`data/external/digest/\`."
   echo
   echo "## Checklist"
   echo
-  echo "> Na fetch: \`make digest-triage\` — regels in [../digest/TRIAGE.md](../digest/TRIAGE.md); interesses [../digest/interests.md](../digest/interests.md)."
+  echo "> After the fetch: \`make digest-triage\` — rules in [../digest/TRIAGE.md](../digest/TRIAGE.md); interests [../digest/interests.md](../digest/interests.md)."
   echo
-  echo "- [ ] \`make digest-triage\` gedraaid (have/keep/skip)"
-  echo "- [ ] \`keep\` gescand → \`§\` in [bronnen.md](../bronnen.md) + [bronnen-index.md](../bronnen-index.md) waar nodig; status \`§n\`"
-  echo "- [ ] Eigen YouTube/inbox-hits hieronder of via [inbox.md](../inbox.md)"
+  echo "- [ ] \`make digest-triage\` run (have/keep/skip)"
+  echo "- [ ] \`keep\` scanned → \`§\` in [bronnen.md](../bronnen.md) + [bronnen-index.md](../bronnen-index.md) where needed; status \`§n\`"
+  echo "- [ ] Own YouTube/inbox hits below or via [inbox.md](../inbox.md)"
   echo
 
-  echo "## Papers / feed-hits ($count uniek)"
+  echo "## Papers / feed hits ($count unique)"
   echo
   if [[ "$count" -eq 0 ]]; then
-    echo "_Geen dump-items voor datums ${DATES[*]}. Draai \`make digest-day\`._"
+    echo "_No dump items for dates ${DATES[*]}. Run \`make digest-day\`._"
     echo
   else
-    echo "| Titel | Link | Bron | Status |"
+    echo "| Title | Link | Source | Status |"
     echo "|-------|------|------|--------|"
     cat "$rows"
     echo

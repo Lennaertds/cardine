@@ -1,32 +1,32 @@
-# Agent-UI
+# Agent UI
 
-> **Rol:** Bijhouden van de menselijke agent-oppervlakte — chat, diffs, apply/reject.
-> **Niet hier:** IDE-shell ([ide-shell.md](ide-shell.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Role:** maintaining the human agent surface — chat, diffs, apply/reject.
+> **Not here:** the IDE shell ([ide-shell.md](ide-shell.md)); relations ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** beslist · geen aparte ADR (volgt [ADR 0002](../decisions/0002-de-ide-shell-is-upstream-zed-opgehaald-als-pinned-release-zonder-fork.md): ACP, geen fork)
+**State:** decided · no separate ADR (follows [ADR 0002](../decisions/0002-the-ide-shell-is-upstream-zed-pulled-as-a-pinned-release-without-fork.md): ACP, no fork)
 
-## Wat de gebruiker kan
+## What the user can do
 
-- Met de agent praten, streaming zien, diffs reviewen en wijzigingen accept/reject — in het Zed Agent Panel. De loop erachter is de External Agent, niet Zed Agent.
+- Talk to the agent, see streaming, review diffs and accept/reject changes — in the Zed Agent Panel. The loop behind it is the External Agent, not Zed Agent.
 
-## Besluit
+## Decision
 
-| Onderwerp | Keuze |
-|-----------|--------|
-| U1 Oppervlak | Zed Agent Panel via ACP. Geen eigen chat-UI en geen extra TUI in v1. |
-| U2 Diffs | Review van Zed (multi-buffer diff, apply/reject). |
-| U3 Streaming | Wat Zed en de ACP-server al doen. |
-| U4 Multi-agent | Nee in v1. Eén gesprek. |
+| Topic | Choice |
+|-------|--------|
+| U1 Surface | Zed Agent Panel via ACP. No own chat UI and no extra TUI in v1. |
+| U2 Diffs | Zed's review (multi-buffer diff, apply/reject). |
+| U3 Streaming | What Zed and the ACP server already do. |
+| U4 Multi-agent | No in v1. One conversation. |
 
-## Raakvlakken
+## Interfaces
 
 - Host: [ide-shell.md](ide-shell.md)
 - Loop: [harness.md](harness.md) (`dsh --profile acp`)
-- Toont resultaten van: [tools.md](tools.md)
+- Shows results from: [tools.md](tools.md)
 
-## Bewust niet
+## Deliberately not
 
-- Eigen Composer of chat-app.
-- Marketplace van chat-themes.
+- An own composer or chat app.
+- A marketplace of chat themes.
 - Parallel Cloud Agent dashboards.
-- Zed Agent aanzetten naast de External Agent (twee loops, twee zoekpaden — zie [totaalproduct](totaalproduct.md)).
+- Turning Zed Agent on beside the External Agent (two loops, two search paths — see [totaalproduct](totaalproduct.md)).

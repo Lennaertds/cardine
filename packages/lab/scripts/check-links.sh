@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# check-links: meldt relatieve links in Markdown-bestanden die naar een niet-bestaand bestand wijzen.
-# Gebruik: packages/lab/scripts/check-links.sh [map] [uit te sluiten submap ...]
-# Slaat over: externe links, ankers, codeblokken, inline code, HTML-commentaar, <placeholders>
-# en het tijdelijke opstartpakket _bootstrap/.
+# check-links: reports relative links in Markdown files that point at a file that does not exist.
+# Usage: packages/lab/scripts/check-links.sh [dir] [subfolders to exclude ...]
+# Skips: external links, anchors, code blocks, inline code, HTML comments, <placeholders>
+# and the temporary bootstrap package _bootstrap/.
 set -euo pipefail
 
-# Mappen die niet in git staan (bv. bron/pdfs/, via Syncthing): een link daarnaar
-# is niet dood op deze machine, maar mag op een verse kloon niet als fout tellen.
+# Folders that are not in git (e.g. bron/pdfs/, via Syncthing): a link to them
+# is not dead on this machine, but must not count as an error on a fresh clone.
 skip_targets=()
 args=()
 while (($#)); do
@@ -50,25 +50,25 @@ while IFS= read -r -d '' file; do
     fi
     if [[ "$target" == /* ]]; then path="$root$target"; else path="$dir/$target"; fi
     path="${path//%20/ }"
-    # Relative link die buiten de repo-root wijst (../* of dieper) verwijst naar een
-    # sibling repo in een multi-root workspace — die kunnen we niet valideren.
+    # A relative link that points outside the repo root (../* or deeper) refers to a
+    # sibling repo in a multi-root workspace — we cannot validate those.
     if [[ ! -e "$path" ]]; then
-      # Vergelijk op het pad binnen de repo (bv. bron/pdfs/x.pdf), niet op de
-      # ruwe relatieve link: die is t.o.v. de map van het Markdown-bestand.
+      # Compare on the path inside the repo (e.g. bron/pdfs/x.pdf), not on the
+      # raw relative link: that one is relative to the Markdown file's folder.
       rel_path="${path#"$root"/}"
       skipped=0
       for st in "${skip_targets[@]}"; do
         if [[ "$rel_path" == "$st/"* || "$rel_path" == "$st" ]]; then skipped=1; break; fi
       done
       if ((skipped)); then continue; fi
-      # Bereken het absolute pad voor de link.
+      # Compute the absolute path for the link.
       abs_target="$(cd "$dir" && realpath -m "$target" 2>/dev/null || true)"
-      # Als het absolute pad niet binnen de repo-root valt, is het een sibling-link.
+      # If the absolute path does not fall inside the repo root, it is a sibling link.
       repo_root="$(cd "$root" && pwd)"
       if [[ -n "$abs_target" && "$abs_target" != "$repo_root" && "$abs_target" != "${repo_root}/"* ]]; then
-        : # accepteer — verwijst naar buiten deze repo (bv. ../`kit/`/ — privé sibling, niet publiek)
+        : # accept — points outside this repo (e.g. ../`kit/`/ — private sibling, not public)
       else
-        echo "$file: dode link naar $link"
+        echo "$file: dead link to $link"
         failed=1
       fi
     fi
@@ -76,6 +76,6 @@ while IFS= read -r -d '' file; do
 done < <(find "$root" \( "${prune[@]}" \) -prune -o -name '*.md' -type f -print0)
 
 if ((failed)); then
-  echo "Dode links gevonden." >&2
+  echo "Dead links found." >&2
 fi
 exit "$failed"

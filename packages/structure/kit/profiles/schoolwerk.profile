@@ -1,6 +1,6 @@
-# kit/profiles/schoolwerk.profile — voor oefeningen (DL/DB/Python/algo)
+# kit/profiles/schoolwerk.profile — for exercises (DL/DB/Python/algorithms)
 PROFILE_NAME="schoolwerk"
-PROFILE_DESCRIPTION="Oefeningen in containers — DL, DB, Python, algoritmes"
+PROFILE_DESCRIPTION="Exercises in containers — DL, DB, Python, algorithms"
 MODULES="assignment,compose"
 STACKS="python"
 STARTER=false

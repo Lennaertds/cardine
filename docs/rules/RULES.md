@@ -1,23 +1,23 @@
-# Regels
+# Rules
 
-> **Rol:** Inhoudelijke grenzen: wat dit project nooit doet, en wat altijd moet.
-> **Niet hier:** codestijl (de linter), werkwijze van de agent ([AGENTS.md](../../AGENTS.md)), technische maatregelen ([security.md](../architecture/security.md)).
+> **Role:** substantive boundaries: what this project never does, and what must always happen.
+> **Not here:** code style (the linter), the agent's workflow ([AGENTS.md](../../AGENTS.md)), technical measures ([security.md](../architecture/security.md)).
 
-Elke regel is één zin met het waarom erbij. Is een regel afdwingbaar met een test, hook of CI-check, dan doe je dat ook, en verwijst de regel ernaar.
+Every rule is one sentence with its reason. If a rule can be enforced by a test, a hook or a CI check, you do that too, and the rule points at it.
 
-## Nooit
+## Never
 
-- Geen data of secrets uit andere projecten overnemen in code, tests, docs of prompts: het lab (en later het product) moet reproduceerbaar blijven zonder andermans inhoud.
-- Geen productie-hosting of publieke release **tijdens de labfase**: eerst lokaal bewijzen; deploy/portfolio-release alleen na expliciete productisatie-keuze (dan mag gratis OS of closed).
-- Geen betaalde SaaS of verplichte cloud-billing als productmodel: richting is eigen API-keys van de gebruiker (DeepSeek of andere) en hoogstwaarschijnlijk volledig gratis.
-- Geen API-keys of `.env` in git, docs of prompts: keys (DeepSeek e.d.) blijven lokaal bij de eigenaar.
-- Geen lessen of standaardwijzigingen rechtstreeks in deze repo of in de kit: eerst een § in `bron/bronnen.md` (en brug), anders breekt de SSOT tussen de drie sporen.
-- Geen duplicatie van bron- of kitinhoud: verwijs, kopieer niet — één feit op één plek.
-- Geen stack of runtime kiezen of genereren tot er een expliciete Pi/TS- (of andere) runtime-keuze is: voorkomt vroegtijdige lock-in en feature-bloat.
-- Geen feature-bloat buiten de minimale harness (alleen wat `harness` / `structure` / `indexing` nodig hebben): lab en metingen vragen om een smal oppervlak; productgroei volgt pas na bewezen kwaliteit.
+- Never take data or secrets from other projects into code, tests, docs or prompts: the lab (and later the product) must stay reproducible without someone else's content.
+- No production hosting or public release **during the lab phase**: prove it locally first; a deploy or portfolio release only after an explicit productisation choice (which may then be a free OS or a closed product).
+- No paid SaaS or mandatory cloud billing as the product model: the direction is the user's own API keys (DeepSeek or others) and very likely entirely free.
+- No API keys or `.env` in git, docs or prompts: keys (DeepSeek etc.) stay local with their owner.
+- No lessons or standard changes straight into this repo or into the kit: first a § in `bron/bronnen.md` (and the bridge), otherwise the SSOT across the three tracks breaks.
+- No duplication of source or kit content: reference, do not copy — one fact in one place.
+- No stack or runtime chosen or generated until there is an explicit Pi/TS (or other) runtime choice: this prevents early lock-in and feature bloat.
+- No feature bloat beyond the minimal harness (only what `harness` / `structure` / `indexing` need): the lab and its measurements call for a narrow surface; product growth follows only after proven quality.
 
-## Altijd
+## Always
 
-- Nieuwe inzichten uit experimenten landen eerst als bron (§) in `bron/`; pas daarna eventueel brug naar kit of lab-code.
-- Domeinnamen in code, productdocs en prompts volgen [GLOSSARY.md](../context/GLOSSARY.md) (`harness`, `structure`, `indexing`).
-- LLM-aanroepen gebruiken configureerbare providers via eigen keys (DeepSeek als goedkope default-richting; andere keys toegestaan) — geen hardgecodeerde provider-lock zonder ADR.
+- New insights from experiments land first as a source (§) in `bron/`; only then perhaps a bridge to the kit or lab code.
+- Domain names in code, product docs and prompts follow [GLOSSARY.md](../context/GLOSSARY.md) (`harness`, `structure`, `indexing`).
+- LLM calls use configurable providers via your own keys (DeepSeek as the cheap default direction; other keys allowed) — no hardcoded provider lock without an ADR.

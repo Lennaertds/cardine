@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Dagelijks: catch-up gemiste HF-dagen → fetch SOURCES → weekbrief(en).
-# Schrijft nooit bronnen.md (P5). systemd: digest-day.timer (Persistent=true).
-# DIGEST_CATCHUP_DAYS=7 — hoeveel kalenderdagen terug HF daily?date= bijvullen.
-# DIGEST_DAY_SKIP_FETCH=1 — alleen weekbrieven herbouwen.
+# Daily: catch up missed HF days → fetch SOURCES → week letter(s).
+# Never writes bronnen.md (P5). systemd: digest-day.timer (Persistent=true).
+# DIGEST_CATCHUP_DAYS=7 — how many calendar days back to fill HF daily?date=.
+# DIGEST_DAY_SKIP_FETCH=1 — rebuild the week letters only.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -19,7 +19,7 @@ die() { echo "digest-day: $*" >&2; exit 1; }
 tip() { echo "digest-day: $*" >&2; }
 log() { printf '%s %s\n' "$(date -Iseconds)" "$*" | tee -a "$LOG" >&2; }
 
-[[ -f bron/digest/SOURCES.md ]] || die "geen bron/digest/SOURCES.md"
+[[ -f bron/digest/SOURCES.md ]] || die "no bron/digest/SOURCES.md"
 
 have_hf_date() {
   local day="$1" f

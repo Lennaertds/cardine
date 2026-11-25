@@ -1,58 +1,58 @@
-# docs/how-to/&lt;taak&gt;.md
+# docs/how-to/&lt;task&gt;.md
 
-> **Rol:** Eén taak stap voor stap: deploy, database resetten, data laden, release.
-> **Niet hier:** waarom het zo werkt ([architecture](architecture.md)), het commando zelf als het één regel is (de Makefile).
+> **Role:** One task step by step: deploy, reset a database, load data, release.
+> **Not here:** why it works that way ([architecture](architecture.md)), the command itself if it is one line (the Makefile).
 
-**Kitbestand:** geen; de map [kit/kern/docs/how-to/](../kit/kern/docs/how-to/) staat klaar · laag kern
+**Kit file:** none; the folder [kit/kern/docs/how-to/](../kit/kern/docs/how-to/) is ready · layer kern
 
-## Wanneer
+## When
 
-Als een taak meer is dan één make-target, en je hem minder dan maandelijks doet (zodat je de stappen vergeet). Is het één commando, maak dan een make-target met `## uitleg` in plaats van een how-to.
+When a task is more than one make target, and you do it less than monthly (so you forget the steps). If it is one command, make a make target with `## explanation` instead of a how-to.
 
-## Invullen
+## Filling in
 
-Gebruik deze vorm:
+Use this shape:
 
 ```markdown
-# <Taak als werkwoord, bv. "Databases resetten">
+# <Task as a verb, e.g. "Reset the databases">
 
-> **Rol:** <wanneer je dit nodig hebt>
-> **Niet hier:** <waarom het zo werkt → architecture/…>
+> **Role:** <when you need this>
+> **Not here:** <why it works that way → architecture/…>
 
-## Vooraf
+## Before you start
 
-- <Wat moet kloppen: .env, toegang, back-up.>
+- <What has to be right: .env, access, backup.>
 
-## Stappen
+## Steps
 
-1. `<commando>` — <wat je ziet als het goed gaat>
+1. `<command>` — <what you see if it goes well>
 2. …
 
-## Als het misgaat
+## When it goes wrong
 
-| Melding | Oorzaak | Oplossing |
-|---------|---------|-----------|
+| Message | Cause | Fix |
+|---------|-------|-----|
 ```
 
-## Voorbeeld (DEP2, `how-to/databases-resetten.md`)
+## Example (DEP2, `how-to/reset-databases.md`)
 
 ```markdown
-## Stappen
+## Steps
 
-1. `make status` — de staging- en DWH-database draaien.
-2. `bash scripts/reset_staging.sh` — **wist alle staging-tabellen**. Vraag eerst het team in het kanaal.
-3. `bash scripts/reset_dwh.sh` — na een staging-reset altijd ook de DWH, anders verwijzen feiten naar niets.
-4. `make data` — de volledige pipeline (± 25 min; de wortelmeting duurt ± 10 min).
+1. `make status` — the staging and DWH databases are running.
+2. `bash scripts/reset_staging.sh` — **wipes all staging tables**. Ask the team in the channel first.
+3. `bash scripts/reset_dwh.sh` — after a staging reset, always reset the DWH too, otherwise facts point at nothing.
+4. `make data` — the full pipeline (± 25 min; the root measurement takes ± 10 min).
 
-## Als het misgaat
+## When it goes wrong
 
-| Melding | Oorzaak | Oplossing |
-|---------|---------|-----------|
-| `Violation of PRIMARY KEY` in `FactWortelmeting` | DWH niet gereset na staging | stap 3, dan stap 4 |
+| Message | Cause | Fix |
+|---------|-------|-----|
+| `Violation of PRIMARY KEY` in `FactRootMeasurement` | DWH not reset after staging | step 3, then step 4 |
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Elke stap is een commando dat je kan plakken, met wat je dan ziet.
-- [ ] Destructieve stappen staan in vet, met wie je eerst vraagt.
-- [ ] `docs/INDEX.md` § How-to heeft een regel voor dit bestand.
+- [ ] Every step is a command you can paste, with what you see afterwards.
+- [ ] Destructive steps are in bold, with whom to ask first.
+- [ ] `docs/INDEX.md` § How-to has a line for this file.

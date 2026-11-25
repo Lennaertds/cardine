@@ -1,13 +1,13 @@
 # YYYY-MM-DD
 
-## Gedaan
+## Done
 
-- <Wat er af is, met het backlog-item of de commit.>
+- <What is finished, with the backlog item or the commit.>
 
-## Misliep
+## Went wrong
 
-- <Wat niet werkte, en wat je eruit leerde. Herhaalt een agentfout zich, dan wordt het een regel in AGENTS.md of een test.>
+- <What did not work, and what you learned from it. If an agent mistake repeats, it becomes a line in AGENTS.md or a test.>
 
-## Volgende
+## Next
 
-- <Waar je morgen begint.>
+- <Where you start tomorrow.>

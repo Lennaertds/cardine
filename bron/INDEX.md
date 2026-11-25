@@ -1,7 +1,7 @@
 # Bron — waarom het zo is
 
 > **Rol:** De onderbouwing van de hele standaard: principes, de bronnen waar ze op steunen, en momentopnames van projecten die als voorbeeld dienen.
-> **Niet hier:** wat je doet. Dat staat in [standaard](../standaard/INDEX.md), [nieuw-project](../nieuw-project/INDEX.md) en [bestaand-project](../bestaand-project/INDEX.md).
+> **Niet hier:** wat je doet. Dat staat in [standaard](../standard/INDEX.md), [nieuw-project](../new-project/INDEX.md) en [bestaand-project](../existing-project/INDEX.md).
 
 **Nooit kopiëren naar een project.** Deze map lees je om te begrijpen of te verantwoorden waarom iets zo moet.
 
@@ -14,7 +14,7 @@
 | [bronnen-index.md](bronnen-index.md) | Inhoudsopgave per thema: vierlagen-stack, kernpraktijk, fundament-spiegel | Eerst hier kijken; alleen naar `bronnen.md` als je de samenvatting nodig hebt |
 | [bronnen.md](bronnen.md) | Samenvattingen (§1–§161) per thema + Type/URL per § + totaaloverzicht | Om een principe na te kijken of te citeren. Agents: begin bij de index |
 | [fundament/](fundament/INDEX.md) | Curriculum in 8 thema’s (modellen → ecosysteem): stubs + diepe stukken + [kenniskaart](fundament/kenniskaart.md). Opt-in; nooit always-on | Bachelor, LLM/agent-theorie, of wanneer een § te kort is. Agents: alleen JIT |
-| [stand-dep2.md](stand-dep2.md) | Momentopname van de structuur van Data_Engineering_Project_2 (oktober 2026), zoals het team ze beschreef | Alleen als bron voor [het DEP2-voorbeeld](../bestaand-project/voorbeelden/dep2.md) |
+| [stand-dep2.md](stand-dep2.md) | Momentopname van de structuur van Data_Engineering_Project_2 (oktober 2026), zoals het team ze beschreef | Alleen als bron voor [het DEP2-voorbeeld](../existing-project/examples/dep2.md) |
 
 ## Drie sporen
 
@@ -34,4 +34,4 @@
 
 ## Herzien
 
-Herzie de principes wanneer een meting uit [meten](../meten/INDEX.md) iets anders toont, of na een nieuwe generatie modellen of tools. Stand: oktober 2026.
+Herzie de principes wanneer een meting uit [meten](../measurement/INDEX.md) iets anders toont, of na een nieuwe generatie modellen of tools. Stand: oktober 2026.

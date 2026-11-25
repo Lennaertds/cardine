@@ -1,7 +1,7 @@
 # Kit-dekking en horizon — wat een project nodig kan hebben
 
 > **Rol:** Inventaris: wat de kit/standaard nú dekt vs. open behoeften en losse ideeën om later uit te werken. Geen kit-wijziging vanuit dit bestand alleen — eerst §/brug + akkoord.
-> **Niet hier:** operationele Make-tabel ([standaard/makefile](../../../standaard/makefile.md)); modulelijst ([kit/README](../../../kit/README.md)).
+> **Niet hier:** operationele Make-tabel ([standaard/makefile](../../../standard/makefile.md)); modulelijst ([kit/README](../../../kit/README.md)).
 
 Stand: oktober 2026 (na Strix + observability in kern/module). Herzien wanneer de kit groeit of na een bootstrap-ronde op GymFreak/Caddie.
 
@@ -152,7 +152,7 @@ Belangrijke dingen (security-scan, observability) hoorden eigenlijk vroeg in de 
 - **Repo:** `cardine` (sibling-repo, niet nested in deze tree). Workspace: `Student_Zelfstandige/Agent+Cardine.code-workspace`.
 - **Doel:** experimentele coding-agent/IDE met sterkere projectstructuur-integratie (indexing, structurele retrieval, …) — leerproject / mogelijk bachelor.
 - **Niet in kit:** Pi, DeepSeek Harness, eigen indexer — eerst § in `bron/`, dan brug. Lessen uit spoor 3 → spoor 2 → eventueel spoor 1.
-- **Meten:** zie [meten/INDEX — TODO sporen](../../../meten/INDEX.md#todo--sporen-vergelijken-okt-2026).
+- **Meten:** zie [meten/INDEX — TODO sporen](../../../measurement/INDEX.md#todo--sporen-vergelijken-okt-2026).
 
 ---
 

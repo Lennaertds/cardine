@@ -1,54 +1,54 @@
 # Desktop — type
 
-> **Rol:** Showcase-typografie. De product-ladder blijft leidend buiten de showcase.  
-> **Niet hier:** fonts ([materials-type](../../iphone/materials-type.md)).
+> **Role:** Showcase typography. The product ladder stays leading outside the showcase.
+> **Not here:** fonts ([materials-type](../../iphone/materials-type.md)).
 
-Drie families, geen vierde. `--font-sans` voor UI en body. `--font-mono` alleen voor een echte code of id. `--font-display` alleen voor de hero-claim en het woordmerk, en alleen als die override al achter de gate bestaat. Default display = sans.
+Three families, no fourth. `--font-sans` for UI and body. `--font-mono` only for real code or an id. `--font-display` only for the hero claim and the wordmark, and only if that override already exists behind the gate. Default display = sans.
 
-Product-schermen, ook ≥ 768px, blijven de ladder in [materials-type](../../iphone/materials-type.md). Deze file vergroot niets in het productpad.
+Product screens, also ≥ 768px, keep the ladder in [materials-type](../../iphone/materials-type.md). This file enlarges nothing in the product path.
 
-## 1. Rollen op showcase
+## 1. Roles on the showcase
 
-| Rol | Element | wide | regular | Weight | Leading | Tracking |
-|-----|---------|------|---------|--------|---------|----------|
+| Role | Element | wide | regular | Weight | Leading | Tracking |
+|------|---------|------|---------|--------|---------|----------|
 | **Claim** | Hero H1 | 64–72px | 44–52px | 700 | 1.05–1.12 | −0.03em |
-| **Sectietitel** | H2 | 32–36px | 28px | 650 | 1.15 | −0.02em |
-| **Lede** | Onder de claim | 20–22px | 18px | 450 | 1.45 | 0 |
-| **Body** | Proza | 17–18px | 17px | 400 | 1.55 | 0 |
-| **Label** | Op glas, eyebrow | 13px | 13px | 600 | 1.2 | 0.01em |
-| **Meta** | Bron, voetnoot | 13px | 13px | 450 | 1.35 | 0 |
+| **Section title** | H2 | 32–36px | 28px | 650 | 1.15 | −0.02em |
+| **Lede** | Under the claim | 20–22px | 18px | 450 | 1.45 | 0 |
+| **Body** | Prose | 17–18px | 17px | 400 | 1.55 | 0 |
+| **Label** | On glass, eyebrow | 13px | 13px | 600 | 1.2 | 0.01em |
+| **Meta** | Source, footnote | 13px | 13px | 450 | 1.35 | 0 |
 
-Claim en sectietitel mogen `clamp()` binnen de band hierboven. Body niet: 17px is de vloer.
+Claim and section title may use `clamp()` within the band above. Body may not: 17px is the floor.
 
-Geen all-caps sectietitels op de showcase. Product-skins mogen uppercase in het product; de showcase negeert dat.
+No all-caps section titles on the showcase. Product skins may use uppercase in the product; the showcase ignores that.
 
-## 2. Hiërarchie
+## 2. Hierarchy
 
-- Eén H1 per pagina. Op de landing is dat de claim.
-- H2 = sectietitel. Hooguit één per sectie.
-- Een H3 in een feature-kolom is de kolomnaam, zelfde maat als body + weight 650. Geen derde display-grootte.
+- One H1 per page. On the landing page that is the claim.
+- H2 = section title. At most one per section.
+- An H3 in a feature column is the column name, same size as body + weight 650. No third display size.
 - Lede is `--foreground`. Meta is `--muted`.
-- Cijfers in een demo-chart: `.type-numeric`.
+- Numbers in a demo chart: `.type-numeric`.
 
-## 3. Maat en klasse
+## 3. Size and class
 
-Showcase-claim gebruikt een showcase-class (of `.type-display` als die op die route bewust groter wordt gezet). Niet `text-6xl` los in een component, en niet `--type-display` op de product-root verhogen.
+The showcase claim uses a showcase class (or `.type-display` if that route deliberately makes it bigger). Not `text-6xl` loose in a component, and do not raise `--type-display` on the product root.
 
-Knoppen: 15–16px, weight 600. Dat is chrome, geen titelrol.
+Buttons: 15–16px, weight 600. That is chrome, not a title role.
 
-## 4. Proza
+## 4. Prose
 
-- Links uitgelijnd. Maat: 65–72 tekens op wide (band 60–75). Op narrow 35–60.
-- Body-leading blijft 1.55. Dat zit in 1.5–1.75. Niet oprekken naar 1.75 om “lucht” te veinzen.
-- Gewicht nooit onder 400. Koppen 650–700. Labels 600.
-- Geen uitgevulde tekst. Geen gecentreerde alinea’s. Een korte claim mag centreren op wide.
-- Geen gradient-text, geen outline-text.
-- `text-wrap: balance` mag op de claim en de sectietitel, als extra. De natuurlijke wrap moet ook kloppen.
-- URL’s en ids: `overflow-wrap: anywhere`. Gewone zinnen niet breken met `word-break: break-all`.
-- Niets onder 13px. Body niet onder 16px. 13px is alleen label en meta.
+- Left-aligned. Measure: 65–72 characters on wide (band 60–75). On narrow 35–60.
+- Body leading stays 1.55. That is inside 1.5–1.75. Do not stretch to 1.75 to feign "air".
+- Weight never below 400. Headings 650–700. Labels 600.
+- No justified text. No centred paragraphs. A short claim may centre on wide.
+- No gradient text, no outline text.
+- `text-wrap: balance` may be used on the claim and the section title, as an extra. The natural wrap must also be right.
+- URLs and ids: `overflow-wrap: anywhere`. Do not break ordinary sentences with `word-break: break-all`.
+- Nothing below 13px. Body not below 16px. 13px is label and meta only.
 
-## 5. Koppen-ladder
+## 5. Heading ladder
 
-H1, dan H2, dan H3. Geen niveau overslaan. Eén H1.
+H1, then H2, then H3. Do not skip a level. One H1.
 
-**Test:** hero-H1 valt in de claim-band; een product-H1 op een breed venster volgt de product-ladder. DevTools toont geen vierde font-family. Een prozaregel op wide blijft onder 75 tekens.
+**Test:** the hero H1 falls in the claim band; a product H1 in a wide window follows the product ladder. DevTools shows no fourth font-family. A prose line on wide stays under 75 characters.

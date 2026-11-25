@@ -1,33 +1,33 @@
 # docs/agent/
 
-> **Rol:** Agent-werkwijze die niet bij elke taak geladen moet worden: schrijfrechten, docconventies, lessen bij meta-taken, herbruikbare prompts.
-> **Niet hier:** wat bij elke taak geldt ([agents-root](agents-root.md)).
+> **Role:** Agent working method that should not be loaded on every task: write permissions, doc conventions, lessons on meta tasks, reusable prompts.
+> **Not here:** what applies to every task ([agents-root](agents-root.md)).
 
-**Kitbestanden:** [write-rules.md](../kit/modules/agent/docs/agent/write-rules.md), [doc-conventions.md](../kit/modules/agent/docs/agent/doc-conventions.md), [lessons.md](../kit/modules/agent/docs/agent/lessons.md), `prompts/` · module `agent`
+**Kit files:** [write-rules.md](../kit/modules/agent/docs/agent/write-rules.md), [doc-conventions.md](../kit/modules/agent/docs/agent/doc-conventions.md), [lessons.md](../kit/modules/agent/docs/agent/lessons.md), `prompts/` · module `agent`
 
-## Wanneer
+## When
 
-Als `AGENTS.md` te lang wordt door regels die alleen bij één soort taak gelden: schrijven in docs, refactors over het hele project, herbruikbare prompts. Zo blijft de root kort (P1) en staat de rest één link verder (P2).
+When `AGENTS.md` gets too long because of rules that only apply to one kind of task: writing docs, refactors across the whole project, reusable prompts. That keeps the root short (P1) and puts the rest one link away (P2).
 
-## Invullen
+## Filling in
 
-| Bestand | Wat | Verwijzing in `AGENTS.md` |
-|---------|-----|---------------------------|
-| `write-rules.md` | per pad: vrij, na toestemming, nooit, met het waarom. Geen leesroutes per soort opdracht — die horen in `AGENTS.md` § Werken | "Mag ik dit bestand schrijven? → write-rules" |
-| `doc-conventions.md` | kopregel, toon, tabellen of proza, lengte | "Een doc schrijven of herschrijven → doc-conventions" |
-| `lessons.md` | datum, wat misliep, de les | geen; wat bij elke taak geldt, verhuist naar `AGENTS.md` |
-| `prompts/<taak>.md` | een prompt die je vaker gebruikt (review, release-notes) | geen; je roept hem zelf op met `@` |
+| File | What | Reference in `AGENTS.md` |
+|------|------|-------------------------|
+| `write-rules.md` | per path: free, after permission, never, with the why. No read routes per kind of task — those belong in `AGENTS.md` § Working | "May I write this file? → write-rules" |
+| `doc-conventions.md` | header, tone, tables or prose, length | "Writing or rewriting a doc → doc-conventions" |
+| `lessons.md` | date, what went wrong, the lesson | none; what applies to every task moves to `AGENTS.md` |
+| `prompts/<task>.md` | a prompt you use regularly (review, release notes) | none; you call it yourself with `@` |
 
-## Voorbeeld (GymFreak, `lessons.md`)
+## Example (GymFreak, `lessons.md`)
 
 ```markdown
-| Datum | Wat misliep | Les |
-|-------|-------------|-----|
-| 2026-09-12 | De agent herschreef een oud besluit in DECISIONS.md in plaats van een nieuw toe te voegen | ADR's nooit wijzigen; staat nu in AGENTS.md § Nooit |
-| 2026-10-02 | Bij "ruim de docs op" verwijderde de agent ook `archive/` | Meta-taken eerst als plan voorleggen; staat nu in write-rules (archive: na toestemming) |
+| Date | What went wrong | Lesson |
+|------|-----------------|--------|
+| 2026-09-12 | The agent rewrote an old decision in DECISIONS.md instead of adding a new one | Never modify ADRs; now in AGENTS.md § Never |
+| 2026-10-02 | On "clean up the docs" the agent also deleted `archive/` | Present meta tasks as a plan first; now in write-rules (archive: after permission) |
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Elk bestand in deze map heeft precies één verwijzing in `AGENTS.md`, of geen als het alleen voor jou is.
-- [ ] Geen regel staat zowel hier als in `AGENTS.md`.
+- [ ] Every file in this folder has exactly one reference in `AGENTS.md`, or none if it is only for you.
+- [ ] No rule appears both here and in `AGENTS.md`.

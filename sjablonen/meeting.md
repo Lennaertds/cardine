@@ -1,45 +1,45 @@
-# docs/work/meetings/YYYY-MM-DD-&lt;met-wie&gt;.md
+# docs/work/meetings/YYYY-MM-DD-&lt;with-whom&gt;.md
 
-> **Rol:** Verslag van een overleg met klant, coach of team: wat besproken, wat beslist, wie doet wat.
-> **Niet hier:** het besluit zelf als het over het systeem gaat ([adr](adr.md)).
+> **Role:** Minutes of a meeting with client, coach or team: what was discussed, what was decided, who does what.
+> **Not here:** the decision itself when it is about the system ([adr](adr.md)).
 
-**Kitbestand:** [kit/modules/meetings/docs/work/meetings/_template.md](../kit/modules/meetings/docs/work/meetings/_template.md) · module `meetings` (komt automatisch met `--team`)
+**Kit file:** [kit/modules/meetings/docs/work/meetings/_template.md](../kit/modules/meetings/docs/work/meetings/_template.md) · module `meetings` (comes automatically with `--team`)
 
-## Wanneer
+## When
 
-Na elk overleg waarin iets beslist of afgesproken werd. Een stand-up zonder besluiten: niet.
+After every meeting in which something was decided or agreed. A stand-up without decisions: no.
 
 ```bash
-make meeting met=klant     # docs/work/meetings/2026-10-19-klant.md
+make meeting met=client     # docs/work/meetings/2026-10-19-client.md
 ```
 
-## Invullen
+## Filling in
 
-1. **Aanwezig en doel:** rollen volstaan.
-2. **Besproken:** kort, de punten.
-3. **Besluiten:** wat vastligt. Raakt het het systeem, dan maak je meteen een ADR en link je die hier.
-4. **Acties:** wie, wat, tegen wanneer. In een team gaan ze ook als issue in de tracker.
+1. **Present and goal:** roles are enough.
+2. **Discussed:** briefly, the points.
+3. **Decisions:** what is fixed. If it touches the system, write an ADR straight away and link it here.
+4. **Actions:** who, what, by when. In a team they also go into the tracker as issues.
 
-## Voorbeeld (DEP2)
+## Example (DEP2)
 
 ```markdown
-# 2026-10-14 — klant
+# 2026-10-14 — client
 
-- **Aanwezig:** klant (CADS), coach, team
-- **Doel:** welke dronevluchten tellen voor case 2
+- **Present:** client (CADS), coach, team
+- **Goal:** which drone flights count for case 2
 
-## Besluiten
+## Decisions
 
-- Alleen vluchten met een orthomosaic van ≥ 1 cm/pixel tellen mee → ADR 0003.
+- Only flights with an orthomosaic of ≥ 1 cm/pixel count → ADR 0003.
 
-## Acties
+## Actions
 
-| Wie | Wat | Tegen |
-|-----|-----|-------|
-| Pieter | Lijst van geldige vluchten aan de klant bezorgen | 2026-10-21 |
+| Who | What | By |
+|-----|------|----|
+| Pieter | Send the client the list of valid flights | 2026-10-21 |
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Elk besluit over het systeem heeft een ADR.
-- [ ] Geen persoonsgegevens van de klant buiten naam en rol.
+- [ ] Every decision about the system has an ADR.
+- [ ] No personal data of the client beyond name and role.

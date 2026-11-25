@@ -1,5 +1,5 @@
-# Harde native FFI-checks (NATIVE_STRICT). Soft blijft in check.yml → make check.
-# Schrap of disable deze workflow als het project geen apps/native of apps/native-c heeft.
+# Hard native FFI checks (NATIVE_STRICT). Soft stays in check.yml → make check.
+# Remove or disable this workflow if the project has no apps/native or apps/native-c.
 name: native
 
 on:

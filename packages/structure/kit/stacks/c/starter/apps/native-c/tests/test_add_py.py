@@ -1,4 +1,4 @@
-"""Smoke voor ctypes-starter. Werkt met fallback zonder .so."""
+"""Smoke test for the ctypes starter. Works with the fallback without the .so."""
 
 from __future__ import annotations
 

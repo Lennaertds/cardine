@@ -1,30 +1,30 @@
 # Stack next — `apps/web`
 
-> **Rol:** Een Next.js-app opzetten volgens [stacks §2](../../../standaard/stacks.md#2-nextjs-web). Dit bestand wordt niet gekopieerd.
+> **Role:** Set up a Next.js app following [stacks §2](../../../standard/stacks.md#2-nextjs-web). This file is not copied.
 
-## 1. Generator (eerst, in een lege `apps/web`)
+## 1. Generator (first, in an empty `apps/web`)
 
 ```bash
 pnpm create next-app@latest apps/web --ts --eslint --app --src-dir --tailwind --use-pnpm --import-alias '@/*' --skip-install
 ```
 
-`create-next-app` weigert een map die niet leeg is. Draai daarom eerst de generator en kopieer daarna de kit.
+`create-next-app` refuses a folder that is not empty. So run the generator first and copy the kit afterwards.
 
-## 2. Kit erover
+## 2. Kit on top
 
 ```bash
 kit/new-project.sh <project> --stacks next
 ```
 
-Dit voegt `app.mk`, `AGENTS.md`, `.env.example` en de mappen `src/features/`, `src/components/{ui,layout}/` en `tests/{e2e,smoke}/` toe. Bestaande bestanden worden nooit overschreven. Heeft de generator al een `AGENTS.md` gemaakt, dan neem je de regels uit de kit-versie met de hand over.
+This adds `app.mk`, `AGENTS.md`, `.env.example` and the folders `src/features/`, `src/components/{ui,layout}/` and `tests/{e2e,smoke}/`. Existing files are never overwritten. If the generator already created an `AGENTS.md`, take the rules from the kit version over by hand.
 
-## 3. Scripts en dev-dependencies
+## 3. Scripts and dev dependencies
 
 ```bash
 pnpm --dir apps/web add -D vitest @vitejs/plugin-react jsdom @testing-library/react @playwright/test prettier
 ```
 
-`app.mk` roept deze scripts aan. Voeg ze toe aan `apps/web/package.json`:
+`app.mk` calls these scripts. Add them to `apps/web/package.json`:
 
 ```json
 {
@@ -42,7 +42,7 @@ pnpm --dir apps/web add -D vitest @vitejs/plugin-react jsdom @testing-library/re
 }
 ```
 
-## 4. Controleren
+## 4. Check
 
 ```bash
 make setup && make check && make dev-web

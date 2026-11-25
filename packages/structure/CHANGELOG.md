@@ -1,5 +1,13 @@
 # Changelog — cardine-structure
 
+## [0.5.1] — 2026-11-24
+
+### Changed
+- The package is in English now (ADR 0018): README, package docs and the
+  `new-project.sh` help text and output. Profile names (`app`, `research`,
+  `studie`, `schoolwerk`) are unchanged — they are data, not prose.
+- `kit/new-project.sh` is mirrored from `kit/` via `sync_kit.sh`.
+
 ## [0.5.0] — 2026-11-24
 
 ### Changed

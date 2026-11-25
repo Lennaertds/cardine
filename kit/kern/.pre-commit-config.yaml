@@ -1,4 +1,4 @@
-# Git-hooks die vóór elke commit draaien. Installeren: make setup. Bijwerken: pre-commit autoupdate
+# Git hooks that run before every commit. Install: make setup. Update: pre-commit autoupdate
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
@@ -18,13 +18,13 @@ repos:
   - repo: local
     hooks:
       - id: no-private-data
-        name: geen ruwe, externe of runtime-data in git
+        name: no raw, external or runtime data in git
         language: fail
-        entry: deze bestanden horen niet in git (data/raw, external, interim, runtime, models)
+        entry: these files do not belong in git (data/raw, external, interim, runtime, models)
         files: '^data/(raw|external|interim|runtime|models)/'
         exclude: '(README\.md|\.gitkeep)$'
       - id: no-sync-conflicts
-        name: geen sync-conflictbestanden
+        name: no sync-conflict files
         language: fail
-        entry: verwijder de sync-conflictbestanden
+        entry: remove the sync-conflict files
         files: '\.sync-conflict-'

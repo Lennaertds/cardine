@@ -1,44 +1,44 @@
 # Digest — inbound feeds
 
-> **Rol:** Periodieke *inbound* hits (changelogs, advisories, papers) ophalen en voorstellen — vóór ze op de radar of in § belanden.
-> **Niet hier:** de tech-radar zelf ([radar.md](../radar.md)); wantlist ([wantlist.md](../wantlist.md)); feed-dumps als waarheid (P5).
+> **Role:** Fetch and propose periodic *inbound* hits (changelogs, advisories, papers) — before they land on the radar or in §.
+> **Not here:** the tech radar itself ([radar.md](../radar.md)); wantlist ([wantlist.md](../wantlist.md)); feed dumps as truth (P5).
 
-Ruwe dumps: `data/external/digest/` (gitignored behalve README/`.gitkeep`). Voorstellen: `proposals/` (wél in git). **Cureren** blijft mens/agent: niets uit een feed is SSOT.
+Raw dumps: `data/external/digest/` (gitignored except README/`.gitkeep`). Proposals: `proposals/` (in git). **Curation** stays human/agent: nothing from a feed is SSOT.
 
-## Ritueel
+## Ritual
 
-1. `SOURCES.example.md` → `SOURCES.md` en vul echte feed-URL’s in.
+1. `SOURCES.example.md` → `SOURCES.md` and fill in real feed URLs.
 2. `make digest-fetch` — RSS/Atom → `data/external/digest/<YYYY-MM-DD>-<slug>/` (`raw.xml` + `items.md`).
-3. `make digest-propose` — kandidaat-rijen in `proposals/<datum>-draft.md` (wijzigt **niet** `radar.md`).
-4. Review → geaccepteerde rijen handmatig naar [radar.md](../radar.md) / wantlist / (Agent Engineering) `bron/bronnen.md` §.
-5. Team: workflow `.github/workflows/digest.yml` opent een **draft-PR** met alleen het voorstel.
-6. `make digest-check` na structurele edits.
+3. `make digest-propose` — candidate rows in `proposals/<date>-draft.md` (does **not** change `radar.md`).
+4. Review → accepted rows manually to [radar.md](../radar.md) / wantlist / (Agent Engineering) `bron/bronnen.md` §.
+5. Team: workflow `.github/workflows/digest.yml` opens a **draft PR** with only the proposal.
+6. `make digest-check` after structural edits.
 
 Offline/test: `DIGEST_FIXTURE=docs/research/digest/fixtures/example.rss make digest-fetch`.
 
-## Bronnenlijst
+## Source list
 
-Kopieer [SOURCES.example.md](SOURCES.example.md) → `SOURCES.md`. Geen secrets in URLs met tokens. Fixture: [fixtures/example.rss](fixtures/example.rss).
+Copy [SOURCES.example.md](SOURCES.example.md) → `SOURCES.md`. No secrets in URLs with tokens. Fixture: [fixtures/example.rss](fixtures/example.rss).
 
-## Commando's
+## Commands
 
 ```bash
-make digest-check       # scaffold-structuur; module research
-make digest-reminder    # tip
-make digest-fetch       # live of DIGEST_FIXTURE=…; DIGEST_DRY_RUN=1
+make digest-check       # scaffold structure; module research
+make digest-reminder    # hint
+make digest-fetch       # live or DIGEST_FIXTURE=…; DIGEST_DRY_RUN=1
 make digest-propose     # proposals/*-draft.md; DIGEST_DRY_RUN=1
 ```
 
 How-to: [../../how-to/digest.md](../../how-to/digest.md).
 
-## Bewust later
+## Deliberately later
 
-Vaste kop (P28): vraag ernaar of BACKLOG als dit nodig wordt.
+Fixed heading (P28): ask for it or file it in BACKLOG when this becomes needed.
 
-| Uitbreiding | Waarom later | Vraag als |
-|-------------|--------------|-----------|
-| Auto-merge van voorstel-rijen in `radar.md` | P5 — feeds zijn geen SSOT | Team wil zero-touch Adopt/Trial |
-| LLM-samenvatting van feed-items | Extra modelkosten / noise (P25) | Voorstel te lang om handmatig te lezen |
-| Digest in **kern** (elk project) | Opt-in via `research` | Project zonder research wil toch digest |
-| Always-on in AGENTS | Harness tax (P25) | Elke taak moet feeds zien (meestal niet) |
-| HTML-scraping (niet RSS/Atom) | Fragiel, ToS, supply-chain | Bron heeft geen feed |
+| Extension | Why later | Ask when |
+|-----------|-----------|----------|
+| Auto-merge of proposal rows into `radar.md` | P5 — feeds are not SSOT | Team wants zero-touch Adopt/Trial |
+| LLM summary of feed items | Extra model cost / noise (P25) | Proposals are too long to read by hand |
+| Digest in **kern** (every project) | Opt-in via `research` | A project without research still wants a digest |
+| Always-on in AGENTS | Harness tax (P25) | Every task must see feeds (usually not) |
+| HTML scraping (not RSS/Atom) | Fragile, ToS, supply chain | A source has no feed |

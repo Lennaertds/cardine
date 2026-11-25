@@ -1,4 +1,4 @@
-# web (apps/web) — make-targets van deze app. De root-Makefile neemt dit bestand automatisch op.
+# web (apps/web) — make targets of this app. The root Makefile picks this file up automatically.
 WEB_DIR := apps/web
 WEB_PORT ?= 3000
 

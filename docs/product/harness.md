@@ -1,46 +1,46 @@
 # Harness
 
-> **Rol:** Bijhouden van de agent-loop — runtime, permissions, sessions, routing naar tools/LLM/indexing.
-> **Niet hier:** modelkeuze ([llm.md](llm.md)); samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Role:** maintaining the agent loop — runtime, permissions, sessions, routing to tools/LLM/indexing.
+> **Not here:** model choice ([llm.md](llm.md)); relations ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** beslist · **ADR:** [0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) · **Spec weg** — besluit in ADR, vorm in product-doc · bronnen: §76 Pi, §77 DSH
+**State:** decided · **ADR:** [0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md) · **Spec gone** — decision in the ADR, shape in the product doc · sources: §76 Pi, §77 DSH
 
-## Wat de gebruiker kan
+## What the user can do
 
-- Lokaal een agent-loop starten die tools aanroept, indexing bevraagt, structure respecteert, en via BYOK een model praat — meetbaar en herhaalbaar. Zed toont het gesprek; de loop is niet Zed Agent.
+- Start an agent loop locally that calls tools, queries indexing, respects structure, and talks to a model via BYOK — measurably and repeatably. Zed shows the conversation; the loop is not Zed Agent.
 
-## Besluit
+## Decision
 
-**DeepSeek Harness**, upstream, geen fork, apart proces ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md)). Zed start `dsh --profile acp`. Indexing komt binnen als MCP. [ADR 0001](../decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) blijft gelden voor eigen app-code: geen `apps/` en geen `--starter`.
+**DeepSeek Harness**, upstream, no fork, a separate process ([ADR 0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md)). Zed starts `dsh --profile acp`. Indexing comes in as MCP. [ADR 0001](../decisions/0001-runtime-stack-deliberately-deferred-until-an-explicit-pi-or-ts-choice.md) still applies to our own app code: no `apps/` and no `--starter`.
 
-Pi komt alleen terug als een latere ACP-smoke faalt (Zed start DSH niet, of MCP mount faalt). Deze ADR kiest Pi niet. Geen DeepInfer. Geen eigen loop.
+Pi comes back only if a later ACP smoke test fails (Zed does not start DSH, or the MCP mount fails). This ADR does not choose Pi. No DeepInfra. No own loop.
 
-| Kandidaat | Sterkte | Risico |
-|-----------|---------|--------|
-| DSH (gekozen) | ACP-profiel, MCP-client, plugins, DeepSeek-fit, MIT, upstream-updates | Preview/breaking; breder dan lab-minimum |
-| Pi | Minimaal, TS, SDK/RPC | Alleen als ACP-smoke faalt |
-| Eigen loop | Max controle | Traag / heruitvinden — niet gekozen |
+| Candidate | Strength | Risk |
+|-----------|----------|------|
+| DSH (chosen) | ACP profile, MCP client, plugins, DeepSeek fit, MIT, upstream updates | Preview/breaking; broader than the lab minimum |
+| Pi | Minimal, TS, SDK/RPC | Only if the ACP smoke test fails |
+| Own loop | Maximum control | Slow / reinventing — not chosen |
 
-## Stand van zaken
+## Current state
 
-| Onderwerp | Status | Notitie |
-|-----------|--------|---------|
-| Basis H1 | beslist | DSH, geen fork — [ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md) |
-| Embed vs apart process H2 | beslist | Apart proces; Zed praat ACP |
-| Profile H3 | beslist | `acp` (niet web/headless als UI) |
-| Indexing als plugin vs MCP H4 | beslist | Externe MCP uit het indexing-contract |
-| Upstream vs fork H5 | beslist | Upstream volgen; fork vraagt een latere ja |
-| ADR / apps-code | import beslist | [0001](../decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md) blijft: geen `apps/` |
-| Lab-install | staat | Pin `0.2.2-rc.1`, Zed-koppeling, key en jarvis-mount: [zed-dsh](../how-to/zed-dsh.md). Een al open Zed-thread ziet de tool nog niet |
+| Topic | Status | Note |
+|-------|--------|------|
+| Base H1 | decided | DSH, no fork — [ADR 0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md) |
+| Embed vs separate process H2 | decided | Separate process; Zed talks ACP |
+| Profile H3 | decided | `acp` (not web/headless as the UI) |
+| Indexing as plugin vs MCP H4 | decided | External MCP from the indexing contract |
+| Upstream vs fork H5 | decided | Follow upstream; a fork needs a later yes |
+| ADR / apps code | import decided | [0001](../decisions/0001-runtime-stack-deliberately-deferred-until-an-explicit-pi-or-ts-choice.md) stays: no `apps/` |
+| Lab install | stands | Pin `0.2.2-rc.1`, Zed coupling, key and jarvis mount: [zed-dsh](../how-to/zed-dsh.md). A Zed thread that is already open does not see the tool yet |
 
-## Raakvlakken
+## Interfaces
 
-- Aan: [tools.md](tools.md), [indexing.md](indexing.md), [structure.md](structure.md), [llm.md](llm.md), [session-spine.md](session-spine.md)
-- UI: [agent-ui.md](agent-ui.md) (Zed-panel, af)
+- To: [tools.md](tools.md), [indexing.md](indexing.md), [structure.md](structure.md), [llm.md](llm.md), [session-spine.md](session-spine.md)
+- UI: [agent-ui.md](agent-ui.md) (Zed panel, done)
 - Host: [ide-shell.md](ide-shell.md)
 
-## Bewust niet
+## Deliberately not
 
-- Inference-serving.
-- Feature-pariteit met Cursor Cloud Agents.
-- DSH in de Zed-binary stoppen, of Zed Agent ernaast aan laten staan.
+- Inference serving.
+- Feature parity with Cursor Cloud Agents.
+- Putting DSH inside the Zed binary, or leaving Zed Agent running beside it.

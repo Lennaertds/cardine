@@ -1,53 +1,53 @@
 # Security
 
-> **Rol:** Welke gevoelige gegevens er zijn, waar ze staan, en hoe ze beschermd worden.
-> **Niet hier:** de "nooit"-regels voor de agent ([AGENTS.md](../../AGENTS.md)), het privacybeleid in mensentaal (`business/`).
+> **Role:** which sensitive data exists, where it lives, and how it is protected.
+> **Not here:** the "never" rules for the agent ([AGENTS.md](../../AGENTS.md)); the privacy policy in plain language (`business/`).
 
-## Persoonsgegevens
+## Personal data
 
-| Gegeven | Waar | Wie leest | Bewaartermijn |
-|---------|------|-----------|---------------|
-| <e-mail, wachtwoordhash> | <Postgres, tabel `user`> | <API> | <tot account verwijderd> |
+| Data | Where | Who reads it | Retention |
+|------|-------|--------------|-----------|
+| <email, password hash> | <Postgres, table `user`> | <API> | <until the account is deleted> |
 
 ## Secrets
 
-| Secret | Waar het leeft | Wie het nodig heeft |
-|--------|----------------|---------------------|
-| <`JWT_SECRET`> | <`.env` lokaal, variabele bij de host in productie> | <API> |
+| Secret | Where it lives | Who needs it |
+|--------|----------------|--------------|
+| <`JWT_SECRET`> | <`.env` locally, an environment variable at the host in production> | <API> |
 
-## Authenticatie en autorisatie
+## Authentication and authorisation
 
-<Hoe een gebruiker zich aanmeldt, hoe lang een sessie geldt, wie wat mag zien.>
+<How a user signs in, how long a session lasts, who may see what.>
 
-## Dreigingen en maatregelen
+## Threats and measures
 
-| Dreiging | Maatregel | Bewaakt door |
-|----------|-----------|--------------|
-| <Upload van een kwaadaardig bestand> | <type en grootte controleren, nooit uitvoeren> | <test `upload.spec.ts`> |
-| Supply-chain: npm/pip/cargo installatiescripts lezen SSH-keys, .env, bestanden | Containers isoleren install: `make container-setup`, daarna `npm-safe`/`pip-safe`/`cargo-safe` gebruiken. Zie [how-to](../how-to/container-safe.md). | `AGENTS.md` commando-regel + `make container-setup` bij projectstart |
+| Threat | Measure | Guarded by |
+|--------|---------|------------|
+| <Upload of a malicious file> | <check type and size, never execute> | <test `upload.spec.ts`> |
+| Supply chain: npm/pip/cargo install scripts read SSH keys, .env, files | Containers isolate the install: `make container-setup`, then use `npm-safe`/`pip-safe`/`cargo-safe`. See [how-to](../how-to/container-safe.md). | `AGENTS.md` command rule + `make container-setup` at project start |
 
-## Actieve security-validatie (Strix)
+## Active security validation (Strix)
 
-Autonome pentest-agents die findings met **werkende PoC** valideren (niet alleen SAST-warnings). Standaardtool: [Strix](https://strix.ai/) (CLI + optionele coding-agent skills). Naslag in de standaard-repo: bron §47.
+Autonomous pentest agents that validate findings with a **working PoC** (not just SAST warnings). Default tool: [Strix](https://strix.ai/) (CLI + optional coding-agent skills). Reference in the source repo: §47.
 
-| Wat | Afspraak |
-|-----|----------|
-| Wanneer | Voor release / na auth- of API-wijzigingen; niet bij elke micro-fix |
-| Commando | `make security-scan-quick` of `make security-scan` (zie [how-to](../how-to/security-scan.md)) |
-| Scope | Alleen eigen code, staging, of targets met expliciete toestemming |
-| Vereisten | Docker + `strix` + LLM-API-key |
-| Niet in | `make check` (te traag, niet-deterministisch, kost tokens) |
-| Skills | Optioneel: `npx skills add usestrix/strix` |
+| What | Agreement |
+|------|-----------|
+| When | Before a release / after auth or API changes; not on every micro-fix |
+| Command | `make security-scan-quick` or `make security-scan` (see [how-to](../how-to/security-scan.md)) |
+| Scope | Your own code only, staging, or targets with explicit permission |
+| Requirements | Docker + `strix` + an LLM API key |
+| Not in | `make check` (too slow, non-deterministic, costs tokens) |
+| Skills | Optional: `npx skills add usestrix/strix` |
 
-Ontbreekt installatie of key: target faalt met uitleg → regel in `docs/work/BACKLOG.md` (§ Straks), docs blijven de waarheid over *hoe*. Bewuste weglatingen: [Bewust later](#bewust-later) (P28).
+Missing install or key: the target fails with an explanation → an item in `docs/work/BACKLOG.md` (§ Later), while the docs remain the truth about *how*. Deliberate omissions: [Deliberately later](#deliberately-later) (P28).
 
-## Bewust later
+## Deliberately later
 
-Vaste kop (P28): vraag ernaar of BACKLOG als dit nodig wordt.
+Fixed heading (P28): ask about it or file a BACKLOG item when this becomes needed.
 
-| Uitbreiding | Waarom later | Vraag als |
-|-------------|--------------|-----------|
-| Strix/Docker/LLM-key altijd geïnstalleerd in CI | Runtime is projectkeuze; docs + Make blijven | Scans moeten in nachtelijke CI zonder handwerk |
-| Alternatieve scanner i.p.v. Strix | Eén default voorkomt tool-chaos | Strix past niet (policy, air-gap) → ADR |
-| DPA / AVG-operationele checklist in kern | Deels in security + business-module | School/klant eist vaste privacy-checklist |
-| Secrets-manager-module (Vault e.d.) | `security.md` + `.env.example` volstaan lokaal | Productie deelt geen env-vars meer veilig |
+| Extension | Why later | Ask when |
+|-----------|-----------|----------|
+| Strix/Docker/LLM key always installed in CI | The runtime is a project choice; docs + Make stay | Scans must run in nightly CI without manual work |
+| An alternative scanner instead of Strix | One default prevents tool chaos | Strix does not fit (policy, air-gap) → ADR |
+| DPA / GDPR operational checklist in the core | Partly in security + the business module | A school/customer demands a fixed privacy checklist |
+| Secrets manager module (Vault etc.) | `security.md` + `.env.example` suffice locally | Production no longer shares env vars safely |

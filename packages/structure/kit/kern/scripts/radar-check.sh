@@ -8,28 +8,28 @@ cd "$ROOT"
 file=docs/research/radar.md
 die() { echo "radar-check: $*" >&2; exit 1; }
 
-[[ -f "$file" ]] || die "ontbreekt $file (kit: --modules research)."
+[[ -f "$file" ]] || die "missing $file (kit: --modules research)."
 
-for heading in "## Ritueel" "## Laatst herzien" "## Ringen" "## Radar" "## Commando's" "## Bewust later"; do
-  grep -qF "$heading" "$file" || die "sectie ontbreekt in $file: $heading"
+for heading in "## Ritual" "## Last reviewed" "## Rings" "## Radar" "## Commands" "## Deliberately later"; do
+  grep -qF "$heading" "$file" || die "section missing in $file: $heading"
 done
 
-grep -qE 'Laatst herzien:' "$file" || die "regel 'Laatst herzien:' ontbreekt in $file"
+grep -qE 'Last reviewed:' "$file" || die "the line 'Last reviewed:' is missing in $file"
 
 for ring in Adopt Trial Assess Hold; do
-  grep -qF "$ring" "$file" || die "ring '$ring' ontbreekt in $file"
+  grep -qF "$ring" "$file" || die "ring '$ring' missing in $file"
 done
 
-for cat in talen frameworks deps tooling; do
-  grep -qiE "$cat" "$file" || die "categorie '$cat' ontbreekt in $file"
+for cat in languages frameworks deps tooling; do
+  grep -qiE "$cat" "$file" || die "category '$cat' missing in $file"
 done
 
 awk '
-  /^## Bewust later$/ { in_sec=1; next }
+  /^## Deliberately later$/ { in_sec=1; next }
   in_sec && /^## / { exit found ? 0 : 1 }
-  in_sec && /^\|/ && $0 !~ /^\|[[:space:]:|-]+\|$/ && $0 !~ /Uitbreiding/ { found=1 }
+  in_sec && /^\|/ && $0 !~ /^\|[[:space:]:|-]+\|$/ && $0 !~ /Extension/ { found=1 }
   END { exit found ? 0 : 1 }
-' "$file" || die "tabel onder ## Bewust later mist uitbreidingsrijen (P28)"
+' "$file" || die "table under ## Deliberately later has no extension rows (P28)"
 
 # Minstens één datarij in de Radar-tabel (header + separator + rij).
 awk '
@@ -39,6 +39,6 @@ awk '
   END { exit rows >= 1 ? 0 : 1 }
 ' "$file" || die "Radar-tabel mist rijen (vervang of houd voorbeeldrijen)"
 
-echo "ok    $file (vaste secties aanwezig, incl. Bewust later)"
-echo "Tip: maandelijks make radar-reminder; Adopt/Hold met impact → make adr."
+echo "ok    $file (fixed sections present, incl. Deliberately later)"
+echo "Tip: run make radar-reminder monthly; Adopt/Hold with impact → make adr."
 echo "radar-check: groen"

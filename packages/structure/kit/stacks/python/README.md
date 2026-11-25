@@ -1,6 +1,6 @@
 # Stack python — `apps/analytics`
 
-> **Rol:** Een Python-app voor data, ML of analytics opzetten volgens [stacks §4](../../../standaard/stacks.md#4-python-data-ml-analytics). Dit bestand wordt niet gekopieerd.
+> **Role:** Set up a Python app for data, ML or analytics following [stacks §4](../../../standard/stacks.md#4-python-data-ml-analytics). This file is not copied.
 
 ## 1. Generator
 
@@ -9,19 +9,19 @@ uv init --package apps/analytics
 uv --directory apps/analytics add --dev pytest ruff mypy
 ```
 
-Een andere naam dan `analytics`? Hernoem dan na het kopiëren `apps/analytics/`, `src/analytics/` en `ANALYTICS_` in `app.mk`.
+A different name than `analytics`? After copying, rename `apps/analytics/`, `src/analytics/` and `ANALYTICS_` in `app.mk`.
 
-## 2. Kit erover
+## 2. Kit on top
 
 ```bash
 kit/new-project.sh <project> --stacks python --starter
 ```
 
-Dit voegt `app.mk`, `AGENTS.md`, `.env.example` en de mappen `tests/{unit,fixtures}/` en `experiments/` toe. `--starter` zet er ook `src/analytics/config.py` met een test bij, zodat `make check` meteen een echte test draait. Laat `--starter` weg bij een bestaande app.
+This adds `app.mk`, `AGENTS.md`, `.env.example` and the folders `tests/{unit,fixtures}/` and `experiments/`. `--starter` also adds `src/analytics/config.py` with a test, so `make check` runs a real test straight away. Leave `--starter` out for an existing app.
 
 ## 3. Config in `pyproject.toml`
 
-Alles in één bestand, geen aparte `.ini`:
+Everything in one file, no separate `.ini`:
 
 ```toml
 [tool.pytest.ini_options]
@@ -38,11 +38,11 @@ strict = true
 files = ["src"]
 ```
 
-## 4. Ingang
+## 4. Entry point
 
-`make data-analytics` draait `uv run analytics build`. Laat `analytics:main` in `src/analytics/__init__.py` het commando `build` afhandelen, of maak er een `cli.py` van zodra er meer commando's zijn.
+`make data-analytics` runs `uv run analytics build`. Let `analytics:main` in `src/analytics/__init__.py` handle the `build` command, or turn it into a `cli.py` as soon as there are more commands.
 
-## 5. Controleren
+## 5. Check
 
 ```bash
 make setup && make check-analytics

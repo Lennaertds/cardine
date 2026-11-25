@@ -1,25 +1,25 @@
 # apps/web — Next.js
 
-Geldt naast de [root-AGENTS.md](../../AGENTS.md). Alleen wat specifiek is voor deze app.
+Applies on top of the [root AGENTS.md](../../AGENTS.md). Only what is specific to this app.
 
 <!-- als: design
-UI / scherm / layout / PWA in deze app: eerst [DESIGN.md](../../docs/design/DESIGN.md), dan één craft-bestand. Zelfde regel als in de root.
+UI / screen / layout / PWA in this app: [DESIGN.md](../../docs/design/DESIGN.md) first, then one craft file. Same rule as in the root.
 -->
 
-## Indeling
+## Layout
 
-- Routes in `src/app/` blijven dun: ze roepen `src/features/<domein>/` aan.
-- Een feature importeert nooit uit een andere feature. Gedeeld gaat naar `src/components/ui/`, `src/lib/` of `packages/`.
-- Nieuw domein → nieuwe map `src/features/<domein>/`, ook bij de eerste component. Naam uit [GLOSSARY.md](../../docs/context/GLOSSARY.md).
-- API-calls alleen in `features/<domein>/api.ts`, via de client in `src/lib/`.
+- Routes in `src/app/` stay thin: they call `src/features/<domain>/`.
+- A feature never imports from another feature. Shared code goes to `src/components/ui/`, `src/lib/` or `packages/`.
+- New domain → new folder `src/features/<domain>/`, even for the first component. Name from [GLOSSARY.md](../../docs/context/GLOSSARY.md).
+- API calls only in `features/<domain>/api.ts`, through the client in `src/lib/`.
 
 ## Tests
 
-- Unit naast het bestand: `<naam>.test.ts` (Vitest). Eén test: `pnpm --dir apps/web exec vitest run <pad>`.
+- Unit next to the file: `<name>.test.ts` (Vitest). One test: `pnpm --dir apps/web exec vitest run <path>`.
 - Browser: `tests/e2e/<flow>.spec.ts`. Smoke: `tests/smoke/`.
 
-## Valkuilen
+## Pitfalls
 
-- Fout `Cannot find module './NNN.js'` na `make build-web`: eerst `make clean-web`, dan `make dev-web`.
-- Alles wat `NEXT_PUBLIC_` heet, belandt in de browser. Nooit een secret.
-- Nieuwe env-variabele: ook in `.env.example`, met een veilige voorbeeldwaarde.
+- Error `Cannot find module './NNN.js'` after `make build-web`: `make clean-web` first, then `make dev-web`.
+- Anything named `NEXT_PUBLIC_` ends up in the browser. Never a secret.
+- New env variable: also in `.env.example`, with a safe example value.

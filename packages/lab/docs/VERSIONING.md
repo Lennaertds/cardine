@@ -1,26 +1,27 @@
-# Versiebeheer — Cardine packages
+# Versioning — Cardine packages
 
-> Hoe we versies bijhouden voor de meta en elk package.
+> How we keep versions for the meta package and each package.
 
-## Principe
+## Principle
 
-- **Elk package heeft een eigen versie** onafhankelijk van de andere packages.
-- **De meta-package (`cardine`) heeft ook een eigen versie**, die alleen wijzigt als de structuur van de meta (docs, gidsen) verandert.
-- **Geen monorepo-tools** (lerna, nx, turborepo) — te zwaar voor dit stadium. Handmatig of met een klein script.
+- **Each package has its own version**, independent of the others.
+- **The meta package (`cardine`) has its own version too**, which changes only when the meta's own structure (docs, guides) changes.
+- **No monorepo tools** (lerna, nx, turborepo) — too heavy at this stage. Manually, or with a small script.
 
 ## SemVer
 
 [SemVer](https://semver.org/) — `major.minor.patch`:
 
-| Deel | Wanneer ophogen |
-|------|----------------|
-| **major** | Breaking change: installer werkt niet meer op oude config, kit-structuur wijzigt incompatibel, package hernoemd |
-| **minor** | Nieuwe functionaliteit: nieuw script, nieuwe module in kit, nieuwe optie in installer |
-| **patch** | Bugfix, documentatie-update, kleine aanpassing |
+| Part | When to bump |
+|------|--------------|
+| **major** | Breaking change: the installer no longer works on an old config, the kit structure changes incompatibly, the package is renamed |
+| **minor** | New functionality: a new script, a new module in the kit, a new option in the installer |
+| **patch** | Bugfix, documentation update, small adjustment |
 
 ## CHANGELOG per package
 
-Elk package heeft een `CHANGELOG.md` in de package-map. Formaat (geïnspireerd op [Keep a Changelog](https://keepachangelog.com/)):
+Each package has a `CHANGELOG.md` in the package directory. Format (inspired by
+[Keep a Changelog](https://keepachangelog.com/)):
 
 ```markdown
 # Changelog — cardine-lab
@@ -28,59 +29,77 @@ Elk package heeft een `CHANGELOG.md` in de package-map. Formaat (geïnspireerd o
 ## [0.2.0] — 2026-11-20
 
 ### Added
-- Nieuwe --dry-run optie voor install-lab.sh
-- Ondersteuning voor Podman naast bwrap
+- New --dry-run option for install-lab.sh
+- Support for Podman alongside bwrap
 
 ### Changed
-- DSH-versie opgehoogd naar 0.3.0
+- DSH version bumped to 0.3.0
 
 ### Fixed
-- Hardcoded pad (`$HOME`-relatief gemaakt) i.p.v. absoluut gebruikerspad
+- Hardcoded path (`$HOME`-relative instead of an absolute user path)
 
 ## [0.1.0] — 2026-11-17
 
 ### Added
-- Initiële release: install-lab.sh, cardine-bwrap, cardine-slice-check
+- Initial release: install-lab.sh, cardine-bwrap, cardine-slice-check
 
 [0.2.0]: https://github.com/Lennaertds/cardine/compare/lab-v0.1.0...lab-v0.2.0
 [0.1.0]: https://github.com/Lennaertds/cardine/releases/tag/lab-v0.1.0
 ```
 
-## Meta-versieoverzicht
+## Meta version overview
 
-De `CHANGELOG.md` in de repo-root geeft een **overzicht** van alle packages:
+The `CHANGELOG.md` in the repo root gives an **overview** of all packages:
 
 ```markdown
 # Changelog — Cardine meta
 
 ## [0.3.0] — 2026-11-22
 
-| Package | Versie | Wat |
-|---------|--------|-----|
-| cardine-lab | 0.3.0 | Secrets-grens in kooi en guard, V4.1-model, plugin-fix |
-| cardine-structure | 0.4.0 | Kit `fca818f` met `jarvis-check`-targets |
+| Package | Version | What |
+|---------|---------|------|
+| cardine-lab | 0.3.0 | Secrets boundary in cage and guard, V4.1 model, plugin fix |
+| cardine-structure | 0.4.0 | Kit `fca818f` with `jarvis-check` targets |
 ```
 
 ## Tags in git
 
 ```
-lab-v<semver>          → packages/lab/ op versie <semver>
-structure-v<semver>    → packages/structure/ op versie <semver>
-v<semver>              → meta-package versie <semver>
+lab-v<semver>          → packages/lab/ at version <semver>
+structure-v<semver>    → packages/structure/ at version <semver>
+v<semver>              → meta package version <semver>
 ```
 
-Laatste: `lab-v0.2.0`, `structure-v0.3.0`, `v0.2.0`. De meta-tag `v0.3.0` komt
-samen met `lab-v0.3.0` en `structure-v0.4.0`; `publish.yml` publiceert per
-package op de eigen tag.
+Most recent: `lab-v0.4.0`, `structure-v0.4.0`, `v0.3.0`. The meta tag `v0.3.0`
+came with `lab-v0.3.0` and `structure-v0.4.0`; `publish.yml` publishes each
+package on its own tag.
 
-## Packages & changelogs
+## Packages and changelogs
 
-| Package | CHANGELOG locatie |
-|---------|------------------|
+| Package | CHANGELOG location |
+|---------|--------------------|
 | `cardine` (meta) | `CHANGELOG.md` (root) |
 | `cardine-lab` | `packages/lab/CHANGELOG.md` |
 | `cardine-structure` | `packages/structure/CHANGELOG.md` |
 
-Laatste stand (2026-11-23): meta 0.3.0, `@lennaertds/cardine-lab` 0.4.0,
-`@lennaertds/cardine-structure` 0.4.0. Tag op deze release: `lab-v0.4.0`.
-Meta en structure blijven op hun bestaande tags.
+Current state (2026-11-24): meta 0.4.0, `@lennaertds/cardine-lab` 0.5.1,
+`@lennaertds/cardine-structure` 0.5.0.
+
+## Staged publishing
+
+A release goes through `npm stage publish` and then `npm stage approve <id>`:
+
+```bash
+# 1. Bump package.json and add a CHANGELOG entry first — npm refuses to
+#    publish over an existing version.
+# 2. Stage it
+npm stage publish --tag latest
+# 3. Wait until `npm stage list` shows status "staged" (not "validating")
+npm stage list
+# 4. Approve with 2FA
+npm stage approve <id> --tag latest
+# 5. Verify — and install by exact version, because a stale npm cache can make
+#    `pkg@latest` resolve to the previous release
+npm view @lennaertds/cardine-lab dist-tags
+npm i -g @lennaertds/cardine-lab@<version>
+```

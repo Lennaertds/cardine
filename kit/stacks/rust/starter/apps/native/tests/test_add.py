@@ -1,4 +1,4 @@
-"""Smoke voor PyO3-starter. Werkt met fallback zonder maturin-build."""
+"""Smoke test for the PyO3 starter. Works with the fallback without a maturin build."""
 
 from __future__ import annotations
 

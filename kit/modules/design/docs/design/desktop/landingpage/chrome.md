@@ -1,64 +1,64 @@
 # Desktop — chrome
 
-> **Rol:** De zwevende balk, groepen, en een eventuele sidebar.  
-> **Niet hier:** materiaal ([liquid-glass.md](liquid-glass.md)).
+> **Role:** The floating bar, groups, and an optional sidebar.
+> **Not here:** material ([liquid-glass.md](liquid-glass.md)).
 
-Eén balk. Alles wat navigeert zit daarin, of in een menu dat uit een knop van die balk groeit.
+One bar. Everything that navigates lives in it, or in a menu that grows out of one of its buttons.
 
-## 1. De balk
+## 1. The bar
 
-- Regular `.glass`, schaduwrol **bar**, zwevend: niet een dichte strook aan de bovenrand van het venster.
-- Inset van de viewport: dezelfde gutter als de content ([layout.md](layout.md)), of 16px als de gutter kleiner zou ogen. Onder- en bovenhoek delen de radius.
-- Hoogte in de buurt van `--chrome-bar-h` (4.15rem). Niet een tweede, hogere “marketing header”.
-- `position: sticky` of fixed. Content scrollt eronder. Scroll-edge onder de balk.
-- Z-index: `var(--z-nav)` of het bestaande chrome-token. Geen los `z-50`.
+- Regular `.glass`, shadow role **bar**, floating: not a dense strip along the top edge of the window.
+- Inset from the viewport: the same gutter as the content ([layout.md](layout.md)), or 16px if the gutter would look smaller. Top and bottom corners share the radius.
+- Height around `--chrome-bar-h` (4.15rem). Not a second, taller "marketing header".
+- `position: sticky` or fixed. Content scrolls underneath. Scroll edge below the bar.
+- Z-index: `var(--z-nav)` or the existing chrome token. No loose `z-50`.
 
-Samenstelling, van links naar rechts:
+Composition, left to right:
 
-| Slot | Inhoud |
-|------|--------|
-| Leading | Woordmerk → `/` |
-| Center of naast het merk | Lokale showcase-links. Hooguit vier tekstlinks |
-| Trailing | Eén primaire actie |
+| Slot | Content |
+|------|---------|
+| Leading | Wordmark → `/` |
+| Centre of next to the brand | Local showcase links. At most four text links |
+| Trailing | One primary action |
 
-Een gast-pagina heeft geen bel, geen skin-switcher, geen product-tabs. Die horen bij de ingelogde schil (project-chrome).
+A guest page has no bell, no skin switcher, no product tabs. Those belong to the signed-in shell (project chrome).
 
-Dezelfde slots op elke showcase-route. Geen mix van topbalk, sidebar én bottom-tabs op hetzelfde niveau. Een sidebar is lokale hoofdstukken, niet een tweede primaire nav. Kruimels alleen als er drie niveaus zijn én er geen sidebar is.
+The same slots on every showcase route. No mix of top bar, sidebar **and** bottom tabs at the same level. A sidebar is local chapters, not a second primary nav. Breadcrumbs only if there are three levels **and** there is no sidebar.
 
-## 2. Groepen
+## 2. Groups
 
-Items die bij elkaar horen delen één achtergrond.
+Items that belong together share one background.
 
-- Navigatielinks = één groep.
-- De primaire actie mag losstaan, met een vaste spacer (16px of 24px) tussen de groepen.
-- In één groep: óf alleen iconen, óf alleen tekst. Niet een icoon-knop naast een tekstknop op dezelfde vulling.
-- Een verborgen item verdwijnt helemaal (geen leeg gat in de capsule).
-- Zelfde groepering op elke showcase-route.
+- Navigation links = one group.
+- The primary action may stand apart, with a fixed spacer (16px or 24px) between the groups.
+- Within one group: either icons only, or text only. Not an icon button next to a text button on the same fill.
+- A hidden item disappears completely (no empty gap in the capsule).
+- The same grouping on every showcase route.
 
 ## 3. Sidebar
 
-Alleen als een pagina lokale hoofdstukken heeft (lange documentatie), nooit naast de hero-features.
+Only if a page has local chapters (long documentation), never next to the hero features.
 
-- Zwevend Regular-glas, niet een dichte kolom tot de vloerrand.
-- De content (of alleen de achtergrondfoto) loopt visueel onder de sidebar door.
-- Tekst en knoppen blijven in de vrije zone: padding links ≥ sidebarbreedte + 24px.
-- Breedte vast, tussen 200px en 260px. Geen resizable splitter in v1.
-- Onder 1024px wordt de sidebar een groep in de balk of een menu. Geen permanente kolom die de proza onder 36ch duwt.
+- Floating Regular glass, not a dense column down to the floor.
+- The content (or only the background photo) visually runs under the sidebar.
+- Text and buttons stay in the free zone: left padding ≥ sidebar width + 24px.
+- Fixed width, between 200px and 260px. No resizable splitter in v1.
+- Below 1024px the sidebar becomes a group in the bar or a menu. No permanent column that pushes the prose below 36ch.
 
-Inspector (een paneel rechts met detail): één tegelijk.
+Inspector (a panel on the right with detail): one at a time.
 
-## 4. Wat geen chrome is
+## 4. What is not chrome
 
-- Stoplichten, een faux Apple-menubalk, een dock onderaan de site.
-- Een tweede sticky bar onder de eerste (kruimels, filters). Die horen in de content, solid, of als één groep ín de balk.
-- Glazen footer. De footer is content.
+- Traffic lights, a faux Apple menu bar, a dock at the bottom of the site.
+- A second sticky bar under the first (breadcrumbs, filters). Those belong in the content, solid, or as one group **inside** the bar.
+- A glass footer. The footer is content.
 
-Een product-mock mag wél een vensterframe tonen, inclusief een rustige titelbalk. Dat frame zit in de contentlaag en gebruikt `--r-device`. Het is geen besturing van de website.
+A product mock **may** show a window frame, including a calm title bar. That frame lives in the content layer and uses `--r-device`. It is not a control for the website.
 
-## 5. Toestand
+## 5. State
 
-- Actieve route: weight 650, `--foreground`. Geen accent-pill achter één van vele links.
-- Hover, alleen bij fijne pointer: glans omhoog, of een fill van `--foreground` op 8%. Geen verschuiving van de layout.
-- Focus-zichtbaar: ring, [a11y.md](../a11y.md).
+- Active route: weight 650, `--foreground`. No accent pill behind one of many links.
+- Hover, fine pointer only: highlight up, or a fill of `--foreground` at 8%. No layout shift.
+- Focus visible: ring, [a11y.md](../a11y.md).
 
-**Test:** één glazen balk op elke showcase-route; de primaire knop zit op dezelfde plek; er is geen tweede sticky strook.
+**Test:** one glass bar on every showcase route; the primary button sits in the same place; there is no second sticky strip.

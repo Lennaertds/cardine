@@ -1,46 +1,46 @@
 # docs/architecture/security.md
 
-> **Rol:** Welke gevoelige gegevens er zijn, waar ze staan, en hoe ze beschermd worden.
-> **Niet hier:** de "Nooit"-regels voor de agent ([agents-root](agents-root.md)), het privacybeleid in mensentaal (`docs/business/`).
+> **Role:** Which sensitive data exists, where it lives, and how it is protected.
+> **Not here:** the "Never" rules for the agent ([agents-root](agents-root.md)), the privacy policy in plain language (`docs/business/`).
 
-**Kitbestand:** [kit/kern/docs/architecture/security.md](../kit/kern/docs/architecture/security.md) · laag kern · P17
+**Kit file:** [kit/kern/docs/architecture/security.md](../kit/kern/docs/architecture/security.md) · layer kern · P17
 
-## Wanneer
+## When
 
-Dag 0 met de eerste rij in elke tabel. Bij elk nieuw soort gegeven, elk nieuw secret en elke nieuwe externe dienst.
+Day 0 with the first row in every table. With every new kind of data, every new secret and every new external service.
 
-## Invullen
+## Filling in
 
-1. **Persoonsgegevens:** wat, waar, wie leest, hoe lang. Ook wat lokaal in `data/runtime/` of `data/raw/` staat.
-2. **Secrets:** naam (nooit de waarde), waar het leeft lokaal en in productie, wie het nodig heeft. Elk secret staat met een veilige voorbeeldwaarde in de `.env.example` van de app.
-3. **Auth:** hoe aanmelden, hoe lang een sessie, wie wat mag zien.
-4. **Dreigingen en maatregelen:** met wat de maatregel bewaakt (test, hook, header).
-5. **Actieve validatie (Strix):** sectie uit de kit laten staan; vul zo nodig project-specifieke targets of staging-URL’s aan. Scans via `make security-scan*`, niet via `make check`. How-to: `docs/how-to/security-scan.md`.
-6. **`## Bewust later`:** kitrijen laten staan of aanvullen (P28).
+1. **Personal data:** what, where, who reads it, how long. Also what sits locally in `data/runtime/` or `data/raw/`.
+2. **Secrets:** name (never the value), where it lives locally and in production, who needs it. Every secret appears with a safe example value in the app's `.env.example`.
+3. **Auth:** how to sign in, how long a session lasts, who may see what.
+4. **Threats and measures:** with what the measure guards (test, hook, header).
+5. **Active validation (Strix):** keep the section from the kit; add project-specific targets or staging URLs if needed. Scans via `make security-scan*`, not via `make check`. How-to: `docs/how-to/security-scan.md`.
+6. **`## Deliberately incomplete` (P28):** keep the kit rows or extend them (P28).
 
-## Voorbeeld (GymFreak)
+## Example (GymFreak)
 
 ```markdown
-## Persoonsgegevens
+## Personal data
 
-| Gegeven | Waar | Wie leest | Bewaartermijn |
-|---------|------|-----------|---------------|
-| Slaap, hartslag (Health-export) | `data/runtime/user/<id>/`, tabel `sleep_night` | api | tot de gebruiker verwijdert |
-| E-mail, wachtwoordhash | tabel `user` | api | tot account verwijderd |
+| Data | Where | Who reads | Retention |
+|------|-------|-----------|-----------|
+| Sleep, heart rate (Health export) | `data/runtime/user/<id>/`, table `sleep_night` | api | until the user deletes |
+| Email, password hash | table `user` | api | until the account is deleted |
 
-## Dreigingen en maatregelen
+## Threats and measures
 
-| Dreiging | Maatregel | Bewaakt door |
-|----------|-----------|--------------|
-| Health-XML van 500 MB legt de API plat | streaming parser, limiet 200 MB | `upload.e2e-spec.ts` |
-| Secret in een commit | gitleaks in pre-commit | `.pre-commit-config.yaml` |
-| Supply-chain: installatiescripts van npm/pip/cargo | Containers isoleren via `make container-setup`; gebruik `npm-safe`/`pip-safe`/`cargo-safe` | `AGENTS.md` commando-regel |
+| Threat | Measure | Guarded by |
+|--------|---------|------------|
+| A 500 MB Health XML takes the API down | streaming parser, 200 MB limit | `upload.e2e-spec.ts` |
+| A secret in a commit | gitleaks in pre-commit | `.pre-commit-config.yaml` |
+| Supply chain: install scripts from npm/pip/cargo | Containers isolate them via `make container-setup`; use `npm-safe`/`pip-safe`/`cargo-safe` | `AGENTS.md` command line |
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] Geen enkele secretwaarde in dit bestand of in een voorbeeld.
-- [ ] Elk persoonsgegeven heeft een bewaartermijn.
-- [ ] Strix-sectie staat er; ontbrekende installatie/key staat in BACKLOG, niet stilzwijgend weg.
-- [ ] `## Bewust later` heeft minstens één uitbreidingsrij (P28).
-- [ ] `AGENTS.md` § Nooit verwijst hierheen.
+- [ ] Not a single secret value in this file or in an example.
+- [ ] Every piece of personal data has a retention period.
+- [ ] The Strix section is in there; a missing install/key lands in BACKLOG, not silently left out.
+- [ ] `## Deliberately incomplete` has at least one extension row (P28).
+- [ ] `AGENTS.md` § Never links here.

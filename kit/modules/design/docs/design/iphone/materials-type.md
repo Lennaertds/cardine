@@ -1,79 +1,79 @@
 # UI iPhone — materials · type
 
-> **Rol:** Typography, fonts, icons, type ladder.  
-> **Niet hier:** typografie op de showcase ([type.md](../desktop/landingpage/type.md)); materiaal ([materials-depth](materials-depth.md)).
+> **Role:** Typography, fonts, icons, type ladder.
+> **Not here:** showcase typography ([type.md](../desktop/landingpage/type.md)); material ([materials-depth](materials-depth.md)).
 
-## 1. Fonts (inventaris — vast)
+## 1. Fonts (inventory — fixed)
 
-Product en showcase delen **maximaal drie** stacks. Geen vierde webfont “even tussendoor”.
+Product and showcase share **at most three** stacks. No fourth webfont "just in passing".
 
-| Token | Stack | Waar |
+| Token | Stack | Where |
 |-------|-------|------|
-| `--font-sans` | `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif` | **Alle product-UI** (body default) |
-| `--font-mono` | `ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace` | Codes, technische IDs — spaarzaam |
-| `--font-display` | default = zelfde als `--font-sans` (override alleen achter showcase-gate) | Landing / hero merknaam |
+| `--font-sans` | `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif` | **All product UI** (body default) |
+| `--font-mono` | `ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace` | Codes, technical IDs — sparse |
+| `--font-display` | default = same as `--font-sans` (override only behind the showcase gate) | Landing / hero brand name |
 
-**Regels**
+**Rules**
 
-- Product (tabs, sheets, settings) = **alleen** `--font-sans` (+ mono indien nodig).
-- Geen Inter / Roboto / willekeurige Google Font in product path.
-- Skins mogen weight/tracking tunen — **niet** een tweede product-face laden.
-- Showcase mag `--font-display` overrulen; product op breed scherm blijft sans + ladder hieronder.
+- Product (tabs, sheets, settings) = **only** `--font-sans` (+ mono if needed).
+- No Inter / Roboto / random Google Font in the product path.
+- Skins may tune weight/tracking — **not** load a second product face.
+- The showcase may override `--font-display`; the product in a wide window stays sans + the ladder below.
 
-**Test:** DevTools computed `font-family` op product-H1 en Settings-rij = `--font-sans`. Landing hero mag display.
+**Test:** DevTools computed `font-family` on the product H1 and a Settings row = `--font-sans`. The landing hero may use display.
 
 ## 2. Typography mechanics
 
-- **Tracking is size-specific.** Display/title: negatief (`~-0.02em`…`-0.03em`); body ~`0`.
-- **Leading inverse met size.** Strak op grote headings; losser op body.
-- Hiërarchie = **weight + size + leading** samen, niet size alleen.
-- UI-scale schaalt root — layouts in `rem`/`em`.
-- Numerics: `.type-numeric` (`tabular-nums`) op timers/stats.
+- **Tracking is size-specific.** Display/title: negative (`~-0.02em`…`-0.03em`); body ~`0`.
+- **Leading inverse to size.** Tight on big headings; looser on body.
+- Hierarchy = **weight + size + leading** together, not size alone.
+- UI scale scales the root — layouts in `rem`/`em`.
+- Numerics: `.type-numeric` (`tabular-nums`) on timers/stats.
 
 ## 3. Iconografie
 
-- Tabbar / nav icons: **outline in rust, filled (of zwaarder stroke) als active** — één optisch gewicht over alle tabs.
-- Geen emoji als primaire navigatie-icoon.
-- Hit area ≥ 44px; glyph zelf ~22–24px (glyph-size, **geen** type-rol).
-- Kleur: `currentColor` / tokens — geen hardcoded neon per icoon.
+- Tabbar / nav icons: **outline at rest, filled (or heavier stroke) when active** — one optical weight across all tabs.
+- No emoji as a primary navigation icon.
+- Hit area ≥ 44px; the glyph itself ~22–24px (glyph size, **not** a type role).
+- Colour: `currentColor` / tokens — no hardcoded neon per icon.
 
-## 4. Type ladder (product — SoT)
+## 4. Type ladder (product — source of truth)
 
-Vaste `--type-*` tokens in `globals.css`. **Geen** ad-hoc `text-lg` / `text-xl` / `text-2xl` / `text-[10px]` / `clamp()` voor hiërarchie op producttitels of meta.
+Fixed `--type-*` tokens in `globals.css`. **No** ad-hoc `text-lg` / `text-xl` / `text-2xl` / `text-[10px]` / `clamp()` for hierarchy on product titles or meta.
 
-| Rol | Token | ≈px @16 | Class | Gebruik |
+| Role | Token | ≈px @16 | Class | Use |
 |-----|-------|---------|-------|---------|
-| Display / hero | `--type-display` | 34 | `.type-display` | **Alleen** showcase / zeldzame hero — nooit PWA page H1 |
+| Display / hero | `--type-display` | 34 | `.type-display` | **Only** showcase / rare hero — never a PWA page H1 |
 | Page title (H1) | `--type-title` | 28 | `.page-title` | Screen titles |
 | Section / card (H2) | `--type-headline` | 17 | `.type-headline` | Section headers, sheet titles, card titles |
-| Body | `--type-body` | 17 | `.type-body` | Primaire leestekst; Settings-rij titel |
-| Lede / callout | `--type-callout` | 16 | `.page-lede` | Korte intro onder page title |
-| Stat / timer | `--type-stat` | 24 | `.type-stat` | Grote metric (altijd + `.type-numeric`) |
+| Body | `--type-body` | 17 | `.type-body` | Primary reading text; Settings row title |
+| Lede / callout | `--type-callout` | 16 | `.page-lede` | Short intro under the page title |
+| Stat / timer | `--type-stat` | 24 | `.type-stat` | A big metric (always + `.type-numeric`) |
 | Tabs / segments | `--type-tab` | 13 | `.type-tab` / `.ios-segmented` | Segment labels |
-| Caption / meta / eyebrow | `--type-caption` | 13 | `.type-caption` | Datums, footnotes, units, section labels |
+| Caption / meta / eyebrow | `--type-caption` | 13 | `.type-caption` | Dates, footnotes, units, section labels |
 
-**Wel / niet**
+**Do / don't**
 
-| Wel | Niet |
-|-----|------|
-| H1 → `.page-title` | `text-2xl` / `text-xl` als page title |
-| H2 / sheet title → `.type-headline` | `text-base font-semibold` als section title |
-| Meta / units → `.type-caption` | `text-[10px]` / willekeurige `text-xs` voor hiërarchie |
-| Big number → `.type-stat.type-numeric` | `text-2xl` op timers |
-| Dense control labels | Tailwind `text-sm` op **knoppen/chips** OK (chrome, geen titelrol) |
-| Unread / count badges | Mag micro `text-[10px]` op dichte chrome-pil — geen content-hiërarchie |
+| Do | Don't |
+|----|-------|
+| H1 → `.page-title` | `text-2xl` / `text-xl` as a page title |
+| H2 / sheet title → `.type-headline` | `text-base font-semibold` as a section title |
+| Meta / units → `.type-caption` | `text-[10px]` / a random `text-xs` for hierarchy |
+| Big number → `.type-stat.type-numeric` | `text-2xl` on timers |
+| Dense control labels | Tailwind `text-sm` on **buttons/chips** is OK (chrome, not a title role) |
+| Unread / count badges | Micro `text-[10px]` is fine on a dense chrome pill — not content hierarchy |
 
-**Dual-track:** product op desktop ≥768px volgt **deze** ladder. Showcase display = [desktop.md](../desktop/desktop.md) — mag groter, niet in productpad.
+**Dual track:** the product on desktop ≥768px follows **this** ladder. Showcase display = [desktop.md](../desktop/desktop.md) — may be bigger, not in the product path.
 
-**Test:** Product content: geen ad-hoc muted `text-sm`/`text-xs` voor meta; H1/H2 = ladder-classes.
+**Test:** Product content: no ad-hoc muted `text-sm`/`text-xs` for meta; H1/H2 = ladder classes.
 
 ### Hit & space tokens (CSS)
 
-| Token | Waarde | Gebruik |
+| Token | Value | Use |
 |-------|--------|---------|
-| `--hit-min` | 44px | Primaire controls |
-| `--hit-comfort` | 48px | Ruime primary |
+| `--hit-min` | 44px | Primary controls |
+| `--hit-comfort` | 48px | Roomy primary |
 | `--hit-dense` | 36px | Dense chips only |
 | `--space-page` / `--space-group` | project | Page / group inset |
 
-**Test:** Geen primary CTA met computed height < 44 buiten `.dense-control` context.
+**Test:** No primary CTA with a computed height < 44 outside a `.dense-control` context.

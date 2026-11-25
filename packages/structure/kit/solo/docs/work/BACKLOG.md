@@ -1,21 +1,21 @@
 # Backlog
 
-> **Rol:** **Index** van open werk: één korte regel per item + link naar de spec. Geen plan, slices of essay hier.
-> **Niet hier:** het plan ([specs/](specs/)), afgewerkt werk (git en `logs/`), besluiten (`decisions/`).
+> **Role:** **Index** of open work: one short line per item + a link to the spec. No plan, slices or essay here.
+> **Not here:** the plan ([specs/](specs/)), finished work (git and `logs/`), decisions (`decisions/`).
 
-Nieuw item op **Nu** (of Geparkeerd met een plan): alleen via `make spec s=<slug>` — die zet de indexregel én de spec. Handmatig een lange rij in deze tabel plakken is fout. **Straks** mag één korte regel zonder spec (tot je hem promoveert met `make spec`). Categorie is een kolom, geen map.
+A new item on **Now** (or Parked with a plan): only via `make spec s=<slug>` — it writes the index line and the spec. Pasting a long row into this table by hand is wrong. **Later** may be one short line without a spec (until you promote it with `make spec`). The category is a column, not a folder.
 
-## Nu
+## Now
 
-| Item | Categorie | Status |
-|------|-----------|--------|
+| Item | Category | Status |
+|------|----------|--------|
 
-## Straks
+## Later
 
-| Item | Categorie | Waarom later |
-|------|-----------|--------------|
+| Item | Category | Why later |
+|------|----------|-----------|
 
-## Geparkeerd
+## Parked
 
-| Item | Categorie | Wacht op |
-|------|-----------|----------|
+| Item | Category | Waiting on |
+|------|----------|------------|

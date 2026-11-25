@@ -4,11 +4,11 @@ description: Architecture, seams, containers, modules, dataflow, or module bound
 model: inherit
 ---
 
-Je bent de architectuur-specialist. Eigen context; geef alleen een samenvatting terug.
+You are the architecture specialist. Own context; return only a summary.
 
-1. Open eerst `docs/architecture/ARCHITECTURE.md`, daarna hoogstens één subsystembestand of `security.md` / `data-model.md`.
-2. Code alleen langs bestaande seams; geen nieuwe `utils/`/`helpers/` of modulegrenzen zonder akkoord.
-3. Raakt data: `data/README.md` en wie writer is (invarianten).
-4. Geneste `apps/<app>/AGENTS.md` voor app-valkuilen.
+1. Open `docs/architecture/ARCHITECTURE.md` first, then at most one subsystem file or `security.md` / `data-model.md`.
+2. Code only along existing seams; no new `utils/`/`helpers/` or module boundaries without agreement.
+3. If it touches data: `data/README.md` and who the writer is (invariants).
+4. Nested `apps/<app>/AGENTS.md` for app pitfalls.
 
-Terug: geraakte containers/seams, voorgestelde of gedane wijzigingen, open vragen, ADR-behoefte.
+Return: containers/seams touched, proposed or made changes, open questions, need for an ADR.

@@ -1,57 +1,63 @@
 # How-to — Zed + DeepSeek Harness
 
-> **Rol:** Het lab-pad aanzetten: upstream Zed, gepinde `dsh --profile acp`, API-key lokaal.
-> **Niet hier:** het besluit ([ADR 0003](../decisions/0003-de-agent-loop-is-upstream-deepseek-harness-gepind-als-dsh-profile-acp-zonder-fork.md), [ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md)); de andere agent-paden ([PRODUCT.md](../product/PRODUCT.md)).
+> **Role:** turn on the lab path: upstream Zed, pinned `dsh --profile acp`, API key locally.
+> **Not here:** the decision ([ADR 0003](../decisions/0003-the-agent-loop-is-upstream-deepseek-harness-pinned-as-a-dsh-profile-acp-without-fork.md), [ADR 0008](../decisions/0008-the-coding-model-is-deepseek-flash-and-claude-is-the-second-provider.md)); the other agent paths ([PRODUCT.md](../product/PRODUCT.md)).
 
-## Snelle weg (nieuwe machine)
+## Quick path (new machine)
 
-Op een verse Arch Linux / Hyprland-machine volstaat één commando in deze repo:
+On a fresh Arch Linux / Hyprland machine one command in this repo suffices:
 
 ```bash
 make install-lab
 ```
 
-Het script in `packages/lab/install-lab.sh`:
+The script in `packages/lab/install-lab.sh`:
 
-1. **Arch-dependencies** via `sudo pacman -S --needed --noconfirm` (alleen als sudo beschikbaar is):
-   - `zed` of `zeditor` — als `zeditor` niet op PATH staat
-   - `bubblewrap` — als `bwrap` niet op PATH staat
-   - `nodejs` + `npm` — als node ontbreekt of < 24.9 is
-   - `uv` (Python package manager) — als uv ontbreekt
-   - `jq` — als jq ontbreekt
-   - `base-devel` + `go` — als build-tools ontbreken (nodig voor Zoekt/SCIP)
-2. **Node ≥ 24.9** — als pacman een te oude versie heeft, probeert het script via `fnm`, `nvm` of `n` als die geïnstalleerd zijn.
-3. **jarvis-server** — via `uv tool install --python 3.13 jarvis-mcp` en daarna `setup.sh --only zoekt --only scip` voor Zoekt/SCIP (bouwt Rust- en Go-binaries).
-4. **DeepSeek Harness** (`@deepseek-ai/dsh@0.2.2-rc.1`) via npm als die versie nog niet staat.
-5. **DSH ACP-profiel** in `~/.dsh/profiles/acp/cordis.patch.yml` met DeepInfra-provider, jarvis MCP, sandbox-beleid en slice-check.
-6. **Zed-configuratie** in `~/.config/zed/settings.json` (JSONC-veilig, behoudt bestaande instellingen).
-7. **Credentials** in `~/.dsh/.env` met `DEEPSEEK_API_KEY=` (chmod 600) — overschrijft nooit een bestaande key.
-8. Eindigt met een duidelijke melding dat je alleen nog je DeepInfra API-key hoeft in te vullen.
+1. **Arch dependencies** via `sudo pacman -S --needed --noconfirm` (only when sudo is available):
+   - `zed` or `zeditor` — if `zeditor` is not on PATH
+   - `bubblewrap` — if `bwrap` is not on PATH
+   - `nodejs` + `npm` — if node is missing or < 24.9
+   - `uv` (Python package manager) — if uv is missing
+   - `jq` — if jq is missing
+   - `base-devel` + `go` — if the build tools are missing (needed for Zoekt/SCIP)
+2. **Node ≥ 24.9** — if pacman has an older version, the script tries `fnm`, `nvm` or `n` when installed.
+3. **jarvis-server** — via `uv tool install --python 3.13 jarvis-mcp`, then `setup.sh --only zoekt --only scip` for Zoekt/SCIP (builds Rust and Go binaries). If `setup.sh` is missing from the package, the script builds Zoekt, SCIP and scip-python itself into `~/.jarvis/bin`.
+4. **DeepSeek Harness** (`@deepseek-ai/dsh@0.2.2-rc.1`) via npm when that version is not present yet.
+5. **DSH ACP profile** in `~/.dsh/profiles/acp/cordis.patch.yml` with the DeepInfra provider, jarvis MCP, sandbox policy and slice check.
+6. **Zed configuration** in `~/.config/zed/settings.json` (JSONC-safe, keeps existing settings).
+7. **Credentials** in `~/.dsh/.env` with `DEEPSEEK_API_KEY=` (chmod 600) — never overwrites an existing key.
+8. Ends with a clear note that all that remains is filling in your DeepInfra API key.
 
-**Idempotent:** een tweede run slaat alles over wat al aanwezig en up-to-date is. Ontbrekende tools worden alleen geïnstalleerd als sudo beschikbaar is; in een sandbox/container zonder sudo krijg je duidelijke instructies voor handmatige installatie.
+**Idempotent:** a second run skips everything already present and up to date. Missing tools are installed only when sudo is available; in a sandbox/container without sudo you get clear instructions for a manual install.
 
-## Handmatige installatie
+## Manual installation
 
 ### Pin
 
-| Stuk | Versie op deze machine |
+| Piece | Version on this machine |
 |------|------------------------|
-| Zed | `zeditor` 1.28.1 uit de distro (`/usr/bin/zeditor`) |
+| Zed | `zeditor` 1.28.1 from the distro (`/usr/bin/zeditor`) |
 | DeepSeek Harness | `@deepseek-ai/dsh@0.2.2-rc.1` |
-| Node | ≥ 24.9, hier v26 |
+| Node | ≥ 24.9, here v26 |
 
-### Installeren
+### Installing
 
 ```bash
-npm install -g --prefix "$HOME/.local" @deepseek-ai/dsh@0.2.2-rc.1
+npm install -g --prefix "$HOME/.local" \
+  --allow-scripts='@deepseek-ai/dsh-subprocess-local,koffi,node-pty,@google/genai,protobufjs' \
+  @deepseek-ai/dsh@0.2.2-rc.1
 "$HOME/.local/bin/dsh" --version
 ```
 
-Zed start het absolute pad `~/.local/bin/dsh`, zodat het bureaublad de shell-PATH niet nodig heeft.
+With npm 11+ (Node 26) postinstall scripts are blocked unless they are allowed
+explicitly; without `--allow-scripts` the native modules (`koffi`, `node-pty`)
+stay unbuilt and `dsh` fails at startup.
+
+Zed starts the absolute path `~/.local/bin/dsh`, so the desktop does not need the shell PATH.
 
 ### API-key
 
-De variabele heet `DEEPSEEK_API_KEY`. Ze hoort in `~/.dsh/.env`, niet in Zed-settings en niet in git.
+The variable is called `DEEPSEEK_API_KEY`. It belongs in `~/.dsh/.env`, not in Zed settings and not in git.
 
 ```bash
 mkdir -p ~/.dsh
@@ -59,11 +65,11 @@ touch ~/.dsh/.env
 chmod 600 ~/.dsh/.env
 ```
 
-Zet er één regel in: `DEEPSEEK_API_KEY=` gevolgd door je DeepInfra API-key. Een project-`.env` wint van dit bestand zodra Zed dat project als werkmap opent. De opgeslagen store `~/.dsh/.credentials.yaml` wint van allebei. Een lege waarde hoort niet in dat store-bestand.
+Put one line in it: `DEEPSEEK_API_KEY=` followed by your DeepInfra API key. A project `.env` wins over this file once Zed opens that project as its working directory. The stored `~/.dsh/.credentials.yaml` wins over both. An empty value does not belong in that store file.
 
-### DeepInfra-provider
+### DeepInfra provider
 
-Het ACP-profiel in `~/.dsh/profiles/acp/cordis.patch.yml` configureert DeepInfra als LLM-provider:
+The ACP profile in `~/.dsh/profiles/acp/cordis.patch.yml` configures DeepInfra as the LLM provider:
 
 ```yaml
 llm-pi-ai:
@@ -80,10 +86,10 @@ acp:
     model: deepseek-ai/DeepSeek-V4-Flash
 ```
 
-### Zed 1.28+ — `env.PATH` voor agent_servers
+### Zed 1.28+ — `env.PATH` for agent_servers
 
-In een grafische Wayland/Hyprland-sessie staat `~/.local/bin` en `~/.jarvis/bin` niet
-standaard in het `PATH` van Zed. Voeg daarom `PATH` expliciet toe onder `env`:
+In a graphical Wayland/Hyprland session `~/.local/bin` and `~/.jarvis/bin` are not
+on Zed's `PATH` by default. Add `PATH` explicitly under `env`:
 
 ```json
 "DeepSeek Harness": {
@@ -96,37 +102,36 @@ standaard in het `PATH` van Zed. Voeg daarom `PATH` expliciet toe onder `env`:
 }
 ```
 
-Zed leest die wijziging zelf. In het Agent-paneel start je een thread via
-**...** → **New DeepSeek Harness Thread** (Zed 1.28+) of door **DeepSeek Harness**
-te selecteren in de agent-kiezer.
+Zed picks up that change itself. In the Agent panel start a thread via
+**...** → **New DeepSeek Harness Thread** (Zed 1.28+), or by selecting
+**DeepSeek Harness** in the agent picker.
 
-> **Let op:** Het `env.PATH`-veld is noodzakelijk omdat een grafische sessie
-> `~/.local/bin` en `~/.jarvis/bin` niet aan het `PATH` van een child-proces
-> meegeeft. Zonder deze toevoeging vindt `jarvis-server` de Zoekt/SCIP-binaries
-> niet.
+> **Note:** the `env.PATH` field is necessary because a graphical session does
+> not pass `~/.local/bin` and `~/.jarvis/bin` into a child process's `PATH`.
+> Without it, `jarvis-server` cannot find the Zoekt/SCIP binaries.
 
-Het meegeleverde ACP-profiel opent een sessie op `deepseek-ai/DeepSeek-V4-Flash` via DeepInfra. [ADR 0008](../decisions/0008-het-coding-model-is-deepseek-flash-en-claude-is-de-tweede-provider.md) noemt `deepseek-flash`; het exacte model-id op DeepInfra is `deepseek-ai/DeepSeek-V4-Flash`.
+The bundled ACP profile opens a session on `deepseek-ai/DeepSeek-V4-Flash` via DeepInfra. [ADR 0008](../decisions/0008-the-coding-model-is-deepseek-flash-and-claude-is-the-second-provider.md) names `deepseek-flash`; the exact model id on DeepInfra is `deepseek-ai/DeepSeek-V4-Flash`.
 
 ## jarvis
 
-Het ACP-profiel mount jarvis als MCP ([ADR 0006](../decisions/0006-de-agent-zoekt-via-jarvis-als-mcp-zed-zoeken-en-lsp-blijven-van-de-editor.md)). De plugin is `@deepseek-ai/dsh-mcp-client`, als `insert` in `cordis.patch.yml`, niet als wijziging van een bestaande rij. Het commando is het absolute pad `~/.local/bin/jarvis-server`. `PATH` zet `~/.jarvis/bin` ervoor, omdat een bureaublad-Zed die map niet heeft.
+The ACP profile mounts jarvis as MCP ([ADR 0006](../decisions/0006-the-agent-searches-via-jarvis-as-mcp-zed-search-and-lsp-stay-with-the-editor.md)). The plugin is `@deepseek-ai/dsh-mcp-client`, as an `insert` in `cordis.patch.yml`, not as a change to an existing row. The command is the absolute path `~/.local/bin/jarvis-server`. `PATH` puts `~/.jarvis/bin` in front, because a desktop Zed does not have that directory.
 
-De model ziet de tools als `mcp__jarvis__searchCode`, `mcp__jarvis__goToDefinition`, `mcp__jarvis__findReferences` en `mcp__jarvis__getIndexStatus`. Een thread die al openstond vóór de insert ziet ze niet. Start een nieuwe thread **DeepSeek Harness**.
+The model sees the tools as `mcp__jarvis__searchCode`, `mcp__jarvis__goToDefinition`, `mcp__jarvis__findReferences` and `mcp__jarvis__getIndexStatus`. A thread that was already open before the insert does not see them. Start a new **DeepSeek Harness** thread.
 
-## Allowlist en bwrap
+## Allowlist and bwrap
 
-Nieuwe threads draaien op `workspace-write` (de repo) en `approval: never` ([ADR 0017](../decisions/0017-de-agent-schrijft-in-de-kooi-en-de-fs-write-tools-staan-uit.md)). Er is geen dialoog. `write`, `edit` en `apply_patch` staan uit; schrijven doet de shell in de kooi. Een pad buiten de repo is niet gemount. `DSH_PERMISSION_MODE=danger-full-access` omzeilt die grens; het lab-profiel zet die variabele niet.
+New threads run with `workspace-write` (the repo) and `approval: never` ([ADR 0017](../decisions/0017-the-agent-writes-in-the-cage-and-the-fs-write-tools-are-off.md)). There is no dialogue. `write`, `edit` and `apply_patch` are off; writing happens through the shell in the cage. A path outside the repo is not mounted. `DSH_PERMISSION_MODE=danger-full-access` bypasses that boundary; the lab profile does not set that variable.
 
-De shell gaat door `packages/lab/cardine-bwrap`. Die bindt de workspace, zodat een write meteen op de host staat, en draait in een user-namespace. Het netwerk blijft open. `~/.ssh`, `~/.secrets` en `~/.dsh/.env` zijn niet zichtbaar ([ADR 0007](../decisions/0007-tool-goedkeuring-is-een-workspace-allowlist-en-de-shell-draait-onder-bwrap.md)).
+The shell goes through `packages/lab/cardine-bwrap`. It binds the workspace, so a write lands on the host immediately, and runs in a user namespace. The network stays open. `~/.ssh`, `~/.secrets` and `~/.dsh/.env` are not visible ([ADR 0007](../decisions/0007-tool-approval-is-a-workspace-allowlist-and-the-shell-runs-under-bwrap.md)).
 
 ## make check
 
-`packages/lab/cardine-slice-check` luistert op `agent/turn-stopping`. Een rode `make check` stuurt de agent terug, hoogstens twee keer. De bekende stop "geen app, CHECK leeg" stuurt niet ([ADR 0001](../decisions/0001-runtime-stack-bewust-uitgesteld-tot-expliciete-pi-of-ts-keuze.md)). Een thread van vóór deze insert ziet de haak niet.
+`packages/lab/cardine-slice-check` listens on `agent/turn-stopping`. A red `make check` sends the agent back, at most twice. The known stop "no app, CHECK empty" does not ([ADR 0001](../decisions/0001-runtime-stack-deliberately-deferred-until-an-explicit-pi-or-ts-choice.md)). A thread from before this insert does not see the hook.
 
-## Controle
+## Verification
 
-`dsh --profile acp` moet afsluiten met code 0 zodra stdin dichtgaat. Een verse start die `initialize` en `session/new` krijgt, laat jarvis `ListToolsRequest` loggen. `searchCode` op `Project-Understanding` raakt deze repo. Een vuile of net geschreven zin zit er niet in tot `jarvis index <pad> --no-semantic` opnieuw draait.
+`dsh --profile acp` must exit with code 0 as soon as stdin closes. A fresh start that receives `initialize` and `session/new` makes jarvis log a `ListToolsRequest`. `searchCode` on `Project-Understanding` hits this repo. A dirty or just-written sentence is not in it until `jarvis index <path> --no-semantic` runs again.
 
-> **Tip:** Gebruik `jarvis index "$(pwd)" --no-semantic` om deze repo te indexeren.
-> `--no-semantic` voorkomt dat jarvis een multi-GB semantic-modelgewicht downloadt.
-> De lexicale Zoekt-index (searchCode) is daarna beschikbaar voor de agent.
+> **Tip:** use `jarvis index "$(pwd)" --no-semantic` to index this repo.
+> `--no-semantic` prevents jarvis from downloading a multi-GB semantic model weight.
+> The lexical Zoekt index (searchCode) is then available to the agent.

@@ -1,33 +1,33 @@
 # Session / spine
 
-> **Rol:** Bijhouden waar het agent-gesprek leeft.
-> **Niet hier:** samenhang ([totaalproduct.md](totaalproduct.md)).
+> **Role:** maintaining where the agent conversation lives.
+> **Not here:** relations ([totaalproduct.md](totaalproduct.md)).
 
-**Stand:** overgeslagen · **ADR:** [0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md) · **Spec weg** — besluit in ADR, vorm in product-doc
+**State:** skipped · **ADR:** [0005](../decisions/0005-the-conversation-remains-the-zed-and-dsh-session-without-repo-spine.md) · **Spec gone** — decision in the ADR, shape in the product doc
 
-## Wat de gebruiker kan
+## What the user can do
 
-- Het gesprek hervatten in het Zed Agent Panel, via de DeepSeek Harness-sessie van deze workspace.
+- Resume the conversation in the Zed Agent Panel, via the DeepSeek Harness session of this workspace.
 
-## Besluit
+## Decision
 
-Geen repo-spine. Geen `.agent/`, geen `ledger.jsonl` in de werkmap. Het gesprek is het paneel en de DSH-sessie. Wat een slice blijvend moet vastleggen, gaat via `make log`.
+No repo spine. No `.agent/`, no `ledger.jsonl` in the working directory. The conversation is the panel and the DSH session. What a slice must record durably goes through `make log`.
 
-Een hernoemde of verplaatste map laat het gesprek bij het oude pad. Dat is hetzelfde als bij Cursor en Claude. Een koppeling die dat wél oplost, heropent [ADR 0005](../decisions/0005-het-gesprek-blijft-de-zed-en-dsh-sessie-zonder-repo-spine.md).
+A renamed or moved directory leaves the conversation on the old path. That is the same as with Cursor and Claude. A coupling that does solve it reopens [ADR 0005](../decisions/0005-the-conversation-remains-the-zed-and-dsh-session-without-repo-spine.md).
 
-## Stand van zaken
+## Current state
 
-| Onderwerp | Status | Notitie |
-|-----------|--------|---------|
-| Repo-spine P1–P4 | overgeslagen | geen beter koppelmechanisme dan de pad-gebonden sessie |
-| `make log` | blijft | duurzame notitie aan het eind van een slice |
+| Topic | Status | Note |
+|-------|--------|------|
+| Repo spine P1–P4 | skipped | no better coupling mechanism than the path-bound session |
+| `make log` | stays | durable note at the end of a slice |
 
-## Raakvlakken
+## Interfaces
 
-- Gesprek: [agent-ui.md](agent-ui.md), [harness.md](harness.md)
-- Duurzaam: `docs/work/logs/`
+- Conversation: [agent-ui.md](agent-ui.md), [harness.md](harness.md)
+- Durable: `docs/work/logs/`
 
-## Bewust niet
+## Deliberately not
 
-- Een tweede geheugen naast de harness-sessie.
-- Spine met secrets committen.
+- A second memory beside the harness session.
+- Committing a spine with secrets.

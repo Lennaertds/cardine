@@ -1,50 +1,50 @@
 # Desktop — overlays
 
-> **Rol:** Menu's en dialogen op de showcase.  
-> **Niet hier:** product-sheets ([overlays-policy](../../iphone/application/overlays-policy.md)).
+> **Role:** Menus and dialogs on the showcase.
+> **Not here:** product sheets ([overlays-policy](../../iphone/application/overlays-policy.md)).
 
-Een overlay komt uit de knop die hem opende, of hij dimt de pagina om één taak. Niet allebei half.
+An overlay comes out of the button that opened it, or it dims the page for one task. Not half of both.
 
 ## 1. Menu
 
-- Opent vanuit de bronknop. `transform-origin` op die knop. Schaduwrol panel, materiaal Regular.
-- Items: solid fill bij hover (`--foreground` op 8%), geen eigen glas.
-- Standaardacties tonen een icoon én een label. 20px icoon, 12px naar de tekst.
-- Esc sluit. Klik buiten sluit. Focus gaat het menu in en keert terug naar de knop.
-- Eén menu open. Een tweede klik op een andere menuknop sluit het eerste eerst.
-- Breedte: min 12rem, max 20rem. Langer dan acht items: het menu scrollt van binnen, de pagina niet.
+- Opens from the source button. `transform-origin` on that button. Shadow role panel, material Regular.
+- Items: solid fill on hover (`--foreground` at 8%), no own glass.
+- Standard actions show an icon **and** a label. 20px icon, 12px to the text.
+- Esc closes. Click outside closes. Focus goes into the menu and returns to the button.
+- One menu open. A second click on another menu button closes the first one first.
+- Width: min 12rem, max 20rem. Longer than eight items: the menu scrolls inside, the page does not.
 
-Geen actie-sheet vanaf de onderkant op wide. Dat patroon is van de telefoon.
+No action sheet from the bottom on wide. That pattern is the phone's.
 
-## 2. Dialoog
+## 2. Dialog
 
-Voor een beslissing die de pagina moet tegenhouden (een bevestiging, een kort formulier).
+For a decision that has to stop the page (a confirmation, a short form).
 
-- Gecentreerd, max 32rem, Regular-glas of solid `--card` als het formulier lang is. Formulier-body liever solid.
-- Hoeken `--r-group`, concentrisch voor knoppen erin.
-- Scrim: `--sheet-scrim`. De pagina erachter scrollt niet.
-- Knoppen rechtsonder: quiet annuleren, primary bevestigen. Destructief alleen als de actie ongedaan te maken is of echt wist — en dan de bestaande confirm-stijl, geen rode glazen pil ernaast.
-- Esc sluit, tenzij er onopgeslagen invoer is; dan blijft de dialoog en de annuleren-knop is bereikbaar.
-- Focus zit in de dialoog tot ze sluit.
+- Centred, max 32rem, Regular glass or solid `--card` if the form is long. Form body preferably solid.
+- Corners `--r-group`, concentric for buttons inside.
+- Scrim: `--sheet-scrim`. The page behind does not scroll.
+- Buttons bottom right: quiet cancel, primary confirm. Destructive only if the action can be undone or really wipes — and then the existing confirm style, not a red glass pill next to it.
+- Esc closes, unless there is unsaved input; then the dialog stays and the cancel button is reachable.
+- Focus stays in the dialog until it closes.
 
-Op narrow mag dezelfde taak een sheet zijn, via de product-taxonomy. Geen tweede dialoog-implementatie.
+On narrow the same task may be a sheet, via the product taxonomy. No second dialog implementation.
 
 ## 3. Z-index
 
-Alleen `var(--z-*)` uit de bestaande ladder ([overlays-policy](../../iphone/application/overlays-policy.md)).
+Only `var(--z-*)` from the existing ladder ([overlays-policy](../../iphone/application/overlays-policy.md)).
 
-| Laag | Token-familie |
-|------|----------------|
-| Balk | `--z-nav` |
+| Layer | Token family |
+|-------|--------------|
+| Bar | `--z-nav` |
 | Menu | `--z-popover` |
-| Dialoog + scrim | `--z-sheet` of de bestaande modal-stap |
+| Dialog + scrim | `--z-sheet` or the existing modal step |
 
-Geen `z-[100]` in een showcase-component.
+No `z-[100]` in a showcase component.
 
 ## 4. Toast
 
-Eén toaster in de root, dezelfde als het product ([overlays-focus-toasts](../../iphone/application/overlays-focus-toasts.md)). De landing toont geen toast om een sectie aan te kondigen.
+One toaster in the root, the same as the product ([overlays-focus-toasts](../../iphone/application/overlays-focus-toasts.md)). The landing page shows no toast to announce a section.
 
-Zichtbaar 3–5 seconden. Geen focus-dief. `aria-live="polite"`. Een dialoog met onopgeslagen invoer vraagt voor ze sluit. Destructieve knoppen staan weg van de primary.
+Visible 3–5 seconds. Not a focus thief. `aria-live="polite"`. A dialog with unsaved input asks before it closes. Destructive buttons sit away from the primary.
 
-**Test:** een menu groeit uit zijn knop, sluit met Esc, en de focus keert terug. Er is geen tweede toaster.
+**Test:** a menu grows out of its button, closes with Esc, and focus returns. There is no second toaster.

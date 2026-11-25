@@ -1,3 +1,3 @@
 # Logging
 
-Deze laag kopieert `logs/status-log.md` naar het project. Zie [logs/README.md](logs/README.md).
+This layer copies `logs/status-log.md` into the project. See [logs/README.md](logs/README.md).

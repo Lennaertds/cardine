@@ -1,54 +1,54 @@
 # Makefile, apps/&lt;app&gt;/app.mk, local.mk
 
-> **Rol:** De commando's van het project aanpassen zonder de vaste namen te breken.
-> **Niet hier:** wat elke target doet en hoe het mechanisme werkt ([standaard/makefile](../standaard/makefile.md)).
+> **Role:** Adapting the project's commands without breaking the fixed names.
+> **Not here:** what every target does and how the mechanism works ([standard/makefile](../standard/makefile.md)).
 
-**Kitbestanden:** [kit/kern/Makefile](../kit/kern/Makefile) · `app.mk` per stack: [next](../kit/stacks/next/apps/web/app.mk), [nest](../kit/stacks/nest/apps/api/app.mk), [python](../kit/stacks/python/apps/analytics/app.mk), [sql](../kit/stacks/sql/apps/pipeline/app.mk) · P13
+**Kit files:** [kit/kern/Makefile](../kit/kern/Makefile) · `app.mk` per stack: [next](../kit/stacks/next/apps/web/app.mk), [nest](../kit/stacks/nest/apps/api/app.mk), [python](../kit/stacks/python/apps/analytics/app.mk), [sql](../kit/stacks/sql/apps/pipeline/app.mk) · P13
 
-## Wanneer
+## When
 
-De root-`Makefile` kopieer je en pas je zelden aan. Je werkt in de `app.mk` van elke app, en in `local.mk` voor wat alleen jij gebruikt.
+You copy the root `Makefile` and rarely change it. You work in each app's `app.mk`, and in `local.mk` for what only you use.
 
-## Invullen
+## Filling in
 
-| Wat je wil | Waar | Hoe |
-|------------|------|-----|
-| Ander commando voor een vaste target | `apps/<app>/app.mk` | recept aanpassen, naam houden (`check-web` blijft `check-web`) |
-| Andere poort | bovenaan de `app.mk` | `WEB_PORT ?= 3002`; overschrijven kan per keer: `make dev-web WEB_PORT=4000` |
-| Nieuwe target voor één app | de `app.mk` van die app | naam met `-<app>`, `## uitleg`, in de juiste lijst (`CHECK_FULL += e2e-web`) |
-| Nieuwe target voor het hele project | root-`Makefile`, onder de juiste `##@`-groep | `## uitleg`; bij `.PHONY` zetten |
-| Iets alleen voor jou | `local.mk` (niet in git) | gewone targets met `## uitleg`; `make help` toont ze ook |
-| Tweede app van dezelfde stack | `apps/<nieuw>/app.mk` | kopie, voorvoegsel en achtervoegsel hernoemen (`ADMIN_DIR`, `check-admin`) |
+| What you want | Where | How |
+|---------------|-------|-----|
+| A different command for a fixed target | `apps/<app>/app.mk` | change the recipe, keep the name (`check-web` stays `check-web`) |
+| A different port | at the top of the `app.mk` | `WEB_PORT ?= 3002`; override per run: `make dev-web WEB_PORT=4000` |
+| A new target for one app | that app's `app.mk` | name with `-<app>`, `## explanation`, in the right list (`CHECK_FULL += e2e-web`) |
+| A new target for the whole project | root `Makefile`, under the right `##@` group | `## explanation`; add it to `.PHONY` |
+| Something only for you | `local.mk` (not in git) | ordinary targets with `## explanation`; `make help` shows them too |
+| A second app of the same stack | `apps/<new>/app.mk` | copy it, rename the prefixes and suffixes (`ADMIN_DIR`, `check-admin`) |
 
-Recepten springen in met een **tab**. De `.editorconfig` uit de kit regelt dat.
+Recipes are indented with a **tab**. The kit's `.editorconfig` takes care of that.
 
-## Voorbeeld (GymFreak, `local.mk`)
+## Example (GymFreak, `local.mk`)
 
-Een target die je eigen testaccount gebruikt, hoort niet in git:
+A target that uses your own test account does not belong in git:
 
 ```make
-##@ Persoonlijk (local.mk)
-boost: ## eigen testaccounts: max coins, alle thema's
+##@ Personal (local.mk)
+boost: ## own test accounts: max coins, all themes
 	@node apps/api/scripts/dev-boost.mjs test@gymfreak.be lennaert@gymfreak.be
 ```
 
-En in `apps/web/app.mk`, als web pas mag starten als de API luistert:
+And in `apps/web/app.mk`, when web may only start once the API is listening:
 
 ```make
-dev-web: ## web: Next dev-server; wacht tot de API op API_PORT luistert
+dev-web: ## web: Next dev server; wait until the API listens on API_PORT
 	@until (echo >/dev/tcp/127.0.0.1/$(API_PORT)) 2>/dev/null; do sleep 0.5; done
 	pnpm --dir $(WEB_DIR) exec next dev --port $(WEB_PORT)
 ```
 
-## Snelle toets
+## Quick check
 
-- [ ] `make help` toont elke target die iemand gebruikt, met uitleg.
-- [ ] `make check` draait zonder netwerk of database, en eindigt met "groen".
-- [ ] `security-scan*`, `obs-*`, `perf-check` en `bench` staan in `make help`, niet in `CHECK`.
-- [ ] `deps-audit` staat in `make help` en in `check-full`, niet in `CHECK`.
-- [ ] `native-bindings-strict` staat in `make help` en in `check-full`, niet in soft `CHECK`.
-- [ ] `polyglot-check` staat in `make help`, niet in `CHECK` / `check-full`.
-- [ ] Root-`AGENTS.md` noemt opt-in-targets in één zin → `make help`/INDEX, niet als acht always-on commandorijen of pad-catalogus.
-- [ ] Met module `research`: `radar-*` / `digest-check` / `digest-reminder` / `digest-fetch` / `digest-propose` in `make help`, niet in `CHECK`.
-- [ ] Elke target die data wist, heeft een guard.
-- [ ] Geen recept langer dan ±10 regels; anders een script in `scripts/`.
+- [ ] `make help` shows every target someone uses, with an explanation.
+- [ ] `make check` runs without network or database, and ends green.
+- [ ] `security-scan*`, `obs-*`, `perf-check` and `bench` are in `make help`, not in `CHECK`.
+- [ ] `deps-audit` is in `make help` and in `check-full`, not in `CHECK`.
+- [ ] `native-bindings-strict` is in `make help` and in `check-full`, not in the soft `CHECK`.
+- [ ] `polyglot-check` is in `make help`, not in `CHECK` / `check-full`.
+- [ ] The root `AGENTS.md` mentions opt-in targets in one sentence → `make help`/INDEX, not as eight always-on command rows or a path catalogue.
+- [ ] With module `research`: `radar-*` / `digest-check` / `digest-reminder` / `digest-fetch` / `digest-propose` in `make help`, not in `CHECK`.
+- [ ] Every target that deletes data has a guard.
+- [ ] No recipe longer than ±10 lines; otherwise a script in `scripts/`.

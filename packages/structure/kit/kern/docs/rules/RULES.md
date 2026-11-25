@@ -1,14 +1,14 @@
-# Regels
+# Rules
 
-> **Rol:** Inhoudelijke grenzen: wat dit project nooit doet, en wat altijd moet.
-> **Niet hier:** codestijl (de linter), werkwijze van de agent ([AGENTS.md](../../AGENTS.md)), technische maatregelen ([security.md](../architecture/security.md)).
+> **Role:** Content boundaries: what this project never does, and what must always be true.
+> **Not here:** code style (the linter), the agent's working method ([AGENTS.md](../../AGENTS.md)), technical measures ([security.md](../architecture/security.md)).
 
-Elke regel is één zin met het waarom erbij. Is een regel afdwingbaar met een test, hook of CI-check, dan doe je dat ook, en verwijst de regel ernaar.
+Every rule is one sentence with the why. If a rule can be enforced with a test, hook or CI check, you do that too, and the rule links to it.
 
-## Nooit
+## Never
 
-- <bv. "Geen medisch advies: de app toont trends, geen diagnoses of behandelingen.">
+- <e.g. "No medical advice: the app shows trends, no diagnoses or treatments.">
 
-## Altijd
+## Always
 
-- <bv. "Elke aanbeveling toont haar bron (paper of eigen regel).">
+- <e.g. "Every recommendation shows its source (a paper or one of our own rules).">

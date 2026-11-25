@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Haal RSS/Atom/JSON-API (of fixture) op naar data/external/digest/.
-# DIGEST_DRY_RUN=1 — alleen URLs tonen.
+# Fetch RSS/Atom/JSON API (or a fixture) into data/external/digest/.
+# DIGEST_DRY_RUN=1 — show URLs only.
 # DIGEST_FIXTURE=<file|dir> — offline.
 # DIGEST_EXTRA_URLS=$'url1\nurl2' — extra feeds.
-# DIGEST_DUMP_DATE=YYYY-MM-DD — mapprefix (default: vandaag); voor catch-up van gemiste dagen.
+# DIGEST_DUMP_DATE=YYYY-MM-DD — folder prefix (default: today); for catching up missed days.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -17,10 +17,10 @@ LIMIT="${DIGEST_ITEM_LIMIT:-40}"
 die() { echo "digest-fetch: $*" >&2; exit 1; }
 tip() { echo "digest-fetch: $*" >&2; }
 
-[[ -f bron/digest/README.md ]] || die "ontbreekt bron/digest/"
+[[ -f bron/digest/README.md ]] || die "missing bron/digest/"
 
 extract_urls() {
-  # Alleen expliciete feed-URL's in <https://…> (niet markdown-links in notities).
+  # Only explicit feed URLs in <https://…> (not markdown links in notes).
   grep -Eo '<https?://[^>]+>' "$SOURCES" 2>/dev/null | sed 's/^<//; s/>$//; s/[.,;:]$//' | sort -u || true
   if [[ -n "${DIGEST_EXTRA_URLS:-}" ]]; then
     printf '%s\n' "$DIGEST_EXTRA_URLS" | grep -Eo 'https?://[^[:space:]]+' | sed 's/[.,;:]$//' || true
@@ -42,9 +42,9 @@ slug_from_url() {
 }
 
 if [[ "${DIGEST_ONLY_EXTRA:-}" == "1" ]]; then
-  [[ -n "${DIGEST_EXTRA_URLS:-}" ]] || die "DIGEST_ONLY_EXTRA=1 vereist DIGEST_EXTRA_URLS"
+  [[ -n "${DIGEST_EXTRA_URLS:-}" ]] || die "DIGEST_ONLY_EXTRA=1 requires DIGEST_EXTRA_URLS"
 else
-  [[ -f "$SOURCES" ]] || die "geen $SOURCES — kopieer SOURCES.example.md"
+  [[ -f "$SOURCES" ]] || die "no $SOURCES — copy SOURCES.example.md"
 fi
 
 mapfile -t URLS < <(
@@ -54,24 +54,24 @@ mapfile -t URLS < <(
     extract_urls
   fi | awk 'NF && !seen[$0]++'
 )
-[[ ${#URLS[@]} -gt 0 ]] || die "geen http(s)-URL's om op te halen"
+[[ ${#URLS[@]} -gt 0 ]] || die "no http(s) URLs to fetch"
 
 if [[ "${1:-}" == "--dry-run" ]] || [[ "${DIGEST_DRY_RUN:-}" == "1" ]]; then
-  tip "dry-run — zou ${#URLS[@]} feed(s) ophalen naar $OUT_ROOT/${DUMP_DAY}-*/"
+  tip "dry-run — would fetch ${#URLS[@]} feed(s) into $OUT_ROOT/${DUMP_DAY}-*/"
   for u in "${URLS[@]}"; do echo "  - $u"; done
-  echo "digest-fetch: dry-run klaar"
+  echo "digest-fetch: dry-run done"
   exit 0
 fi
 
 mkdir -p "$OUT_ROOT"
-command -v python3 >/dev/null || die "python3 vereist"
+command -v python3 >/dev/null || die "python3 required"
 
 is_json_api() {
   [[ "$1" == *"/api/"* ]] || [[ "$1" == *.json ]] || [[ "$1" == *".json?"* ]]
 }
 
 has_dump_for() {
-  # Bestaat er al een dump waarvan source.txt deze URL bevat (ongeacht dump-dag)?
+  # Is there already a dump whose source.txt holds this URL (whatever the dump day)?
   local url="$1" f
   while IFS= read -r f; do
     [[ -f "$f" ]] || continue
@@ -102,10 +102,10 @@ fetch_one() {
     elif [[ -d "$DIGEST_FIXTURE" ]]; then
       local hit
       hit="$(find "$DIGEST_FIXTURE" -maxdepth 1 -type f \( -name '*.xml' -o -name '*.rss' -o -name '*.atom' -o -name '*.json' \) | head -n1)"
-      [[ -n "$hit" ]] || die "DIGEST_FIXTURE-dir heeft geen feed-bestand"
+      [[ -n "$hit" ]] || die "DIGEST_FIXTURE dir has no feed file"
       cp "$hit" "$raw"
     else
-      die "DIGEST_FIXTURE bestaat niet: $DIGEST_FIXTURE"
+      die "DIGEST_FIXTURE does not exist: $DIGEST_FIXTURE"
     fi
     tip "fixture → $dest"
   else
@@ -113,17 +113,17 @@ fetch_one() {
       curl -fsSL --max-time 60 -A "agent-engineering-digest/1" \
         -H "Accept: application/json, application/atom+xml, application/rss+xml, */*" \
         -o "$raw" "$url" \
-        || die "HTTP faalde voor $url"
+        || die "HTTP failed for $url"
     elif command -v wget >/dev/null; then
-      wget -q -O "$raw" "$url" || die "HTTP faalde voor $url"
+      wget -q -O "$raw" "$url" || die "HTTP failed for $url"
     else
-      die "curl of wget vereist"
+      die "curl or wget required"
     fi
-    tip "opgehaald → $dest"
+    tip "fetched → $dest"
   fi
 
   python3 "$SCRIPTS/digest-rss.py" -i "$raw" -o "$dest/items.md" -s "$url" -n "$LIMIT" \
-    || tip "parse soft-fail voor $url — $(basename "$raw") bewaard"
+    || tip "parse soft-fail for $url — $(basename "$raw") kept"
 }
 
 for u in "${URLS[@]}"; do

@@ -1,6 +1,6 @@
-# Experimenten
+# Experiments
 
-Notebooks en eenmalige scripts: `YYYY-MM-DD-<slug>.{ipynb,py}`. Nooit geïmporteerd door `src/`, niet in `make check`. Het verslag (vraag, opzet, resultaat, conclusie) staat in `docs/research/experiments/` met dezelfde naam; maak het met `make experiment s=<slug>`.
+Notebooks and one-off scripts: `YYYY-MM-DD-<slug>.{ipynb,py}`. Never imported by `src/`, not in `make check`. The report (question, setup, result, conclusion) lives in `docs/research/experiments/` under the same name; create it with `make experiment s=<slug>`.
 
-| Experiment | Verslag | Status |
+| Experiment | Report | Status |
 |------------|---------|--------|

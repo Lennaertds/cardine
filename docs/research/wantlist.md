@@ -1,33 +1,33 @@
 # Wantlist
 
-> **Rol:** Bronnen die we nog willen lezen of verwerven, en waarom.
-> **Niet hier:** verwerkte bronnen (die staan als § in `bron/`); pdf’s (`data/external/`); vastgezette stack ([radar.md](radar.md) / ADR); ruwe vragen ([ideeen-en-vragen.md](ideeen-en-vragen.md)).
+> **Role:** sources we still want to read or acquire, and why.
+> **Not here:** processed sources (those are a § in `bron/`); PDFs (`data/external/`); the settled stack ([radar.md](radar.md) / ADRs); raw questions ([ideas-and-questions.md](ideas-and-questions.md)).
 
-Zie programma: [onderzoek-programma.md](onderzoek-programma.md). Status: `open` → `bezig` → `§n in AE` / `verwerkt`.
+See the programme: [research-programme.md](research-programme.md). Status: `open` → `in progress` → `§n in bron/` / `processed`.
 
-| Bron / onderwerp | Waarom | Slice | Status |
+| Source / topic | Why | Slice | Status |
 |------------------|--------|-------|--------|
-| Cursor Instant Grep + Search-docs | A1 | A1 | §69 |
+| Cursor Instant Grep + search docs | A1 | A1 | §69 |
 | Cursor semantic / indexing / dynamic context / Composer / harness / Codex | A1 | A1 | §70–§75 |
-| Pi — pi.dev + monorepo (naast video §33) | A2 | A2 | §76 |
-| DeepSeek Harness repo + architecture (≠ model-§) | A2 | A2 | §77 |
+| Pi — pi.dev + monorepo (besides video §33) | A2 | A2 | §76 |
+| DeepSeek Harness repo + architecture (not the model §) | A2 | A2 | §77 |
 | Cline (IDE/CLI/SDK peer) | A2 | A2 | §78 |
 | OpenCode (terminal peer) | A2 | A2 | §79 |
-| Cordis paper arxiv 2608.25512 | A2/A4 diepte Cordis | A2 | open (optioneel) |
-| Artificial Analysis Coding Agent Index (+ methodologie) | A5 cost×kwaliteit; DeepSeek API | A5 | §80 |
-| Binding Constraint / Scaffold Effect / Meta-Harness / SWE-Pro / HarnessTax / Harness-Bench | A5 papers+repos | A5 | §81–§86 |
-| Decode course / LangChain middleware / harness thesis / Vercel Academy / Mastra / Heeki | A2 harness-bouw | A2 | §105–§112 |
-| learn-agent-architecture (rest sections 1–21) | A2 diepte na thesis §108 | A2 | open |
-| BenchGen (benchgen.com) | A5 Assess — methodologie verifiëren | A5 | open (Assess) |
-| Overige publieke benches naast AA/§83 | A5 aanvulling | A5 | open |
-| Meta-Harness outer-loop experiment | Later lab, niet dag-0 | A5/B | later |
-| Vibe/agentic-IDE listicles (Zite / DataCamp / ItsOnMedia) | A4/A5 namen+taxonomie | A4 | §102–§104 (lage authority) |
-| Zoekt / SCIP / jarvis / Gortex / polyglot-indexer-mcp | Indexing compose ([indexing.md](../product/indexing.md)) | indexing | deels (catalogus); smoke jarvis Arch open |
-| Zed / Lapce / Helix / Neovim / Kate — architecture, license, plugin/RPC, Wayland | A4 shortlist non-Electron ([ide-shell.md](../product/ide-shell.md)) | A4 | deels (tabel 2026-11-07); smoke + § nog |
-| LSP/DAP host-oppervlak (generiek, niet VS Code-only) | A4 indexing-hooks | A4 | open |
-| Windsurf / Kiro / Antigravity / Trae / PearAI / Aider / Roo / Copilot Workspaces | A4 peers uit §103 (Electron/peers = contrast, niet fork-doel) | A4 | open (Assess; Electron = Hold voor shell) |
-| VS Code architecture / extension API | A4 alleen als contrast (Electron afgewezen als lab-shell) | A4 | open (laag prioriteit) |
-| DeepSeek HF-collectie + Fowler + V4 card + Transparency + V4.1 news + V3/V3.2 PDF | A3 officiële lineage | A3 | §89–§94 |
+| Cordis paper arxiv 2608.25512 | A2/A4, Cordis depth | A2 | open (optional) |
+| Artificial Analysis Coding Agent Index (+ methodology) | A5 cost × quality; DeepSeek API | A5 | §80 |
+| Binding Constraint / Scaffold Effect / Meta-Harness / SWE-Pro / HarnessTax / Harness-Bench | A5 papers and repos | A5 | §81–§86 |
+| Decode course / LangChain middleware / harness thesis / Vercel Academy / Mastra / Heeki | A2 harness building | A2 | §105–§112 |
+| learn-agent-architecture (remaining sections 1–21) | A2 depth after thesis §108 | A2 | open |
+| BenchGen (benchgen.com) | A5 Assess — verify the methodology | A5 | open (Assess) |
+| Other public benches besides AA/§83 | A5 supplement | A5 | open |
+| Meta-Harness outer-loop experiment | Later lab, not day zero | A5/B | later |
+| Vibe/agentic IDE listicles (Zite / DataCamp / ItsOnMedia) | A4/A5 names and taxonomy | A4 | §102–§104 (low authority) |
+| Zoekt / SCIP / jarvis / Gortex / polyglot-indexer-mcp | Indexing composition ([indexing.md](../product/indexing.md)) | indexing | partial (catalogue); jarvis smoke test on Arch open |
+| Zed / Lapce / Helix / Neovim / Kate — architecture, licence, plugin/RPC, Wayland | A4 non-Electron shortlist ([ide-shell.md](../product/ide-shell.md)) | A4 | partial (table 2026-11-07); smoke test and § still |
+| LSP/DAP host surface (generic, not VS Code-only) | A4 indexing hooks | A4 | open |
+| Windsurf / Kiro / Antigravity / Trae / PearAI / Aider / Roo / Copilot Workspaces | A4 peers from §103 (Electron peers are contrast, not fork targets) | A4 | open (Assess; Electron = Hold for the shell) |
+| VS Code architecture / extension API | A4 as contrast only (Electron rejected as the lab shell) | A4 | open (low priority) |
+| DeepSeek HF collection + Fowler + V4 card + Transparency + V4.1 news + V3/V3.2 PDF | A3 official lineage | A3 | §89–§94 |
 | DeepSeek-V4 / V4.1-Flash tech report PDF lokaal | A3 diepte naast §56/§58 | A3 | open (optioneel download) |
 | Kimi/Moonshot papers + K2/K2.5/K3/K3.1 + MuonClip + KDA + Kimi Code + AA Cyber | A3 peer naast DeepSeek | A3 | §134–§142 |
 | Kimi K2 / K3 / Linear PDF lokaal (optioneel) | A3 diepte | A3 | open (optioneel download) |
@@ -42,7 +42,7 @@ Zie programma: [onderzoek-programma.md](onderzoek-programma.md). Status: `open` 
 | A7: §118–§122 + §117 | Clarificatie gates | A7 | gedaan |
 | A7: lab v1-ladder + revert-zin | Vorm | A7 | gedaan (ideeen) |
 | A7: §47 Strix e.d. | Aanvullend | A7 | open (optioneel) |
-| A7: meting zonder check vs check+revert | Experiment | A7 | later (na stack) |
+| A7: measuring with vs without check (and check+revert) | Experiment | A7 | later (after the stack) |
 | A8: §123–§127 | Audience×formaat | A8 | gedaan |
 | A8: formaat-tabel + dual-regel | Vorm | A8 | gedaan (ideeen) |
 | A8: MD-log vs JSONL mini-meting | Experiment | A8 | later |
@@ -54,4 +54,4 @@ Zie programma: [onderzoek-programma.md](onderzoek-programma.md). Status: `open` 
 | A5: `vergelijking-harness-ide.md` matrix | Synthese | A5 | open |
 | A4: VS Code architecture / LSP | Anatomie | A4 | open |
 
-Tech-hits om te *beoordelen* (niet meteen Adopt): kort hier of Trial/Assess op [radar.md](radar.md).
+Tech hits to *assess* (not Adopt right away): briefly here, or Trial/Assess on [radar.md](radar.md).

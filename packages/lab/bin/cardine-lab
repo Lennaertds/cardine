@@ -1,33 +1,33 @@
 #!/usr/bin/env bash
-# cardine-lab CLI — entrypoint van het gepubliceerde package.
+# cardine-lab CLI — entrypoint of the published package.
 #
-# Doet niets meer dan de scripts in dit package aanroepen met absolute paden,
-# zodat `npm i -g @lennaertds/cardine-lab` werkt vanaf elke cwd.
+# Does nothing beyond calling the scripts in this package with absolute paths,
+# so that `npm i -g @lennaertds/cardine-lab` works from any cwd.
 #
 #   cardine-lab install [--force]   → install-lab.sh (idempotent)
-#   cardine-lab status [opties]     → cardine-status.sh (--json, --verbose, --fix)
+#   cardine-lab status [opts]       → cardine-status.sh (--json, --verbose, --fix)
 set -euo pipefail
 
-# Zelfde valstrik als bin/cardine: via de npm-symlink is BASH_SOURCE[0] de link
-# in <prefix>/bin, niet het bestand in het package.
+# Same trap as bin/cardine: through the npm symlink BASH_SOURCE[0] is the link in
+# <prefix>/bin, not the file inside the package.
 SELF="$(readlink -f "${BASH_SOURCE[0]}")"
 LAB_DIR="$(cd "$(dirname "${SELF}")/.." && pwd)"
 
 usage() {
-  cat <<'EOF'
-Gebruik: cardine-lab <commando> [opties]
+  cat <<'USAGE'
+Usage: cardine-lab <command> [options]
 
-  install             lab-omgeving opzetten voor de huidige map (idempotent:
-                      een tweede run wijzigt alleen wat nog niet klopt).
-  status [opties]     status van de omgeving. Opties: --json --verbose --fix
-  version             versie van dit package
-  -h, --help          deze hulp
+  install             set up the lab environment for the current directory
+                      (idempotent: a second run only changes what is still off).
+  status [opts]       status of the environment. Options: --json --verbose --fix
+  version             version of this package
+  -h, --help          this help
 
-Voorbeelden:
+Examples:
   cardine-lab install
   cardine-lab status --verbose
   cardine-lab status --fix
-EOF
+USAGE
 }
 
 case "${1:-}" in

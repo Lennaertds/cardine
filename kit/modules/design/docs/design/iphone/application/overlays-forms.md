@@ -1,74 +1,74 @@
 # UI iPhone — overlays · forms
 
-> **Rol:** Forms validation + iOS grouped lists.  
-> **Niet hier:** focus en toasts ([overlays-focus-toasts](overlays-focus-toasts.md)); het toetsenbord ([touch-keyboard](../touch-keyboard.md)).
+> **Role:** Form validation + iOS grouped lists.
+> **Not here:** focus and toasts ([overlays-focus-toasts](overlays-focus-toasts.md)); the keyboard ([touch-keyboard](../touch-keyboard.md)).
 
 ## 1. Forms & validation feedback
 
-- Valideer **inline** (field-level), niet alleen op submit.
-- Fouten tonen **op blur** (of submit), niet rood bij elke toetsaanslag.
-- Zodra een field **errored** is → **live revalidate** tijdens typen.
-- Success-check **in-field** OK — geen Sonner die focus steelt voor veld-OK.
-- Fout: `aria-invalid="true"` + zichtbare caption; focus eerste invalid control.
-- Success van netwerkactie → Sonner; structurele lege staat → [surfaces-states](surfaces-states.md) S1.
-- Onvoltooide invoer / drafts: autosave waar draft-key bestaat; anders vragen vóór dismiss.
+- Validate **inline** (field level), not only on submit.
+- Show errors **on blur** (or submit), not red on every keystroke.
+- Once a field is **errored** → **revalidate live** while typing.
+- Success check **in-field** is fine — no Sonner that steals focus for a field OK.
+- Error: `aria-invalid="true"` + a visible caption; focus the first invalid control.
+- Network success → Sonner; a structural empty state → [surfaces-states](surfaces-states.md) S1.
+- Unfinished input / drafts: autosave where a draft key exists; otherwise ask before dismiss.
 
-## 2. Field chrome (stramien)
+## 2. Field chrome (framework)
 
-| Deel | Regel |
-|------|--------|
-| **Label** | Zichtbaar — niet alleen placeholder |
-| **Control** | `min-height` die 44px hit haalt waar tapbaar; **font-size ≥ 16px** |
-| **Border** | `border-stroke` + surface; radius = field-token |
-| **Error** | Caption onder control; kleur + icoon + tekst |
-| **Hint** | Optioneel muted; verdwijnt niet als error verschijnt |
+| Part | Rule |
+|------|------|
+| **Label** | Visible — not a placeholder alone |
+| **Control** | `min-height` that reaches a 44px hit where tappable; **font-size ≥ 16px** |
+| **Border** | `border-stroke` + surface; radius = field token |
+| **Error** | Caption under the control; colour + icon + text |
+| **Hint** | Optional, muted; does not disappear when an error appears |
 
-**Zes field-states:** default · hover · focus · filled · error · disabled.
+**Six field states:** default · hover · focus · filled · error · disabled.
 
-**Specials:** datum (presets first), kloktijd/duur (scroll-wielen — [touch-keyboard](../touch-keyboard.md)), search (§3), file upload (§4), password (§8), mask (§7).
+**Specials:** date (presets first), clock time/duration (scroll wheels — [touch-keyboard](../touch-keyboard.md)), search (§3), file upload (§4), password (§8), mask (§7).
 
-**Niet:** `text-sm` inputs onder 16px; placeholder als enige label.
+**Don't:** `text-sm` inputs under 16px; a placeholder as the only label.
 
 ## 3. Search fields
 
-`type="search"` + zichtbaar label; clear ≥44 (of dense 36); debounce OK; empty query = volle lijst of empty state; recent queries bij focus; zero-results altijd uitweg.
+`type="search"` + visible label; clear ≥44 (or dense 36); debounce is fine; an empty query = the full list or an empty state; recent queries on focus; zero results always have a way out.
 
 ## 4. File upload
 
-Label zichtbaar; preview type+size+naam; eerlijke progress; queue = onafhankelijke lanes; drag op pointer, knop primair op touch; accepted types in hint.
+Visible label; preview type+size+name; honest progress; queue = independent lanes; drag with a pointer, button primary on touch; accepted types in the hint.
 
-## 5. Autosave statusmachine
+## 5. Autosave state machine
 
-Waar draft-key bestaat: **typing** → **saving** → **saved** | **offline** | **error**. Debounce ~800ms; “Saved” alleen na geslaagde write; unsaved guard bij dismiss.
+Where a draft key exists: **typing** → **saving** → **saved** | **offline** | **error**. Debounce ~800ms; "Saved" only after a successful write; unsaved guard on dismiss.
 
 ## 6. Inline edit
 
-Whisper-affordance; pixels blijven; Enter = save, Esc = cancel; blur = één gekozen pad overal; fail → rollback.
+Whisper affordance; pixels stay put; Enter = save, Esc = cancel; blur = one chosen path everywhere; failure → rollback.
 
 ## 7. Input mask
 
-Format in UI, store raw; paste strippen + herformatteren; validate op blur; caret volgt separators.
+Format in the UI, store raw; paste strips + reformats; validate on blur; the caret follows separators.
 
 ## 8. Password field
 
-Live checklist; eye toggle ≥44; paste altijd; lange passphrase wint van checkbox-theater.
+Live checklist; eye toggle ≥44; paste always; a long passphrase beats checkbox theatre.
 
 ## 9. Date — presets first
 
-Today / Last 7 / 30 eerst; daarna custom date field; mobile = sheet / thumb-zone.
+Today / Last 7 / 30 first; then a custom date field; mobile = sheet / thumb zone.
 
 ## 10. Stepper / wizard
 
-Groepeer op context; progress altijd zichtbaar; validate per stap; drafts bij back/refresh; busy/incomplete volgt [C6](controls.md).
+Group by context; progress always visible; validate per step; drafts on back/refresh; busy/incomplete follows [C6](controls.md).
 
 ## 11. Microcopy in forms
 
-Reward-labels (“Create account”); errors = probleem + volgende stap; placeholder ≠ label; mensentaal.
+Reward labels ("Create account"); errors = problem + next step; placeholder ≠ label; plain language.
 
 ## 12. Lists (iOS grouped)
 
-- Caps section label + inset `surface` groep.
-- Rijen: titel links, waarde/chevron rechts; `min-h` ≈ 44px.
-- Destructive rij: rode labeltekst.
-- Dividers binnen groep.
-- Swipe: altijd knop-fallback; destroy volgt [controls C8](controls.md).
+- Caps section label + inset `surface` group.
+- Rows: title left, value/chevron right; `min-h` ≈ 44px.
+- Destructive row: red label text.
+- Dividers inside the group.
+- Swipe: always a button fallback; destroy follows [controls C8](controls.md).

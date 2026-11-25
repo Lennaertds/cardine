@@ -1,4 +1,4 @@
-# native-c (apps/native-c) — make-targets van deze app.
+# native-c (apps/native-c) — make targets of this app.
 NATIVE_C_DIR := apps/native-c
 NATIVE_C_BUILD := $(NATIVE_C_DIR)/build
 # Soft lokaal; hard via NATIVE_STRICT=1 (check-full / CI). NATIVE_FFI=auto|napi|ctypes

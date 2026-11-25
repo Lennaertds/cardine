@@ -1,31 +1,31 @@
-# Status-log
+# Status log
 
-> **Rol:** Één bron van waarheid over wat er gedaan is en wat nog open staat.
-> **Bijgewerkt:** {{DATE}}
-> **Zie ook:** `logs/onderwerpen/` voor details per onderwerp
+> **Role:** the single source of truth on what has been done and what is still open.
+> **Updated:** {{DATE}}
+> **See also:** `logs/topics/` for details per topic
 
-## 🔴 Bezig
+## 🔴 In progress
 
-| ID | Onderwerp | Laatste update | Notities |
-|----|-----------|---------------|----------|
+| ID | Topic | Last update | Notes |
+|----|-------|-------------|-------|
 | — | — | — | — |
 
 ## 🟡 Open
 
-| ID | Onderwerp | Laatste update | Notities |
-|----|-----------|---------------|----------|
+| ID | Topic | Last update | Notes |
+|----|-------|-------------|-------|
 | — | — | — | — |
 
-## ✅ Afgerond (naslag)
+## ✅ Done (reference)
 
-| ID | Onderwerp | Laatste update | Notities |
-|----|-----------|---------------|----------|
+| ID | Topic | Last update | Notes |
+|----|-------|-------------|-------|
 | — | — | — | — |
 
 ---
 
 ## Log
 
-| Datum | Wat |
-|-------|-----|
+| Date | What |
+|------|------|
 | | |
