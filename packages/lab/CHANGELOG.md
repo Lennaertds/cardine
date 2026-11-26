@@ -1,5 +1,11 @@
 # Changelog — cardine-lab
 
+## [0.5.3] — 2026-11-26
+
+### Changed
+- npm is the only documented install route (`npm i -g @lennaertds/cardine-lab`).
+- The `package.json` description is in English now (ADR 0018).
+
 ## [Unreleased]
 
 ### Added

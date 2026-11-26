@@ -41,21 +41,9 @@ cardine-lab install
 ```
 
 `cardine-lab` stays available afterwards for `cardine-lab status` and
-`cardine-lab status --fix`. Without a global install you can also run:
-
-```bash
-npx @lennaertds/cardine-lab install
-```
-
-or straight from the repo (no npm):
-
-```bash
-bash packages/lab/install-lab.sh
-```
-
-The package publishes to the public npm registry — no token needed.
-`cardine-lab install` runs from the directory you are in: that directory (or its
-git root) becomes the `workspaceRoot` of the DSH profile.
+`cardine-lab status --fix`. The package publishes to the public npm registry —
+no token needed. `cardine-lab install` runs from the directory you are in: that
+directory (or its git root) becomes the `workspaceRoot` of the DSH profile.
 
 The script is **idempotent**: you can run it several times without harm. It
 installs what is missing and skips what is already there.
@@ -63,10 +51,11 @@ installs what is missing and skips what is already there.
 ### Step 2 — Add the project structure
 
 ```bash
-npx cardine my-project --profile app
+npm i -g cardine
+cardine my-project --profile app
 ```
 
-See [cardine-structure](../structure/README.md) for every option.
+See [cardine](../structure/README.md) for every option.
 
 ### Step 3 — Check the status
 
@@ -176,8 +165,7 @@ for an overview of all the context and its sources.
 
 ## Versioning
 
-This package has its **own version**, independent of `cardine-structure` and the
-meta package. SemVer — `major.minor.patch`.
+This package has its **own version**, independent of `cardine`. SemVer — `major.minor.patch`.
 
 | Item | Value |
 |------|-------|
@@ -200,4 +188,4 @@ scheme.
 | [docs/how-to/sandbox-troubleshoot.md](../../docs/how-to/sandbox-troubleshoot.md) | Solving bwrap problems |
 | [docs/product/totaalproduct.md](../../docs/product/totaalproduct.md) | How the 9 parts relate |
 | [docs/architecture/ARCHITECTURE.md](../../docs/architecture/ARCHITECTURE.md) | Containers, stack, dataflow |
-| [README.md](../../README.md) | Meta package — overview of everything |
+| [README.md](../../README.md) | Repo overview and breakdown of the product |

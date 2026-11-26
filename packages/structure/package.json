@@ -1,11 +1,12 @@
 {
-  "name": "@lennaertds/cardine-structure",
-  "version": "0.5.1",
-  "description": "cardine-structure — projectstandaard voor ieder project, ongeacht editor of abonnement. Gepulled uit kit/.",
+  "name": "cardine",
+  "version": "1.0.0",
+  "description": "Cardine — the project standard for every project, regardless of editor or subscription. Mirrored from kit/.",
   "bin": {
-    "cardine-structure": "kit/new-project.sh"
+    "cardine": "bin/cardine"
   },
   "files": [
+    "bin/",
     "kit/",
     "docs/",
     "README.md",

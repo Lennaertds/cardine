@@ -1,14 +1,14 @@
-# Package: `cardine-structure`
+# Package: `cardine`
 
 > **The project standard for every project, regardless of editor or subscription.**
 > This is the free product from ADR 0009 — mirrored from `kit/`.
 
 | Field | Value |
 |-------|-------|
-| **Package** | `cardine-structure` |
+| **Package** | `cardine` |
 | **Audience** | Anyone who wants a project standard (any editor) |
 | **Source** | `cardine/packages/structure/` (mirrored from `kit/`) |
-| **Install** | `npx @lennaertds/cardine-structure <dir>`, `npm i -g` + `cardine-structure`, or `new-project.sh` |
+| **Install** | `npm i -g cardine`, then `cardine <dir>` |
 | **Depends on** | nothing (standalone) |
 
 ---
@@ -59,7 +59,7 @@ kit/                        (source, in the repo root)
 packages/structure/kit/     (public distribution copy, ships in the package)
   │
   ▼
-@lennaertds/cardine-structure on npm
+cardine on npm
 ```
 
 There is **no second repo and no pin anymore**. `kit/` used to be pulled from a
@@ -72,10 +72,11 @@ Since the merge, `kit/` is the only source.
 
 ## Version coupling
 
-Every `cardine-structure` release contains a copy of `kit/` as it was at release
-time.
+Every `cardine` release contains a copy of `kit/` as it was at release time.
+Before the rename the package shipped as `@lennaertds/cardine-structure`; the
+table keeps the historical names.
 
-| cardine-structure | Date | Notes |
+| Package | Date | Notes |
 |-------------------|------|-------|
 | 0.5.0 | 2026-11-24 | `kit/` becomes the source; `pull_kit.sh` and `kit/COMMIT` dropped |
 | 0.4.0 | 2026-11-22 | `jarvis-check`/`env-status`/`index` in `kern/Makefile` |
@@ -93,7 +94,7 @@ bash packages/structure/sync_kit.sh
 #    - packages/structure/package.json: version
 #    - packages/structure/CHANGELOG.md: new entry
 #    - update this table
-#    - git tag structure-v<version>
+#    - git tag v<version>
 ```
 
 ## Adjustments for publication
@@ -121,24 +122,15 @@ SSOT stays `kit/`.
 
 ## Install
 
-The package is on the public npm registry as
-`@lennaertds/cardine-structure`.
+The package is on the public npm registry as `cardine`.
 
 ```bash
-# Start a new project (recommended)
-npx @lennaertds/cardine-structure my-project --profile app --modules research,agent
-
-# Or install globally; the bin is called cardine-structure
-npm i -g @lennaertds/cardine-structure
-cardine-structure my-project --profile app
-
-# Or straight from the repo (only Git + Bash needed)
-bash packages/structure/kit/new-project.sh my-project --profile app
+npm i -g cardine
+cardine my-project --profile app --modules research,agent
 ```
 
 ## Relations
 
-- Part of the **cardine (meta)** references
 - Mirrored from **`kit/`** (repo, SSOT) — see [ADR 0013](../../../docs/decisions/0013-cardine-is-the-public-shop-window-and-pulls-the-structure-from-agent-engineering.md)
 - Can be used together with `cardine-lab` for a complete workstation
 
@@ -146,4 +138,4 @@ bash packages/structure/kit/new-project.sh my-project --profile app
 
 See [VERSIONING.md](VERSIONING.md) for the general scheme.
 CHANGELOG: `packages/structure/CHANGELOG.md` (own version, SemVer).
-Git tag: `structure-v<semver>`.
+Git tag: `v<semver>`.

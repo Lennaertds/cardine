@@ -1,8 +1,8 @@
 {
-  "name": "cardine",
+  "name": "cardine-workspace",
   "version": "0.4.1",
-  "private": false,
-  "description": "Cardine — projectstructuur voor ieder project. `npx cardine <map>` zet de bewezen boom neer; het lab-werkstation zit in @lennaertds/cardine-lab.",
+  "private": true,
+  "description": "Cardine repo root (not published). The structure ships as `cardine` from packages/structure/; the workstation as @lennaertds/cardine-lab.",
   "scripts": {
     "status": "bash packages/lab/cardine-status.sh",
     "status:json": "bash packages/lab/cardine-status.sh --json",
@@ -22,27 +22,5 @@
     "project-structure",
     "ai-agent",
     "workspace"
-  ],
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
-  },
-  "bin": {
-    "cardine": "bin/cardine"
-  },
-  "files": [
-    "bin/",
-    "packages/structure/kit/",
-    "packages/structure/README.md",
-    "packages/structure/CHANGELOG.md",
-    "packages/lab/install-lab.sh",
-    "packages/lab/bin/",
-    "packages/lab/cardine-bwrap",
-    "packages/lab/cardine-status.sh",
-    "packages/lab/cardine-slice-check/",
-    "packages/lab/cardine-secrets-guard/",
-    "README.md",
-    "CHANGELOG.md",
-    "LICENSE"
   ]
 }

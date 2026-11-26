@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # sync_kit.sh — copies the source kit/ (repo root) to packages/structure/kit/,
-# the copy that ships with @lennaertds/cardine-structure.
+# the copy that ships with cardine.
 #
 # Replaces pull_kit.sh. There is no second repo any more: kit/ IS the source. This script
 # keeps the public distribution copy identical; run it after every kit change.

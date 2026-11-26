@@ -13,8 +13,8 @@
 #                      `npm stage publish`, which asks for a human 2FA step)
 #
 # Triggers:
-#   - Tags: v*, structure-v*, lab-v*
-#   - Manual: workflow_dispatch (choose meta, structure, lab, or all)
+#   - Tags: v* (cardine), lab-v* (cardine-lab)
+#   - Manual: workflow_dispatch (choose cardine, lab, or all)
 #
 # Important:
 #   - Set up the connection BEFORE the tag push; a new connection that does not
@@ -31,7 +31,6 @@ on:
   push:
     tags:
       - 'v*'
-      - 'structure-v*'
       - 'lab-v*'
   workflow_dispatch:
     inputs:
@@ -42,8 +41,7 @@ on:
         type: choice
         options:
           - all
-          - meta
-          - structure
+          - cardine
           - lab
 
 jobs:
@@ -65,15 +63,15 @@ jobs:
             --generate-notes \
             --draft
 
-  # ── Publish cardine (meta) ──
-  publish-meta:
+  # ── Publish cardine (project structure; packages/structure) ──
+  publish-cardine:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write # OIDC — required for trusted publishing
     if: |
       (github.event_name == 'push' && startsWith(github.ref_name, 'v') && !startsWith(github.ref_name, 'v0.')) ||
-      (github.event_name == 'workflow_dispatch' && (inputs.package == 'meta' || inputs.package == 'all'))
+      (github.event_name == 'workflow_dispatch' && (inputs.package == 'cardine' || inputs.package == 'all'))
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -84,27 +82,6 @@ jobs:
       - name: Pin npm 12.2.3
         run: npm i -g npm@12.2.3
       - name: Publish cardine
-        run: npm publish --access public
-
-  # ── Publish @lennaertds/cardine-structure ──
-  publish-structure:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-    if: |
-      (github.event_name == 'push' && startsWith(github.ref_name, 'structure-v')) ||
-      (github.event_name == 'workflow_dispatch' && (inputs.package == 'structure' || inputs.package == 'all'))
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          registry-url: 'https://registry.npmjs.org'
-      # Node 24 levert npm 11.x; de stage/dist-tag-API vereist >= 12.2.
-      - name: Pin npm 12.2.3
-        run: npm i -g npm@12.2.3
-      - name: Publish @lennaertds/cardine-structure
         working-directory: packages/structure
         run: npm publish --access public
 

@@ -2,17 +2,16 @@
 # cardine CLI — the only command an empty directory needs.
 #
 #   npm i -g cardine            → `cardine <dir>` lays down the structure
-#   npx cardine <dir> …         → same, without a global install
 #
-# The structure comes from packages/structure/kit/, shipped inside this package
-# (mirrored from `kit/`, ADR 0013). Nothing is written outside <dir>.
+# The structure comes from kit/, shipped inside this package (mirrored from the
+# repo's kit/, ADR 0013). Nothing is written outside <dir>.
 set -euo pipefail
 
 # npm links bin/ into ../lib/node_modules/<pkg>/bin/<name>; BASH_SOURCE[0] is that
 # symlink. Resolve it first, or ROOT is wrong and the CLI cannot find the kit.
 SELF="$(readlink -f "${BASH_SOURCE[0]}")"
 ROOT="$(cd "$(dirname "${SELF}")/.." && pwd)"
-KIT="${ROOT}/packages/structure/kit"
+KIT="${ROOT}/kit"
 NEW_PROJECT="${KIT}/new-project.sh"
 
 usage() {
@@ -37,9 +36,9 @@ Subcommands:
   version            version of this package
 
 Examples:
-  npx cardine my-project
-  npx cardine ~/code/api --profile app --stacks python,sql --starter
-  npx cardine exercises --profile schoolwerk --dry-run
+  cardine my-project
+  cardine ~/code/api --profile app --stacks python,sql --starter
+  cardine exercises --profile schoolwerk --dry-run
 USAGE
 }
 
@@ -58,15 +57,11 @@ case "${1:-}" in
     node -p "require('${ROOT}/package.json').version"
     exit 0
     ;;
-  status)
-    shift
-    exec bash "${ROOT}/packages/lab/cardine-status.sh" "$@"
-    ;;
-  lab)
-    # Lab is a separate package with its own command; `cardine` does not forward,
-    # because that only works if @lennaertds/cardine-lab happens to be installed.
-    echo "cardine: 'lab' belongs to @lennaertds/cardine-lab" >&2
-    echo "         npm i -g @lennaertds/cardine-lab && cardine-lab install" >&2
+  status | lab)
+    # Lab is a separate package with its own command; `cardine` only points at it,
+    # because forwarding would need @lennaertds/cardine-lab to be installed.
+    echo "cardine: '$1' belongs to @lennaertds/cardine-lab" >&2
+    echo "         npm i -g @lennaertds/cardine-lab && cardine-lab $1" >&2
     exit 1
     ;;
   -*)

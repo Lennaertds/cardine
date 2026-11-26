@@ -3,7 +3,7 @@
 # tag-kit.sh — Tag the current kit/ in this repo
 #
 # Creates a git tag on the current HEAD that says which version of
-# the kit is ready to be pulled by cardine-structure.
+# the kit is ready to be shipped in cardine.
 #
 # Usage:
 #   bash scripts/tag-kit.sh <tag>     # tag the current HEAD as kit-<tag>
@@ -12,7 +12,7 @@
 #   bash scripts/tag-kit.sh v0.1.0    # tags as kit-v0.1.0
 #   bash scripts/tag-kit.sh v0.2.0    # tags as kit-v0.2.0
 #
-# Tags follow the pattern kit-v<semver> so cardine-structure can use them
+# Tags follow the pattern kit-v<semver> so cardine can reference them
 # as a pinned target for its kit pull.
 # =============================================================================
 set -euo pipefail
@@ -78,8 +78,8 @@ git tag -a "$TAG_NAME" -m "kit release $TAG_VERSION: $COMMIT_HASH"
 
 green "✅ Tag created: $TAG_NAME → $COMMIT_HASH"
 echo ""
-blue "📋 Gebruik in cardine-structure:"
-echo "   bash packages/structure/pull_kit.sh --tag $TAG_VERSION"
+blue "📋 Next: ship it in cardine:"
+echo "   bash packages/structure/sync_kit.sh   # then bump and tag"
 echo ""
 blue "📋 Huidige tags:"
 git tag -l "kit-*" | sort -V

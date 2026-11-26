@@ -83,9 +83,8 @@ Distinction research vs decisions: [AGENTS.md](../AGENTS.md) § Research vs deci
 ## Packages — design documentation
 
 - [packages/INDEX.md](packages/INDEX.md) — Overview of all packages
+- [packages/cardine-structure.md](packages/cardine-structure.md) — cardine package (project structure)
 - [packages/cardine-lab.md](packages/cardine-lab.md) — cardine-lab package
-- [packages/cardine-structure.md](packages/cardine-structure.md) — cardine-structure package
-- [packages/cardine-meta.md](packages/cardine-meta.md) — Meta package cardine
 - [packages/VERSIONING.md](packages/VERSIONING.md) — Versioning and changelogs
 - [packages/IMPLEMENTATION.md](packages/IMPLEMENTATION.md) — Implementation plan (phasing)
 

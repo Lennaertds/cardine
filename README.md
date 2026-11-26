@@ -60,40 +60,36 @@ your yes, there is no kit edit.
 
 ## Packages
 
-Cardine consists of two packages. The meta package (`cardine` in the root) is the
-shop window: README, docs, guides. The packages beneath it install separately.
+Cardine is two npm packages, installed separately:
 
 ```mermaid
 graph TD
-    M("cardine (meta)") --> L("@lennaertds/cardine-lab")
-    M --> S("@lennaertds/cardine-structure")
-    L --> D("DSH + Jarvis + bwrap")
-    S --> K("kit/ / kit")
-    style M fill:#4a90d9,color:#fff
+    L("@lennaertds/cardine-lab") --> D("DSH + Jarvis + bwrap")
+    S("cardine") --> K("kit")
     style L fill:#50b86c,color:#fff
     style S fill:#e8a838,color:#fff
 ```
 
 | Package | What | For whom | Install |
 |---------|------|----------|---------|
+| **[cardine]** 📁 | Project standard for every project, regardless of editor or subscription. Contains the proven `kern/`-`solo/`-`logging/` tree, modules and stacks, mirrored from `kit/`. | Anyone with a project | `npm i -g cardine` then `cardine <dir> --profile app` |
 | **[@lennaertds/cardine-lab]** ⚙️ | Reproducible AI-agent workstation for Arch Linux / Hyprland. Installs DSH, Jarvis, the bwrap sandbox and the Zed config in one idempotent script. | Anyone who wants Zed + DeepSeek Harness on Arch | `npm i -g @lennaertds/cardine-lab` then `cardine-lab install` |
-| **[@lennaertds/cardine-structure]** 📁 | Project standard for every project, regardless of editor or subscription. Contains the proven `kern/`-`solo/`-`logging/` tree, modules and stacks, mirrored from `kit/`. | Anyone with a project | `npx @lennaertds/cardine-structure <dir> --profile app` |
 
 ### How the packages relate
 
 ```
-cardine                    ← Meta: repo root with README, docs, guides
-├── cardine-lab            ← Toolchain: scripts, sandbox, status checks
-│   └── generates          → ~/.dsh/profiles/ (ACP profile for DSH)
-│   └── contains           → scripts/, systemd/ (optional tooling)
-└── cardine-structure      ← Project standard: mirrored from kit/
-    └── kit/               → Literal copy, kept in sync
+cardine                    ← Project standard (independent package)
+└── kit/                   → Literal copy, kept in sync with the repo
+
+cardine-lab                ← Toolchain (independent package)
+├── generates              → ~/.dsh/profiles/ (ACP profile for DSH)
+└── contains               → scripts/, systemd/ (optional tooling)
 ```
 
 The structure is maintained **in this repo**, in [kit/](kit/README.md).
 `packages/structure/kit/` is the public distribution copy that ships with
-`@lennaertds/cardine-structure`. It used to be pulled from a separate private
-repo on pinned commits (see [ADR 0013](docs/decisions/0013-cardine-is-the-public-shop-window-and-pulls-the-structure-from-agent-engineering.md));
+`cardine`. It used to be pulled from a separate private repo on pinned commits
+(see [ADR 0013](docs/decisions/0013-cardine-is-the-public-shop-window-and-pulls-the-structure-from-agent-engineering.md));
 since the merge, `kit/` is the only source and a pin or pull script is no longer
 needed.
 
@@ -101,24 +97,31 @@ needed.
 
 ## Install paths
 
+Both packages install with npm. Nothing else is required — no npx, no clone.
+
 ### 📁 The project structure only (any editor, any OS)
 
 ```bash
-npx cardine my-project --profile app
+npm i -g cardine
 ```
 
-Works from any cwd, including an empty directory with no clone. It lays down the
-full project tree with `kern/`, `solo/`, `logging/`, plus the chosen modules and
-stacks. No toolchain, no sandbox — just the structure. A second run overwrites
-nothing. Works in VS Code, Zed, Cursor or a terminal.
+Then, in any directory — including an empty one:
 
 ```bash
-npx cardine my-project --profile app --modules research,agent
-npx cardine exercises --profile schoolwerk --dry-run
+cardine my-project --profile app
 ```
 
-See the [cardine-structure docs](packages/structure/docs/cardine-structure.md)
-for every option (profiles, modules, stacks).
+It lays down the full project tree with `kern/`, `solo/`, `logging/`, plus the
+chosen modules and stacks. No toolchain, no sandbox — just the structure. A
+second run overwrites nothing. Works in VS Code, Zed, Cursor or a terminal.
+
+```bash
+cardine my-project --profile app --modules research,agent
+cardine exercises --profile schoolwerk --dry-run
+```
+
+See the [cardine docs](packages/structure/docs/cardine-structure.md) for every
+option (profiles, modules, stacks).
 
 ### ⚙️ The full AI-agent workstation (Arch Linux / Hyprland)
 
@@ -128,7 +131,8 @@ npm i -g @lennaertds/cardine-lab
 cardine-lab install
 
 # 2. Add the project standard
-npx cardine my-project --profile app
+npm i -g cardine
+cardine my-project --profile app
 ```
 
 The lab path uses Zed as IDE, DeepSeek Harness as agent loop, and
@@ -143,7 +147,7 @@ gets installed and how to configure the sandbox, indexing and status checks.
 
 ## How it works — in brief
 
-1. **Start a project**: `cardine-structure` lays down a proven tree.
+1. **Start a project**: `cardine` lays down a proven tree.
 2. **Learn the structure**: docs/, data/, decisions/ and work/ have fixed places.
    An agent navigates with [docs/INDEX.md](docs/INDEX.md).
 3. **Work with an agent**: open your editor, start the agent — the structure
@@ -180,17 +184,14 @@ Each package has its **own version**, independent of the others.
 
 | Package | Version | CHANGELOG | Git tag |
 |---------|---------|-----------|---------|
-| `cardine` (meta) | 0.4.1 | [CHANGELOG.md](CHANGELOG.md) | `v0.4.1` |
+| `cardine` | 0.5.1 | [packages/structure/CHANGELOG.md](packages/structure/CHANGELOG.md) | `v0.5.1` |
 | `@lennaertds/cardine-lab` | 0.5.2 | [packages/lab/CHANGELOG.md](packages/lab/CHANGELOG.md) | `lab-v0.5.2` |
-| `@lennaertds/cardine-structure` | 0.5.1 | [packages/structure/CHANGELOG.md](packages/structure/CHANGELOG.md) | `structure-v0.5.1` |
 
 SemVer: `major.minor.patch`. A *major* is a breaking change (the installer no
 longer works, the kit structure changes incompatibly). A *minor* is new
 functionality. A *patch* is a bugfix or documentation.
 
-The meta package gets a new version only when the meta's own structure (docs,
-guides) changes — not on every package update. See
-[docs/packages/VERSIONING.md](docs/packages/VERSIONING.md) for the full scheme.
+See [docs/packages/VERSIONING.md](docs/packages/VERSIONING.md) for the full scheme.
 
 ---
 
@@ -208,4 +209,4 @@ See [AGENTS.md](AGENTS.md) for agent instructions and
 [docs/INDEX.md](docs/INDEX.md) for the full documentation map.
 
 [@lennaertds/cardine-lab]: packages/lab/README.md
-[@lennaertds/cardine-structure]: packages/structure/README.md
+[cardine]: packages/structure/README.md

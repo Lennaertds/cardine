@@ -1,10 +1,10 @@
-# cardine-structure
+# cardine
 
 > **The project standard for every project, regardless of editor or subscription.**
 
 An AI agent works best when it knows the tree. Without a fixed structure it
 guesses at directories, misses conventions, and every session starts over.
-`cardine-structure` lays down a proven project tree — docs, data, decisions,
+`cardine` lays down a proven project tree — docs, data, decisions,
 logs, work items — so human and agent both know immediately where everything
 lives.
 
@@ -26,8 +26,8 @@ stacks (Next.js, NestJS, Python, SQL).
 
 The lessons from those experiments — what works for an agent, what does not,
 which directories an agent needs to understand context — are gathered in
-[`kit/`](../../kit/README.md) in this repo (SSOT). `cardine-structure` contains a
-copy of it.
+[`kit/`](../../kit/README.md) in this repo (SSOT). The package ships a copy of
+it.
 
 Background:
 - [docs/decisions/packages-context.md](../../docs/decisions/packages-context.md) —
@@ -43,37 +43,24 @@ Background:
 
 ### Requirements
 
-- **Node.js** 18+ (for `npx`) or **Git** (for direct use)
+- **Node.js** 18+ (for `npm`)
 - No editor requirement — works with Zed, VS Code, Cursor, a terminal
 
-### Option A — via npx (recommended)
-
 ```bash
-npx @lennaertds/cardine-structure my-project --profile app --modules research,agent
+npm i -g cardine
 ```
 
-Pulls the package from the public npm registry and runs `new-project.sh` without
-installing anything. Works in an empty directory too.
-
-### Option B — install globally
+Then, in any directory:
 
 ```bash
-npm i -g @lennaertds/cardine-structure
-cardine-structure my-project --profile app
+cardine my-project --profile app --modules research,agent
 ```
 
-The `bin` is called `cardine-structure`. Handy if you set the structure up often.
+The command works in an empty directory too. It lays down the tree with
+`kern/`, `solo/`, `logging/`, plus the chosen modules and stacks. Nothing is
+written outside `<dir>`, and a second run overwrites nothing.
 
-### Option C — straight from the repo
-
-```bash
-git clone https://github.com/Lennaertds/cardine.git
-bash cardine/packages/structure/kit/new-project.sh my-project
-```
-
-This variant needs no npm: only Git and Bash.
-
-### Options for `new-project.sh`
+### Options
 
 | Option | Description | Example |
 |--------|-------------|---------|
@@ -162,7 +149,7 @@ graph LR
     style NP fill:#50b86c,color:#fff
 ```
 
-On every release of `cardine-structure`:
+On every release of `cardine`:
 
 1. Sometimes: `make tag-kit TAG=v0.2.0` after a notable kit change
 2. `sync_kit.sh` copies the source `kit/` into `packages/structure/kit/`
@@ -191,8 +178,7 @@ contain principles, guides and internal tooling:
 
 ## Versioning
 
-This package has its **own version**, independent of `cardine-lab` and the meta
-package. SemVer — `major.minor.patch`.
+This package has its **own version**, independent of `cardine-lab`. SemVer — `major.minor.patch`.
 
 | Item | Value |
 |------|-------|
@@ -213,8 +199,7 @@ scheme.
 
 | Package | Relation |
 |---------|----------|
-| **[cardine (meta)](../../README.md)** | This package is part of the meta's references. The root README gives the overview. |
-| **[cardine-lab](../lab/README.md)** | Installs the toolchain. `cardine-structure` works on its own, but together they give a complete workstation. |
+| **[cardine-lab](../lab/README.md)** | Installs the toolchain. `cardine` works on its own, but together they give a complete workstation. |
 
 ---
 
@@ -226,4 +211,4 @@ scheme.
 | [sync_kit.sh](sync_kit.sh) | Copies the source `kit/` into the public distribution copy |
 | [docs/packages/VERSIONING.md](../../docs/packages/VERSIONING.md) | Versioning scheme |
 | [docs/product/PRODUCT.md](../../docs/product/PRODUCT.md) | Cardine product overview |
-| [README.md](../../README.md) | Meta package — overview of everything |
+| [README.md](../../README.md) | Repo overview and breakdown of the product |

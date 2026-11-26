@@ -88,10 +88,10 @@ route.
 
 ## Relations
 
-- Part of the **cardine (meta)** references
+- Requires **`cardine`** for the project structure (install it with `npm i -g cardine`)
 - Installs DSH, the Zed config and bwrap — the foundations of the workstation
 - `cardine-slice-check` stays in this package until another consumer appears
-- Tool scripts are copied into projects via `cardine-structure`
+- Tool scripts are copied into projects via `cardine`
 
 ## Versioning
 

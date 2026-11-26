@@ -5,11 +5,13 @@
 
 ## Packages
 
+Both packages install with npm. That is the only supported route — no npx, no
+git clone.
+
 | # | Package | Doc | Audience | Install |
 |---|---------|-----|----------|---------|
-| 1 | **`cardine-lab`** | [cardine-lab.md](cardine-lab.md) | Arch/Hyprland AI-agent workstation | `npm i -g @lennaertds/cardine-lab` → `cardine-lab install` |
-| 2 | **`cardine-structure`** | [cardine-structure.md](cardine-structure.md) | Anyone with a project (any editor) | `npx @lennaertds/cardine-structure <dir>` |
-| — | **`cardine`** (meta) | [cardine-meta.md](cardine-meta.md) | Anyone on the GitHub repo | refers to 1 and 2 |
+| 1 | **`cardine`** | [cardine-structure.md](cardine-structure.md) | Anyone with a project (any editor) | `npm i -g cardine` → `cardine <dir>` |
+| 2 | **`cardine-lab`** | [cardine-lab.md](cardine-lab.md) | Arch/Hyprland AI-agent workstation | `npm i -g @lennaertds/cardine-lab` → `cardine-lab install` |
 
 ### Later (optional)
 

@@ -1,8 +1,8 @@
 {
   "name": "@lennaertds/cardine-lab",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "private": false,
-  "description": "cardine-lab — reproduceerbaar AI-agent-werkstation voor Arch Linux / Hyprland. Toolchain, sandbox, indexering en editor-koppeling.",
+  "description": "cardine-lab — reproducible AI-agent workstation for Arch Linux / Hyprland. Toolchain, sandbox, code indexing and editor coupling.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Lennaertds/cardine.git",

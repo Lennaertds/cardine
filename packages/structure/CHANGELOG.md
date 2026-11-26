@@ -1,4 +1,21 @@
-# Changelog — cardine-structure
+# Changelog — cardine
+
+## [1.0.0] — 2026-11-26
+
+### Breaking
+- The package is renamed `@lennaertds/cardine-structure` → **`cardine`**. It is
+  now the only package that lays down the project structure; the old meta
+  package is retired.
+- The bin is renamed `cardine-structure` → **`cardine`**. The `bin/` entrypoint
+  moved into this package and resolves `kit/` relative to itself.
+
+### Changed
+- npm is the only install route. The npx and git-clone instructions are gone.
+- The Rust starter (`stacks/rust/starter`) is in English now (ADR 0018).
+
+### Removed
+- The meta package (`cardine` at the repo root) no longer publishes; the repo
+  root is a private workspace (`cardine-workspace`).
 
 ## [0.5.1] — 2026-11-24
 

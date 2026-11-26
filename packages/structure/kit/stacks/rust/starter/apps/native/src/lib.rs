@@ -4,7 +4,7 @@
 //!
 //! `cargo test` (zonder features) blijft groen zonder Node/Python-toolchain.
 
-/// Pure hot-path voorbeeld — vervang na ADR/meting.
+/// Pure hot-path example — replace after an ADR/measurement.
 pub fn add(left: i32, right: i32) -> i32 {
     left + right
 }
