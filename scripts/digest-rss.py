@@ -10,6 +10,7 @@ import re
 import sys
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -132,12 +133,56 @@ def parse_items_json(
                 continue
         if not title and not link:
             continue
+        link = normalize_link(link)
         key = (link or title).lower()
         if key in seen:
             continue
         seen.add(key)
         items.append((title or "(no title)", link))
     return items
+
+
+# arxiv.org/abs/2611.01860v2 and arxiv.org/abs/2611.01860 are one paper: the
+# version suffix changes per revision, so it is dropped before dedupe/date filter.
+_ARXIV_VER_RE = re.compile(r"^(https?://(?:www\.)?arxiv\.org/abs/\d{4}\.\d{4,5})v\d+$", re.I)
+
+
+def normalize_link(link: str) -> str:
+    link = link.strip()
+    m = _ARXIV_VER_RE.match(link)
+    return m.group(1) if m else link
+
+
+def parse_pubdate(items_xml: bytes) -> list[tuple[str, str, datetime | None]]:
+    """RSS items as (title, link, published) — published from <pubDate>/<dc:date>."""
+    root = ET.fromstring(items_xml)
+    out: list[tuple[str, str, datetime | None]] = []
+    for channel in root.iter():
+        if _local(channel.tag) != "channel":
+            continue
+        for item in channel:
+            if _local(item.tag) != "item":
+                continue
+            title = link = ""
+            ts = None
+            for child in item:
+                name = _local(child.tag)
+                if name == "title":
+                    title = _text(child)
+                elif name == "link":
+                    link = (child.text or "").strip()
+                elif name in ("pubDate", "date", "published", "updated"):
+                    raw = _text(child)
+                    try:
+                        ts = parsedate_to_datetime(raw)
+                    except (TypeError, ValueError):
+                        ts = _parse_iso(raw)
+                    if ts is not None and ts.tzinfo is None:
+                        ts = ts.replace(tzinfo=timezone.utc)
+            if title or link:
+                out.append((title or "(no title)", normalize_link(link), ts))
+        break
+    return out
 
 
 def looks_like_json(raw: bytes) -> bool:
@@ -191,7 +236,21 @@ def main() -> int:
     ap.add_argument("-o", "--output", required=True, help="pad naar items.md")
     ap.add_argument("-s", "--source", default="", help="bron-URL of slug")
     ap.add_argument("-n", "--limit", type=int, default=30)
+    # -b START[,END] (YYYY-MM-DD): keep only items published inside the window.
+    # arXiv RSS/Atom always return *today's* list; for a past week the whole
+    # fetch is useless without this (the week letter then shows nothing).
+    ap.add_argument("-b", "--between", default="", help="publication window YYYY-MM-DD[,YYYY-MM-DD]")
     args = ap.parse_args()
+    lo = hi = None
+    if args.between:
+        try:
+            parts = args.between.split(",")
+            lo = datetime.fromisoformat(parts[0]).replace(tzinfo=timezone.utc)
+            if len(parts) > 1 and parts[1]:
+                hi = datetime.fromisoformat(parts[1]).replace(tzinfo=timezone.utc)
+        except ValueError:
+            print(f"digest-rss: invalid --between {args.between!r}", file=sys.stderr)
+            return 1
     path = Path(args.input)
     if not path.is_file():
         print(f"digest-rss: file missing: {path}", file=sys.stderr)
@@ -209,7 +268,16 @@ def main() -> int:
             if not m:
                 print("digest-rss: no XML/JSON found", file=sys.stderr)
                 return 1
-            items = parse_items_xml(m.group(0))
+            if lo is None:
+                items = parse_items_xml(m.group(0))
+            else:
+                dated = parse_pubdate(m.group(0))
+                in_win = [t for t in dated if t[2] is None or (t[2] >= lo and (hi is None or t[2] <= hi))]
+                items = [(t, link) for t, link, _ in in_win]
+                print(
+                    f"digest-rss: window {args.between}: {len(items)}/{len(dated)} items kept",
+                    file=sys.stderr,
+                )
             kind = "xml"
     except (ET.ParseError, json.JSONDecodeError, TypeError, ValueError) as e:
         print(f"digest-rss: parse error: {e}", file=sys.stderr)

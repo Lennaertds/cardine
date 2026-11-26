@@ -9,7 +9,9 @@ die() { echo "digest-check: $*" >&2; exit 1; }
 
 # Lab-only: this repo also keeps the triage notes under bron/digest/.
 [[ -f bron/digest/TRIAGE.md ]] || die "missing bron/digest/TRIAGE.md"
-grep -qi 'doubt' bron/digest/TRIAGE.md || die "TRIAGE.md must mention doubt→keep (English word \"doubt\")"
+# bron/ is Dutch by rule (AGENTS.md), so the triage note's "doubt" is "twijfel".
+# Match either word: a translation of this file must not trip the check.
+grep -qiE 'twijfel|doubt' bron/digest/TRIAGE.md || die "TRIAGE.md must mention twijfel/doubt → keep"
 echo "ok    bron/digest/TRIAGE.md"
 
 # The kit contract: the scaffold a fresh project gets from module research.

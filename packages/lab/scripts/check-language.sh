@@ -5,7 +5,8 @@
 # back within weeks, because nothing fails when a comment is written in Dutch.
 #
 # Allowed to stay Dutch:  bron/ (source archive), historical logs and released
-#                         CHANGELOG sections, .git, node_modules, tmp.
+#                         CHANGELOG sections, .git, node_modules, tmp, data/external
+#                         (gitignored feed dumps: generated, not authored).
 # The guard itself and the migration plan are skipped too: they have to be able
 # to name the Dutch words they look for.
 #
@@ -44,7 +45,15 @@ archive_link = re.compile(r'\[[^\]]*\]\([^)]*bron/[^)]*\)|\([^)]*bron/[^)]*\)')
 exts = {'.md', '.sh', '.js', '.py', '.yml', '.yaml', '.mk', '.toml'}
 skip = {'.git', 'node_modules', 'tmp', 'bron', '_bootstrap', 'logs'}
 skipf = {'LANGUAGE-MIGRATION.md', 'CHANGELOG.md'}
+# Paths that .gitignore keeps out of git: feed dumps and per-machine local.mk
+# profile extras are generated or local, never repo English. Exact paths only,
+# and only these two: everything tracked is still scanned.
+skip_rel = {'data/external', 'packages/structure/kit/profiles/extra'}
 for dirpath, dirnames, files in os.walk(root):
+    rel = os.path.relpath(dirpath, root).replace(os.sep, '/')
+    if rel in skip_rel or any(rel.startswith(r + '/') for r in skip_rel):
+        dirnames[:] = []
+        continue
     dirnames[:] = sorted(d for d in dirnames if d not in skip)
     for f in sorted(files):
         if f in skipf or os.path.splitext(f)[1] not in exts:

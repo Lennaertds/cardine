@@ -218,7 +218,10 @@ def triage_file(
 
     for line in lines:
         raw = line.rstrip("\n")
-        if raw.startswith("## Papers / feed-hits"):
+        # The week letter heading is "## Papers / feed hits (N unique)"; older briefs
+        # (W45/W46) say "feed-hits". Accept both so a rename cannot silently skip
+        # every row again (that is what happened after the English migration).
+        if re.match(r"^## Papers / feed[\s-]*hits\b", raw):
             in_table = True
             out_lines.append(line)
             continue
@@ -230,7 +233,7 @@ def triage_file(
             continue
 
         m = ROW_RE.match(raw.strip())
-        if not m or "Titel" in m.group(1) or re.match(r"^[-:|\s]+$", raw.strip()):
+        if not m or re.match(r"^(?i:titel|title)$", m.group(1).strip()) or re.match(r"^[-:|\s]+$", raw.strip()):
             out_lines.append(line)
             continue
         if set(m.group(1).strip()) <= {"-", ":"}:
@@ -297,7 +300,7 @@ def main() -> int:
             path, id_to_sec, keywords, force, args.dry_run, bronnen_text
         )
         changed = counts.pop("_changed", 0)
-        summary = ", ".join(f"{k}={v}" for k, v in sorted(counts.items()))
+        summary = ", ".join(f"{k}={v}" for k, v in sorted(counts.items())) or "0 rows"
         print(f"  → {summary} (gewijzigd: {changed})", file=sys.stderr)
 
     print("digest-triage: klaar — review keep-rijen; § blijft handmatig (P5)")

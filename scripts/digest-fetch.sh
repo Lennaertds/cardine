@@ -10,14 +10,26 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 SCRIPTS="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DUMP_DAY="${DIGEST_DUMP_DATE:-$(date +%F)}"
-SOURCES="bron/digest/SOURCES.md"
+# Live sources live in bron/digest/ next to the briefs; docs/research/digest/ is
+# the kit scaffold and only a fallback (fresh project). digest-day.sh and
+# digest-week.sh guard bron/digest/SOURCES.md, so resolve the same file here.
+SOURCES="${DIGEST_SOURCES:-}"
+if [[ -z "$SOURCES" ]]; then
+  for cand in bron/digest/SOURCES.md docs/research/digest/SOURCES.md; do
+    [[ -f "$cand" ]] && { SOURCES="$cand"; break; }
+  done
+  : "${SOURCES:=bron/digest/SOURCES.md}"
+fi
 OUT_ROOT="data/external/digest"
 LIMIT="${DIGEST_ITEM_LIMIT:-40}"
+# DIGEST_FETCH_BETWEEN=YYYY-MM-DD,YYYY-MM-DD — keep only items published in this
+# window (catching up a past week; arXiv RSS/Atom only carry today's list).
+BETWEEN="${DIGEST_FETCH_BETWEEN:-}"
 
 die() { echo "digest-fetch: $*" >&2; exit 1; }
 tip() { echo "digest-fetch: $*" >&2; }
 
-[[ -f bron/digest/README.md ]] || die "missing bron/digest/"
+[[ -f "$SOURCES" ]] || die "missing $SOURCES"
 
 extract_urls() {
   # Only explicit feed URLs in <https://…> (not markdown links in notes).
@@ -123,6 +135,7 @@ fetch_one() {
   fi
 
   python3 "$SCRIPTS/digest-rss.py" -i "$raw" -o "$dest/items.md" -s "$url" -n "$LIMIT" \
+    ${BETWEEN:+-b "$BETWEEN"} \
     || tip "parse soft-fail for $url — $(basename "$raw") kept"
 }
 

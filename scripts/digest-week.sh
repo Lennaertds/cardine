@@ -18,7 +18,9 @@ die() { echo "digest-week: $*" >&2; exit 1; }
 tip() { echo "digest-week: $*" >&2; }
 log() { printf '%s %s\n' "$(date -Iseconds)" "$*" | tee -a "$LOG" >&2; }
 
-[[ -f bron/digest/SOURCES.md ]] || die "no bron/digest/SOURCES.md"
+# Feeds live in docs/research/digest/SOURCES.md (write zone); the digest fetch script
+# reads them from there. Checking bron/digest/SOURCES.md here stopped every run.
+[[ -f docs/research/digest/SOURCES.md ]] || die "no docs/research/digest/SOURCES.md"
 [[ -d "$WEKEN" ]] || die "weekmap ontbreekt: $WEKEN"
 
 iso_week_default() {
@@ -78,6 +80,14 @@ WEEK="$(iso_week_default)"
 OUT="$WEKEN/${WEEK}.md"
 tip "ISO-week=$WEEK → $OUT"
 
+# A brief is written once and then curated by hand (statuses, §n, notes). Rebuilding
+# it would wipe that work, so an existing brief is kept unless DIGEST_WEEK_FORCE=1.
+if [[ -f "$OUT" && "${DIGEST_WEEK_FORCE:-}" != "1" ]]; then
+  log "keep   $OUT (exists; DIGEST_WEEK_FORCE=1 to rebuild)"
+  echo "digest-week: $OUT (kept)"
+  exit 0
+fi
+
 mapfile -t DATES < <(week_dates "$WEEK")
 [[ ${#DATES[@]} -eq 7 ]] || die "could not determine the dates for $WEEK"
 
@@ -119,9 +129,12 @@ for d in data/external/digest/*/; do
     [[ "$src" == *"date=${want}"* ]] && keep=1 && break
   done
   [[ "$src" == *"week=${WEEK}"* ]] && keep=1
-  [[ "$day" == "$TODAY" && "$src" == *sort=trending* ]] && keep=1
-  [[ "$day" == "$TODAY" && "$src" == *huggingface.co/api/papers/search* ]] && keep=1
-  [[ "$day" == "$TODAY" && "$src" == *huggingface.co/blog* ]] && keep=1
+  # Trending / topic search / HF blog: the dump day may be earlier than the run day
+  # (catch-up, Monday), so every dump inside this week counts — the 90-day window
+  # in the search APIs keeps the noise low, the triage does the rest.
+  case "$src" in
+    *sort=trending* | *huggingface.co/api/papers/search* | *huggingface.co/blog*) keep=1 ;;
+  esac
   [[ "$keep" -eq 1 ]] || continue
 
   while IFS= read -r line; do
@@ -145,7 +158,7 @@ done
   echo "# Week letter — $WEEK"
   echo
   echo "> **Role:** inbound selection for this ISO week. Not SSOT — promote by hand into \`bronnen.md\` §."
-  echo "> **Generated:** $TODAY via \`make digest-week\` (`kit/`). Dumps: \`data/external/digest/\`."
+  echo "> **Generated:** $TODAY via \`make digest-week\` (Cardine). Dumps: \`data/external/digest/\`."
   echo
   echo "## Checklist"
   echo
