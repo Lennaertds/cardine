@@ -2,19 +2,11 @@
 
 ## [0.5.3] — 2026-11-26
 
-### Changed
-- npm is the only documented install route (`npm i -g @lennaertds/cardine-lab`).
-- The `package.json` description is in English now (ADR 0018).
-
-## [Unreleased]
-
 ### Added
 - `cardine-move.sh` (`make move` / `make move-fix`, `cardine-lab move`): after a
   folder move or rename it re-points every absolute path in the DSH profile,
   rebuilds the `jarvis-server` wrapper when it is missing, and re-indexes the new
   root. It never restarts DSH; it prints the `dsh kill` reminder instead.
-
-### Added
 - `install-lab.sh --profile NAME --name LABEL`: a second project gets its own
   profile (`~/.dsh/profiles/<name>/`), its own Zed server
   (`DeepSeek Harness (<name>)`) and its own `package.json` with the lab packages
@@ -27,7 +19,14 @@
 - `lib/profile-paths.sh`: the single place that knows where a profile keeps
   absolute paths, shared by the installer and the move script.
 
+### Changed
+- npm is the only documented install route (`npm i -g @lennaertds/cardine-lab`).
+- The `package.json` description is in English now (ADR 0018).
+
 ### Fixed
+- `lib/` is in the published `files`: `cardine-lab move` sourced
+  `lib/profile-paths.sh`, which the package did not ship, so the command died
+  with "No such file or directory" for anyone who installed from npm.
 - `install-lab.sh` printed "jarvis-server-wrapper.sh already exists" for a file
   that did not exist, when `uv tool list` could not find the tool. The block now
   installs `jarvis-mcp` (and the `jarvis` CLI) when either is missing, and fails
