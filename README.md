@@ -68,7 +68,7 @@ graph TD
     M("cardine (meta)") --> L("@lennaertds/cardine-lab")
     M --> S("@lennaertds/cardine-structure")
     L --> D("DSH + Jarvis + bwrap")
-    S --> K("`kit/` / kit")
+    S --> K("kit/ / kit")
     style M fill:#4a90d9,color:#fff
     style L fill:#50b86c,color:#fff
     style S fill:#e8a838,color:#fff
