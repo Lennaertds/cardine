@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # check-links: reports relative links in Markdown files that point at a file that does not exist.
 # Usage: packages/lab/scripts/check-links.sh [dir] [subfolders to exclude ...]
-# Skips: external links, anchors, code blocks, inline code, HTML comments, <placeholders>
-# and the temporary bootstrap package _bootstrap/.
+# Skips: external links, anchors, code blocks, inline code, HTML comments, <placeholders>,
+# the temporary bootstrap package _bootstrap/ and the gitignored .w48/ digest scratch dir.
 set -euo pipefail
 
 # Folders that are not in git (e.g. bron/pdfs/, via Syncthing): a link to them
@@ -21,7 +21,8 @@ set -- ${args[@]+"${args[@]}"}
 root="${1:-.}"
 root="${root%/}"
 (($#)) && shift
-prune=(-path "$root/.git" -o -path '*/node_modules' -o -path "$root/tmp" -o -path "$root/_bootstrap")
+# tmp/ and .w48/ are scratch (both in .gitignore): their links are never repo content.
+prune=(-path "$root/.git" -o -path '*/node_modules' -o -path "$root/tmp" -o -path "$root/_bootstrap" -o -path "$root/.w48")
 for excluded in "$@"; do prune+=(-o -path "$root/${excluded%/}"); done
 
 

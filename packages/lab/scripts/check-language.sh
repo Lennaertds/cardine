@@ -6,7 +6,8 @@
 #
 # Allowed to stay Dutch:  bron/ (source archive), historical logs and released
 #                         CHANGELOG sections, .git, node_modules, tmp, data/external
-#                         (gitignored feed dumps: generated, not authored).
+#                         (gitignored feed dumps: generated, not authored) and the
+#                         .w48/ digest scratch dir (a Dutch bronnen.md backup).
 # The guard itself and the migration plan are skipped too: they have to be able
 # to name the Dutch words they look for.
 #
@@ -45,10 +46,12 @@ archive_link = re.compile(r'\[[^\]]*\]\([^)]*bron/[^)]*\)|\([^)]*bron/[^)]*\)')
 exts = {'.md', '.sh', '.js', '.py', '.yml', '.yaml', '.mk', '.toml'}
 skip = {'.git', 'node_modules', 'tmp', 'bron', '_bootstrap', 'logs'}
 skipf = {'LANGUAGE-MIGRATION.md', 'CHANGELOG.md'}
-# Paths that .gitignore keeps out of git: feed dumps and per-machine local.mk
-# profile extras are generated or local, never repo English. Exact paths only,
-# and only these two: everything tracked is still scanned.
-skip_rel = {'data/external', 'packages/structure/kit/profiles/extra'}
+# Paths that .gitignore keeps out of git: feed dumps, per-machine local.mk
+# profile extras and the per-week digest scratch dir (.w48/, kept as a backup
+# copy of the Dutch bronnen.md before a promote) are generated or local, never
+# repo English. Exact paths only: no pattern, so everything tracked is still
+# scanned. A new scratch dir only belongs here when it is in .gitignore too.
+skip_rel = {'data/external', 'packages/structure/kit/profiles/extra', '.w48'}
 for dirpath, dirnames, files in os.walk(root):
     rel = os.path.relpath(dirpath, root).replace(os.sep, '/')
     if rel in skip_rel or any(rel.startswith(r + '/') for r in skip_rel):

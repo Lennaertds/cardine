@@ -37,7 +37,7 @@ PORTS :=
 	    digest-check digest-reminder digest-fetch digest-propose digest-week native-bindings-strict \
 	    install-lab move move-fix env-status index jarvis-check sandbox-check sandbox-secrets secrets-check \
 	    test-kit trio next-ids mindmap bootstrap bootstrap-remove new tag-kit digest-day \
-	    digest-triage install-digest-timers sync-kit
+	    digest-triage digest-promote digest-place digest-verify install-digest-timers sync-kit
 
 # The kit layers contain links that are only correct once a project is assembled;
 # test-kit checks those.
@@ -79,7 +79,7 @@ bootstrap-remove: ## remove the bootstrap package again: make bootstrap-remove D
 	@test -n "$(DIR)" || { echo 'usage: make bootstrap-remove DIR=<project>' >&2; exit 1; }
 	@bash scripts/bootstrap.sh --remove "$(DIR)"
 
-tag-kit: ## tag a kit version for cardine-structure: make tag-kit TAG=v0.1.0
+tag-kit: ## tag a kit version for cardine: make tag-kit TAG=v0.1.0
 	@test -n "$(TAG)" || { echo 'usage: make tag-kit TAG=v0.1.0' >&2; exit 1; }
 	@bash scripts/tag-kit.sh "$(TAG)"
 
@@ -228,6 +228,15 @@ digest-propose: ## proposal in digest/proposals/ (no auto-radar); DIGEST_DRY_RUN
 
 digest-week: ## week letter from dumps → bron/weken/ (DIGEST_WEEK=2026-W45 to force it)
 	@bash scripts/digest-week.sh
+
+digest-promote: ## week letter keep rows → per-theme drafts bron/weken/<WEEK>-promote/; WEEK= FORCE=1
+	@python3 scripts/digest-promote.py $(if $(WEEK),--week $(WEEK),) $(if $(FORCE),--force,)
+
+digest-place: ## accepted drafts → bronnen.md + index with a real §; DRY_RUN=1 ALLOW_PARTIAL=1
+	@python3 scripts/digest-place.py $(if $(WEEK),--week $(WEEK),) $(if $(DRY_RUN),--dry-run,) $(if $(ALLOW_PARTIAL),--allow-partial,)
+
+digest-verify: ## drafts / § / index / counter agree; read-only gate; WEEK=2026-W48
+	@python3 scripts/digest-verify.py $(if $(WEEK),--week $(WEEK),)
 
 ##@ Observability (module observability)
 obs-up: ## start the LGTM stack (Grafana/Prometheus/Loki/Tempo/Alloy)

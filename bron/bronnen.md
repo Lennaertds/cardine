@@ -381,6 +381,79 @@ Correctness bleef 100% in zijn runs. Conclusie: op *die* suite is Ponytail ≈ Y
 
 ---
 
+## §197. Cortex: Measurement-Gated Evolution and Pruning of Coding-Agent Skills and Rules
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.14216](https://arxiv.org/abs/2610.14216)
+
+- **Kern:** Cortex validates agent harness updates by replaying developer corrections, retaining only rules and skills that consistently improve performance without degrading tasks.
+
+#### Relevantie
+
+* measurement-gated evolution of skills/rules
+
+---
+
+## §198. Harness Engineering in LLM Tool Use via Agent-Native Reusable Tool Primitives
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.01736](https://arxiv.org/abs/2609.01736)
+
+- **Kern:** Tool Primitives and ToolFace enable robust multi-turn tool use via natural language interfaces and dynamic retrieval, while the HEART framework improves planning, routing, and verification to outperform frontier models with lower cost.
+
+#### Relevantie
+
+* agent-native tool primitives
+
+---
+
+## §199. How Feedback-Free Self-Evolution Reshapes Agent Skills: A Systematic Study
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.25534](https://arxiv.org/abs/2611.25534)
+
+- **Kern:** Agent skills are documents in which experts write down procedural knowledge, and models increasingly maintain them by rewriting them without feedback. Such rewriting could adapt a skill to the model that uses it or erode the expert knowledge that makes it useful, yet how skills evolve under this feedback-free…
+
+#### Relevantie
+
+* feedback-free skill self-evolution
+
+---
+
+## §200. SKILL.state: Scalable Long-Horizon Agent Skills
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.26263](https://arxiv.org/abs/2608.26263)
+
+- **Kern:** SKILL.state replaces growing conversation histories with a mutable execution state to improve accuracy and reduce token use for long-horizon LLM agents.
+
+#### Relevantie
+
+* SKILL.state; mutable execution state
+
+---
+
+## §201. Vision-as-a-Tool: Visual Harness for Multimodal Agentic Coding
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.17797](https://arxiv.org/abs/2611.17797)
+
+- **Kern:** A new Vision-as-a-Tool paradigm enables text-only and multimodal coding agents to offload or augment visual reasoning by treating multimodal large language models as callable utilities, improving image-to-code and image-to-3D generation.
+
+#### Relevantie
+
+* vision-as-a-tool for coding agents
+
+---
+
+## §202. What Does Skill Lift Actually Measure? A Source-Code-Level Audit and Noise-Aware Reanalysis of SkillsBench
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.33943](https://arxiv.org/abs/2611.33943)
+
+- **Kern:** (no abstract in dumps; skill lift audit)
+
+#### Relevantie
+
+* skill lift audit
+
+---
+
+
 # Context Engineering
 
 
@@ -1375,6 +1448,403 @@ De goede hoogte ligt ertussen: specifiek genoeg om gedrag te sturen, flexibel ge
 
 ---
 
+## §203. "PRISM" Is Not All You Need: Cross-Topic Name Collisions and Scientific Paper Retrieval
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.01362](https://arxiv.org/abs/2611.01362)
+
+- **Kern:** Cross-topic name collisions in AI papers have risen sharply, and shared-name papers remain harder to identify even with research clues, though language-model ranking improves matching.
+
+#### Relevantie
+
+* paper retrieval; cross-topic name collisions
+
+---
+
+## §204. AutoCompact: Learning When to Compact Context in Long-Horizon Coding Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.02163](https://arxiv.org/abs/2610.02163)
+
+- **Kern:** AutoCompact trains coding agents to manage long-horizon context via supervised fine-tuning and reinforcement learning, improving task success rates across varying context budgets.
+
+#### Relevantie
+
+* compaction policy for long-horizon agents
+
+---
+
+## §205. Cache Engineering for Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.28577](https://arxiv.org/abs/2610.28577)
+
+- **Kern:** AKV introduces cache engineering to manage LLM agent key-value caches without altering trajectories, improving efficiency and accuracy via drop and repos operations with a co-designed serving engine.
+
+#### Relevantie
+
+* KV-cache engineering for agents
+
+---
+
+## §206. CliffCompaction: Cost-Efficient Compaction for Long-Horizon Coding Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.26779](https://arxiv.org/abs/2609.26779)
+
+- **Kern:** CliffCompaction reduces multi-session agent costs by up to 50% through faithful truncation of original context, improving test-time scaling efficiency and sustaining long-horizon learning.
+
+#### Relevantie
+
+* context compaction cost reduction
+
+---
+
+## §207. Coding Agent Memory Post-Training II: Unlocking the Memory Potential of Pre-trained File Operations for Long-Horizon Tasks via On-Policy Distillation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.14009](https://arxiv.org/abs/2611.14009)
+
+- **Kern:** A single policy trained with asynchronous on-policy distillation across five long-horizon agentic environments learns file-based memory management, outperforming prior OPD baselines and generalizing to external coding benchmarks.
+
+#### Relevantie
+
+* file-based memory training
+
+---
+
+## §208. Coding Agent Memory Post-training: Unlocking the Memory Potential of Pre-trained File Operations for Long-Horizon Tasks via Reinforcement Learning
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.34422](https://arxiv.org/abs/2609.34422)
+
+- **Kern:** Language-model agents increasingly tackle long-horizon tasks whose interaction histories exceed the model's active context. Recent work has begun to use reinforcement learning to make memory control part of the policy, often relying on predefined memory tools within domain-specific training environments of relatively…
+
+#### Relevantie
+
+* file-based memory; context overflow
+
+---
+
+## §209. Compress What You See, Not What You Say: Anchored Context Distillation for Latent-Observation Software Engineering Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.31430](https://arxiv.org/abs/2609.31430)
+
+- **Kern:** LOHA and ACD compress agent interaction histories by encoding older observations as soft tokens while preserving recent text and original behavior, reducing context length and improving throughput with minimal performance loss.
+
+#### Relevantie
+
+* observation compression as soft tokens
+
+---
+
+## §210. Context Scaling: A New Frontier of AI Scaling
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.33160](https://arxiv.org/abs/2611.33160)
+
+- **Kern:** (no abstract in dumps; context scaling)
+
+#### Relevantie
+
+* context scaling
+
+---
+
+## §211. ContextRender: From Execution Dependencies to Agent Context
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.37743](https://arxiv.org/abs/2609.37743)
+
+- **Kern:** ContextRender uses an execution-dependency graph and Tool-Flow Analysis to select tool results under a fixed history budget, improving LLM agent task performance while reducing inference cost.
+
+#### Relevantie
+
+* tool-result selection by execution graph
+
+---
+
+## §212. Cost-Effective Repository Exploration for Agentic Issue Localization
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.29675](https://arxiv.org/abs/2608.29675)
+
+- **Kern:** Repository exploration can be delegated to lower-cost models that retain most localization quality while significantly reducing time and token costs, with selection guided by downstream usage.
+
+#### Relevantie
+
+* cost-effective repo exploration
+
+---
+
+## §213. Decoupling Memory from Context: Structured Memory for Token-Efficient Test-Time Continual Learning
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.02687](https://arxiv.org/abs/2610.02687)
+
+- **Kern:** GraphMemory is a lightweight graph-based memory system that optimizes context by retrieving only relevant subgraphs, achieving competitive results with far fewer memory-construction tokens.
+
+#### Relevantie
+
+* structured memory decoupled from context
+
+---
+
+## §214. DevEx is for Humans, AX is for Agents: Measuring Context Health in Agentic Software Work
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.33480](https://arxiv.org/abs/2611.33480)
+
+- **Kern:** (no abstract in dumps; context health measurement in agentic work)
+
+#### Relevantie
+
+* context health measurement in agentic work
+
+---
+
+## §215. DiLE: Discrimination-Aware Latent-Space Learning for Universal Multimodal Embeddings
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.25419](https://arxiv.org/abs/2611.25419)
+
+- **Kern:** A discrimination-aware latent-space learning framework combines task guidance with on-policy retrieval feedback to preserve discriminative evidence in multimodal embeddings and improve retrieval across modalities and tasks.
+
+#### Relevantie
+
+* multimodal embeddings; retrieval
+
+---
+
+## §216. Embeddings vs. Grep: Rethinking the Dense Advantage in Code Search
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.20455](https://arxiv.org/abs/2611.20455)
+
+- **Kern:** Code-search benchmarks show dense encoders well ahead of BM25, yet coding agents do well with grep. What does this dense advantage measure? Existing benchmarks cannot tell: they use curated queries, old code and a handicapped BM25. To find out, we build Repo-Premium, a realistic repository-level code-search…
+
+#### Relevantie
+
+* embeddings vs grep in code search
+
+---
+
+## §217. ExecRetrieval: Measuring the Functional-Correctness Gap in Code-Embedding Retrieval
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.01865](https://arxiv.org/abs/2609.01865)
+
+- **Kern:** ExecRetrieval evaluates whether code embeddings can distinguish correct implementations from near-identical buggy variants, revealing that leading retrievers frequently rank incorrect near-clones above canonical solutions.
+
+#### Relevantie
+
+* code-embedding functional-correctness gap
+
+---
+
+## §218. FeatLens: Feature-Guided Dependency Retrieval for Repository-Level Code Generation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.26480](https://arxiv.org/abs/2609.26480)
+
+- **Kern:** FeatLens improves repository-level code generation by using feature-guided indexing and graph expansion to retrieve precise, dispersed code dependencies without online LLM calls.
+
+#### Relevantie
+
+* feature-guided dependency retrieval
+
+---
+
+## §219. GenRec: An LLM-Backed Recommendation Ranker at Netflix
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.10257](https://arxiv.org/abs/2608.10257)
+
+- **Kern:** Netflix's GenRec replaces engineered feature-based ranking with an LLM-driven ranker using verbalized histories and context engineering, achieving significant gains with fewer labeled examples via post-training and prefill-only serving.
+
+#### Relevantie
+
+* LLM ranker; verbalized histories
+
+---
+
+## §220. HiVe-Mem: Interleaving Horizontal Memory Expansion and Vertical Evidence Composition for Multimodal Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.12872](https://arxiv.org/abs/2611.12872)
+
+- **Kern:** A novel multimodal memory framework enhances long-term interaction by combining relational graph expansion of semantic seeds with query-adaptive composition of heterogeneous evidence forms.
+
+#### Relevantie
+
+* multimodal memory composition
+
+---
+
+## §221. How Do AI Agents Waste Your Money?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.07238](https://arxiv.org/abs/2611.07238)
+
+- **Kern:** A framework measures and validates unnecessary token use in AI agents by normalizing trajectories, identifying removable spans with an LLM judge, and pruning them to improve efficiency while preserving task performance.
+
+#### Relevantie
+
+* wasted token measurement
+
+---
+
+## §222. Let the Fixer Decide: Training a Code Localizer from the Fixer's Likelihood
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.12164](https://arxiv.org/abs/2611.12164)
+
+- **Kern:** A code localizer is trained with scores from a frozen fixer via weighted supervised fine-tuning, improving bug localization and patch success for a small coding agent without tests or reinforcement learning.
+
+#### Relevantie
+
+* code localization from fixer likelihood
+
+---
+
+## §223. MMMem: Self-Improving Agents with Task-Aware Multimodal Experience Consolidation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30287](https://arxiv.org/abs/2611.30287)
+
+- **Kern:** A task-aware multimodal memory framework consolidates experience from completed tasks using source-linked multi-view memory, source-generated tasks, distillation, and task-aware retrieval, yielding consistent gains across memory benchmarks.
+
+#### Relevantie
+
+* multimodal experience consolidation
+
+---
+
+## §224. ReFold: Training-Free Reversible Inter-Turn Context Folding for Long-Horizon Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.07863](https://arxiv.org/abs/2610.07863)
+
+- **Kern:** ReFold is a training-free rendering layer that compresses rendered context for long-horizon LLM agents by reversibly removing redundant content, reducing token usage and memory without degrading success rates.
+
+#### Relevantie
+
+* reversible context folding
+
+---
+
+## §225. RepoAtlas: Guiding Coding Agents via Evolving Multimodal Repository Views
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.16936](https://arxiv.org/abs/2609.16936)
+
+- **Kern:** RepoAtlas improves repository-level issue resolution by maintaining focused, evolving multimodal views of code graphs through a selective projection and refresh loop.
+
+#### Relevantie
+
+* evolving repository views
+
+---
+
+## §226. Revisiting LLMs as Context Engineers
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30494](https://arxiv.org/abs/2611.30494)
+
+- **Kern:** As large language models (LLMs) are used in more and more new tasks, context engineering becomes a fundamental method to efficiently steer LLMs by constructing instruction prompts or metadata without intensive training. A growing number of LLM context engineering (LCE) approaches automate the task by casting the LLM…
+
+#### Relevantie
+
+* LLMs as context engineers
+
+---
+
+## §227. Skip the Compressor: Coding Agents Fix More Issues When They Pick Whole Files
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.21073](https://arxiv.org/abs/2610.21073)
+
+- **Kern:** CQ2-CARE improves software issue resolution by selecting exact files to include verbatim within a token budget, outperforming compression and retrieval methods.
+
+#### Relevantie
+
+* whole-file selection beats compression
+
+---
+
+## §228. Small Agents with Semantic Search: Efficient Multilingual Code Localization
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.05099](https://arxiv.org/abs/2610.05099)
+
+- **Kern:** Compact specialized agents using local semantic search improve file localization accuracy and efficiency across programming languages while reducing latency and token usage.
+
+#### Relevantie
+
+* small agents with semantic search
+
+---
+
+## §229. SoL-Pi: Recursively Scaling Auto-Research Loops for Efficient Agent Harness
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.20519](https://arxiv.org/abs/2609.20519)
+
+- **Kern:** SoL-Pi improves token efficiency in autonomous coding agents through recursive self-improvement mechanisms, reducing costs by about one third while maintaining performance.
+
+#### Relevantie
+
+* token efficiency in auto-research loops
+
+---
+
+## §230. StreamScout: Learning When to Look Deeper for Streaming Video Understanding
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.00291](https://arxiv.org/abs/2609.00291)
+
+- **Kern:** StreamScout adaptively escalates visual evidence retrieval for streaming video queries, reducing token use and latency while improving accuracy via distilled and reinforcement-learned stopping policies.
+
+#### Relevantie
+
+* when to look deeper; token use
+
+---
+
+## §231. Switch-SWE: Do Coding Agents Hold Focus When Switching Between Unfinished Tasks?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.02017](https://arxiv.org/abs/2611.02017)
+
+- **Kern:** A benchmark for resuming interrupted software tasks reveals performance drops from interleaved work, and a context-management module improves recovery.
+
+#### Relevantie
+
+* focus when switching tasks; recovery
+
+---
+
+## §232. Tools Need Not Speak in Text: Latent Context Compression for Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.06500](https://arxiv.org/abs/2611.06500)
+
+- **Kern:** A continuous latent context compression model for LLM agents compresses tool observations into latent tokens and uses action-preserving training to reduce token consumption and runtime while improving task performance.
+
+#### Relevantie
+
+* latent compression of tool observations
+
+---
+
+## §233. ToolSmith: An Automatic Tool-Generation Framework for Multimodal Search Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.31198](https://arxiv.org/abs/2611.31198)
+
+- **Kern:** Recent multimodal search agents use reasoning, vision, and live web search across many turns to answer questions beyond parametric knowledge by orchestrating a small library of hand-crafted search and visual tools. However, the library is laborious to create and maintain, and frozen when new query types, evidence…
+
+#### Relevantie
+
+* automatic tool generation for search agents
+
+---
+
+## §234. VideoJSON: A Minimal Harness Beats Purpose-Built Memory for Ultra-Long Video Understanding
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.28167](https://arxiv.org/abs/2611.28167)
+
+- **Kern:** Answering questions over days or weeks of video requires searching for scattered clues across long timelines. Existing video agents rely on complex memory graphs and fixed retrieval pipelines, which restrict how the agent can search. We propose VideoJSON, a minimal harness for ultra-long video understanding that…
+
+#### Relevantie
+
+* minimal harness beats purpose-built memory
+
+---
+
+## §235. When the harness decides success: state that cannot be re-observed
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.26632](https://arxiv.org/abs/2610.26632)
+
+- **Kern:** Agent harness choices for managing context across turns significantly affect success depending on whether lost facts can be re-observed, with summarization and reasoning replay recovering most performance gaps on reasoning benchmarks.
+
+#### Relevantie
+
+* harness decisions on re-observable state
+
+---
+
+
 # Harness Engineering
 
 
@@ -2347,6 +2817,427 @@ Models: **GLM-5.2** 744B-A40B (FP8) vs **Gemma 4** 26B-A4B (BF16). Harnesses o.a
 
 ---
 
+## §236. ActiveSaddler: Automated Curriculum Learning for Agent Harness Optimization
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.00906](https://arxiv.org/abs/2610.00906)
+
+- **Kern:** ActiveSaddler treats harness optimization as adaptive curriculum learning by modeling training scenarios as a non-stationary bandit that dynamically targets evolving failure patterns, improving agent performance over fixed curricula.
+
+#### Relevantie
+
+* saddler: harness optimization
+
+---
+
+## §237. Agent Lightning v1.0: Towards Harnessed Agentic RL
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.17528](https://arxiv.org/abs/2608.17528)
+
+- **Kern:** Agent Lightning v1.0 enables reproducible reinforcement learning for arbitrary agent harnesses, substantially improving coding-agent performance with minimal data and compute.
+
+#### Relevantie
+
+* agentic RL on arbitrary harnesses
+
+---
+
+## §238. An Empirical Study of Harness Design for Coding Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.20804](https://arxiv.org/abs/2609.20804)
+
+- **Kern:** Component-level analysis of a coding harness reveals that context management prevents overflow failures, planning saves costs for stronger models, and predefined tools help weaker bash users, guiding modular harness design.
+
+#### Relevantie
+
+* component-level harness design study
+
+---
+
+## §239. AutoSaddler: Automatic Harness Optimization with Durable Updates from Agent Execution Traces
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.23041](https://arxiv.org/abs/2608.23041)
+
+- **Kern:** AutoSaddler automatically improves LLM agent harnesses via offline failure-driven optimization, boosting performance on long-horizon benchmarks.
+
+#### Relevantie
+
+* harness optimization from traces
+
+---
+
+## §240. Beneath the Surface: What We Overlook When We Talk About Agent Evolution
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.07624](https://arxiv.org/abs/2611.07624)
+
+- **Kern:** Agent harness evolution can improve benchmark performance without weight updates, but gains are unreliable, costly, and transfer inconsistently, motivating preservation-aware evaluation and EvoAudit revisions.
+
+#### Relevantie
+
+* harness evolution gains unreliable
+
+---
+
+## §241. ClawGym II: Exploring Black-Box RL on Agent Harness
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.16798](https://arxiv.org/abs/2608.16798)
+
+- **Kern:** A unified black-box reinforcement learning framework enables stable, scalable optimization of general agents through complex harnesses via sandbox execution, trajectory reconstruction, and mix-harness training.
+
+#### Relevantie
+
+* black-box RL on harness
+
+---
+
+## §242. Co-Evolving Harnesses and Models: On-Policy Correction Helps Weaker Models Catch Up Where Imitation Fails
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.09134](https://arxiv.org/abs/2609.09134)
+
+- **Kern:** Combining harness evolution with localized expert correction improves weaker models without disrupting their native planning style.
+
+#### Relevantie
+
+* co-evolving harness and model
+
+---
+
+## §243. Dynamic Harness Search: Building Multi-Agent Systems Per-Query via Prediction
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.04137](https://arxiv.org/abs/2610.04137)
+
+- **Kern:** SHIFT learns to build task-specific agent harnesses via a local LLM policy and value function, achieving higher accuracy and lower execution cost than baseline methods across diverse benchmarks.
+
+#### Relevantie
+
+* per-query harness construction
+
+---
+
+## §244. Elicitation or Expansion? Demystifying Gains from Agent Harness Optimization
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.27889](https://arxiv.org/abs/2610.27889)
+
+- **Kern:** Harness optimization improves language model agents by altering task coverage and reliability differently than scaling or inference-time compute, with gains varying by difficulty and attempt budget.
+
+#### Relevantie
+
+* what harness optimization gains come from
+
+---
+
+## §245. Harness Scaling for Generalizable Agentic Reinforcement Learning
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.29458](https://arxiv.org/abs/2610.29458)
+
+- **Kern:** Harness Scaling improves agentic reinforcement learning by training across diverse execution configurations, boosting generalization to unseen harnesses.
+
+#### Relevantie
+
+* harness scaling for agentic RL
+
+---
+
+## §246. Harness-RL: Black-Box Reinforcement Learning with Action-Args Decoupling for Central-Agent Multi-Agent Harnesses
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.29641](https://arxiv.org/abs/2608.29641)
+
+- **Kern:** Harness-RL improves multi-agent coordination by separating action and argument optimization and modeling dynamic session structures via interface-level trajectory trees.
+
+#### Relevantie
+
+* black-box RL, action-args decoupling
+
+---
+
+## §247. Harness-Zero: Harness Distillation via Agent-as-Harness
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.24974](https://arxiv.org/abs/2609.24974)
+
+- **Kern:** Harness-Zero distills specialized agent harness behaviors into model weights via agent-as-harness correction, enabling deployment without the optimized harness while improving task success.
+
+#### Relevantie
+
+* harness distillation into weights
+
+---
+
+## §248. Harness^2: Recursive Agent Harnessing for an Open World
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.14224](https://arxiv.org/abs/2610.14224)
+
+- **Kern:** Harness² improves agent execution harnesses through recursive task-level refinement and continual harness-level learning, boosting performance across benchmarks without ground-truth verifiers.
+
+#### Relevantie
+
+* recursive agent harnessing
+
+---
+
+## §249. HarnessDev: Can LLMs Create and Evolve Their Own Agent Harness?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.01437](https://arxiv.org/abs/2609.01437)
+
+- **Kern:** HarnessDev evaluates agents by measuring their ability to build and iteratively improve execution infrastructure rather than final task outputs, revealing that self-built harnesses vary widely in capability and efficiency and transfer poorly across models.
+
+#### Relevantie
+
+* agents build their own harness (benchmark)
+
+---
+
+## §250. Harnesses That Improve Themselves: A Unifying Framework for Self-Improving Agent Harnesses
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.22299](https://arxiv.org/abs/2611.22299)
+
+- **Kern:** Self-improving agent harnesses can be built by modularly editing four runtime components through a diagnose-patch-validate-deploy loop, with validation gates and safety defenses, yielding better generalization and lower token cost than prompt reflection or full rewrites.
+
+#### Relevantie
+
+* self-improving harness framework
+
+---
+
+## §251. How Do Agent Harnesses Create Value? Planning Information and Release Control in Stateful LLM Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.20474](https://arxiv.org/abs/2609.20474)
+
+- **Kern:** In τ²-bench, structured planning guidance improves task success over sham controls, while a terminal verifier reduces false passes with minimal cost, with the dominant component depending on liability for erroneous acceptance.
+
+#### Relevantie
+
+* planning + release control value
+
+---
+
+## §252. Humanize: Judgement Engineering for Agentic Coding
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.08900](https://arxiv.org/abs/2610.08900)
+
+- **Kern:** Humanize is a multi-agent orchestration framework for agentic coding that uses explicit mechanical gates and independent review to improve reliability, achieving top results in competitive programming and systems benchmarks.
+
+#### Relevantie
+
+* judgement engineering; mechanical gates
+
+---
+
+## §253. Introducing harness adapters: adapt your favorite model to your harness to improve performance and cost
+
+**Type:** Paper · **URL:** [https://huggingface.co/blog/harness-adapters-at-scale](https://huggingface.co/blog/harness-adapters-at-scale)
+
+- **Kern:** (no abstract in dumps; harness adapters)
+
+#### Relevantie
+
+* harness adapters
+
+---
+
+## §254. JIT-Agent: Scaling Harness Intelligence via Just-in-Time Harness Evolution
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.25593](https://arxiv.org/abs/2608.25593)
+
+- **Kern:** JIT-Agent is a trainable model that synthesizes adaptive agent harnesses for off-the-shelf LLMs, improving performance across diverse models and tasks.
+
+#### Relevantie
+
+* just-in-time harness synthesis
+
+---
+
+## §255. Learning from Research: Toward Lifelong Agent Harness Evolution
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.40169](https://arxiv.org/abs/2609.40169)
+
+- **Kern:** A framework uses state-of-the-art research and topic modeling to guide modular improvements in a language agent's harness, enabling proactive lifelong evolution and improving task completion on AppWorld and Tau2-Bench without changing the underlying language model.
+
+#### Relevantie
+
+* lifelong harness evolution from research
+
+---
+
+## §256. Learning Meta-Skills for Agent Harness Design in Test-Time AI4AI
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.38143](https://arxiv.org/abs/2609.38143)
+
+- **Kern:** Fixed-weight AI agents learn to build reusable execution environments for other agents via meta-skills derived from feedback, improving task performance without model updates.
+
+#### Relevantie
+
+* meta-skills for harness design
+
+---
+
+## §257. MILO: Automated Harness Discovery via Orchestrated Multi-Agent Evolution
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.38349](https://arxiv.org/abs/2609.38349)
+
+- **Kern:** MILO co-evolves agent harnesses and search strategies via island-based lineage memory and adaptive orchestration, substantially improving long-horizon agent performance across benchmarks.
+
+#### Relevantie
+
+* harness discovery via multi-agent evolution
+
+---
+
+## §258. Mixture of Self-Improving Branches For Agent Harness Optimization
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.37834](https://arxiv.org/abs/2609.37834)
+
+- **Kern:** Adaptive branching with evolving development subsets and proposal policies improves recursive self-improvement by generating complementary harnesses routed by development data.
+
+#### Relevantie
+
+* self-improving branches for harness optimization
+
+---
+
+## §259. Omni-IO Skills: Harnessing Your Agent Omni-Native
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.31847](https://arxiv.org/abs/2609.31847)
+
+- **Kern:** Omni-IO Skills is a plug-and-play harness that enables general agents to coordinate multimodal workflows across diverse artifacts via hierarchical skills, dependency-aware orchestration, and a persistent asset registry.
+
+#### Relevantie
+
+* omni-native harness skills
+
+---
+
+## §260. ParetoSaddler: Pareto-Guided Optimization of Agent Harnesses for Quality and Cost
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.02079](https://arxiv.org/abs/2611.02079)
+
+- **Kern:** ParetoSaddler improves LLM agent harnesses by separately promoting intermediate candidates via Bayesian bootstrap Pareto support and selecting final deployments, boosting quality while reducing cost.
+
+#### Relevantie
+
+* Pareto harness optimization quality/cost
+
+---
+
+## §261. PluginRSI: Recursive Improvement of Agent Harnesses with Reusable Plugins
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.32423](https://arxiv.org/abs/2609.32423)
+
+- **Kern:** PluginRSI improves language model harnesses by evolving reusable, composable plugins that accelerate optimization and transfer across tasks and models.
+
+#### Relevantie
+
+* recursive improvement with plugins
+
+---
+
+## §262. Rethinking Verification in Agent Harnesses
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.34577](https://arxiv.org/abs/2610.34577)
+
+- **Kern:** Verification strategies for agent harnesses—spanning instructions, reminders, gates, and independent review—show that independent critic review improves accuracy with minimal cost increases, guiding practical test-time scaling design.
+
+#### Relevantie
+
+* verification strategies in harnesses
+
+---
+
+## §263. RRSI: Regularized Recursive Self-Improvement of Agent Harnesses
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.24972](https://arxiv.org/abs/2609.24972)
+
+- **Kern:** Regularized recursive self-improvement of agent harnesses improves out-of-distribution performance by constraining edit proposals and selections to favor reusable mechanisms over benchmark-specific memorization.
+
+#### Relevantie
+
+* regularized recursive harness improvement
+
+---
+
+## §264. Self-Evolving Agent Harness
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.18813](https://arxiv.org/abs/2610.18813)
+
+- **Kern:** A framework for self-evolving agent harnesses uses feedback-driven revisions and evolutionary optimization with theoretical generalization guarantees while keeping model weights fixed.
+
+#### Relevantie
+
+* self-evolving harness framework
+
+---
+
+## §265. Stellar Colosseum: A Many-Agent Harness for Long-Horizon Research in Mathematics and Theoretical Computer Science
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.15983](https://arxiv.org/abs/2609.15983)
+
+- **Kern:** Stellar Colosseum is a model-agnostic inference harness that improves long-horizon mathematical and theoretical computer science research by exploring proof strategies, decomposing interdependent subproblems, and integrating verification feedback through parallel candidate generation and tree aggregation.
+
+#### Relevantie
+
+* many-agent research harness
+
+---
+
+## §266. Trial by Trace: Benchmarking AI Agent Harnesses for Reliability and Failure Attribution
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.32285](https://arxiv.org/abs/2610.32285)
+
+- **Kern:** TraceTrial-Bench evaluates agent harness reliability across seven components using mechanism-oriented tasks, trajectory tracing, and failure attribution to compare harness designs and diagnose failures.
+
+#### Relevantie
+
+* harness reliability and failure attribution
+
+---
+
+## §267. VERSE: Verified Self-Evolving Optimizer for Agent Harnesses
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.02616](https://arxiv.org/abs/2610.02616)
+
+- **Kern:** VERSE enables an optimizer to self-evolve its diagnostic and verification tools, improving agent harness performance on software engineering tasks without changing model weights.
+
+#### Relevantie
+
+* verified self-evolving optimizer
+
+---
+
+## §268. VideoEvolve: Evolving Agent Harnesses for Video Temporal Grounding
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.01766](https://arxiv.org/abs/2610.01766)
+
+- **Kern:** VideoEvolve automates the evolution of agent harnesses for video temporal grounding by refining instructions and code branches through execution feedback, improving localization across benchmarks.
+
+#### Relevantie
+
+* harness evolution for video grounding
+
+---
+
+## §269. What Does a Harness Buy? Tokens, Mostly
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.04433](https://arxiv.org/abs/2610.04433)
+
+- **Kern:** Harness choice changes cost up to 3x and causes score variance comparable to reruns, with only minor consistent performance differences across production coding agents.
+
+#### Relevantie
+
+* harness choice changes cost up to 3x
+
+---
+
+## §270. Your Policy Is Secretly a Harness: The Decision Geometry of Agent Interfaces
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.37255](https://arxiv.org/abs/2610.37255)
+
+- **Kern:** Under KL-regularized control, a policy encodes its harness preferences, so deployed performance equals harness potential minus policy mismatch, and harness comparisons must separate these terms to predict training gains.
+
+#### Relevantie
+
+* policy-harness mismatch; decision geometry
+
+---
+
+
 # Loop Engineering
 
 
@@ -2451,6 +3342,753 @@ Caleb biedt een helder overzicht van de **hiërarchische stapeling** van enginee
 
 ---
 
+## §271. Experience-Handoff Reinforcement Learning for Recursive Self-Improvement
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.16409](https://arxiv.org/abs/2611.16409)
+
+- **Kern:** Language-model agents trained with reinforcement learning can improve by learning to create and curate experience artifacts that help future rollouts, not just by optimizing actions from scalar rewards.
+
+#### Relevantie
+
+* experience handoff; RSI
+
+---
+
+## §272. LongWoF-Bench: Evaluating EvoMap Genes for Verifiable Long-Workflow Tasks
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.23200](https://arxiv.org/abs/2608.23200)
+
+- **Kern:** EvoMap externalizes verified execution experience into reusable structured Gene, improving long-workflow task completion and reducing token costs across diverse models.
+
+#### Relevantie
+
+* externalized verified experience
+
+---
+
+## §273. Recursive Experiential-Working Memory Evolution for Long-Horizon Agent Harnesses
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.24876](https://arxiv.org/abs/2608.24876)
+
+- **Kern:** Recuris introduces a recursive memory architecture that tracks progress and guides skill selection to improve long-horizon agent success through localized, validation-gated updates.
+
+#### Relevantie
+
+* validation-gated memory evolution
+
+---
+
+## §274. TSFLab: A Self-Improving Agent-Agnostic Workbench for Time Series Forecasting Research
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.40901](https://arxiv.org/abs/2610.40901)
+
+- **Kern:** TSFLab is a self-improving agent-agnostic workbench that equips coding agents with shared resources to reduce costs and automate maintenance for time series forecasting research and benchmarking.
+
+#### Relevantie
+
+* self-improving workbench for forecasting
+
+---
+
+
+# Agent Safety
+
+> aanvallen op de agent, niet op het model: injectie, auto-approve, sandbox, rechten.
+
+---
+
+## §275. Attack Policy Selection can Mislead Monitor Evaluators
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34934v1](https://arxiv.org/abs/2611.34934v1)
+
+- **Kern:** AI monitors, classifiers that flag dangerous behaviour by AI agents, are often evaluated against transcripts generated by attack policies acting as proxies for dangerous behaviour in deployment. We evaluate an ex-production OpenAI monitor as a case study and find that measured false negative rate is highly sensitive…
+
+#### Relevantie
+
+* monitor evaluation vs attack policies
+
+---
+
+## §276. Can Latent Reasoning Drive LLM Outputs Without a Trace?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.31015](https://arxiv.org/abs/2611.31015)
+
+- **Kern:** Models can use deep latent reasoning to pursue hidden objectives while generating chain-of-thought explanations that appear task-appropriate and evade output-based monitoring.
+
+#### Relevantie
+
+* latent reasoning evading monitors
+
+---
+
+## §277. EvoUndo: Recoverability-Constrained Self-Evolution for LLM Agent Harnesses
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.28363](https://arxiv.org/abs/2608.28363)
+
+- **Kern:** EvoUndo evaluates recoverability of self-modifying LLM agents and shows that reliable recovery requires co-designing verification, state grounding, and recovery-language expressivity.
+
+#### Relevantie
+
+* recoverability of self-modifying agents
+
+---
+
+## §278. Forgetting is Not Always Bad: A Neuro-Inspired Memory Repair Mechanism for Poisoned LLM Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.13267](https://arxiv.org/abs/2610.13267)
+
+- **Kern:** DREAM is a training-free framework that selectively suppresses poisoned memories in LLM agents via reactivation-based repair, reducing backdoor success by over 95% with lower overhead.
+
+#### Relevantie
+
+* memory repair against poisoning
+
+---
+
+## §279. HarnessRisk: A Lifecycle-Oriented Benchmark for Agent Harness Safety
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.17597](https://arxiv.org/abs/2608.17597)
+
+- **Kern:** HarnessRisk evaluates agent harness safety across six operational phases, revealing that configuration vulnerabilities and detection gaps allow high attack success despite preserved utility.
+
+#### Relevantie
+
+* harness safety across lifecycle
+
+---
+
+## §280. HarnessSecurity-Bench: Do Security Mechanisms Really Protect Coding Agent Harnesses?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.07639](https://arxiv.org/abs/2610.07639)
+
+- **Kern:** HarnessSecurity benchmarks coding agent harness security mechanisms, finding that auto-approve sharply increases attack success while isolation and allowlisting reduce harm with varying utility trade-offs.
+
+#### Relevantie
+
+* do harness security mechanisms work
+
+---
+
+## §281. Intent Contracts: Taking Tools Away from Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.24025](https://arxiv.org/abs/2611.24025)
+
+- **Kern:** Intent contracts, in which a planner submits logged contracts and a trusted model writes tool calls, do not reduce unauthorized actions and match blind review, but complete more benign over-reach tasks than an intent-visible reviewer.
+
+#### Relevantie
+
+* intent contracts; tool authorization
+
+---
+
+## §282. Names Are Not Objects: Object-Bound Confinement for Compromised AI Coding Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.14488](https://arxiv.org/abs/2610.14488)
+
+- **Kern:** Coding agents read repositories and web pages that anyone can write, and then act with their user's authority. Prompt-injection defenses make it less likely that the model is steered but do not prevent it, so the system around the model must contain an agent that is already compromised. Many exploits against deployed…
+
+#### Relevantie
+
+* confinement for compromised coding agents
+
+---
+
+## §283. Safe, Persistent, and Evolving Agent Harness for Understanding Partially Observable Worlds
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.11552](https://arxiv.org/abs/2610.11552)
+
+- **Kern:** A multi-agent execution framework with policy checks, persistent state, and abductive rule discovery improves safe task completion in enterprise and scientific workflows across several language models.
+
+#### Relevantie
+
+* safe persistent evolving harness
+
+---
+
+## §284. Same Bytes, Different Authority: Reserved-Token Representations in Chat-Template Prompt Injection
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.35932](https://arxiv.org/abs/2609.35932)
+
+- **Kern:** Reserved control tokens in chat templates significantly amplify prompt injection attacks against LLM agents compared to equivalent subword sequences, with instruction tuning reinforcing this vulnerability and standard tokenizer mitigations failing to protect tool-protocol channels.
+
+#### Relevantie
+
+* reserved tokens amplify prompt injection
+
+---
+
+## §285. Step-Zero Attack: Agent Safety Before Observability
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.01953](https://arxiv.org/abs/2611.01953)
+
+- **Kern:** Existing attacks and defenses for coding agents act once content enters the model context: injected text persuades the model, and guards inspect what the model reads. Yet to judge whether processing an unknown archive, network response, or image is safe, an agent often must process it first, and that step can do harm…
+
+#### Relevantie
+
+* attacks before observability
+
+---
+
+
+# Embodied & Physical AI
+
+> dezelfde agent-technieken buiten het chatvenster — embodied en physical AI.
+
+---
+
+## §286. A Controlled Study of Models, Skills, Feedback, and Curriculum in Agentic Robotics
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.09030](https://arxiv.org/abs/2611.09030)
+
+- **Kern:** A controlled simulation study of agentic robotics finds that successful self-learning depends less on information access than on how well agents interpret feedback, attribute failures, reason about spatial and geometric structure, and revise code to improve robot policies.
+
+#### Relevantie
+
+* agentic robotics; feedback interpretation
+
+---
+
+## §287. A Glimpse of Training VLMs as Foundation Models for Robotic Manipulation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.29338](https://arxiv.org/abs/2611.29338)
+
+- **Kern:** nanoAstra combines semantic action modeling with capability-preserving supervised fine-tuning to train vision-language models for generalizable robot manipulation, achieving strong zero-shot success and faster streaming execution.
+
+#### Relevantie
+
+* VLM robot manipulation
+
+---
+
+## §288. ACAP: Asynchronous Coding Agents for Efficient Robot Control
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.31205](https://arxiv.org/abs/2611.31205)
+
+- **Kern:** Coding agents can construct and revise robot behavior during execution, but using one agent for the whole robot can delay otherwise independent work. We introduce Asynchronous Coding Agents as Policy (ACAP), an asynchronous framework that organizes one robot as a team of persistent agents. Each member reasons and…
+
+#### Relevantie
+
+* async coding agents for robot control
+
+---
+
+## §289. ActionCodec2: A Streaming Action Tokenizer
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.15490](https://arxiv.org/abs/2611.15490)
+
+- **Kern:** ActionCodec2 is a non-neural streaming action tokenizer that incrementally releases executable actions with bounded reconstruction error, uses Set-BPE to merge motion primitives, and enables VLA policies to use state feedback and VLM agents to build reusable macros.
+
+#### Relevantie
+
+* streaming action tokenizer for VLA
+
+---
+
+## §290. AeroRSI: Recursive Self-Improvement for Aerial Vision-Language Navigation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.24077](https://arxiv.org/abs/2611.24077)
+
+- **Kern:** Vision-language-action (VLA) models enable unmanned aerial vehicles (UAVs) to follow natural-language instructions, yet still fail frequently in closed-loop flight. Correcting these failures requires repairs, i.e., actions that avoid them at the states the policy itself reaches, which human pilots cannot label at…
+
+#### Relevantie
+
+* aerial VLN
+
+---
+
+## §291. AgentRoboCritic: Understanding the Capability of Frontier Agents on Direct Robot Control
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.26613](https://arxiv.org/abs/2611.26613)
+
+- **Kern:** Frontier multimodal language agents such as GPT-6 Astra have demonstrated strong capabilities in controlling robots directly via low-level numerical actions without high-level primitives. However, existing benchmarks report only episode-level success rates, which show neither how these agents succeed nor where they…
+
+#### Relevantie
+
+* frontier agents on direct robot control
+
+---
+
+## §292. AIRIS: Benchmarking Social Embodied Intelligence in Egocentric Streaming Videos
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34347](https://arxiv.org/abs/2611.34347)
+
+- **Kern:** Embodied agents operating around people must not only recognize social cues, but also decide when the available evidence is sufficient, whether to intervene, and how to respond without violating social norms. Existing benchmarks typically evaluate these abilities in isolation or with access to completed videos,…
+
+#### Relevantie
+
+* social embodied intelligence
+
+---
+
+## §293. Auriga Technical Report: A Task-Agnostic Agent Harness for Zero-Shot Embodied Manipulation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.01112](https://arxiv.org/abs/2611.01112)
+
+- **Kern:** Auriga, a task-agnostic agent harness, closes most of the planning-execution gap in zero-shot robot manipulation by combining explicit task beliefs, calibrated 3D measurements, dual-arm control, and execution monitoring, achieving state-of-the-art results on RoboDojo and RoboCasa365.
+
+#### Relevantie
+
+* embodied manipulation harness
+
+---
+
+## §294. AutoPILOT: A Visual Agent Harness for Real-Time Gameplay
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.28202](https://arxiv.org/abs/2611.28202)
+
+- **Kern:** A harness that lets multimodal foundation models emit primitive actions, open-loop macros, or closed-loop controllers improves real-time game performance and reduces API cost.
+
+#### Relevantie
+
+* visual harness for gameplay
+
+---
+
+## §295. Coding4Games: Can Modern Coding Agents Play Modern Video Games?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.31974](https://arxiv.org/abs/2611.31974)
+
+- **Kern:** Games, especially modern AAA games, challenge language models to perceive complex scenes, control actions, and make decisions over long horizons. Existing game benchmarks primarily test language models as computer-use agents that query a language model throughout play, incurring repeated inference cost and, in…
+
+#### Relevantie
+
+* coding agents playing video games
+
+---
+
+## §296. DemoFoundry: Toward Scalable Photorealistic Robot Data with Coding Agents and Generative Rendering
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34671](https://arxiv.org/abs/2611.34671)
+
+- **Kern:** Scaling robot learning requires demonstrations that combine realistic visual observations with reliable action supervision. Simulation-based synthesis faces a substantial visual gap relative to real environments, while video-only generation struggles to maintain physically consistent interactions and provide aligned…
+
+#### Relevantie
+
+* robot data synthesis
+
+---
+
+## §297. DexDuet: Learning Contact-Preserving Bimanual Dexterity from Human Demonstrations
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30495](https://arxiv.org/abs/2611.30495)
+
+- **Kern:** Human demonstrations provide a rich source of bimanual dexterous skills, yet transferring them to robot hands remains challenging. Existing methods primarily optimize object trajectory tracking, often overlooking how human hands interact with the object. Even with accurate tracking, robots may contact incorrect…
+
+#### Relevantie
+
+* bimanual dexterity from demonstrations
+
+---
+
+## §298. DexEngine: Scaling Human Demonstrations into Physically Executable Whole-Robot Data
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.33579](https://arxiv.org/abs/2611.33579)
+
+- **Kern:** A growing body of recent work addresses the retargeting of human hand-object demonstrations to robotic hands. To train whole-robot policies, however, the retargeted motions must be kinematically feasible and physically executable, and be produced efficiently at scale. We present DexEngine, a simulation pipeline that…
+
+#### Relevantie
+
+* human-to-robot data scaling
+
+---
+
+## §299. Don't Sleep, Keep Watch: Proactive Perception for Computer-Use Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.28947](https://arxiv.org/abs/2611.28947)
+
+- **Kern:** NightWatch adds a lightweight streaming watcher to vision-language computer-use agents to keep perception synchronized with dynamic interfaces, reducing latency and wasted time while maintaining or improving task success.
+
+#### Relevantie
+
+* proactive perception for computer-use agents
+
+---
+
+## §300. EgoUseBench: Benchmarking Computer-Use Agents under Evolving First-Person Contexts
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34466](https://arxiv.org/abs/2611.34466)
+
+- **Kern:** AI wearables, such as smart glasses, extend the context available to agents beyond digital environments to users' physical surroundings. With these devices, computer tasks can originate from users' ongoing activities rather than solely from explicit instructions. Through first-person observations, agents can identify…
+
+#### Relevantie
+
+* computer-use agents, first-person context
+
+---
+
+## §301. Embo-Harness: Towards Understanding Frontier-Model-as-Policy Harness
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.31201](https://arxiv.org/abs/2611.31201)
+
+- **Kern:** A systematic framework shows that frontier multimodal models can serve as robot policies when harnessed with interfaces favoring native visual reasoning and tool use, achieving high success in simulated and real manipulation tasks.
+
+#### Relevantie
+
+* frontier model as robot policy harness
+
+---
+
+## §302. Embodied AI Fails the Mirror Test: How a Simple Mirror Breaks Robot Policies
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.33010](https://arxiv.org/abs/2611.33010)
+
+- **Kern:** A new benchmark shows that many robot manipulation policies perform worse when mirrors are present, often because they confuse reflections with real objects rather than simply colliding with the mirror.
+
+#### Relevantie
+
+* mirror test breaks robot policies
+
+---
+
+## §303. Embodied-Harness: Towards Recursive Self-Improvement for Robotic Manipulation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.27689](https://arxiv.org/abs/2611.27689)
+
+- **Kern:** A dual-agent framework with hierarchical memory and recursive self-improvement enables robotic manipulation agents to convert execution evidence into reusable guidance without updating model parameters.
+
+#### Relevantie
+
+* recursive self-improvement for manipulation
+
+---
+
+## §304. EMHO: EMbodied Agent Harness Optimization via Experience Traces
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.08432](https://arxiv.org/abs/2610.08432)
+
+- **Kern:** EMHO is a self-evolving framework that improves embodied agent harnesses directly from experience traces by revising monitoring, tool use, and failure responses while keeping the underlying model frozen.
+
+#### Relevantie
+
+* embodied harness optimization from traces
+
+---
+
+## §305. GameAnything: From Any Inspirations to Playable Game Worlds
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.29238](https://arxiv.org/abs/2611.29238)
+
+- **Kern:** An open-source agentic platform and benchmark enable iterative transformation of multimodal inspirations into playable game extensions, revealing that coding agents can adapt reference content but still struggle with playable interactions and precise modifications.
+
+#### Relevantie
+
+* agentic game worlds
+
+---
+
+## §306. GameDojo: Benchmarking Real-Time Interactive Agents in Video Games
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30771](https://arxiv.org/abs/2611.30771)
+
+- **Kern:** GameDojo is a controllable benchmark of 120 boss encounters across 20 games with 600 hours of gameplay trajectories, showing frontier models struggle in real-time interaction while training GameDojo-4B achieves frontier performance and policy transfer across bosses.
+
+#### Relevantie
+
+* real-time agents in games benchmark
+
+---
+
+## §307. Gamer: A Generalist Vision-Language-Action Foundation Model for Long-Horizon Real-Time Game Agent
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.18397](https://arxiv.org/abs/2611.18397)
+
+- **Kern:** Gamer is a generalist agent framework that integrates perception, memory, and multi-step reasoning, trained through continued pre-training, sparse-thinking instruction tuning, and multi-turn reinforcement learning to interact efficiently in 2D and 3D environments.
+
+#### Relevantie
+
+* VLA foundation model for games
+
+---
+
+## §308. HarnessVLN: Unifying Training-Free Embodied Navigation through an Agent Harness
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.15195](https://arxiv.org/abs/2609.15195)
+
+- **Kern:** HarnessVLN is a zero-shot framework that validates navigation plans against spatial evidence and maintains hierarchical memory to improve embodied navigation without training.
+
+#### Relevantie
+
+* embodied navigation harness
+
+---
+
+## §309. Has GPT-6-Astra Achieved Embodied Intelligence?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.22471](https://arxiv.org/abs/2610.22471)
+
+- **Kern:** GPT-6-Astra achieves high performance across diverse robotic tasks via in-context learning, yet real-world deployment reveals gaps in demonstration cost, execution time, and practical embodied intelligence.
+
+#### Relevantie
+
+* GPT-6 Astra embodied limits
+
+---
+
+## §310. HIVE-Bench: Evaluating Patch-Level Visual Representations for Egocentric Robot Manipulation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30813](https://arxiv.org/abs/2611.30813)
+
+- **Kern:** A shared flow-matching policy that reads dense patch tokens from multiple vision encoders improves success on egocentric bimanual tasks, and inverse-dynamics readout of commanded motion is a strong pre-training signal, while recognition, depth, and correspondence transfer unreliably.
+
+#### Relevantie
+
+* egocentric manipulation representations
+
+---
+
+## §311. ICLWorld: Benchmarking In-Context Learning of Agents from Digital to Physical Worlds
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.32649](https://arxiv.org/abs/2611.32649)
+
+- **Kern:** An online benchmark evaluates in-context learning across computer-use and robot-use agent tasks, revealing large gaps between digital and physical performance and between recognizing rules and acting on them.
+
+#### Relevantie
+
+* in-context learning digital vs physical
+
+---
+
+## §312. Innata-0: A Native Embodied World System with Model-Agent Co-Design
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30254](https://arxiv.org/abs/2611.30254)
+
+- **Kern:** Innata-0 is a native embodied world system that co-designs a world-action model and an agent to enable reliable long-horizon physical behaviors through integrated understanding, prediction, action generation, memory, verification, and recovery.
+
+#### Relevantie
+
+* embodied world system
+
+---
+
+## §313. LeadVLA: Learning Follower-Aware Route Execution for Robot Leading
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30149](https://arxiv.org/abs/2611.30149)
+
+- **Kern:** LeadVLA is a structured multimodal policy that separates route execution into explicit path, pace, and residual components, trained and evaluated with generated closed-loop data and a benchmark, achieving the highest success among tested robot policies and transferring to unseen real environments without fine-tuning.
+
+#### Relevantie
+
+* follower-aware route execution
+
+---
+
+## §314. Lost in the Hallway: Benchmarking Persistent Spatial Memory Across Revisits
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.21485](https://arxiv.org/abs/2611.21485)
+
+- **Kern:** Persistent spatial understanding is essential for embodied agents to operate reliably in environments they repeatedly encounter. It requires recognizing revisited places despite viewpoint changes, distinguishing them from similar-looking rooms, and updating memories as environments change. Yet existing evaluations…
+
+#### Relevantie
+
+* spatial memory across revisits
+
+---
+
+## §315. Make Code as Policy Great Again: Frontier Agents Write, Call, and Evolve Robot Tools
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.39018](https://arxiv.org/abs/2609.39018)
+
+- **Kern:** URAI improves robot manipulation by having agents build reusable motion tools that execute locally while retaining model-level decisions between steps, boosting success rates and reducing token use.
+
+#### Relevantie
+
+* agents write and evolve robot tools
+
+---
+
+## §316. MOTIO: Agentic Skill Engineering for Reality-Grounded Humanoid Loco-Manipulation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.33446](https://arxiv.org/abs/2610.33446)
+
+- **Kern:** MOTIO converts human videos and 3D assets into executable humanoid robot programs via agentic reasoning and physics feedback, then distills them into a shared policy.
+
+#### Relevantie
+
+* agentic humanoid manipulation
+
+---
+
+## §317. Profiling a Frontier Agent with EBench: From Direct Control to Harness with Policy
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.35832](https://arxiv.org/abs/2610.35832)
+
+- **Kern:** A frontier multimodal language model controls robots directly and via post-trained vision-language-action or world action model policies, showing complementary strengths but suboptimal integration on complex manipulation tasks.
+
+#### Relevantie
+
+* direct control vs harness with policy
+
+---
+
+## §318. PyRUA-DataFarm: LLM Agent as a Cost-Efficient Teleoperator for Real-Ready Robot Data
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.05320](https://arxiv.org/abs/2611.05320)
+
+- **Kern:** A coding agent automates robot demonstration generation by simulating tasks, rendering photorealistic videos, and producing deployable training data at lower cost than teleoperation.
+
+#### Relevantie
+
+* agent as teleoperator
+
+---
+
+## §319. PyRUA-Dex: Learning Programmatic Policies for Dexterous Bimanual Manipulation with Coding Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.33144](https://arxiv.org/abs/2611.33144)
+
+- **Kern:** A framework enables coding agents to develop dexterous manipulation policies without demonstrations by exploring and distilling successful attempts into a program, then refining it for strong simulated and real-world results.
+
+#### Relevantie
+
+* coding agents learn dexterous policies
+
+---
+
+## §320. RAPID: Robot Agentic Programming from Demonstrations
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.30249](https://arxiv.org/abs/2609.30249)
+
+- **Kern:** RAPID automatically generates reusable robot programs from a single visual demonstration by inferring task specifications, action primitives, and an interactive verification loop, achieving strong generalization across manipulation tasks.
+
+#### Relevantie
+
+* robot programs from demonstrations
+
+---
+
+## §321. Real2SimLab: A Unified Platform for Real-to-Simulation Transfer
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34849](https://arxiv.org/abs/2611.34849)
+
+- **Kern:** Real-to-simulation transfer, which builds simulations from real-world observations, has long been studied in research and industry. Recently, coding agents have become capable of generating simulation programs from video recordings, and several benchmarks have been proposed to evaluate them. However, each individual…
+
+#### Relevantie
+
+* real2sim transfer
+
+---
+
+## §322. RLE-Bench: A Qualifying Exam for Coding Agents as Robot Learning Engineers
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.34210](https://arxiv.org/abs/2609.34210)
+
+- **Kern:** RLE-Bench evaluates coding agents across robot-learning workflows including control, policy learning, perception, and mechanical design using task-specific metrics aggregated into an overall RLE Index.
+
+#### Relevantie
+
+* coding agents as robot learning engineers
+
+---
+
+## §323. ROAM-Bench: Evaluating Embodied Active Spatial Intelligence through Evidence Verification
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.33143](https://arxiv.org/abs/2611.33143)
+
+- **Kern:** Embodied spatial intelligence requires agents to gather information through exploration and interaction, then use it to reason and act. Existing benchmarks insufficiently distinguish correct outcomes from completion of these task requirements. We introduce ROAM-Bench to evaluate these abilities under robot motion and…
+
+#### Relevantie
+
+* embodied active spatial intelligence
+
+---
+
+## §324. RoboAware: Learning to Coordinate Embodied Skills from Counterfactual Outcomes
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.11480](https://arxiv.org/abs/2610.11480)
+
+- **Kern:** RoboAware learns a state-conditioned coordinator to select between modular robot skills and frozen policies using counterfactual branching and hierarchical reinforcement learning, improving embodied task success.
+
+#### Relevantie
+
+* coordinating embodied skills
+
+---
+
+## §325. RoboEvo^2: Recursive Robot Self-Improvement via Harness-Policy Co-Evolution
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34675](https://arxiv.org/abs/2611.34675)
+
+- **Kern:** RoboEvo$^2$ recursively co-evolves a coding-agent harness and a vision-language-action policy, using policy failures to discover reusable skills and preference distillation to improve motor control, yielding large success gains without extra human demonstrations.
+
+#### Relevantie
+
+* harness-policy co-evolution
+
+---
+
+## §326. RUIBench: What Makes a Good Robot-Use Interface?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.31115](https://arxiv.org/abs/2611.31115)
+
+- **Kern:** Foundation models can reason about complex physical tasks, yet translating this intelligence into reliable robot execution remains challenging. We argue that a critical, often overlooked factor is the robot-use interface (RUI), which determines how agents express and execute physical actions. To systematically study…
+
+#### Relevantie
+
+* robot-use interface benchmark
+
+---
+
+## §327. SEEK: Self-Evolution through Execution Knowledge for Agentic Robot Manipulation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.33915](https://arxiv.org/abs/2611.33915)
+
+- **Kern:** SEEK retains executable manipulation procedures and measured action effects across attempts, enabling fixed foundation-model robots to improve without retraining.
+
+#### Relevantie
+
+* execution knowledge for manipulation
+
+---
+
+## §328. SOLVE: Sparse, Ordered Keyposes Make LLM Agents Versatile and Efficient Robot Manipulator
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34750](https://arxiv.org/abs/2611.34750)
+
+- **Kern:** LLM agents have made remarkable progress in robot manipulation, yet they suffer from expensive inference, dense step-by-step control, and tool bottlenecks. We introduce SOLVE, a training-free, versatile and efficient agent policy: a multimodal LLM agent writes a sparse, ordered sequence of 6-DoF end-effector keyposes…
+
+#### Relevantie
+
+* sparse keypose manipulation
+
+---
+
+## §329. Speak When You See It: Proactive Task Assistants Should Wait for Evidence, Not the Clock
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30895](https://arxiv.org/abs/2611.30895)
+
+- **Kern:** Proactive assistants that guide people through physical tasks must decide, every few seconds, whether a step is complete and whether a mistake has occurred. We find that two benchmarks for this task largely reward knowing when rather than seeing what: a timer that never looks at the video, raising an alarm at 25 s…
+
+#### Relevantie
+
+* proactive assistants; wait for evidence
+
+---
+
+## §330. World Action Agent: Harnessing VLMs for Robot Manipulation via World Action Rehearsal
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.29964](https://arxiv.org/abs/2609.29964)
+
+- **Kern:** World Action Agent enables vision-language models to control robots within a visual workspace featuring contact views, action rehearsal, and in-view correction, achieving state-of-the-art manipulation results and enabling skill evolution and model fine-tuning.
+
+#### Relevantie
+
+* world action rehearsal for manipulation
+
+---
+
+## §331. WorldLeague: Benchmarking Physical Agency
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30989](https://arxiv.org/abs/2611.30989)
+
+- **Kern:** WorldLeague benchmarks 13 AI systems on 60 simulated robot tasks spanning exploration, rearrangement, and adaptation, measuring progress and success to compare autonomous physical goal achievement.
+
+#### Relevantie
+
+* physical agency benchmark
+
+---
+
+
 # Graph Engineering
 
 
@@ -2511,6 +4149,314 @@ Claude Code genereert on-the-fly een JavaScript-runtime script (bijv. 420+ regel
 
 ---
 
+
+---
+
+## §332. AsynCodeBench: Benchmarking Collaboration of Asynchronous Multi-Agent Systems in Software Engineering
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.32662](https://arxiv.org/abs/2609.32662)
+
+- **Kern:** AsynCodeBench introduces dependency-level metrics to evaluate cross-agent collaboration in multi-agent coding, revealing that coordination improves in concentrated bursts rather than gradually.
+
+#### Relevantie
+
+* async multi-agent collaboration benchmark
+
+---
+
+## §333. Evolving Agent Teams
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.36848](https://arxiv.org/abs/2610.36848)
+
+- **Kern:** Evolving Agent Teams uses a supervisor and persistent memory to restructure agent teams, escaping local optima and outperforming baselines in GPU kernel optimization and related tasks.
+
+#### Relevantie
+
+* evolving agent teams
+
+---
+
+## §334. Graph Engineering in the Era of LLM Agents: From Individual Intelligence to System Intelligence
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.21156](https://arxiv.org/abs/2608.21156)
+
+- **Kern:** Graph Engineering organizes multi-agent LLM systems through dynamic graph structures to coordinate specialized agents and manage complex, evolving tasks.
+
+#### Relevantie
+
+* graph engineering survey
+
+---
+
+## §335. MeterRouter: Budget-Aware Dynamic Routing for Multi-Agent Systems
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34327](https://arxiv.org/abs/2611.34327)
+
+- **Kern:** (no abstract in dumps; budget-aware routing for multi-agent)
+
+#### Relevantie
+
+* budget-aware routing for multi-agent
+
+---
+
+## §336. Not Every Input Needs Everything: Unifying Expert Gating, Model Cascades, and Agent Orchestration
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34112](https://arxiv.org/abs/2611.34112)
+
+- **Kern:** (no abstract in dumps; expert gating / cascades)
+
+#### Relevantie
+
+* expert gating / cascades
+
+---
+
+## §337. OpenCollab: A Multi-Agent Coding Framework with Programmable Collaboration and Controllable Runtime
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.38345](https://arxiv.org/abs/2609.38345)
+
+- **Kern:** Multi-agent coding systems are designed to tackle complex software engineering tasks through collaboration. However, existing evaluations typically assume configured organizations are followed faithfully, whereas reality differs. This behavioral gap, combined with differences in underlying system components, prevents…
+
+#### Relevantie
+
+* programmable multi-agent collaboration
+
+---
+
+## §338. When Are Parallel Subagents Effective for Coding? An Empirical Study on Repository Construction
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.33893](https://arxiv.org/abs/2611.33893)
+
+- **Kern:** (no abstract in dumps; parallel subagents effectiveness)
+
+#### Relevantie
+
+* parallel subagents effectiveness
+
+---
+
+
+
+# World models & generative video
+
+> wereldmodellen en generatieve video als omgeving, niet als eindproduct.
+
+---
+
+## §339. 3D CoCa v3: Contrastive Learners with Scene Graphs for Urban Scene Understanding
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.33835](https://arxiv.org/abs/2611.33835)
+
+- **Kern:** Understanding large-scale 3D urban scenes requires representations that capture both multi-scale geometric structures and complex spatial relationships. However, existing 3D vision-language methods primarily emphasize global semantic alignment or object-level representations, leaving structured relational modeling…
+
+#### Relevantie
+
+* 3D urban scene representation
+
+---
+
+## §340. A Mesh for Every Moment
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34939](https://arxiv.org/abs/2611.34939)
+
+- **Kern:** We present MEMO (a Mesh for Every MOment), a method that reconstructs the geometry of complete dynamic scenes, captured by multiple synchronized cameras, and extracts a mesh at every frame. Existing dynamic Gaussian splatting methods either model appearance alone or target isolated objects segmented by foreground…
+
+#### Relevantie
+
+* dynamic scene reconstruction
+
+---
+
+## §341. Agentic LongLive: Asynchronous Agentic Memory for Long Video Generation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34907](https://arxiv.org/abs/2611.34907)
+
+- **Kern:** Real-time autoregressive video generators stream minutes of video and accept new prompts on the fly, but struggle to keep people, objects, and places consistent over a long interactive story. Agent systems provide such memory for offline multi-shot generation, yet they read the whole script in advance, plan each shot…
+
+#### Relevantie
+
+* agentic memory for long video
+
+---
+
+## §342. Autoregressive View Model
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.23417](https://arxiv.org/abs/2611.23417)
+
+- **Kern:** We present the Autoregressive View Model (AVM), which generates a scene as a stream of views without constructing an explicit 3D representation. Through a unified in-context interface, AVM conditions on images or videos to generate short clips along a requested camera path. Visual context grounds reconstruction and…
+
+#### Relevantie
+
+* autoregressive view model
+
+---
+
+## §343. Beyond the Happy Path: Generalizing Robot World Models from Simulated Failures
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.33925](https://arxiv.org/abs/2611.33925)
+
+- **Kern:** Training world models on simulated manipulation failures with interaction alignment and surface correspondence reduces object trajectory and action-outcome prediction errors, including on unseen objects and real data.
+
+#### Relevantie
+
+* robot world models from failures
+
+---
+
+## §344. Fast-JEPA: Advancing the Success-Latency Frontier for Latent World Models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.25927](https://arxiv.org/abs/2611.25927)
+
+- **Kern:** Fast-JEPA is a latent world model planning framework that improves the success-latency trade-off of predictive search by predicting complete action-sequence outcomes and using goal-directed plans, with evaluation on manipulation and navigation tasks and a new dynamic planning benchmark.
+
+#### Relevantie
+
+* latent world-model planning
+
+---
+
+## §345. FoundSurface: Feedforward Ray-Based 3D Scene Surface Reconstruction from Unposed Images
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34128](https://arxiv.org/abs/2611.34128)
+
+- **Kern:** A generalizable pipeline reconstructs continuous, high-fidelity 3D surfaces from unposed images by integrating pointmap and ray-based representations, achieving strong zero-shot generalization.
+
+#### Relevantie
+
+* 3D surface reconstruction
+
+---
+
+## §346. From Points to Trajectories: Rethinking Multimodal Alignment for Physical Events
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.24249](https://arxiv.org/abs/2611.24249)
+
+- **Kern:** Advancing physical artificial intelligence (Physical AI) requires moving beyond static object recognition to ground how real-world mechanics (e.g., impact, friction, and force transfer) unfold over time. While multimodal aligners seek to capture these interactions by matching multi-sensor streams, prevailing…
+
+#### Relevantie
+
+* physical-event grounding
+
+---
+
+## §347. GameWM: Toward Next-Generation Video Games with Interaction-Centric World Models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.19247](https://arxiv.org/abs/2611.19247)
+
+- **Kern:** GameWM divides game generation between an engine that preserves exact rules and state and a generative video model that creates visual and interactive detail, allowing personalized games with consistent mechanics.
+
+#### Relevantie
+
+* world models for games
+
+---
+
+## §348. Non-penetrating World Models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.27963](https://arxiv.org/abs/2611.27963)
+
+- **Kern:** A benchmark and lightweight framework leverage hidden states from frozen diffusion transformers to detect and prevent object penetration in interactive video world models, reducing physical violations and generalizing zero-shot.
+
+#### Relevantie
+
+* non-penetrating world models
+
+---
+
+## §349. Not all world models can doubt: how training objective and architecture shape epistemic uncertainty in JEPA and RSSM world models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34830v1](https://arxiv.org/abs/2611.34830v1)
+
+- **Kern:** World models predict how an environment responds to actions, so that candidate actions can be evaluated before execution. Executed actions, or decisions, taken in this manner are only as reliable as the model's predictive capabilities, and predictions in turn are only reliable within the model's experience. Epistemic…
+
+#### Relevantie
+
+* epistemic uncertainty in world models
+
+---
+
+## §350. OmniPersist: Persistent Dynamic World Modeling via Coupled Panoramic Evolution
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.32473](https://arxiv.org/abs/2611.32473)
+
+- **Kern:** Action-conditioned world models play a vital role in robotics and autonomous driving, yet existing video diffusion models struggle to maintain dynamic object persistence. When the camera turns away and returns, out-of-view moving entities fail to evolve plausibly in latent space, often mutating or vanishing entirely…
+
+#### Relevantie
+
+* panoramic persistent world modeling
+
+---
+
+## §351. Plan4D: Generative Plannable 4D Worlds
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.26516](https://arxiv.org/abs/2611.26516)
+
+- **Kern:** Most world models for future prediction prioritize aestetic quality of generated videos, but offer only weak physical grounding and limited geometric consistency over time, due to the lack of explicit 4D modeling. In this paper, we introduce plan4d, a possible next milestone towards building a generative plannable 4D…
+
+#### Relevantie
+
+* plannable 4D worlds
+
+---
+
+## §352. Simulator-as-Proxy World Model for Robot Manipulation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.32786](https://arxiv.org/abs/2611.32786)
+
+- **Kern:** SimPWM uses a parameter-free simulator as a proxy to generate robot videos and simulated states, revealing that video models follow arm motion more reliably than object dynamics and often ignore simulated object state.
+
+#### Relevantie
+
+* simulator as proxy world model
+
+---
+
+## §353. Video Generation Meets Agent Harness: Agentic Video Generation, Agentic World Modeling and Recursive Self-Improvement
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.40191](https://arxiv.org/abs/2610.40191)
+
+- **Kern:** Agent harnesses integrate video generation and world models to enable planning, tool use, and recursive self-improvement for autonomous multi-shot video production.
+
+#### Relevantie
+
+* agent harness for video generation
+
+---
+
+## §354. World Models as Native Latent Action Models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30898](https://arxiv.org/abs/2611.30898)
+
+- **Kern:** Native LAM distills compact latent actions from a pretrained video diffusion transformer via learnable dynamics registers, and PAWlicy uses these actions to pretrain VLA policies without generating video, achieving strong robotic control and cross-embodiment transfer.
+
+#### Relevantie
+
+* latent action models from video
+
+---
+
+## §355. WorldLatent: A Unified 4D Latent Space for World Perception and Generation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.31209](https://arxiv.org/abs/2611.31209)
+
+- **Kern:** WorldLatent unifies 4D perception and generation in a shared multimodal latent space, enabling a single model to perform zero-shot 4D perception, coherent 4D generation, and controllable editing.
+
+#### Relevantie
+
+* unified 4D latent space
+
+---
+
+## §356. π^4: A Foundation Model for 4D Scene Geometry and Motion
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.23144](https://arxiv.org/abs/2611.23144)
+
+- **Kern:** This unified foundation model enables the recovery of dense geometry, camera poses, and object tracking from diverse, uncalibrated observations in 4D scenes using a shared geometry and motion branch architecture.
+
+#### Relevantie
+
+* 4D scene geometry foundation model
 
 ---
 
@@ -3043,6 +4989,355 @@ Andrej Karpathy spreekt met Stephanie Zhan op **AI Ascent 2026** (~30 min, [YouT
 
 
 ---
+
+## §357. AgentDiscover: Autonomous Discovery with Minimal Search Scaffolding
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.05334](https://arxiv.org/abs/2610.05334)
+
+- **Kern:** AgentDiscover enables a coding agent to plan and remember its own scientific search through a structured idea database, achieving better results at lower cost than fixed human-designed discovery frameworks across multiple domains.
+
+#### Relevantie
+
+* autonomous scientific discovery loop
+
+---
+
+## §358. AgentSWE: Can Coding Agents Build the Agent You Actually Want?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.13361](https://arxiv.org/abs/2610.13361)
+
+- **Kern:** AgentSWE evaluates whether coding agents build software that truly meets user requirements across creation, editing, and optimization stages, revealing widespread failures to deliver faithful behavior.
+
+#### Relevantie
+
+* coding agents meeting user requirements
+
+---
+
+## §359. Automating ML for Science: Can Frontier Agents Climb Scientific Hills in the Wild?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.28763](https://arxiv.org/abs/2610.28763)
+
+- **Kern:** Agent4Sci evaluates frontier coding agents on scientific ML benchmarks, finding they improve results mainly through engineering tricks rather than domain insight, with targeted skills significantly boosting performance.
+
+#### Relevantie
+
+* agents on scientific ML benchmarks
+
+---
+
+## §360. CodeMidas: Scaling Agentic Coding RL Environments from Code Itself
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.22068](https://arxiv.org/abs/2609.22068)
+
+- **Kern:** CodeMidas converts existing source code into executable reinforcement learning tasks for training coding agents, improving performance across repair, construction, and terminal benchmarks.
+
+#### Relevantie
+
+* RL environments from code
+
+---
+
+## §361. Do Coding Agents Catch Their Own Bugs? (They Don't.)
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.01181](https://arxiv.org/abs/2611.01181)
+
+- **Kern:** Foresight-SWE is a benchmark that evaluates whether coding agents can anticipate and prevent unstated defects introduced by code changes, revealing that current models perform poorly on this foresight task.
+
+#### Relevantie
+
+* agents anticipating their own defects
+
+---
+
+## §362. Doing More with Less Tokens: Hierarchical Reinforcement Learning for Efficient Coding Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.38885](https://arxiv.org/abs/2609.38885)
+
+- **Kern:** HERO is a reinforcement learning framework that trains coding agents to resolve software engineering tasks with high success rates while reducing token usage by promoting efficient reasoning patterns.
+
+#### Relevantie
+
+* token-efficient coding-agent RL
+
+---
+
+## §363. Engineering Signals of Human-AI Collaboration in the Agentic Coding Era: A Longitudinal Analysis of 33,228 Pull Requests from vLLM and SGLang with Implications for Biomedical AI Agents and Bioinformatics Pipeline Developmen
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.13884](https://arxiv.org/abs/2608.13884)
+
+- **Kern:** Longitudinal analysis of vLLM and SGLang shows AI-assisted development correlates with sharply increased human-driven pull request throughput, faster cycle times, broader contributor participation, and greater collaboration signals.
+
+#### Relevantie
+
+* human-AI collaboration signals in OSS
+
+---
+
+## §364. From Repositories to Training Environments: Scaling Long-Horizon Coding Agents with Environment Evolution Loop
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.21152](https://arxiv.org/abs/2611.21152)
+
+- **Kern:** RepoFactory converts real repositories into verifiable coding environments and optimizes them via an Environment Evolution Loop using proxy feedback, enabling trained coding agents to achieve strong gains on long-horizon coding and agentic benchmarks.
+
+#### Relevantie
+
+* repos as training environments
+
+---
+
+## §365. Handoff Debt: The Rediscovery Cost When Coding Agents Take Over Interrupted Tasks
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2606.02875](https://arxiv.org/abs/2606.02875)
+
+- **Kern:** Evaluating interrupted coding agents reveals that structured handoff notes significantly reduce successor rediscovery costs compared to repository-only takeovers.
+
+#### Relevantie
+
+* handoff notes between agents
+
+---
+
+## §366. How Much Do Coding Agents Over-Edit, and Why? An Empirical Study of Unneeded Edits in Repository-Level Agent Patches
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34875v1](https://arxiv.org/abs/2611.34875v1)
+
+- **Kern:** Agent patches are larger than developers', which is widely read as over-editing. But patch size does not say whether the extra edits are needed, what they are, or where they come from. We introduce Delta Residue Attribution (DRA), which replays agent trajectories, traces every block (unit) of the final patch to the…
+
+#### Relevantie
+
+* coding agents over-edit; causes
+
+---
+
+## §367. Interpreting Coding Agents Through Their Behavioral Trajectories
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.17440](https://arxiv.org/abs/2611.17440)
+
+- **Kern:** Standard coding-agent benchmarks primarily evaluate binary task success, treating execution as a black box and obscuring the behaviors that produce those outcomes. We analyze a large corpus of 143,209 execution trajectories from 125 agent configurations spanning 117 unique models. To enable comparisons across…
+
+#### Relevantie
+
+* behavioural trajectories of coding agents
+
+---
+
+## §368. JevCoder: When Does Decision Delegation Pay Off in Code Repair?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.19596](https://arxiv.org/abs/2610.19596)
+
+- **Kern:** A low-cost probabilistic judge guides repair decisions in a coding agent workflow, reducing token use while improving repair rates across three models on SWE-bench tasks.
+
+#### Relevantie
+
+* decision delegation in code repair
+
+---
+
+## §369. Moving Generality from Model to Modeler: LLM Agents for PHM on a Deployment-Style Benchmark
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.25252](https://arxiv.org/abs/2611.25252)
+
+- **Kern:** Coding agents built on large language models (LLMs) now help develop many models published as general solutions. Should generality instead reside in the agent that builds a model for each new task? We examine this question in prognostics and health management (PHM), where every model must work on unseen equipment.…
+
+#### Relevantie
+
+* generality in the modeler
+
+---
+
+## §370. MTAC-IFBench: Benchmarking Instruction-Following in Multi-Turn Agentic Coding
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.14992](https://arxiv.org/abs/2609.14992)
+
+- **Kern:** A new benchmark evaluates multi-turn instruction adherence for autonomous coding agents across complex, constraint-rich development sessions.
+
+#### Relevantie
+
+* multi-turn instruction following
+
+---
+
+## §371. PaperCompiler: Faithful Paper-to-Code Generation via Repository-Level Specification Compilation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.02272](https://arxiv.org/abs/2609.02272)
+
+- **Kern:** PaperCompiler converts research papers into structured repository specifications that preserve method logic and cross-file consistency, improving code fidelity and reducing critical errors.
+
+#### Relevantie
+
+* paper-to-code via specifications
+
+---
+
+## §372. Priming Base Models for Agentic Post-Training: An Open Midtraining Recipe
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.22019](https://arxiv.org/abs/2610.22019)
+
+- **Kern:** Midtraining on long-context software-engineering data improves agentic post-training performance and RL trainability for frontier models.
+
+#### Relevantie
+
+* midtraining recipe for agentic post-training
+
+---
+
+## §373. ProgramDistill: From Interactive Web Apps to Verifiable Reference-Guided SWE Tasks
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.18805](https://arxiv.org/abs/2609.18805)
+
+- **Kern:** ProgramDistill introduces a scalable benchmark that evaluates coding agents by requiring them to infer and implement features discovered through interaction with fully functional reference applications.
+
+#### Relevantie
+
+* reference-guided SWE tasks
+
+---
+
+## §374. ProgramGym: Scaling Training Environments for Long-Horizon Program Reproduction Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.13395](https://arxiv.org/abs/2610.13395)
+
+- **Kern:** ProgramGym introduces scalable verifiable training environments and a role-isolated agent workflow to improve long-horizon program reproduction from scratch.
+
+#### Relevantie
+
+* training environments, program reproduction
+
+---
+
+## §375. RealSWE: A Compositional Evaluation of Coding Agents under Realistic User Requests
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.27831](https://arxiv.org/abs/2608.27831)
+
+- **Kern:** Real-world coding requests are shorter and more casual than benchmark tasks, and explicitly stating desired behavior and motivation improves LLM software engineering performance.
+
+#### Relevantie
+
+* realistic user requests
+
+---
+
+## §376. SAIL: Scientific Agentic Intelligence via a Science-Aware Loop
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.11451](https://arxiv.org/abs/2610.11451)
+
+- **Kern:** SAIL is a 35B-parameter open model for scientific research and coding that improves via agent-driven failure analysis and multi-stage training, achieving strong results with far fewer active parameters.
+
+#### Relevantie
+
+* science-aware agent loop
+
+---
+
+## §377. Search From the Start: Search-Native Pretraining for Language Models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.26809](https://arxiv.org/abs/2611.26809)
+
+- **Kern:** Modern language models (LMs) are increasingly deployed with access to search tools at inference. Yet pretraining remains predominantly focused on predicting static text, with search capabilities typically introduced during post-training. We propose Search-Native Pretraining as a practical route to teach search…
+
+#### Relevantie
+
+* search-native pretraining
+
+---
+
+## §378. SemaPLC: A Project-Grounded, Verification-Gated Agent Harness for PLC Code Generation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.18565](https://arxiv.org/abs/2608.18565)
+
+- **Kern:** SemaPLC is a verification-gated agent harness that validates generated PLC logic through external compilation and live runtime execution, achieving higher verified pass rates than baseline methods.
+
+#### Relevantie
+
+* verification-gated PLC harness
+
+---
+
+## §379. SpecEngineeringBench: Evaluating Coding Agents as Autonomous Specification Engineers
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.32973](https://arxiv.org/abs/2611.32973)
+
+- **Kern:** Autonomous specification engineering requires coding agents to translate functional requirements into executable tests and use the results to discover and validate defects. However, existing benchmarks evaluate coding agents on explicitly specified test generation tasks, commonly providing an issue description, a…
+
+#### Relevantie
+
+* autonomous specification engineering
+
+---
+
+## §380. SWEeper-Bench: Can Agents Discover Bugs in Interactive Software?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.14096](https://arxiv.org/abs/2610.14096)
+
+- **Kern:** SWEeper-Bench evaluates coding agents on finding and fixing interaction-dependent bugs in web applications through interactive testing and browser-based verification.
+
+#### Relevantie
+
+* interactive bug discovery benchmark
+
+---
+
+## §381. Teaching Agents to Code Reliably
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.03984](https://arxiv.org/abs/2610.03984)
+
+- **Kern:** Training policies to diversify repair locations and edits, and to verify patches against reverted code, improves autonomous coding agent success and verification accuracy with less compute.
+
+#### Relevantie
+
+* teaching agents to code reliably
+
+---
+
+## §382. The Agentic Scientist: Orchestrating Coding Agents for Automated Scientific (Co-)Discovery
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.18933](https://arxiv.org/abs/2610.18933)
+
+- **Kern:** The Agentic Scientist is a distributed pipeline that integrates coding agents with human researchers to automate computational research stages from ideation to reporting, using meta-controlled orchestration and self-verification.
+
+#### Relevantie
+
+* orchestrating coding agents for discovery
+
+---
+
+## §383. What Makes Good Data for Training Coding Agents? A Systematic Study on SWE-Gym
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30207](https://arxiv.org/abs/2611.30207)
+
+- **Kern:** Auditing reward labels in coding-agent reinforcement learning tasks shows many unsolved tasks are mislabeled, and training on corrected tasks improves policy performance on SWE-bench benchmarks.
+
+#### Relevantie
+
+* training data quality for coding agents
+
+---
+
+## §384. WideSWE: Can Coding Agents Coordinate Changes Across Repositories?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.33382](https://arxiv.org/abs/2609.33382)
+
+- **Kern:** WideSWE introduces a benchmark for evaluating coding agents on cross-repository software tasks, finding that joint execution across repositories improves implementation and verification compared to independent sequential work.
+
+#### Relevantie
+
+* cross-repository coordination
+
+---
+
+## §385. WitnessGym: Benchmarking Coding Agents on the Construction of Bug Witnesses
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.36635](https://arxiv.org/abs/2609.36635)
+
+- **Kern:** WitnessGym automates benchmark construction for bug validation by injecting bugs into real project paths and preserving executable witnesses, revealing that coding agents still struggle to construct valid bug evidence.
+
+#### Relevantie
+
+* bug witnesses benchmark
+
+---
+
 
 
 # Software design (AI-tijdperk)
@@ -3895,6 +6190,31 @@ Afsluiter-advies: bij een nieuw project — zeg hoe te **builden**, hoe te **tes
 
 ---
 
+## §386. Acquiring and Verifying Repository Norms for Coding Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.07757](https://arxiv.org/abs/2610.07757)
+
+- **Kern:** RepoNorm extracts repository-specific contribution norms from source and version history to improve coding agent compliance without altering task prompts.
+
+#### Relevantie
+
+* repository norms for coding agents
+
+---
+
+## §387. What Open-Source Projects Tell Their Coding Agents: A Census of AGENTS.md and CLAUDE.md
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.31715](https://arxiv.org/abs/2610.31715)
+
+- **Kern:** Coding agents can be guided with instruction files in a repository. We examine this emerging practice through a census of popular, active GitHub repositories in thirteen languages, treating each repository's root AGENTS.md and CLAUDE.md as one instruction set. Agent instructions appear in of repositories and of the…
+
+#### Relevantie
+
+* AGENTS.md / CLAUDE.md census
+
+---
+
+
 
 # Ship quality
 
@@ -3999,6 +6319,302 @@ Les van de ladder: volwassenheid = niet méér dashboards, maar **verbonden** si
 
 * Welke minimale stack voor solo/Next/Nest-kit (OTel + Grafana Cloud vs self-host).
 * Of Better Stack (kanaal) als vendor de default mag kleuren — liever open standaarden (OTel) in de standaard noemen.
+
+---
+
+## §388. AdaPRA: Process Reward Agents with Adaptive Rubrics for Data Science
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.33245](https://arxiv.org/abs/2610.33245)
+
+- **Kern:** AdaPRA improves data science agents via persistent knowledge accumulation and adaptive rubric-guided process supervision, reducing errors and boosting leaderboard performance.
+
+#### Relevantie
+
+* data-science agents; rubric supervision
+
+---
+
+## §389. ContractBench: Can LLM Agents Preserve Observation Contracts?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2605.17281](https://arxiv.org/abs/2605.17281)
+
+- **Kern:** Observation contract compliance in tool-augmented LLM agents is an emergent, regression-prone capability evaluated via ContractBench, revealing significant failure rates across frontier models and non-monotonic scaling behaviors.
+
+#### Relevantie
+
+* observation contract compliance
+
+---
+
+## §390. Hearsay: Can an Auditor Trust the Record a Deployed Agent Harness Writes?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.32495](https://arxiv.org/abs/2609.32495)
+
+- **Kern:** Agent harness records lack evidentiary reliability because they are self-written, but an external append-only log of harness-model interactions can independently verify omissions and fabrications.
+
+#### Relevantie
+
+* auditor trust in harness records
+
+---
+
+## §391. Keyword Harnesses Fail Open: A Cheap Diagnostic Ladder for Tool-Use Claims in Small Language Models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.02142](https://arxiv.org/abs/2610.02142)
+
+- **Kern:** A diagnostic ladder reveals false tool-use positives in small language models and shows targeted supervised fine-tuning can repair missing tool-call priors with minimal compute.
+
+#### Relevantie
+
+* diagnostic ladder for tool-use claims
+
+---
+
+## §392. Learning When and How to Intervene: A Hindsight-Distilled Sentinel for Coding Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.39957](https://arxiv.org/abs/2609.39957)
+
+- **Kern:** A hindsight-distillation framework trains lightweight sentinels to decide pre-execution interventions and provide feedback, improving coding-agent task completion by preventing error propagation.
+
+#### Relevantie
+
+* pre-execution intervention sentinels
+
+---
+
+## §393. Skill-based Agentic Evaluation for Real-time Data Science Tasks
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.16487](https://arxiv.org/abs/2609.16487)
+
+- **Kern:** The framework evaluates data-science agents on live data by encoding ground truth as executable reference functions and scoring responses via format-agnostic atomic claim comparison.
+
+#### Relevantie
+
+* data-science agent evaluation
+
+---
+
+## §394. Soei: Structured Observability of Evidence and Intent for Multi-Agent AI Software Engineering
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.39468](https://arxiv.org/abs/2610.39468)
+
+- **Kern:** AI coding agents now do long, multi-step and multi-session software work with little supervision. When a developer comes back to that work, the useful question is not what the model said but what was actually done, by whom, and whether it is finished. We study this in three parts. First, we verify Agenttrail, an…
+
+#### Relevantie
+
+* observability of evidence and intent
+
+---
+
+## §395. SWE-Critix: Post-Training Generalist Verifiers for Assessing Coding-Agent Trajectories
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.13356](https://arxiv.org/abs/2610.13356)
+
+- **Kern:** SWE-Critix trains generalist verifiers via supervised fine-tuning and reinforcement learning to classify and explain coding-agent execution outcomes, improving accuracy substantially over base reasoning models.
+
+#### Relevantie
+
+* generalist verifiers for agent trajectories
+
+---
+
+## §396. SWE-VERIFIER: Selective Verification for Cost-Efficient Coding Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.30284](https://arxiv.org/abs/2610.30284)
+
+- **Kern:** SWE-Verifier selectively verifies coding-agent actions to improve resolution with minimal overhead.
+
+#### Relevantie
+
+* selective verification cost
+
+---
+
+## §397. The reach of a verification tool decides its value: A controlled study of verification surface, artifact quality, and cost in AI coding agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.28795](https://arxiv.org/abs/2608.28795)
+
+- **Kern:** Modern artificial-intelligence coding agents can be equipped with tools for checking their own work e.g. a linter, a boot probe, a shell, a screenshot tool. We call this set the agent's verification surface. This study asks whether increasing only that surface, with everything else held fixed, produces a matching…
+
+#### Relevantie
+
+* reach of a verification tool
+
+---
+
+## §398. What Coding Agents Leave Unsaid: Measuring Task-State Gaps Between Execution and Reports
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.20003](https://arxiv.org/abs/2610.20003)
+
+- **Kern:** Human supervisors rely on coding agents' reports to assess progress, verify repairs, and decide when to intervene. But a supervisor cannot investigate a failure they were never told occurred. Failed attempts, workarounds, and unresolved risks may disappear from routine reports, leaving supervisors unaware of issues…
+
+#### Relevantie
+
+* task-state gaps in agent reports
+
+---
+
+
+
+# Evaluation & benchmarks
+
+> hoe we agents meten — benchmarks, arenas en wat ze niet meten.
+
+---
+
+## §399. BabelArena: A Large-Scale Multilingual Benchmark for LLM Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.23490](https://arxiv.org/abs/2609.23490)
+
+- **Kern:** BabelFlow adapts agent benchmarks to multiple languages via dependency-aware translation and verification, yielding BabelArena to reveal cross-language disparities in tool-use errors, token consumption, and output consistency.
+
+#### Relevantie
+
+* multilingual agent benchmark
+
+---
+
+## §400. ChainSWE: Benchmarking Coding Agents on Multi-Bug Software Maintenance
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2607.02606](https://arxiv.org/abs/2607.02606)
+
+- **Kern:** ChainSWE introduces a benchmark for sequential, dependent bug fixes in shared codebases, revealing substantial performance declines as repair chains lengthen.
+
+#### Relevantie
+
+* multi-bug maintenance benchmark
+
+---
+
+## §401. DAREBench: Deployment-Aware and Reliable Evaluation of Models as Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.06059](https://arxiv.org/abs/2609.06059)
+
+- **Kern:** DAREBench evaluates large language models as agents across diverse multimodal workloads using a unified execution environment and contract-based scoring to reveal workload-specific accuracy-cost trade-offs.
+
+#### Relevantie
+
+* deployment-aware agent evaluation
+
+---
+
+## §402. DRBench Pro: A Knowledge-Centric Benchmark for Professional Deep Research Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34852v1](https://arxiv.org/abs/2611.34852v1)
+
+- **Kern:** Deep research agents gather information from multiple sources and synthesize it into reports on complex, open-ended questions. Existing benchmarks assess report quality along several dimensions, but lack a dedicated knowledge-centric evaluation of which research directions a report covers and how deeply it explores…
+
+#### Relevantie
+
+* deep research agent benchmark
+
+---
+
+## §403. E2E-SWE: Benchmarking LLMs on Building Working Codebases from Scratch
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.38335](https://arxiv.org/abs/2609.38335)
+
+- **Kern:** E2E-SWE is a benchmark assessing whether coding agents can build complete, installable software repositories from natural-language specifications, revealing significant performance differences among frontier models.
+
+#### Relevantie
+
+* codebases from scratch benchmark
+
+---
+
+## §404. EGI-BENCH: An Enterprise General Intelligence Benchmark Suite
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.27234](https://arxiv.org/abs/2610.27234)
+
+- **Kern:** EGI-BENCH unifies eight enterprise agent benchmarks into a single suite with budgeted execution modes and defines a six-dimensional EGI Score to compare frontier LLMs across diverse agentic capabilities.
+
+#### Relevantie
+
+* enterprise agent benchmark suite
+
+---
+
+## §405. LoLBench: Evaluating Coding Agents with Long-Horizon Proposals on Large Software Systems
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.37143](https://arxiv.org/abs/2609.37143)
+
+- **Kern:** LoLBench evaluates coding agents on large-scale modular development by requiring them to interpret high-level proposals and implement extensive changes across massive multilingual repositories, revealing major bottlenecks in code localization and perception.
+
+#### Relevantie
+
+* long-horizon proposal benchmark
+
+---
+
+## §406. Self-Evolving Evaluation Environments for Computer-Use Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30962](https://arxiv.org/abs/2611.30962)
+
+- **Kern:** CUA-SEE is a closed-loop evaluation environment that co-evolves tasks and executable verifiers to adaptively measure computer-use agents’ capabilities, boundaries, and progress reliability.
+
+#### Relevantie
+
+* self-evolving evaluation environments
+
+---
+
+## §407. SWE-Duel: Towards a Self-Scaling Arena for Coding Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.12569](https://arxiv.org/abs/2610.12569)
+
+- **Kern:** SWE-Duel is a self-scaling coding benchmark where agents alternately author and review repository tasks to dynamically adjust difficulty and prevent data leakage.
+
+#### Relevantie
+
+* self-scaling arena
+
+---
+
+## §408. SynthDCB: World Distillation for Scalable Device Control Benchmarking
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.18639](https://arxiv.org/abs/2611.18639)
+
+- **Kern:** Scaling device-control evaluation requires scaling both interactive worlds and the tasks agents must solve. We introduce SynthDCB, a benchmark for environment awareness and device control built through world distillation (WD). World distillation transforms knowledge of device behaviors, constraints, and environmental…
+
+#### Relevantie
+
+* device-control benchmark synthesis
+
+---
+
+## §409. ToolSpace: Scaling Tool-Centric Environment Synthesis for Long-Horizon Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.05036](https://arxiv.org/abs/2611.05036)
+
+- **Kern:** ToolSpace constructs realistic multi-environment tool-use benchmarks by mining execution traces, clustering tool compositions, and validating tasks through replayable state-aware random walks.
+
+#### Relevantie
+
+* tool-centric environment synthesis
+
+---
+
+## §410. Zero2Repo: Can Coding Agents Build Repositories from Scratch?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.38269](https://arxiv.org/abs/2609.38269)
+
+- **Kern:** Zero2Repo is a language-agnostic benchmark that evaluates coding agents on building complete repositories from specifications, using hidden execution-based tests and adversarial validation across multiple programming ecosystems.
+
+#### Relevantie
+
+* repositories from scratch
+
+---
+
+## §411. τ^τ-Bench: An Environment for End-To-End, Realistic Agent Construction
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.04611](https://arxiv.org/abs/2609.04611)
+
+- **Kern:** The τ^τ-bench benchmark evaluates coding agents on building real-world customer-service agents from business records, client requirements, and production APIs, revealing substantial gaps versus expert performance.
+
+#### Relevantie
+
+* end-to-end agent construction benchmark
 
 ---
 
@@ -4182,6 +6798,157 @@ Packages genoemd: `open-ui.dev/react` (system prompt met supported components + 
 
 ---
 
+
+---
+
+
+# Vision, docs & perception
+
+> perceptie- en documentlagen waar agent-input vandaan komt.
+
+---
+
+## §412. 3AGameFactory-Motion: Agentic Rigging and Reliable Complex Motion Generation for Diverse 3D Assets
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30013](https://arxiv.org/abs/2611.30013)
+
+- **Kern:** A new benchmark evaluates rigging and motion generation across six 3D morphology categories, compares specialized, video-based, and agent-driven paradigms, and proposes an agentic framework that writes compact parametric skeleton and motion programs executed deterministically for reliable control.
+
+#### Relevantie
+
+* agentic 3D rigging/motion
+
+---
+
+## §413. 3DCodeVerse: Exploring 3D Worlds as Code
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.22341](https://arxiv.org/abs/2610.22341)
+
+- **Kern:** 3DCodeVerse is a research ecosystem that provides datasets, automated verification harnesses, and empirical guidance to enable scalable, editable, and verifiable 3D content generation via executable code.
+
+#### Relevantie
+
+* agentic 3D-as-code ecosystem
+
+---
+
+## §414. BOP-Refer: Benchmark for Monocular 3D and 2D Object Grounding
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34862v1](https://arxiv.org/abs/2611.34862v1)
+
+- **Kern:** We introduce BOP-Refer, the first benchmark for monocular 3D and 2D grounding of everyday and industrial objects sourced from 9 diverse BOP datasets. We pair images from these datasets with VLM-generated and human-verified referring expressions, and derive accurate ground-truth 3D and 2D bounding boxes of the…
+
+#### Relevantie
+
+* 3D grounding benchmark
+
+---
+
+## §415. Building on Nemotron 3.5 Parse: Open Data, Fine-Tuning, and Faster Inference
+
+**Type:** Paper · **URL:** [https://huggingface.co/blog/nvidia/building-on-nemotron-35-parse-open-data-fine-tunin](https://huggingface.co/blog/nvidia/building-on-nemotron-35-parse-open-data-fine-tunin)
+
+- **Kern:** (no abstract in dumps; document parsing; open data + fine-tuning)
+
+#### Relevantie
+
+* document parsing; open data + fine-tuning
+
+---
+
+## §416. Depth Pro 2: Sharp and Temporally Consistent Metric Monocular Depth
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.26603](https://arxiv.org/abs/2611.26603)
+
+- **Kern:** A single scalable network estimates dense metric depth for images and video at native resolution, jointly improving metric accuracy, boundary sharpness, and temporal consistency.
+
+#### Relevantie
+
+* metric depth estimation
+
+---
+
+## §417. DocSEAM: Bidirectional Cross-Page Encoding for Multi-Page Document Understanding
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34420](https://arxiv.org/abs/2611.34420)
+
+- **Kern:** DocSEAM is a lightweight module between a pretrained vision encoder and language model that enriches page visual tokens with neighboring-page context via center-anchored masked self-attention, improving multi-page document VQA and reducing boundary sensitivity.
+
+#### Relevantie
+
+* multi-page document understanding
+
+---
+
+## §418. GRAPE-Bench: When Vision Degrades, Does Video Reasoning Hold?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.33020](https://arxiv.org/abs/2611.33020)
+
+- **Kern:** GRAPE-Bench jointly evaluates video reasoning under visual degradation and question difficulty, exposing model weaknesses and enabling improvement and control.
+
+#### Relevantie
+
+* video reasoning under degradation
+
+---
+
+## §419. Learning Video Foresight Reasoning from Unlabeled Videos via On-Policy Self-Distillation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.26954](https://arxiv.org/abs/2611.26954)
+
+- **Kern:** Future-OPSD trains vision-language models via on-policy self-distillation and a contrastive privilege advantage derived from a foresight score, improving video foresight prediction and planning without extra annotations or LLM supervision.
+
+#### Relevantie
+
+* video foresight reasoning
+
+---
+
+## §420. S-Mind: Internalizing Multi-View Geometry for Spatial Intelligence
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.28649](https://arxiv.org/abs/2611.28649)
+
+- **Kern:** Spatial intelligence, the ability to reason about 3D space from visual observations, becomes essential as multimodal large language models (MLLMs) move into the physical world. Beyond perceiving each view, it rests on two cornerstones of human cognition: fusing multiple views into one coherent 3D scene and mentally…
+
+#### Relevantie
+
+* spatial intelligence geometry
+
+---
+
+## §421. SAVIOR: Sample-efficient Adaptation of Vision-Language Models for OCR Representation
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.27319](https://arxiv.org/abs/2611.27319)
+
+- **Kern:** A sample-efficient curation method and a structure-aware layout metric enable a fine-tuned vision-language model to improve OCR on challenging financial document patterns, achieving high word recall and document question-answering F1.
+
+#### Relevantie
+
+* OCR; financial document patterns
+
+---
+
+## §422. StereoVLM: Binocular Vision-Language Models for Metric 3D Spatial Reasoning
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.27915](https://arxiv.org/abs/2611.27915)
+
+- **Kern:** StereoVLM is a geometry-aware binocular vision-language model trained with hierarchical supervision from calibrated stereo to enable metric 3D spatial reasoning, evaluated by Stereo3D-Bench.
+
+#### Relevantie
+
+* binocular metric 3D reasoning
+
+---
+
+## §423. VenusOCR2.0: Towards Efficient and Effective Document Parsing
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.32617](https://arxiv.org/abs/2611.32617)
+
+- **Kern:** We present VenusOCR2.0, a compact 1B-parameter vision-language recognizer designed for both high-accuracy and high-throughput document parsing across text, tables, and formulas. To continuously improve recognition quality without self-training collapse, we build a bounded recursive self-improvement (RSI) data engine…
+
+#### Relevantie
+
+* efficient document parsing
 
 ---
 
@@ -7165,6 +9932,91 @@ Jev als model (probability over klassen, geen chat) staat apart in **§31**. Dez
 
 ---
 
+## §424. 180B Parameters, 32GB of RAM: Pushing MoE Inference to the Limit with Transformers
+
+**Type:** Paper · **URL:** [https://huggingface.co/blog/moe-expert-streaming](https://huggingface.co/blog/moe-expert-streaming)
+
+- **Kern:** (no abstract in dumps; MoE inference on 32GB)
+
+#### Relevantie
+
+* MoE inference on 32GB
+
+---
+
+## §425. A Pipeline-Parallel System for Depth-Recurrent Models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30581](https://arxiv.org/abs/2611.30581)
+
+- **Kern:** Loop-PP schedules cyclic pipeline stages for depth-recurrent models, overlapping communication and compute while preserving exact numerical equivalence, reducing memory and increasing throughput on MoE models.
+
+#### Relevantie
+
+* pipeline parallel for depth-recurrent models
+
+---
+
+## §426. AgSpec: Pushing the Limits of Retrieval-Based Speculative Decoding in Coding Agent Pipelines
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.01108](https://arxiv.org/abs/2610.01108)
+
+- **Kern:** AgSpec improves retrieval-based speculative decoding for coding agents by sourcing session and workspace corpora in emission format and adapting draft lengths via online feedback, significantly boosting throughput.
+
+#### Relevantie
+
+* retrieval spec decoding in coding pipelines
+
+---
+
+## §427. Coda: Exploiting Admission Flexibility for Coding-Agent Serving
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.03088](https://arxiv.org/abs/2610.03088)
+
+- **Kern:** Coda improves coding-agent serving by using readiness-informed admission and routing to align reusable KV states and compatible context lengths, boosting throughput and SLO compliance.
+
+#### Relevantie
+
+* coding-agent serving; KV reuse
+
+---
+
+## §428. How Specializing the Vocabulary of SLMs Can Cut Inference Cost by 77% in Real Applications
+
+**Type:** Paper · **URL:** [https://huggingface.co/blog/Dharma-AI/vocabx-vocabulary-specialization](https://huggingface.co/blog/Dharma-AI/vocabx-vocabulary-specialization)
+
+- **Kern:** (no abstract in dumps; vocabulary specialization cuts inference cost)
+
+#### Relevantie
+
+* vocabulary specialization cuts inference cost
+
+---
+
+## §429. LaFlash: Capacity-Driven Acceleration for Coding Agent Workflows via QLC-HBF
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.22746](https://arxiv.org/abs/2611.22746)
+
+- **Kern:** As large language models (LLMs) evolve toward agentic AI, coding agents are emerging as memory-intensive workloads that repeatedly reuse persistent states, including contexts and KV caches. Emerging agentic workflows, including Loop/Graph Engineering, cause state amplification through frequent active/dormant…
+
+#### Relevantie
+
+* KV/state capacity for coding-agent serving
+
+---
+
+## §430. The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.18063](https://arxiv.org/abs/2609.18063)
+
+- **Kern:** Edge0 enables efficient mixture-of-experts inference on consumer hardware by predicting expert routing ahead of time and using recovery adapters to maintain quality with minimal active memory.
+
+#### Relevantie
+
+* serving 35B MoE from SSD
+
+---
+
+
 
 # Reasoning
 
@@ -7328,6 +10180,91 @@ Paper en open weights over **HybridAgents**: binnen één generatieproces dynami
 ## Model internals
 
 ---
+
+## §431. Adversarial Speculative Reasoning Improves Long Horizon Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.05345](https://arxiv.org/abs/2611.05345)
+
+- **Kern:** Speculative decoding can be trained to reject critical reasoning tokens so they are verified by the target model, reducing numerical noise and improving long-horizon agent accuracy without altering the target model.
+
+#### Relevantie
+
+* speculative decoding / reasoning tokens
+
+---
+
+## §432. Beyond Self-Consistency: Recursive Self-Improvement at Test Time
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30965](https://arxiv.org/abs/2611.30965)
+
+- **Kern:** A label-free test-time framework, TT-RSI, improves large language models by repeatedly re-solving questions with prior solutions and distilling refinements into model weights, outperforming self-consistency methods under the same test-time scaling budget.
+
+#### Relevantie
+
+* test-time recursive self-improvement
+
+---
+
+## §433. Can image generation help visual reasoning? An empirical study
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34935v1](https://arxiv.org/abs/2611.34935v1)
+
+- **Kern:** Language models think in words; then multimodal models might think in images. We test whether a generated helper improves the answer to a visual question. A model describes the helper it needs and then answers using the original and generated images together. Across 13 vision-language model and generator pairs,…
+
+#### Relevantie
+
+* image generation as reasoning aid
+
+---
+
+## §434. Collect for Coverage, Replay with Evidence: Adaptive and Efficient On-Policy Distillation for Long-Horizon Agents
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34756](https://arxiv.org/abs/2611.34756)
+
+- **Kern:** Fully online on-policy distillation (OPD) is costly for long-horizon agents because each update depends on fresh environment rollouts. Prefix replay offers an efficient alternative by sampling current-student responses from stored histories, reducing idle time for long-tail rollouts and allowing each collected…
+
+#### Relevantie
+
+* on-policy distillation cost
+
+---
+
+## §435. Diverse Alternative Reasoning Traces for Hard Math Problems
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34928v1](https://arxiv.org/abs/2611.34928v1)
+
+- **Kern:** Post-training large language models (LLMs) for mathematical reasoning often relies on accepted traces whose final answers pass a verifier. For hard math problems, however, such traces can be rare under independent Monte Carlo (MC) sampling. To address this, we propose Diverse Alternative Reasoning Traces (DART), a…
+
+#### Relevantie
+
+* alternative reasoning traces
+
+---
+
+## §436. Lazy Agents Answer Against Their Own Beliefs: Reinforcement Learning with Verifiable Beliefs Teaches Them to Act on What They Believe
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.32884](https://arxiv.org/abs/2611.32884)
+
+- **Kern:** A reinforcement learning method rewards agents for delaying commitment until their inferred posterior over answers is sufficiently narrow, improving evidence-based answering across vision-language benchmarks.
+
+#### Relevantie
+
+* belief-based RL for agents
+
+---
+
+## §437. Solve Vision with Code: Coding Agents Are Stronger Visual Reasoners Than Video Models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34813v1](https://arxiv.org/abs/2611.34813v1)
+
+- **Kern:** Video generation models are increasingly evaluated as visual reasoners: given a first frame and a natural-language prompt, can the model produce the video in which the specified task is carried out? The paradigm is considered advantageous because the reasoning is native to the visual medium, unfolding directly in the…
+
+#### Relevantie
+
+* coding agents as visual reasoners
+
+---
+
 
 
 # Model internals
@@ -8140,6 +11077,187 @@ Tokenisatie ∈ {Tokens, Bytes, Bytes+`<eot>`} × objective ∈ {Cross-Entropy, 
 
 ---
 
+## §438. cmHC: Balancing Stream Mixing in Hyper-Connections via Geometric Contraction
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.27193](https://arxiv.org/abs/2611.27193)
+
+- **Kern:** Constraining residual stream mixing within the Birkhoff polytope via geometric contraction improves stability and scalability of hyper-connections in large-scale dense and mixture-of-experts model pretraining.
+
+#### Relevantie
+
+* hyper-connections stability
+
+---
+
+## §439. Distill to Loop: Turning Pretrained Diffusion Transformers into Looped Models with Adjustable Depth
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.31977](https://arxiv.org/abs/2611.31977)
+
+- **Kern:** A pretrained diffusion transformer is distilled into a weight-shared looped student that supports variable loop counts at inference and uses depth-wise ODE solvers and loop guidance to match teacher quality with fewer parameters and less compute.
+
+#### Relevantie
+
+* distilling DiT into looped models
+
+---
+
+## §440. DyLoMo-DiT: Dynamic Looped Mixture-of-Experts Diffusion Transformers
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30844](https://arxiv.org/abs/2611.30844)
+
+- **Kern:** A dynamic looped mixture-of-experts diffusion transformer reuses shared parameters and varies compute across noise levels, improving image generation quality under matched budgets.
+
+#### Relevantie
+
+* dynamic looped MoE DiT
+
+---
+
+## §441. Higher-order pruning of experts in mixture-of-experts language models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2609.18916](https://arxiv.org/abs/2609.18916)
+
+- **Kern:** HOPE is a second-order pruning objective for Mixture-of-Experts language models that accounts for cooperative expert interactions, enabling aggressive compression with minimal performance loss.
+
+#### Relevantie
+
+* MoE expert pruning
+
+---
+
+## §442. How Do Agentic LLMs Decide to Call Tools? A Tool-Call Vector Shaped by Suppression
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.09624](https://arxiv.org/abs/2610.09624)
+
+- **Kern:** Researchers identify a compact internal vector controlling tool-use decisions in agentic LLMs by contrasting execution and analysis verbs, tracing causality through attention and MLP components across multiple model families.
+
+#### Relevantie
+
+* internal vector for tool-call decisions
+
+---
+
+## §443. LoopedWAM: Looped World Action Models for Elastic Inference
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.25595](https://arxiv.org/abs/2611.25595)
+
+- **Kern:** World action models (WAMs) couple generative video modeling with robotic action prediction but typically require large video and action transformers, limiting deployment efficiency. We present LoopedWAM, a compact WAM that recurrently applies a shared six-block core in each expert, executing 30 transformer layers…
+
+#### Relevantie
+
+* looped world action models
+
+---
+
+## §444. LoopTitan: What Does Parameter Revisit Buy a Mixture-of-Experts?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34821v1](https://arxiv.org/abs/2611.34821v1)
+
+- **Kern:** Looped Mixture-of-Experts (MoE) architectures revisit layer parameters across depths. This design increases effective depth without adding parameters. Recent looped MoE studies report substantial gains over the standard MoE at matched budgets (parameters, FLOPs and KV cache). However, the reported gains still…
+
+#### Relevantie
+
+* looped MoE; parameter revisit
+
+---
+
+## §445. Measuring Layer-wise Intrinsic Dimensionality of FFNs in LLMs via PCA
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.32782](https://arxiv.org/abs/2611.32782)
+
+- **Kern:** Large language models exhibit a middle-heavy intrinsic-dimensionality profile in their feed-forward layers, and using this profile to guide width allocation improves pruning under a fixed parameter budget.
+
+#### Relevantie
+
+* intrinsic dimensionality of FFNs
+
+---
+
+## §446. MemOnce: A Scalable Memory Architecture for Large Language Models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.27973](https://arxiv.org/abs/2611.27973)
+
+- **Kern:** Deploying large language models (LLMs) in long-horizon and continual interactions requires maintaining reusable memory states for future inference, posing challenges for existing architectures. Standard Transformers accumulate layer-wise, token-level KV caches, incurring linear GPU memory growth and quadratic…
+
+#### Relevantie
+
+* scalable memory architecture
+
+---
+
+## §447. Mixture-of-Loops Transformer
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.34923v1](https://arxiv.org/abs/2611.34923v1)
+
+- **Kern:** A Mixture-of-Loops Transformer reuses key-value memory across loops and depths, and its U-shaped variant improves pretraining efficiency and inference latency.
+
+#### Relevantie
+
+* mixture-of-loops transformer
+
+---
+
+## §448. Rewirable Circuits in Transformers with Loom Attention
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.30634](https://arxiv.org/abs/2611.30634)
+
+- **Kern:** We propose loom attention, which allows a Transformer to dynamically rewire its circuits at every token by interweaving a head's vertical attention over the outputs of earlier heads (to obtain its query, key and value) with its horizontal attention over tokens. We instantiate vertical attention efficiently with…
+
+#### Relevantie
+
+* loom attention; rewirable circuits
+
+---
+
+## §449. Self-WSP: Can Language Models Improve Themselves Through Weight-Space Programming?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.28833](https://arxiv.org/abs/2611.28833)
+
+- **Kern:** Language models can edit their own neural network weights to improve task performance, though the resulting gains are poorly understood and sometimes matched by random search.
+
+#### Relevantie
+
+* weight-space programming
+
+---
+
+## §450. Subquadratic Attention with a Hierarchical Tree-Structured Indexer
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.42112](https://arxiv.org/abs/2610.42112)
+
+- **Kern:** Zyphra Hierarchical Attention uses a tree-structured index over compressed key summaries to achieve subquadratic attention scaling for long-context language models.
+
+#### Relevantie
+
+* subquadratic attention indexer
+
+---
+
+## §451. Unlocking the Power of Loops in Pretrained LLMs with Loop Residuals
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.31094](https://arxiv.org/abs/2611.31094)
+
+- **Kern:** LoopRes enables pretrained large language models to benefit from looped computation by letting layers attend to recent earlier loops with trainable loop-aware keys, yielding consistent gains and improved test-time scaling.
+
+#### Relevantie
+
+* loop residuals for pretrained LLMs
+
+---
+
+## §452. WeightCode: Installing New Capabilities into Neural Networks via Weight-Space Programming
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.25476](https://arxiv.org/abs/2611.25476)
+
+- **Kern:** Neural networks encode learned capabilities in their weights, yet extending those capabilities with explicit task knowledge remains a fundamental challenge. Here we show that Weight-Space Programming (WSP), in which executable programs read, construct or modify a network's weights directly, can install new…
+
+#### Relevantie
+
+* weight-space programming; capabilities
+
+---
+
+
 
 # Industrie
 
@@ -8527,7 +11645,7 @@ Paper (video): schaal in (1) trainingscompute, (2) diverse environments, (3) com
 
 # Totaaloverzicht
 
-Eén matrix voor Agent Engineering. Thema's = sectiekoppen hierboven. Bronnen tot §196. Bij nieuwe bronnen: rij + [bronnen-index.md](bronnen-index.md) bijwerken. Diepte: [fundament/](fundament/INDEX.md).
+Eén matrix voor Agent Engineering. Thema's = sectiekoppen hierboven. Bronnen tot §459. Bij nieuwe bronnen: rij + [bronnen-index.md](bronnen-index.md) bijwerken. Diepte: [fundament/](fundament/INDEX.md).
 
 ### Vierlagen-stack
 
@@ -8557,3 +11675,88 @@ Eén matrix voor Agent Engineering. Thema's = sectiekoppen hierboven. Bronnen to
 | **Reasoning** | Latent vs text, HybridAgents; HRM/TRM; alien-space ideation (§148) | §35, §46, §148 |
 | **Model internals** | LLM-doorloop; NCM; superposition; world models; limits; byte; Muon (+ MuonClip §139); Grassmann attn-alt (§147); efficiënte attn-taxonomie | §36, §38, §40, §42, §43, §53, §65, §66, §67, §68, §139, §147, §193 |
 | **Industrie** | Infra-schuld, chip-cyclus; Xiaomi RL; DeepInfer (§62 engine / §143 cache-economie); CH AI; Mistral EU/sovereignty + license politics | §39, §59, §62, §88, §99–§100, §143 |
+
+## §453. Antom 3-in-1 Transformer: A Payment Foundation Model
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.25403](https://arxiv.org/abs/2611.25403)
+
+- **Kern:** We report the development of Antom 3-in-1 Transformer, a payment foundation model that integrates sequence, tabular, and graph representations for payment risk detection. The model contains approximately 7B parameters, with approximately 1.7B activated per task route. Antom 3-in-1 Transformer is pretrained to learn…
+
+#### Relevantie
+
+* payment foundation model
+
+---
+
+## §454. Beam Model Technical Report
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.26358](https://arxiv.org/abs/2611.26358)
+
+- **Kern:** Beam is a sparse Mixture-of-Experts language model optimized for coding, reasoning, and agentic workloads, using large-scale asynchronous reinforcement learning, long-context midtraining, quantization, and speculative decoding to deliver strong reasoning and safety with efficient inference.
+
+#### Relevantie
+
+* sparse MoE for agentic workloads
+
+---
+
+## §455. Beyond Benchmarks: Can Small Open-Weight Models Get Real Coding Work Done?
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.34241](https://arxiv.org/abs/2610.34241)
+
+- **Kern:** Empirical studies of open-weight coding agents reveal that verified code success depends on serving setup, protocol design, and hidden behavioral checks rather than text coherence alone.
+
+#### Relevantie
+
+* small open-weight models on real coding work
+
+---
+
+## §456. IQuest-Q1: Advancing Foundation Capabilities for Agentic CLI Systems
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.30949](https://arxiv.org/abs/2610.30949)
+
+- **Kern:** IQuest-Q1 is a sparse Mixture-of-Experts foundation model trained via multi-stage pre-training, mid-training, and post-training to achieve strong agentic coding and general capabilities.
+
+#### Relevantie
+
+* MoE foundation for agentic CLI
+
+---
+
+## §457. K2-Horizon: A Frontier Fleet of Open Source Language Models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2611.21003](https://arxiv.org/abs/2611.21003)
+
+- **Kern:** We present K2-Horizon, a fleet of six fully open language models, from a 0.9B dense model to a 375B-A23B MoE, built for general-purpose reasoning and agentic work across math and science, software engineering, deep research, office automation, and beyond. The models lead or are competitive with strong open models of…
+
+#### Relevantie
+
+* open model fleet
+
+---
+
+## §458. Our Own Jev: Typed Decisions in One Forward Pass, from an In-House Judge to Open LoRA Models
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2610.29052](https://arxiv.org/abs/2610.29052)
+
+- **Kern:** A typed decision framework using frozen language model backbones with small LoRA adapters and pointer heads enables low-cost, private judging and competitive benchmark performance without training output layers.
+
+#### Relevantie
+
+* typed decision models, small adapters
+
+---
+
+## §459. The Price of Intelligence: A Quality-Adjusted Price Index for AI Services
+
+**Type:** Paper · **URL:** [https://arxiv.org/abs/2608.29843](https://arxiv.org/abs/2608.29843)
+
+- **Kern:** Quality-adjusted price indices reveal that AI inference costs have fallen far faster than standard methods capture, with reasoning models causing buyer prices to stagnate despite lower token rates.
+
+#### Relevantie
+
+* quality-adjusted AI price index
+
+---
+

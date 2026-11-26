@@ -24,6 +24,17 @@
 | `<https://huggingface.co/api/papers/search?q=repository%20exploration%20coding%20agent>` | papers | daily | BP deelvraag: waar zoeken op loopt (bestanden, stappen) |
 | `<https://huggingface.co/api/papers/search?q=token%20cost%20coding%20agent>` | papers | daily | BP deelvraag: tokens per taak; slaagkans als controle |
 | `<https://huggingface.co/blog/feed.xml>` | blog | daily | HF blog (tooling / open science) |
+| `<https://huggingface.co/api/papers/search?q=sandbox%20coding%20agent>` | papers | daily | Focus: sandboxing van coding agents; **smalle query** — `q=sandbox` alleen levert ook SandboxAQ-reclame |
+| `<https://huggingface.co/api/papers/search?q=agent%20safety>` | papers | daily | Focus: agent-safety (runtime-contracten, risico, guardrails) |
+| `<https://huggingface.co/api/papers/search?q=prompt%20injection>` | papers | daily | Focus: prompt-injectie / aanvallen op de agent |
+| `<https://huggingface.co/api/papers/search?q=document%20parsing>` | papers | daily | Focus: vision & docs — documentparsing, OCR-lagen |
+| `<https://huggingface.co/api/papers/search?q=computer%20use%20agent>` | papers | daily | Focus: computer-use agents (perceptie → actie) |
+
+> **Let op — topic-feeds rankeren op relevantie, niet op datum.** `papers/search?q=…`
+> geeft 120 treffers van 2017 tot nu; met de standaard `DIGEST_JSON_DAYS=90` blijven er
+> daardoor 0–3 per dag over. Een **smalle** query werkt hier beter dan een brede
+> (`sandbox coding agent` i.p.v. `sandbox`). Weekbrief: `DIGEST_JSON_DAYS=365 make digest-week`
+> haalt oudere relevantie-hits mee.
 
 **Ritueel:** dagelijks `make digest-day` (systemd) → catch-up gemiste HF-dagen → weekbrief in `bron/weken/` → gekozen hits → `bronnen.md` § (geen auto-dump).
 

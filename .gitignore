@@ -37,6 +37,9 @@ playwright-report/
 
 # --- Scratch, logs en sync-restjes --------------------------------------------
 tmp/
+# Per-week digest scratch: candidate dumps and a copy of bronnen.md from before
+# a promote. Local working state, never committed.
+.w48/
 *.log
 *.sync-conflict-*
 .DS_Store
