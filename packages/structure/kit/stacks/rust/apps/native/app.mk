@@ -34,7 +34,7 @@ check-native: native-check ## native: cargo test + FFI (NATIVE_STRICT / NATIVE_F
 
 bench-native: ## native: bench; vereist apps/native/scripts/bench.sh
 	@test -x $(NATIVE_DIR)/scripts/bench.sh || { \
-	  echo "bench-native: voeg uitvoerbaar $(NATIVE_DIR)/scripts/bench.sh toe (docs/how-to/perf-bench.md)." >&2; exit 1; }
+	  echo "bench-native: add an executable $(NATIVE_DIR)/scripts/bench.sh (docs/how-to/perf-bench.md)." >&2; exit 1; }
 	@$(NATIVE_DIR)/scripts/bench.sh
 
 clean-native: ## native: target/, node_modules, .venv weg

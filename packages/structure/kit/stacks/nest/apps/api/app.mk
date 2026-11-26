@@ -46,7 +46,7 @@ smoke-api: ## api: GET /health tegen URL (of API_URL)
 
 bench-api: ## api: latency-bench; vereist apps/api/scripts/bench.sh
 	@test -x $(API_DIR)/scripts/bench.sh || { \
-	  echo "bench-api: voeg uitvoerbaar $(API_DIR)/scripts/bench.sh toe (docs/how-to/perf-bench.md)." >&2; exit 1; }
+	  echo "bench-api: add an executable $(API_DIR)/scripts/bench.sh (docs/how-to/perf-bench.md)." >&2; exit 1; }
 	@$(API_DIR)/scripts/bench.sh
 
 seed-api: ## api: load test users and demo data

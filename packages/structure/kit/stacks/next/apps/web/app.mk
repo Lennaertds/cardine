@@ -44,7 +44,7 @@ smoke-web: ## web: smoke-tests tegen URL (of WEB_URL)
 
 bench-web: ## web: perf-bench; vereist apps/web/scripts/bench.sh
 	@test -x $(WEB_DIR)/scripts/bench.sh || { \
-	  echo "bench-web: voeg uitvoerbaar $(WEB_DIR)/scripts/bench.sh toe (docs/how-to/perf-bench.md)." >&2; exit 1; }
+	  echo "bench-web: add an executable $(WEB_DIR)/scripts/bench.sh (docs/how-to/perf-bench.md)." >&2; exit 1; }
 	@$(WEB_DIR)/scripts/bench.sh
 
 clean-web: ## web: .next en testrapporten weg; lost "Cannot find module './NNN.js'" op

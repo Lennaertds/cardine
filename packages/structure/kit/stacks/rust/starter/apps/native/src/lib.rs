@@ -2,7 +2,7 @@
 //! - **napi (Nest/Node):** `package.json` + `pnpm build` (toolchain; zie index.js-fallback).
 //! - **PyO3 (Python/analytics):** `pyproject.toml` (maturin) + feature `pyo3-bridge`.
 //!
-//! `cargo test` (zonder features) blijft groen zonder Node/Python-toolchain.
+//! `cargo test` (without features) stays green without a Node/Python toolchain.
 
 /// Pure hot-path example — replace after an ADR/measurement.
 pub fn add(left: i32, right: i32) -> i32 {
@@ -19,8 +19,8 @@ mod tests {
     }
 }
 
-// napi: volledige `#[napi]`-exports via @napi-rs/cli + build — niet hard-gepinned (OS-varia).
-// Nest laadt de `.node` achter een seam (polyglot.md).
+// napi: full `#[napi]` exports via @napi-rs/cli + build — not hard-pinned (OS variance).
+// Nest loads the `.node` behind a seam (polyglot.md).
 
 #[cfg(feature = "pyo3-bridge")]
 mod pyo3_bridge {

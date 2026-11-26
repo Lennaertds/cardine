@@ -1,7 +1,7 @@
-//! Pure hot-path helpers. Zonder `--starter`: geen napi.
+//! Pure hot-path helpers. Without `--starter`: no napi.
 //! Met starter: zie dezelfde crate + `package.json` (napi).
 
-/// Voorbeeld pure functie — vervang door het gemeten hot path.
+/// Example pure function — replace with the measured hot path.
 pub fn add(left: i32, right: i32) -> i32 {
     left + right
 }

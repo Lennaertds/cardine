@@ -1,4 +1,4 @@
-// Ontvang OTLP van apps; exporteer metrics/logs/traces naar de LGTM-backends.
+// Receive OTLP from apps; export metrics/logs/traces to the LGTM backends.
 otelcol.receiver.otlp "default" {
   grpc {
     endpoint = "0.0.0.0:4317"

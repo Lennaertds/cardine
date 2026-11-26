@@ -31,7 +31,7 @@ data-analytics: ## analytics: raw, external en reference verwerken naar processe
 
 bench-analytics: ## analytics: job-duur bench; vereist apps/analytics/scripts/bench.sh
 	@test -x $(ANALYTICS_DIR)/scripts/bench.sh || { \
-	  echo "bench-analytics: voeg uitvoerbaar $(ANALYTICS_DIR)/scripts/bench.sh toe (docs/how-to/perf-bench.md)." >&2; exit 1; }
+	  echo "bench-analytics: add an executable $(ANALYTICS_DIR)/scripts/bench.sh (docs/how-to/perf-bench.md)." >&2; exit 1; }
 	@$(ANALYTICS_DIR)/scripts/bench.sh
 
 clean-analytics: ## analytics: caches weg

@@ -14,7 +14,7 @@ echo "digest-reminder: review feeds/SOURCES and curation (P5 — no dump as SSOT
 if [[ -f docs/research/digest/SOURCES.md ]]; then
   echo "ok    docs/research/digest/SOURCES.md aanwezig"
 else
-  echo "tip   kopieer SOURCES.example.md → SOURCES.md en vul feeds in"
+  echo "tip   copy SOURCES.example.md → SOURCES.md and fill in feeds"
 fi
 if [[ -d data/external/digest ]]; then
   count=$(find data/external/digest -mindepth 1 ! -name README.md ! -name .gitkeep 2>/dev/null | wc -l | tr -d ' ')

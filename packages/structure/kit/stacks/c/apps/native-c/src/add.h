@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-/* Pure hot-path voorbeeld — vervang na ADR/meting. */
+/* Pure hot-path example — replace after an ADR/measurement. */
 int32_t native_c_add(int32_t left, int32_t right);
 
 #endif

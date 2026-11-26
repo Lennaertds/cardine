@@ -1,15 +1,15 @@
 ---
-description: <Wanneer deze regel geldt, in één zin; de agent kiest hierop.>
+description: <When this rule applies, in one sentence; the agent selects on it.>
 globs: apps/<app>/**
 alwaysApply: false
 ---
 
 # <app>
 
-Alleen wat niet uit de code of de linter volgt, en wat de agent anders fout doet.
+Only what does not follow from the code or the linter, and what the agent would otherwise get wrong.
 
-- <Patroon: "Nieuwe endpoints volgen `src/<domein>/<domein>.controller.ts`; DTO's met class-validator.">
-- <Valkuil: "Na een wijziging in `next.config.ts` eerst `make clean-web`.">
-- <Commando: "Eén test draaien: `pnpm --dir apps/web test -- <pad>`.">
+- <Pattern: "New endpoints follow `src/<domain>/<domain>.controller.ts`; DTOs with class-validator.">
+- <Pitfall: "After a change in `next.config.ts`, run `make clean-web` first.">
+- <Command: "Run one test: `pnpm --dir apps/web test -- <path>`.">
 
-Kopieer dit bestand naar `<app>.mdc` per app; verwijder dit sjabloon als alle apps er een hebben. Gebruik je `apps/<app>/AGENTS.md`, dan heb je dit niet nodig.
+Copy this file to `<app>.mdc` per app; remove this template once every app has one. If you use `apps/<app>/AGENTS.md`, you do not need this.

@@ -41,7 +41,7 @@ check-native-c: native-c-check ## native-c: compile-smoke + FFI (NATIVE_STRICT /
 
 bench-native-c: ## native-c: bench; vereist scripts/bench.sh
 	@test -x $(NATIVE_C_DIR)/scripts/bench.sh || { \
-	  echo "bench-native-c: voeg uitvoerbaar $(NATIVE_C_DIR)/scripts/bench.sh toe (docs/how-to/perf-bench.md)." >&2; exit 1; }
+	  echo "bench-native-c: add an executable $(NATIVE_C_DIR)/scripts/bench.sh (docs/how-to/perf-bench.md)." >&2; exit 1; }
 	@$(NATIVE_C_DIR)/scripts/bench.sh
 
 clean-native-c: ## native-c: build/, node_modules, .venv weg

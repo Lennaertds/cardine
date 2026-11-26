@@ -4,7 +4,7 @@
 !.env.example
 !.env.observability.example
 
-# --- Data: alleen README's, reference/ en processed/demo/ in git ---------------
+# --- Data: only READMEs, reference/ and processed/demo/ in git ----------------
 data/raw/**
 data/external/**
 data/interim/**
@@ -53,4 +53,4 @@ local.mk
 package-lock.json
 yarn.lock
 
-# --- Specifiek voor dit project -----------------------------------------------
+# --- Specific to this project -------------------------------------------------
