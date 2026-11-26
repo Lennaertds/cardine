@@ -20,6 +20,9 @@
 | `skip` | Buiten AE **én** buiten interesses/thema’s |
 | `maybe` | Zeldzaam; script gebruikt dit niet (jij mag het zetten) |
 
+`keep` en `maybe` zijn de rijen die `make digest-promote` oppakt. `open` en `skip`
+komen niet in de drafts.
+
 ## Commando
 
 ```bash

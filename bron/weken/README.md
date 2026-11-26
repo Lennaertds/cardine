@@ -21,5 +21,8 @@
 
 | Uitbreiding | Waarom later | Vraag als |
 |-------------|--------------|-----------|
-| Auto-§ in `bronnen.md` | feed ≠ feit | Zero-touch promote |
-| LLM-abstract per `keep` | kosten / noise | keep-lijst te lang om te scannen |
+| Auto-accept zonder beoordeling | feed ≠ feit (P5); de router haalt 45% op de handmatige selectie | de router boven ~85% komt met bewezen precisie |
+| Nieuwe thema's automatisch aanmaken | een thema vergt nu een `# Titel`-shell + een `### [Titel]`-tabel in `bronnen-index.md` | vaker dan ~1× per maand een nieuw thema |
+
+~~LLM-abstract per `keep`~~ — gebouwd in W48: `make digest-promote` zet abstract +
+HF-`ai_summary` bij elke kandidaat (zie [docs/how-to/digest.md](../../docs/how-to/digest.md)).
