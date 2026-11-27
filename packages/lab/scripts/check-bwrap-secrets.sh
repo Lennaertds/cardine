@@ -6,7 +6,11 @@
 #   3. ~/.dsh/.env, ~/.ssh, ~/.secrets, /etc/shadow and a sibling repo are
 #      unreachable, and a write outside leaves the host byte intact;
 #   4. the cage must really run — "found nothing" or a silent exit 0
-#      without a probe is red.
+#      without a probe is red;
+#   5. a venv can be created, deleted and recreated inside the cage and the
+#      deletes land on the host. pip unlinks a file before it writes it, so a
+#      mask over a file in .venv/site-packages/node_modules leaves a mount
+#      behind that blocks `rm -rf .venv` (see MASK_SKIP_NAMES in cardine-bwrap).
 #
 # Counter-check: without the wrapper the fixture secret IS readable. If that
 # is not the case, a green wrapper run proves nothing.
@@ -30,6 +34,9 @@ printf 'ANA="SECRET=deep"\n' >"$ws/apps/api/.env.local"
 printf -- '-----BEGIN KEY-----\nPRIVATE\n' >"$ws/key.pem"
 printf 'PK=1\n' >"$ws/apps/api/.env.example"
 printf 'normaal\n' >"$ws/readme.txt"
+# The exact file a fresh venv puts under site-packages (pip vendors certifi).
+mkdir -p "$ws/.venv/lib/python3.11/site-packages/pip/_vendor/certifi"
+printf 'CERT\n' >"$ws/.venv/lib/python3.11/site-packages/pip/_vendor/certifi/cacert.pem"
 printf 'intact\n' >"$host_only"
 
 
@@ -114,6 +121,13 @@ echo hack >"$host_only" 2>/dev/null || true
 echo "PROBE-DRAAIT"
 EOF
 
+venv_probe="$tmp/venv.sh"
+cat >"$venv_probe" <<'EOF'
+ws="$1"
+rm -rf "$ws/.venv" 2>&1 && echo "VENV-RM-OK" || echo "VENV-RM-FAIL"
+if [ -e "$ws/.venv" ]; then echo "VENV-SURVIVED"; else echo "VENV-GONE"; fi
+EOF
+
 secrets_before="$(md5sum "$ws/.env" "$ws/apps/api/.env.local" "$ws/key.pem")"
 host_before="$(md5sum "$host_only")"
 
@@ -121,6 +135,8 @@ internal_status=0
 internal="$("$WRAP" --bind "$ws" "$ws" --bind "$tmp" "$tmp" -- /bin/bash "$probe" "$ws" 2>"$tmp/internal.err")" || internal_status=$?
 outside_status=0
 outside_out="$("$WRAP" --bind "$ws" "$ws" --bind "$tmp" "$tmp" -- /bin/bash "$outer" "$host_only" "$sibling" "$HOME" 2>"$tmp/outside.err")" || outside_status=$?
+venv_status=0
+venv_out="$("$WRAP" --bind "$ws" "$ws" --bind "$tmp" "$tmp" -- /bin/bash "$venv_probe" "$ws" 2>"$tmp/venv.err")" || venv_status=$?
 
 fails=0
 ok() { echo "  ok    $1"; }
@@ -148,6 +164,19 @@ for f in .env apps/api/.env.local key.pem; do
 done
 grep -qx "EXAMPLE-OK" <<<"$internal" && ok ".env.example stays readable" || bad ".env.example unreadable"
 grep -qx "GEWOON-OK" <<<"$internal" && ok "normal file writable inside the cage" || bad "normal file not writable"
+
+# A venv must survive the way pip and venv use it: unlink a file and write it
+# again. A mask over site-packages leaves a mount, so `rm -rf .venv` half fails.
+if [[ "$venv_status" -eq 0 ]] && grep -qx "VENV-GONE" <<<"$venv_out"; then
+  ok "a venv is fully deletable inside the cage (no mask in site-packages)"
+else
+  bad "a venv is not fully deletable inside the cage ($(tr '\n' ' ' <<<"$venv_out")$(tr '\n' ' ' <"$tmp/venv.err"))"
+fi
+if [[ -e "$ws/.venv" ]]; then
+  bad "venv residue after the cage (a masked file left a mount behind)"
+else
+  ok "the venv delete landed on the host"
+fi
 
 if [[ "$(cat "$ws/readme.txt" 2>/dev/null || true)" == "gewijzigd" ]]; then
   ok "normal write lands on the host"

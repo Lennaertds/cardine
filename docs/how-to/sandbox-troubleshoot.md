@@ -11,6 +11,8 @@
 | `spawn …/cardine-bwrap ENOENT` | The path to `cardine-bwrap` in the DSH profile is wrong. |
 | `Error: sandbox mode "…" is requested but no sandbox backend is usable` | bwrap is missing, or the runner cannot start. |
 | `make: *** No rule to make target 'check'` | The slice check runs `make check` in a directory without a Makefile. |
+| `rm: cannot remove '…/.venv/…/cacert.pem': Device or resource busy` | Fixed in cardine-lab 0.5.4: the cage masked a file inside the venv. See [§ 1d](#1d-a-venv-breaks-delete-fails-device-or-resource-busy). |
+| venv / pip keeps "breaking", recreating never helps | Same cause. Do not rebuild the venv; update `cardine-bwrap`. See [§ 1d](#1d-a-venv-breaks-delete-fails-device-or-resource-busy). |
 
 ## 1. cardine-bwrap not found (ENOENT)
 
@@ -120,6 +122,61 @@ In Zed: open the project, pick **DeepSeek Harness (bp)** for the BP repo and
 **DeepSeek Harness** for cardine. A thread started in a folder none of the
 profiles names gets no sandbox. `make move` in either repo reports every profile,
 so a move that broke the other project shows up too.
+
+## 1d. A venv breaks, delete fails ("Device or resource busy")
+
+### Symptom
+
+Inside a DSH shell a repo's `.venv` looks broken however often it is rebuilt:
+`rm -rf .venv` reports `cannot remove '…/pip/_vendor/certifi/cacert.pem':
+Device or resource busy`, a fresh `python3 -m venv .venv` over it dies with
+`ensurepip returned non-zero exit status 1`, and the venv "moves" to
+`/home/<user>/.venv`. Agents then stop trusting the venv and start swapping
+it around by hand (`.tmp-venv-broken`, rename tricks) — which never helps.
+
+### Cause
+
+Every venv contains `…/site-packages/pip/_vendor/certifi/cacert.pem`. The cage
+treats **every** `*.pem` as a secret and lays a read-only empty file over it.
+pip and `venv` do not write over an existing file; they **unlink** it and
+create it again (`pip/_internal/operations/install/wheel.py`). Over a mask the
+unlink does nothing and the write lands **in the mask**, so:
+
+- the venv is corrupt in a way that survives every rebuild (the mask stays);
+- the mount cannot be removed, so `rm -rf .venv` half-fails.
+
+Cause of the `/home/<user>/.venv`: a `cd .venv` (or any command reading
+`$PWD`) with no bound workspace falls back to `$HOME`.
+
+### Fix
+
+Update `cardine-bwrap` (cardine-lab 0.5.4). It skips `.venv`, `venv`, `.tox`,
+`.nox`, `site-packages`, `node_modules` and `__pypackages__` when masking: a
+real `.env` or key has no business inside an installed dependency. Real
+secrets in the repo (`.env`, `*.pem`) are still masked. Then clean up once:
+
+```bash
+# On the host, outside a DSH session:
+rm -rf .venv                  # the cage corrupted it; rebuild it after the fix
+dsh kill || true              # the new cage applies to the next DSH session
+```
+
+Then `python3 -m venv .venv` in a new DSH session works normally.
+
+### Verify
+
+```bash
+bash packages/lab/scripts/check-sandbox.sh
+```
+
+`make sandbox-check` includes this case: a venv-shaped tree in the workspace
+must be fully deletable inside the cage, with the delete visible on the host.
+It goes red with the older `cardine-bwrap`.
+
+### Do not
+
+Do not "repair" a venv with rename tricks or a second interpreter. If
+`rm -rf .venv` cannot finish, the cage is the problem, not the venv.
 
 ## 2. bwrap not installed at all
 

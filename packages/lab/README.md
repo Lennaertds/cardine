@@ -169,7 +169,7 @@ This package has its **own version**, independent of `cardine`. SemVer — `majo
 
 | Item | Value |
 |------|-------|
-| Current version | 0.5.2 ([CHANGELOG](CHANGELOG.md)) |
+| Current version | 0.5.4 ([CHANGELOG](CHANGELOG.md)) |
 | Git tag | `lab-v<semver>` |
 | CHANGELOG | [CHANGELOG.md](CHANGELOG.md) |
 

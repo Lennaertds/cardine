@@ -1,6 +1,6 @@
 {
   "name": "@lennaertds/cardine-lab",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "private": false,
   "description": "cardine-lab — reproducible AI-agent workstation for Arch Linux / Hyprland. Toolchain, sandbox, code indexing and editor coupling.",
   "repository": {

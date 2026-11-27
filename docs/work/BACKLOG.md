@@ -26,6 +26,7 @@ Finished steps 0–8 (framework through session spine) are in [product/](../prod
 | — | [FIX-OMGEVING](specs/FIX-ENVIRONMENT.md) | harness | Code landed (bind, never, write tools off). Zed/DSH restart still needed |
 | — | [lab-macos](specs/lab-macos.md) | packages | packages/lab/ working on macOS (Intel + Apple Silicon) |
 | — | [lab-other-linux](specs/lab-other-linux.md) | packages | extend packages/lab/ to Debian, Fedora, openSUSE |
+| — | [dsh-profile-cardine](specs/dsh-profile-cardine.md) | harness | Read-only "system view" of Cardine from the BP agent: own profile, visible set, no write, no shell side effects |
 
 ## Later
 

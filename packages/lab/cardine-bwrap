@@ -16,7 +16,11 @@
 # Wat de kooi weigert: alles hierboven niet. In het bijzonder geen
 # ~/Documents buiten de workspace, ~/.ssh, ~/.secrets, ~/.aws, ~/.config.
 # .env/keys in de workspace zijn afgedekt met een read-only leeg bestand;
-# de host-inode van die bestanden blijft.
+# de host-inode van die bestanden blijft. In een dependency-boom
+# (.venv, venv, site-packages, node_modules) wordt niets afgedekt: een
+# vers gemaskeerd bestand kan de kooi niet wissen maar wel overschrijven,
+# en dat is precies hoe een venv of pip-install zichzelf kapotmaakt
+# (pip unlinkt elk bestand dat het herschrijft).
 #
 # De kooi heeft een eigen user-namespace. Het netwerk blijft gedeeld
 # met de host: de shell moet npm, pip en andere fetches kunnen doen
@@ -63,6 +67,18 @@ if [[ $# -eq 0 ]]; then
 fi
 
 HOME_DIR="${HOME:?HOME niet gezet — kan niet bepalen waar .dsh/ .local/ .jarvis/ staan}"
+
+# Dependency-bomen: pip en venv schrijven een bestaand bestand niet in, ze
+# unlinken het en openen het opnieuw (pip/_internal/operations/install/
+# wheel.py: os.unlink(dest) vóór open(dest, "wb")). Onder een masker-mount
+# verandert die unlink niets en schrijft de volgende open() in het masker
+# zelf: ieder cacert.pem in pip's vendor-map wordt een lege map, de mount
+# blijft in de kooi staan en een later `rm -rf .venv` eindigt half. Daarom
+# wordt hier niets afgedekt. Geen find -path met (|): de find op deze
+# machine (findutils 4.11.0-modified) matcht die alternatie niet.
+MASK_SKIP_NAMES=(
+  .venv venv .tox .nox site-packages node_modules __pypackages__
+)
 
 # De kooi moet geen achterdeur naar 'stoppen-met-begrenzen' erven.
 # DSH_PERMISSION_MODE=danger-full-access zet upstream sandbox en approval uit.
@@ -188,7 +204,13 @@ if [[ ${#binds[@]} -gt 0 ]]; then
   # Maskeer geheimen ná de workspace-bind, zodat de mount alleen in de
   # kooi geldt. Een ro-bind van een leeg bestand: lezen geeft niets,
   # schrijven faalt. De host-inode blijft het origineel.
+  #
+  # Dependency-bomen worden overgeslagen (-prune, MASK_SKIP_NAMES).
   secrets=()
+  prune=()
+  for name in "${MASK_SKIP_NAMES[@]}"; do
+    prune+=( -o -name "$name" )
+  done
   for mountpoint in "${!workspaces[@]}"; do
     [[ -d "$mountpoint" ]] || continue
     while IFS= read -r -d '' file; do
@@ -197,10 +219,11 @@ if [[ ${#binds[@]} -gt 0 ]]; then
       esac
       secrets+=("$file")
     done < <(find "$mountpoint" \
-               \( -name '*.env' -o -name '*.env.*' -o -name 'id_rsa' \
+               \( -type d \( -false "${prune[@]}" \) -prune \) -o \
+               \( -type f \( -name '*.env' -o -name '*.env.*' -o -name 'id_rsa' \
                   -o -name 'id_ed25519' -o -name 'id_ecdsa' -o -name 'id_dsa' \
                   -o -name '*.pem' -o -name '*.p12' -o -name '*.pfx' \) \
-               -type f -print0 2>/dev/null)
+                  -print0 \) 2>/dev/null)
   done
 
   if [[ ${#secrets[@]} -gt 0 ]]; then
@@ -208,6 +231,21 @@ if [[ ${#binds[@]} -gt 0 ]]; then
       args+=(--ro-bind "$mask_file" "$f")
     done
   fi
+fi
+
+# De kooi start in de map van de aanroeper. Zonder een expliciete cwd zet
+# bwrap PWD op / en blijft HOME uit; een heredoc die $PWD leest schrijft dan
+# naar / of naar ~. Alleen als die map binnen de kooi bestaat: een cwd die
+# nergens gebonden is (een kooi in een kooi, of een dsh die vanuit een andere
+# map start) geeft anders "Can't chdir" — de oude stilte werd een faal.
+if [[ "${PWD:-}" != / ]]; then
+  for mountpoint in "${!workspaces[@]}"; do
+    inside="${mountpoint%/}/"
+    if [[ "${PWD:-}/" == "$inside"* ]]; then
+      args+=(--chdir "$PWD")
+      break
+    fi
+  done
 fi
 
 # Geen exec: de EXIT-trap moet de tmp-map opruimen. De exitstatus van bwrap

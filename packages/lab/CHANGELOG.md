@@ -1,5 +1,29 @@
 # Changelog — cardine-lab
 
+## [0.5.4] — 2026-11-27
+
+### Fixed
+- **A venv no longer breaks in the cage.** Every fresh venv contains
+  `…/site-packages/pip/_vendor/certifi/cacert.pem`, and the cage masked every
+  `*.pem` as a secret. pip and `venv` unlink a file before writing it, so over
+  a mask the write landed in the mask itself, the mount stayed, and
+  `rm -rf .venv` ended with `Device or resource busy`. A venv rebuilt on top
+  of that mount then failed in `ensurepip`. That is the loop where an agent
+  concluded the venv was broken and rebuilt it over and over. `cardine-bwrap`
+  now skips `.venv`, `venv`, `.tox`, `.nox`, `site-packages`, `node_modules`
+  and `__pypackages__` when masking; real secrets in the repo are still
+  masked (ADR 0017, amended). See
+  [sandbox-troubleshoot § 1d](../../docs/how-to/sandbox-troubleshoot.md#1d-a-venv-breaks-delete-fails-device-or-resource-busy).
+- `check-bwrap-secrets.sh` now proves it: a venv-shaped tree must be fully
+  deletable inside the cage and the delete must land on the host. The check is
+  red with the previous `cardine-bwrap`.
+
+### Changed
+- `cardine-bwrap` starts in the caller's directory (`--chdir "$PWD"`) when that
+  directory is bound into the cage, so a command reading `$PWD` no longer
+  falls back to `/` or `~`. A cwd that is not bound leaves the cage in `/`, as
+  before, instead of failing.
+
 ## [0.5.3] — 2026-11-26
 
 ### Added
