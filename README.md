@@ -99,6 +99,18 @@ needed.
 
 Both packages install with npm. Nothing else is required — no npx, no clone.
 
+**Global installs need a prefix your user can write to.** On Arch npm installs into
+`/usr/lib/node_modules`, which belongs to root — `npm i -g` then fails with
+`EACCES: permission denied, mkdir '/usr/lib/node_modules/@lennaertds'`. Do not
+use `sudo`: updates fail the same way later. Set your own prefix once:
+
+```bash
+npm config set prefix ~/.local
+export PATH="$HOME/.local/bin:$PATH"   # add this line to ~/.zshrc or ~/.bashrc
+```
+
+Then the `npm i -g` commands below work for every user without root.
+
 ### 📁 The project structure only (any editor, any OS)
 
 ```bash
@@ -184,8 +196,8 @@ Each package has its **own version**, independent of the others.
 
 | Package | Version | CHANGELOG | Git tag |
 |---------|---------|-----------|---------|
-| `cardine` | 0.5.1 | [packages/structure/CHANGELOG.md](packages/structure/CHANGELOG.md) | `v0.5.1` |
-| `@lennaertds/cardine-lab` | 0.5.2 | [packages/lab/CHANGELOG.md](packages/lab/CHANGELOG.md) | `lab-v0.5.2` |
+| `cardine` | 1.0.0 | [packages/structure/CHANGELOG.md](packages/structure/CHANGELOG.md) | `v1.0.0` |
+| `@lennaertds/cardine-lab` | 0.5.5 | [packages/lab/CHANGELOG.md](packages/lab/CHANGELOG.md) | `lab-v0.5.5` |
 
 SemVer: `major.minor.patch`. A *major* is a breaking change (the installer no
 longer works, the kit structure changes incompatibly). A *minor* is new

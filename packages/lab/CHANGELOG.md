@@ -1,5 +1,17 @@
 # Changelog — cardine-lab
 
+## [0.5.5] — 2026-11-28
+
+### Added
+- **`postinstall` names a root-owned npm prefix.** On Arch `npm i -g` installs
+  into `/usr/lib/node_modules` (root), so a global install fails with `EACCES`
+  before anything of this package runs; installing under `sudo` only pushes the
+  failure to the next `npm update -g`. `scripts/postinstall-prefix-check.js`
+  warns when the install prefix (from `npm_config_prefix`) is not writable, and
+  stays silent for local installs, writable prefixes and `CARDINE_LAB_QUIET=1`.
+  It never fails the install. The README (root and lab) now documents the
+  `~/.local` prefix as step 0.
+
 ## [0.5.4] — 2026-11-27
 
 ### Fixed

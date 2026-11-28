@@ -82,8 +82,8 @@ package on its own tag.
 | `cardine-lab` | `packages/lab/CHANGELOG.md` |
 | `cardine-structure` | `packages/structure/CHANGELOG.md` |
 
-Current state (2026-11-24): meta 0.4.0, `@lennaertds/cardine-lab` 0.5.1,
-`@lennaertds/cardine-structure` 0.5.0.
+Current state (2026-11-28): meta 0.4.1, `@lennaertds/cardine-lab` 0.5.5,
+`@lennaertds/cardine-structure` 0.5.1.
 
 ## Staged publishing
 

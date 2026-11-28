@@ -33,6 +33,20 @@ for the context behind every choice.
 - **Git** installed
 - Optional: **Node.js** (for `cardine-slice-check`)
 
+### Step 0 — A prefix your user can write to
+
+On Arch npm installs into `/usr/lib/node_modules`, which belongs to root. Without
+this, `npm i -g` fails with `EACCES: permission denied` and `sudo` only moves the
+problem to the next update. Set your own prefix once:
+
+```bash
+npm config set prefix ~/.local
+export PATH="$HOME/.local/bin:$PATH"   # add this line to ~/.zshrc or ~/.bashrc
+```
+
+The package's `postinstall` repeats this notice when it sees a prefix your user
+cannot write — silent under `CARDINE_LAB_QUIET=1` or on CI.
+
 ### Step 1 — Install the toolchain
 
 ```bash

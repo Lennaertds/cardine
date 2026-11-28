@@ -1,5 +1,20 @@
 # Changelog — Cardine meta
 
+## [Unreleased]
+
+| Package | Version | What |
+|---------|---------|------|
+| @lennaertds/cardine-lab | 0.5.5 | `postinstall` warns when the global npm prefix is root-owned; `~/.local` prefix documented as step 0 |
+
+### Added
+- `packages/lab/scripts/postinstall-prefix-check.js`: warns during a global
+  install when the npm prefix is not writable by the user (the Arch
+  `/usr/lib/node_modules` case), and stays silent for local installs,
+  writable prefixes and `CARDINE_LAB_QUIET=1`. Never fails the install.
+- The root README and `packages/lab/README.md` document the `~/.local` prefix
+  as step 0, with the `EACCES` message by name and the warning against `sudo`.
+- `packages/lab/docs/VERSIONING.md` matches the published versions again.
+
 ## [0.4.1] — 2026-11-24
 
 | Package | Version | What |
