@@ -3,6 +3,12 @@
 # npm trusts this workflow based on repository + workflow file and
 # verifies that with a short-lived OIDC token.
 #
+# OIDC is only picked up when `id-token: write` is granted AND npm is asked for
+# provenance (`--provenance`). Without --provenance npm ignores the OIDC token,
+# falls back to the placeholder NODE_AUTH_TOKEN that actions/setup-node leaves
+# behind, and the registry answers 404 on PUT (it hides auth failures behind a
+# 404). That is the failure of run 46144022420 (lab-v0.5.5).
+#
 # One-time setup on npmjs.com, PER PACKAGE (package page → Settings →
 # Trusted Publisher → GitHub Actions). All fields are case-sensitive:
 #   Organization/user: Lennaertds
@@ -23,7 +29,8 @@
 #     create it again.
 #   - Do not rename this file or the repo — the connection is tied to them.
 #   - npm CLI >= 11.21 (staged) resp. 12.2 (dist-tags); Node 24 provides that.
-#   - Provenance is generated automatically with OIDC (no --provenance).
+#   - `npm publish --provenance` is REQUIRED for the OIDC token to be used;
+#     provenance is not generated automatically.
 
 name: publish
 
@@ -83,7 +90,7 @@ jobs:
         run: npm i -g npm@12.2.3
       - name: Publish cardine
         working-directory: packages/structure
-        run: npm publish --access public
+        run: npm publish --access public --provenance
 
   # ── Publish @lennaertds/cardine-lab ──
   publish-lab:
@@ -105,4 +112,4 @@ jobs:
         run: npm i -g npm@12.2.3
       - name: Publish @lennaertds/cardine-lab
         working-directory: packages/lab
-        run: npm publish --access public
+        run: npm publish --access public --provenance
