@@ -23,10 +23,9 @@ Finished steps 0–8 (framework through session spine) are in [product/](../prod
 |------|------|-----------|--------|
 | — | [bootstrap-no-stack-until-adr](specs/bootstrap-no-stack-until-adr.md) | bootstrap | open (guardrail) |
 | 1 | [lab-and-structure-test-round](specs/lab-and-structure-test-round.md) | packages | Test and fix towards the next versions — prove it works first, extend only after that |
-| — | [FIX-OMGEVING](specs/FIX-ENVIRONMENT.md) | harness | Code landed (bind, never, write tools off). Zed/DSH restart still needed |
 | — | [lab-macos](specs/lab-macos.md) | packages | packages/lab/ working on macOS (Intel + Apple Silicon) |
 | — | [lab-other-linux](specs/lab-other-linux.md) | packages | extend packages/lab/ to Debian, Fedora, openSUSE |
-| — | [dsh-profile-cardine](specs/dsh-profile-cardine.md) | harness | Read-only "system view" of Cardine from the BP agent: own profile, visible set, no write, no shell side effects |
+| — | [dsh-profile-cardine](specs/dsh-profile-cardine.md) | harness | Fourth Zed server: the lab cage on `cardine/` plus a system zone (`~/.dsh`, the DSH package, `~/.jarvis`) that is readable and asked-before-write. Steps 1-5 not built yet |
 
 ## Later
 
@@ -39,6 +38,7 @@ Finished steps 0–8 (framework through session spine) are in [product/](../prod
 | Runtime + `--starter` and generators | apps | After the ADRs; bootstrap guards it |
 | Put the API key into `~/.dsh/.env` yourself | harness | How-to [lab install](../how-to/zed-dsh.md); the value is still missing |
 | [tokenlogger](specs/tokenlogger.md) | harness | Per-turn token tracking for cost insight and H×M measurements |
+| Rotate `CARDINE_KEY` at the publisher | harness | Value was read in a session log and counts as leaked; the repo names it only. Carried over from the closed fix-environment spec |
 | Seam tests | architecture | Only after the stack |
 | OTel / `make obs-*` | observability | No app |
 | Performance budgets + `bench.sh` | performance | No measurement path without a runtime |

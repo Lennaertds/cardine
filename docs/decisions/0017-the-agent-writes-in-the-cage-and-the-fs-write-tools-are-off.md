@@ -10,7 +10,7 @@ In the context of a lab agent that must be able to work in one project without a
 
 ## Context
 
-Measured on 2026-11-22 ([day log](../work/logs/2026-11-22.md), [FIX-OMGEVING](../work/specs/FIX-ENVIRONMENT.md)):
+Measured on 2026-11-22 (see the [day log](../work/logs/2026-11-22.md); the fix-environment spec it came from is finished and removed):
 
 - The shell runs in `bwrap` (PID 1). `~/.dsh/.env`, `~/.ssh` and `~/.secrets` are not visible there.
 - The workspace sat on a tmp overlay. An append inside the cage was sometimes gone for a later read in the same turn, while the shell could still see it. `git status` on the host did not show the work. That is what caused the lost work.
